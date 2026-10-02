@@ -1,0 +1,70 @@
+# Bramblewood Market: Salty Snacks Category Review
+
+A synthetic, multi-system retail dataset for a category analyst case study. **Bramblewood Market** is a fictional 24-store regional grocer in Texas and Oklahoma. You are the new Category Analyst for **Salty Snacks**: 8 subcategories, 151 items and 10 vendors, covering FY2024 and FY2025 (104 weeks, Feb 2024 to Jan 2026). The category does about $11M in sales a year.
+
+Every company, brand, vendor and store here is invented, and any resemblance to real ones is coincidental. The data was generated with known "true" behaviour underneath: price elasticities, promotion lift, cannibalisation, pantry-loading, forecast bias and so on. It was then passed through the kind of flaws real source systems produce. The findings are there to be found, but you have to clean and reconcile the data first.
+
+---
+
+## The brief
+
+Your VP of Merchandising has five questions before the FY2026 line review.
+
+1. **Assortment.** We carry 150 SKUs, and the bottom of the list barely sells. Which items are earning their shelf space? In FY2025 W27 we delisted slow sellers in a handful of stores as a test. Did category sales hold up, and should we roll it out?
+2. **Promotions.** The vendors' recap decks say every event lifted sales. After cannibalisation of sister items, post-promotion dips and vendor funding, which promotions actually made us money? What should change in the FY2026 promo plan: mechanics, displays, subcategories?
+3. **Pricing.** In spring 2025 we took two regular-price increases: Golden Ridge kettle chips (+8%) and Bramble Select (private label) tortilla chips (+10%). Were they good decisions? How price-sensitive is each subcategory, and does it differ for private label?
+4. **Forecast and in-stock.** How accurate is the replenishment forecast, and where is it biased? What did out-of-stocks cost us, and when?
+5. **Vendor funding.** Vendors owe us scan-back and display funding on promoted items. Did we collect everything we were owed?
+
+A strong deliverable is a validated data model, a dashboard, and a one-page memo with a dollar figure and a recommendation for each question.
+
+---
+
+## Files
+
+```
+data/
+  pos_weekly_sales.csv          ~273K rows   POS extract: store x UPC x week
+  store_inventory_weekly.csv    ~276K rows   store x SKU x fiscal week: receipts and on-hand
+  merch_systems.xlsx            12 sheets    merchandising and vendor systems (below)
+```
+
+| Sheet | Grain | What it is |
+|---|---|---|
+| `data_dictionary` | table x column | Column definitions |
+| `fiscal_calendar` | week | 4-5-4 fiscal calendar and holiday selling events |
+| `stores` | store | Format, price zone, POS system, open and remodel dates |
+| `vendors` | vendor | Vendor master |
+| `items` | SKU | Item master: UPC, brand, subcategory, size, lifecycle |
+| `item_cost` | SKU x effective period | Vendor list cost |
+| `reg_price` | SKU x zone x effective period | Regular shelf price |
+| `promotions` | promo event | Promo calendar: mechanic, price, display/ad, scope, vendor funding terms |
+| `vendor_claims` | claim | What we billed vendors for promo funding, and what we collected |
+| `planograms` | planogram x SKU | Facings and shelf capacity |
+| `store_planogram` | store x effective period | Which planogram each store was set to |
+| `forecast_chain_weekly` | SKU x week | Replenishment system forecast (chain level, run 2 weeks ahead) |
+
+The systems don't share keys cleanly. POS uses UPC and a week-ending date, inventory uses SKU and a fiscal-week key, and the merchandising tables are effective-dated. Expect to build the joins yourself.
+
+---
+
+## Things worth knowing (the way a new hire would hear them)
+
+- In 2023 we acquired **Red River Grocers**. Some of those stores still run their old register system.
+- Store **#124 Prosper** opened in FY2025. Store **#112** was remodelled in early summer 2025.
+- The POS extract is two feeds concatenated by IT, so treat it with suspicion.
+- Weeks run Sunday to Saturday. POS reports the Saturday that ends the week.
+- Promotions are planned in the promo calendar, but not every planned event runs as planned.
+- The inventory file shows store stock only. DC inventory isn't included.
+
+---
+
+## Suggested approach
+
+1. **Profile and clean.** Count rows, find the keys, and reconcile POS to the item and store masters. Document every fix and why.
+2. **Model.** Build a star schema (e.g. `fact_sales`, `fact_inventory`, `dim_item`, `dim_store`, `dim_week`, `dim_promo`) in DuckDB, Postgres or your warehouse of choice. Resolve effective-dated cost and price as of each week.
+3. **Validate.** Tie totals back to the source before any charts: rows in vs out, sales by year, one store-week by hand.
+4. **Analyse** the five questions. Label estimates as estimates and state your baseline method.
+5. **Present.** Build a dashboard (Power BI, Tableau or Streamlit) and a memo.
+
+The generator and answer key are distributed separately so this folder can be published as-is. Try the analysis before you look at them.

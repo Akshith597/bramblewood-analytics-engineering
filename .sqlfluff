@@ -1,0 +1,26 @@
+[sqlfluff]
+dialect = duckdb
+templater = dbt
+max_line_length = 120
+rules = layout,capitalisation,aliasing
+
+[sqlfluff:templater:dbt]
+project_dir = .
+profiles_dir = .
+profile = bramblewood
+target = dev
+
+[sqlfluff:rules:capitalisation.keywords]
+capitalisation_policy = lower
+
+[sqlfluff:rules:capitalisation.functions]
+extended_capitalisation_policy = lower
+
+[sqlfluff:rules:capitalisation.literals]
+capitalisation_policy = lower
+
+[sqlfluff:rules:capitalisation.types]
+extended_capitalisation_policy = lower
+
+[sqlfluff:rules:aliasing.table]
+aliasing = explicit

@@ -1,0 +1,281 @@
+version: 2
+models:
+- name: int_claim_totals
+  description: One promotion with additive claim totals pre-aggregated to prevent claim-by-sales fanout.
+  columns:
+  - name: promo_id
+    data_type: varchar
+    description: Promotion calendar identifier; claims may contain multiple rows for this event.
+  - name: claim_count
+    data_type: bigint
+    description: Number of actual claim rows associated with this event after pre-aggregation.
+  - name: total_billed
+    data_type: decimal(18,2)
+    description: Actual claimed funding in USD; funding mart uses zero when no claim record exists.
+  - name: amount_collected
+    data_type: decimal(18,2)
+    description: Collected funding in USD according to the extract; no collection timestamp is supplied.
+  - name: scan_amount_billed
+    data_type: decimal(18,2)
+    description: Actual scan-back funding billed in USD.
+  - name: display_fee_billed
+    data_type: decimal(18,2)
+    description: Actual display funding billed in USD.
+- name: int_item_cost_intervals
+  description: One SKU-effective-start cost period. Later starts supersede earlier overlapping periods; source end
+    dates and adjustment flags retain auditability.
+  columns:
+  - name: sku_id
+    data_type: varchar
+    description: Internal product SKU identifier; replacement pack sizes retain distinct keys.
+  - name: effective_start
+    data_type: date
+    description: Inclusive first DATE on which this period applies.
+    data_tests:
+    - not_null
+  - name: source_effective_end
+    data_type: date
+    description: Unadjusted source end date retained before latest-start cost precedence.
+  - name: effective_end
+    data_type: date
+    description: Inclusive last DATE on which this period applies; null means open ended.
+  - name: overlap_adjusted
+    data_type: boolean
+    description: True when a later cost start shortened the earlier cost period.
+  - name: unit_cost
+    data_type: decimal(18,2)
+    description: Vendor list cost per unit in USD, fixed precision; excludes landed cost adjustments.
+  - name: _source_row
+    data_type: bigint
+    description: Original extract row number; headers occupy row 1 in each file or sheet.
+  data_tests:
+  - no_overlapping_periods:
+      arguments:
+        partition_by:
+        - sku_id
+        start_col: effective_start
+        end_col: effective_end
+- name: int_planogram_schedule
+  description: One scheduled store-SKU-week shelf allocation, resolved from staged effective store and item planogram
+    periods.
+  columns:
+  - name: store_id
+    data_type: integer
+    description: Store master identifier used consistently across sales, inventory and planograms.
+  - name: sku_id
+    data_type: varchar
+    description: Internal product SKU identifier; replacement pack sizes retain distinct keys.
+  - name: week_key
+    data_type: varchar
+    description: Authoritative FYyyyy-Www fiscal week key; joins to dim_week.week_key.
+  - name: facings
+    data_type: integer
+    description: Scheduled number of shelf faces for this item; not physically verified execution.
+  - name: planogram_id
+    data_type: varchar
+    description: Scheduled shelf-plan identifier resolved by store and effective dates.
+  - name: test_planogram
+    data_type: boolean
+    description: True when the scheduled planogram ID contains TEST, identifying the supplied assortment test.
+- name: int_pos_accepted
+  description: One accepted POS business record after exact replay/header exclusions. Nonidentical normalized-key
+    conflicts are tested downstream.
+  columns:
+  - name: store_id
+    data_type: integer
+    description: Store master identifier used consistently across sales, inventory and planograms.
+  - name: upc
+    data_type: varchar
+    description: 12-character UPC string normalized by normalize_upc; leading zeroes are significant.
+  - name: week_ending
+    data_type: date
+    description: Saturday DATE closing the Sunday-Saturday selling week.
+  - name: units
+    data_type: integer
+    description: Signed net units sold after returns; negative values are valid return records.
+  - name: gross_sales
+    data_type: decimal(18,2)
+    description: USD at regular shelf prices before promotional discount.
+  - name: promo_discount
+    data_type: decimal(18,2)
+    description: Promotional markdown in USD recorded at the register.
+  - name: net_sales
+    data_type: decimal(18,2)
+    description: USD paid by shoppers after promotional discount; returns remain signed.
+  - name: _source_file
+    data_type: varchar
+    description: Original extract filename retained for row-level traceability.
+  - name: _source_row
+    data_type: bigint
+    description: Original extract row number; headers occupy row 1 in each file or sheet.
+- name: int_promotion_sales
+  description: One approved calendar promotion by eligible store-SKU-week sale. Scope and date joins determine planned
+    eligibility; ambiguity and discounts are execution signals, not proof.
+  columns:
+  - name: promo_id
+    data_type: varchar
+    description: Promotion calendar identifier; claims may contain multiple rows for this event.
+  - name: sales_key
+    data_type: varchar
+    description: Deterministic MD5 of store_id, sku_id and week_key; identifies a single accepted sales row.
+  - name: store_id
+    data_type: integer
+    description: Store master identifier used consistently across sales, inventory and planograms.
+  - name: sku_id
+    data_type: varchar
+    description: Internal product SKU identifier; replacement pack sizes retain distinct keys.
+  - name: week_key
+    data_type: varchar
+    description: Authoritative FYyyyy-Www fiscal week key; joins to dim_week.week_key.
+  - name: units
+    data_type: integer
+    description: Signed net units sold after returns; negative values are valid return records.
+  - name: net_sales
+    data_type: decimal(18,2)
+    description: USD paid by shoppers after promotional discount; returns remain signed.
+  - name: promo_discount
+    data_type: decimal(18,2)
+    description: Promotional markdown in USD recorded at the register.
+  - name: eligible_event_count
+    data_type: bigint
+    description: Count of approved events matching this sales key; values above one signal funding allocation ambiguity.
+- name: int_promotion_totals
+  description: One approved promotion with aggregated scoped sales, net eligible units, ambiguous assignments and
+    discounted-row signals.
+  columns:
+  - name: promo_id
+    data_type: varchar
+    description: Promotion calendar identifier; claims may contain multiple rows for this event.
+  - name: eligible_sales_rows
+    data_type: bigint
+    description: Observed sales rows within approved SKU, dates and store scope; includes ambiguous event assignments.
+  - name: unambiguous_eligible_units
+    data_type: bigint
+    description: Sum of signed net units assigned to exactly one approved promotion; no observations gives zero
+      observed units.
+  - name: ambiguous_sales_rows
+    data_type: bigint
+    description: Eligible sales rows matching more than one approved event; owed scan estimates are null when any
+      exist.
+  - name: discounted_sales_rows
+    data_type: bigint
+    description: Eligible rows with positive recorded promotional discount; a signal of execution, not full confirmation.
+- name: int_sales_enriched
+  description: One store-SKU-week sale with a stable key and exactly one week-end effective cost and zone price.
+    Intermediate reusable foundation for sales and promotion models.
+  columns:
+  - name: sales_key
+    data_type: varchar
+    description: Deterministic MD5 of store_id, sku_id and week_key; identifies a single accepted sales row.
+  - name: store_id
+    data_type: integer
+    description: Store master identifier used consistently across sales, inventory and planograms.
+  - name: upc
+    data_type: varchar
+    description: 12-character UPC string normalized by normalize_upc; leading zeroes are significant.
+  - name: week_ending
+    data_type: date
+    description: Saturday DATE closing the Sunday-Saturday selling week.
+  - name: units
+    data_type: integer
+    description: Signed net units sold after returns; negative values are valid return records.
+  - name: gross_sales
+    data_type: decimal(18,2)
+    description: USD at regular shelf prices before promotional discount.
+  - name: promo_discount
+    data_type: decimal(18,2)
+    description: Promotional markdown in USD recorded at the register.
+  - name: net_sales
+    data_type: decimal(18,2)
+    description: USD paid by shoppers after promotional discount; returns remain signed.
+  - name: _source_file
+    data_type: varchar
+    description: Original extract filename retained for row-level traceability.
+  - name: _source_row
+    data_type: bigint
+    description: Original extract row number; headers occupy row 1 in each file or sheet.
+  - name: sku_id
+    data_type: varchar
+    description: Internal product SKU identifier; replacement pack sizes retain distinct keys.
+  - name: week_key
+    data_type: varchar
+    description: Authoritative FYyyyy-Www fiscal week key; joins to dim_week.week_key.
+  - name: fiscal_year
+    data_type: integer
+    description: Fiscal year. Recorded in the supplied model at its documented grain.
+  - name: price_zone
+    data_type: varchar
+    description: Metro, Suburban or Value store pricing zone.
+  - name: store_key_matched
+    data_type: boolean
+    description: True when the POS store resolves to the staged store master.
+  - name: store_open
+    data_type: boolean
+    description: True when sales week ending is on or after the store opening DATE.
+  - name: remodel_week
+    data_type: boolean
+    description: True when sales week ending falls within the supplied inclusive store remodel dates.
+  - name: unit_cost
+    data_type: decimal(18,2)
+    description: Vendor list cost per unit in USD, fixed precision; excludes landed cost adjustments.
+  - name: regular_unit_price
+    data_type: decimal(18,2)
+    description: Effective regular shelf price for the store price zone at week ending, USD.
+  - name: estimated_cogs
+    data_type: decimal(18,2)
+    description: Signed net units multiplied by week-end effective list cost, USD.
+  - name: gross_profit_before_funding
+    data_type: decimal(18,2)
+    description: Net sales less estimated list-cost COGS, USD; excludes funding and operational costs.
+- name: int_sales_keys
+  description: One accepted store-UPC-week record resolved to SKU, fiscal week and store attributes through staged
+    masters, with left-join coverage flags.
+  columns:
+  - name: store_id
+    data_type: integer
+    description: Store master identifier used consistently across sales, inventory and planograms.
+  - name: upc
+    data_type: varchar
+    description: 12-character UPC string normalized by normalize_upc; leading zeroes are significant.
+  - name: week_ending
+    data_type: date
+    description: Saturday DATE closing the Sunday-Saturday selling week.
+  - name: units
+    data_type: integer
+    description: Signed net units sold after returns; negative values are valid return records.
+  - name: gross_sales
+    data_type: decimal(18,2)
+    description: USD at regular shelf prices before promotional discount.
+  - name: promo_discount
+    data_type: decimal(18,2)
+    description: Promotional markdown in USD recorded at the register.
+  - name: net_sales
+    data_type: decimal(18,2)
+    description: USD paid by shoppers after promotional discount; returns remain signed.
+  - name: _source_file
+    data_type: varchar
+    description: Original extract filename retained for row-level traceability.
+  - name: _source_row
+    data_type: bigint
+    description: Original extract row number; headers occupy row 1 in each file or sheet.
+  - name: sku_id
+    data_type: varchar
+    description: Internal product SKU identifier; replacement pack sizes retain distinct keys.
+  - name: week_key
+    data_type: varchar
+    description: Authoritative FYyyyy-Www fiscal week key; joins to dim_week.week_key.
+  - name: fiscal_year
+    data_type: integer
+    description: Fiscal year. Recorded in the supplied model at its documented grain.
+  - name: price_zone
+    data_type: varchar
+    description: Metro, Suburban or Value store pricing zone.
+  - name: store_key_matched
+    data_type: boolean
+    description: True when the POS store resolves to the staged store master.
+  - name: store_open
+    data_type: boolean
+    description: True when sales week ending is on or after the store opening DATE.
+  - name: remodel_week
+    data_type: boolean
+    description: True when sales week ending falls within the supplied inclusive store remodel dates.

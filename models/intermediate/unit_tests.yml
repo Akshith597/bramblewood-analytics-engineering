@@ -1,0 +1,29 @@
+version: 2
+unit_tests:
+- name: latest_start_cost_policy_is_explicit
+  model: int_item_cost_intervals
+  given:
+  - input: ref('stg_item_cost')
+    rows:
+    - sku_id: A
+      effective_start: '2024-02-04'
+      effective_end: '2025-03-01'
+      unit_cost: 2.64
+      _source_row: 2
+      _source_file: fixture.xlsx
+    - sku_id: A
+      effective_start: '2025-02-16'
+      effective_end: null
+      unit_cost: 2.77
+      _source_row: 3
+      _source_file: fixture.xlsx
+  expect:
+    rows:
+    - sku_id: A
+      effective_start: '2024-02-04'
+      effective_end: '2025-02-15'
+      overlap_adjusted: true
+    - sku_id: A
+      effective_start: '2025-02-16'
+      effective_end: null
+      overlap_adjusted: false

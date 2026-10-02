@@ -1,0 +1,39 @@
+{
+  "loaded_at_utc": "2026-10-02T18:25:09.880385+00:00",
+  "python": "3.12.14",
+  "duckdb": "1.5.6",
+  "files": [
+    {
+      "file": "merch_systems.xlsx",
+      "sha256": "4c4ba2c3e99ff4892be300b640c89a8518474efbd7cd731e821f1092b51e34da",
+      "tables": {
+        "data_dictionary": 35,
+        "fiscal_calendar": 104,
+        "stores": 24,
+        "vendors": 10,
+        "items": 151,
+        "item_cost": 219,
+        "reg_price": 702,
+        "promotions": 779,
+        "vendor_claims": 623,
+        "planograms": 486,
+        "store_planogram": 28,
+        "forecast_chain_weekly": 14604
+      }
+    },
+    {
+      "file": "pos_weekly_sales.csv",
+      "sha256": "eda21b74fd85473b89ba38f7616dc1f8653312cf2a964e102f622dd9b2b5482a",
+      "tables": {
+        "pos_weekly_sales": 273376
+      }
+    },
+    {
+      "file": "store_inventory_weekly.csv",
+      "sha256": "b61285f8a43278779a7609eb77d5a4d540e440efb39a09af83cb103043b2ad26",
+      "tables": {
+        "store_inventory_weekly": 275150
+      }
+    }
+  ]
+}

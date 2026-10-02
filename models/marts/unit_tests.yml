@@ -1,0 +1,26 @@
+version: 2
+unit_tests:
+  - name: funding_owed_billed_collected_and_exceptions
+    model: mart_promotion_funding
+    given:
+      - input: ref('stg_promotions')
+        rows:
+          - {promo_id: A, status: Approved, display: Y, vendor_scan_per_unit: 0.50, vendor_display_fee: 20.00}
+          - {promo_id: B, status: Cancelled, display: Y, vendor_scan_per_unit: 0.50, vendor_display_fee: 20.00}
+          - {promo_id: C, status: Approved, display: N, vendor_scan_per_unit: 0.50, vendor_display_fee: 0.00}
+          - {promo_id: D, status: Approved, display: Y, vendor_scan_per_unit: 0.50, vendor_display_fee: 20.00}
+      - input: ref('int_promotion_totals')
+        rows:
+          - {promo_id: A, eligible_sales_rows: 2, unambiguous_eligible_units: 10, ambiguous_sales_rows: 0, discounted_sales_rows: 2}
+          - {promo_id: C, eligible_sales_rows: 1, unambiguous_eligible_units: 6, ambiguous_sales_rows: 0, discounted_sales_rows: 1}
+          - {promo_id: D, eligible_sales_rows: 1, unambiguous_eligible_units: 0, ambiguous_sales_rows: 1, discounted_sales_rows: 1}
+      - input: ref('int_claim_totals')
+        rows:
+          - {promo_id: A, claim_count: 1, total_billed: 12.00, amount_collected: 8.00, scan_amount_billed: 2.00, display_fee_billed: 10.00}
+          - {promo_id: B, claim_count: 1, total_billed: 7.00, amount_collected: 0.00, scan_amount_billed: 7.00, display_fee_billed: 0.00}
+    expect:
+      rows:
+        - {promo_id: A, funding_owed_estimate: 25.00, owed_minus_billed_estimate: 13.00, uncollected_billed_amount: 4.00, owed_minus_collected_estimate: 17.00, approved_without_claim: false, billed_on_cancelled_event: false, funding_estimate_status: calendar_based_estimate}
+        - {promo_id: B, funding_owed_estimate: 0.00, owed_minus_billed_estimate: -7.00, uncollected_billed_amount: 7.00, owed_minus_collected_estimate: 0.00, approved_without_claim: false, billed_on_cancelled_event: true, funding_estimate_status: cancelled}
+        - {promo_id: C, funding_owed_estimate: 3.00, owed_minus_billed_estimate: 3.00, uncollected_billed_amount: 0.00, owed_minus_collected_estimate: 3.00, approved_without_claim: true, billed_on_cancelled_event: false, funding_estimate_status: calendar_based_estimate}
+        - {promo_id: D, funding_owed_estimate: null, owed_minus_billed_estimate: null, uncollected_billed_amount: 0.00, owed_minus_collected_estimate: null, approved_without_claim: true, billed_on_cancelled_event: false, funding_estimate_status: ambiguous_event_assignment}

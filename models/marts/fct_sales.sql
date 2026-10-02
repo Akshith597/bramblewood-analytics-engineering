@@ -1,0 +1,23 @@
+select
+    sales_key,
+    store_id,
+    upc,
+    week_ending,
+    units,
+    gross_sales,
+    promo_discount,
+    net_sales,
+    _source_file,
+    _source_row,
+    sku_id,
+    week_key,
+    fiscal_year,
+    price_zone,
+    store_key_matched,
+    store_open,
+    remodel_week,
+    unit_cost,
+    regular_unit_price,
+    estimated_cogs,
+    gross_profit_before_funding
+from {{ ref('int_sales_enriched') }}
