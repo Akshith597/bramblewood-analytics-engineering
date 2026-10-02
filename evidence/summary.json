@@ -83,10 +83,17 @@
       "uncollected": 38.0
     },
     {
-      "vendor_name": "PopWorks Inc.",
-      "claims": 28,
-      "billed": 31979.15,
-      "collected": 31979.15,
+      "vendor_name": "Hartwell Snack Co.",
+      "claims": 70,
+      "billed": 74757.85,
+      "collected": 74757.85,
+      "uncollected": 0.0
+    },
+    {
+      "vendor_name": "Golden Ridge Kettle Co.",
+      "claims": 63,
+      "billed": 114471.95,
+      "collected": 114471.95,
       "uncollected": 0.0
     },
     {
@@ -104,17 +111,10 @@
       "uncollected": 0.0
     },
     {
-      "vendor_name": "Hartwell Snack Co.",
-      "claims": 70,
-      "billed": 74757.85,
-      "collected": 74757.85,
-      "uncollected": 0.0
-    },
-    {
-      "vendor_name": "Golden Ridge Kettle Co.",
-      "claims": 63,
-      "billed": 114471.95,
-      "collected": 114471.95,
+      "vendor_name": "PopWorks Inc.",
+      "claims": 28,
+      "billed": 31979.15,
+      "collected": 31979.15,
       "uncollected": 0.0
     },
     {

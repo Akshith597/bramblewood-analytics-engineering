@@ -3,6 +3,8 @@ from pathlib import Path
 from collections import Counter
 import json, shutil
 import duckdb
+import sqlglot
+from sqlglot import exp
 
 ROOT = Path(__file__).resolve().parents[1]
 QUERIES = {
@@ -36,7 +38,7 @@ QUERIES = {
         s.gross_profit_before_funding, s._source_row
         from fct_sales s where store_id=101 and week_key='FY2024-W01' order by sku_id""",
     "quality_observations": """select
-        (select count(*) from stg_pos where units<0) as return_rows,
+        (select count(*) from int_pos_accepted where units<0) as return_rows,
         (select count(*) from stg_pos_audit where disposition='accepted' and length(upc)=11) as upcs_padded,
         (select count(*) from stg_pos_audit where disposition='accepted' and contains(week_ending,'/')) as legacy_dates,
         (select count(*) from fct_inventory where zero_stock_snapshot) as zero_stock_snapshots,
@@ -71,16 +73,28 @@ QUERIES = {
         group by 1 order by 1""",
 }
 
+def referenced_models(query):
+    """Parse relation names without binding against a possibly stale warehouse."""
+    statement = sqlglot.parse_one(query, read='duckdb')
+    cte_names = {cte.alias_or_name for cte in statement.find_all(exp.CTE)}
+    return {table.name for table in statement.find_all(exp.Table)} - cte_names
+
+
 def main():
     evidence=ROOT/'evidence'; evidence.mkdir(exist_ok=True)
     result={}
+    manifest=json.loads((ROOT/'target/manifest.json').read_text(encoding='utf-8'))
+    model_names={n['name'] for n in manifest['nodes'].values()
+                 if n['resource_type']=='model' and n['package_name']=='bramblewood'}
     with duckdb.connect(str(ROOT/'warehouse/bramblewood.duckdb'),read_only=True) as con:
         for name,query in QUERIES.items():
+            unexpected=referenced_models(query)-model_names
+            if unexpected:
+                raise RuntimeError(f'{name} references non-project or removed models: {sorted(unexpected)}')
             frame=con.execute(query).df()
             frame.to_csv(evidence/f'{name}.csv',index=False)
             result[name]=json.loads(frame.to_json(orient='records',date_format='iso'))
     runs=json.loads((ROOT/'evidence/dbt_build_results.json').read_text(encoding='utf-8'))
-    manifest=json.loads((ROOT/'target/manifest.json').read_text(encoding='utf-8'))
     tests=[r for r in runs['results'] if r['unique_id'].startswith(('test.','unit_test.'))]
     result['validation']={'dbt_version':runs['metadata']['dbt_version'],
         'generated_at':runs['metadata']['generated_at'],
