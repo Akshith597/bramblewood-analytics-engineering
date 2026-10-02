@@ -38,7 +38,10 @@ The engineering objective is a **reproducible, auditable warehouse that business
           │  Python ingestion, source hashes, source-row lineage
           ▼
     DuckDB raw schema
-          │  dbt staging: dates, UPCs, replay handling, cost intervals
+          │  dbt staging: dates, decimal amounts, UPCs, row audit
+          ▼
+  Intermediate key resolution + cost intervals + sales enrichment
+          │  shared promotion eligibility and claim aggregation
           ▼
   Conformed dimensions + sales / inventory / claims facts
           │  tested joins at explicit grains
@@ -104,7 +107,7 @@ models/staging/       Parsing, normalization, audit and unit fixtures
 models/intermediate/  Key resolution and promotion eligibility
 models/marts/         Dimensions, facts and business marts
 tests/                SQL assertions, temporal and reconciliation tests
-tests_python/         Independent macro edge-case guards
+tests_python/         Independent macro and evidence-reference guards
 macros/               UPC normalization and generic period-overlap test
 analyses/             Example dbt analysis SQL
 scripts/              Ingest, build, evidence and independent validation
