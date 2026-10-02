@@ -1,0 +1,28 @@
+version: 2
+exposures:
+- name: retail_category_evidence
+  label: Retail Category Evidence Pack
+  type: analysis
+  maturity: medium
+  description: Executed CSV/JSON extracts from scripts/export_evidence.py support the portfolio case study and documented
+    descriptive category, forecast, availability and funding checks.
+  owner:
+    name: Aakshith Reddy
+  depends_on:
+  - ref('mart_category_weekly')
+  - ref('mart_forecast_accuracy')
+  - ref('mart_availability')
+  - ref('mart_assortment_productivity')
+  - ref('mart_promotion_funding')
+  - ref('audit_reconciliation')
+- name: vendor_funding_review
+  label: Vendor Funding Owed / Billed / Collected Review
+  type: analysis
+  maturity: medium
+  description: Funding review CSV produced by the evidence exporter. Estimated contractual scan and display amounts
+    are compared to actual billed and collected totals; cancelled events and ambiguous execution are flagged.
+  owner:
+    name: Aakshith Reddy
+  depends_on:
+  - ref('mart_promotion_funding')
+  - ref('dim_vendor')

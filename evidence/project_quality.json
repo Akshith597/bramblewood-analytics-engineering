@@ -1,0 +1,8 @@
+{
+  "status": "pass",
+  "models": 35,
+  "staged_sources": 14,
+  "enforced_mart_contracts": 13,
+  "documented_typed_columns": 370,
+  "exposures": 2
+}

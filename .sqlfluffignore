@@ -1,0 +1,6 @@
+target/
+dbt_packages/
+warehouse/
+logs/
+public_site/
+macros/

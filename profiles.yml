@@ -1,0 +1,7 @@
+bramblewood:
+  target: dev
+  outputs:
+    dev:
+      type: duckdb
+      path: warehouse/bramblewood.duckdb
+      threads: 4

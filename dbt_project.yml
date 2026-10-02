@@ -1,0 +1,15 @@
+name: bramblewood
+version: '2.0.0'
+config-version: 2
+profile: bramblewood
+model-paths: [models]
+test-paths: [tests]
+analysis-paths: [analyses]
+models:
+  bramblewood:
+    staging:
+      +materialized: view
+    intermediate:
+      +materialized: view
+    marts:
+      +materialized: table

@@ -1,0 +1,16 @@
+repos:
+  - repo: local
+    hooks:
+      - id: sqlfluff-lint
+        name: SQLFluff (dbt / DuckDB)
+        entry: python -m sqlfluff lint
+        language: system
+        require_serial: true
+        types: [sql]
+        files: ^(models|tests|analyses)/.*\.sql$
+      - id: python-syntax
+        name: Python syntax
+        entry: python -m compileall -q scripts tests_python
+        language: system
+        pass_filenames: false
+        types: [python]

@@ -1,0 +1,145 @@
+{
+  "status": "pass",
+  "models": {
+    "audit_reconciliation": {
+      "rows": 3,
+      "sha256": "952ef61486dd445b6b02593e9b681cd293d2603373b0cbd900c03c36493e6182"
+    },
+    "dim_item": {
+      "rows": 151,
+      "sha256": "2f46606a4329bd3c7c2bc1cc25b5e18f68d182892d65b613617191877c91c429"
+    },
+    "dim_store": {
+      "rows": 24,
+      "sha256": "005d254d0584c3f60af1b05e02e81ec46276b017e944110fc715a48a0f150704"
+    },
+    "dim_vendor": {
+      "rows": 10,
+      "sha256": "5891ee4c7753023d96a48b5d32570a5ccded56f0c72ef6e26abb7159b1eb7a10"
+    },
+    "dim_week": {
+      "rows": 104,
+      "sha256": "550fd725b445907faef2f5a1a9f473e887a0980377cf6bbc8acca998bb719d0f"
+    },
+    "fct_inventory": {
+      "rows": 275150,
+      "sha256": "b6f7a31ebace15f5a5b89f9c06e050187235db178885fb6e38407d9fe37e953b"
+    },
+    "fct_sales": {
+      "rows": 273262,
+      "sha256": "3365524c282d43b8321bfae616221674b744562dbfc9298bc16305c4d34445d2"
+    },
+    "fct_vendor_claims": {
+      "rows": 623,
+      "sha256": "c685a717fe20979ce8281d64d7555dc0250fad1f3066b80333ce3525b91f4a87"
+    },
+    "int_claim_totals": {
+      "rows": 623,
+      "sha256": "517e0d34356b966b1262bf2f591497b2fc7bd4c18a861ab4bb08ee9e71f42f01"
+    },
+    "int_item_cost_intervals": {
+      "rows": 219,
+      "sha256": "19f263d99a35747f41ecd6bc9c370d4f63569c52e41024ccc8afbbae11a63328"
+    },
+    "int_planogram_schedule": {
+      "rows": 275150,
+      "sha256": "4297418f46f1bd94ec822950372ecb8aac790d0fd762e6d923170760ea3a27e2"
+    },
+    "int_pos_accepted": {
+      "rows": 273262,
+      "sha256": "88e344e4d8b93fe4100c247794e9ec1f35906f430689860e3f4ec5dab8a355ff"
+    },
+    "int_promotion_sales": {
+      "rows": 19993,
+      "sha256": "55c698d0033006efa6652299b82282cb575d5d67b5c7b2377e5b9f37090c3bce"
+    },
+    "int_promotion_totals": {
+      "rows": 768,
+      "sha256": "59657b7ef831f6eda49b96212b56c15dd9dd9c235dfcc1545456a86317d7d972"
+    },
+    "int_sales_enriched": {
+      "rows": 273262,
+      "sha256": "3365524c282d43b8321bfae616221674b744562dbfc9298bc16305c4d34445d2"
+    },
+    "int_sales_keys": {
+      "rows": 273262,
+      "sha256": "128dbe7dcdb0208e3436617dedc1631f81f6cecfad57fa23373d61faeb2e0abb"
+    },
+    "mart_assortment_productivity": {
+      "rows": 275150,
+      "sha256": "98531feb2af56b562424476fd90b108d05702764c09a123cdab3d006e0c0d802"
+    },
+    "mart_availability": {
+      "rows": 275150,
+      "sha256": "ec838e1b3df10fd61585611094548ff544951103da95b94598892e90c730d242"
+    },
+    "mart_category_weekly": {
+      "rows": 832,
+      "sha256": "ca4f3c10de7c6431d9ce2e83580b191c6f675fa69b812d31e35212d57f85a441"
+    },
+    "mart_forecast_accuracy": {
+      "rows": 14604,
+      "sha256": "e413ac25ee35f2028b7fa638a040f186a1513738abaeafb89e4b22f3653b0040"
+    },
+    "mart_promotion_funding": {
+      "rows": 779,
+      "sha256": "53e47bcf0d670776f047c627badf46e8d64c76b8fa5ebf5d6a899f03f4ff0937"
+    },
+    "stg_data_dictionary": {
+      "rows": 35,
+      "sha256": "ba20ca77f230517f0b6d64cd69a302946f8a466023ff9b7ac2501582c6a6ae26"
+    },
+    "stg_fiscal_calendar": {
+      "rows": 104,
+      "sha256": "9a4ce11f4e63fbb01590f8ac4d46618272d68f38ba3aaad298920fc1629fb55f"
+    },
+    "stg_forecast": {
+      "rows": 14604,
+      "sha256": "66ec053be170ff6b2844061c310da9c9b14af8fa004d1581906e95ddb2ee46a8"
+    },
+    "stg_inventory": {
+      "rows": 275150,
+      "sha256": "719ff625c1cb5a9c4086d684b9a0e1b8ea32856b22612f53871ab0f1a8b74783"
+    },
+    "stg_item_cost": {
+      "rows": 219,
+      "sha256": "063f14f9400c04ca42d3da8de6e1d56590bfabb7541ac958a043d489118adbf2"
+    },
+    "stg_items": {
+      "rows": 151,
+      "sha256": "034d29409b61b08dae5c91800b5ca2f6c28d5a383bbd043d5a76ece319c744b7"
+    },
+    "stg_planograms": {
+      "rows": 486,
+      "sha256": "46c5a38295dc215999c1712c95215bcc5aaf8973a0a8522585371c59ed1b928e"
+    },
+    "stg_pos_audit": {
+      "rows": 273376,
+      "sha256": "16550f559489426830f1bcb2ae8b6bb2d29b711d4cb48c068515eed16902d30d"
+    },
+    "stg_promotions": {
+      "rows": 779,
+      "sha256": "90980837ed942b552fb3ebd4175ee09712efe9fa7b9fec94c2ac24a4670fb853"
+    },
+    "stg_reg_price": {
+      "rows": 702,
+      "sha256": "7847a01d181f2856a69fdf8d63f94dc63f96273fdb375129068ea65ec0e03171"
+    },
+    "stg_store_planogram": {
+      "rows": 28,
+      "sha256": "6b47968633780265d959f4c38a66d64f76e7142937b8d95e1d26a5e37dadad61"
+    },
+    "stg_stores": {
+      "rows": 24,
+      "sha256": "615ec6ea9c716ef5e2ff6b9de1d81f7eafaafbd1a62c89cfddbca46fe15e685a"
+    },
+    "stg_vendor_claims": {
+      "rows": 623,
+      "sha256": "38805080e74a56dea7f554e56aeac235d027c8962abb939d74cd5a6efa7920fa"
+    },
+    "stg_vendors": {
+      "rows": 10,
+      "sha256": "c40cd5030fbfdf236e4c3c31a8b79f0f58b84426c3ae5ba12e9bbb66132556c6"
+    }
+  }
+}

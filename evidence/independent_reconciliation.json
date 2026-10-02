@@ -1,0 +1,9 @@
+{
+  "status": "pass",
+  "store_weeks_reconciled": 2427,
+  "accepted_rows": 273262,
+  "embedded_headers": 1,
+  "exact_replays": 113,
+  "net_sales": "21886423.88",
+  "method": "Python csv + Decimal compared to every dbt store-week total"
+}

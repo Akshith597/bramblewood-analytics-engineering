@@ -1,0 +1,638 @@
+version: 2
+models:
+- name: stg_data_dictionary
+  description: Typed source projection of data_dictionary. Money uses fixed precision and calendar values use DATE.
+    Original source file and row identify every observation.
+  columns:
+  - name: source_table
+    data_type: varchar
+    description: Source table or file to which the original data dictionary definition applies.
+  - name: source_column
+    data_type: varchar
+    description: Original source column or grouped column names described by the dataset author.
+  - name: definition
+    data_type: varchar
+    description: Definition. Recorded in the supplied master data.
+  - name: _source_file
+    data_type: varchar
+    description: Original extract filename retained for row-level traceability.
+  - name: _source_row
+    data_type: bigint
+    description: Original extract row number; headers occupy row 1 in each file or sheet.
+- name: stg_fiscal_calendar
+  description: Typed source projection of fiscal_calendar. Money uses fixed precision and calendar values use DATE.
+    Original source file and row identify every observation.
+  columns:
+  - name: week_key
+    data_type: varchar
+    description: Authoritative FYyyyy-Www fiscal week key; joins to dim_week.week_key.
+    data_tests:
+    - unique
+    - not_null
+  - name: week_start
+    data_type: date
+    description: Sunday DATE starting the fiscal selling week.
+  - name: week_ending
+    data_type: date
+    description: Saturday DATE closing the Sunday-Saturday selling week.
+  - name: fiscal_year
+    data_type: integer
+    description: Fiscal year. Recorded in the supplied master data.
+  - name: fiscal_quarter
+    data_type: integer
+    description: Fiscal quarter. Recorded in the supplied master data.
+  - name: fiscal_period
+    data_type: integer
+    description: Fiscal period. Recorded in the supplied master data.
+  - name: fiscal_week
+    data_type: integer
+    description: Fiscal week. Recorded in the supplied master data.
+  - name: holiday_event
+    data_type: varchar
+    description: Holiday event. Recorded in the supplied master data.
+  - name: _source_file
+    data_type: varchar
+    description: Original extract filename retained for row-level traceability.
+  - name: _source_row
+    data_type: bigint
+    description: Original extract row number; headers occupy row 1 in each file or sheet.
+- name: stg_forecast
+  description: Typed source projection of forecast_chain_weekly. Money uses fixed precision and calendar values
+    use DATE. Original source file and row identify every observation.
+  columns:
+  - name: sku_id
+    data_type: varchar
+    description: Internal product SKU identifier; replacement pack sizes retain distinct keys.
+  - name: week_key
+    data_type: varchar
+    description: Authoritative FYyyyy-Www fiscal week key; joins to dim_week.week_key.
+  - name: forecast_run_week
+    data_type: varchar
+    description: Fiscal week in which the forecast was generated; startup weeks may have shorter lead.
+  - name: forecast_units
+    data_type: integer
+    description: Chain-level replenishment forecast net-unit quantity for the target week.
+  - name: _source_file
+    data_type: varchar
+    description: Original extract filename retained for row-level traceability.
+  - name: _source_row
+    data_type: bigint
+    description: Original extract row number; headers occupy row 1 in each file or sheet.
+- name: stg_inventory
+  description: One observed store-SKU-week inventory extract row. Receipts and Saturday stock are integers; absence
+    is not a zero.
+  columns:
+  - name: store_id
+    data_type: integer
+    description: Store master identifier used consistently across sales, inventory and planograms.
+  - name: sku_id
+    data_type: varchar
+    description: Internal product SKU identifier; replacement pack sizes retain distinct keys.
+  - name: week_key
+    data_type: varchar
+    description: Authoritative FYyyyy-Www fiscal week key; joins to dim_week.week_key.
+  - name: receipts_units
+    data_type: integer
+    description: Units received into the store during the fiscal week.
+  - name: on_hand_eow
+    data_type: integer
+    description: Store units on hand at Saturday close; excludes DC inventory.
+  - name: _source_file
+    data_type: varchar
+    description: Original extract filename retained for row-level traceability.
+  - name: _source_row
+    data_type: bigint
+    description: Original extract row number; headers occupy row 1 in each file or sheet.
+- name: stg_item_cost
+  description: Typed source projection of item_cost. Money uses fixed precision and calendar values use DATE. Original
+    source file and row identify every observation.
+  columns:
+  - name: sku_id
+    data_type: varchar
+    description: Internal product SKU identifier; replacement pack sizes retain distinct keys.
+  - name: effective_start
+    data_type: date
+    description: Inclusive first DATE on which this period applies.
+  - name: effective_end
+    data_type: date
+    description: Inclusive last DATE on which this period applies; null means open ended.
+  - name: unit_cost
+    data_type: decimal(18,2)
+    description: Vendor list cost per unit in USD, fixed precision; excludes landed cost adjustments.
+  - name: _source_file
+    data_type: varchar
+    description: Original extract filename retained for row-level traceability.
+  - name: _source_row
+    data_type: bigint
+    description: Original extract row number; headers occupy row 1 in each file or sheet.
+  data_tests:
+  - dbt_utils.unique_combination_of_columns:
+      arguments:
+        combination_of_columns:
+        - sku_id
+        - effective_start
+- name: stg_items
+  description: Typed source projection of items. Money uses fixed precision and calendar values use DATE. Original
+    source file and row identify every observation.
+  columns:
+  - name: sku_id
+    data_type: varchar
+    description: Internal product SKU identifier; replacement pack sizes retain distinct keys.
+    data_tests:
+    - unique
+    - not_null
+  - name: upc
+    data_type: varchar
+    description: 12-character UPC string normalized by normalize_upc; leading zeroes are significant.
+    data_tests:
+    - unique
+    - not_null
+  - name: description
+    data_type: varchar
+    description: Description. Recorded in the supplied master data.
+  - name: brand
+    data_type: varchar
+    description: Brand. Recorded in the supplied master data.
+  - name: vendor_id
+    data_type: varchar
+    description: Vendor master identifier; joins to dim_vendor.vendor_id.
+  - name: category
+    data_type: varchar
+    description: Category. Recorded in the supplied master data.
+  - name: subcategory
+    data_type: varchar
+    description: Canonical salty-snacks subcategory; whitespace/case variant of Tortilla Chips is standardized.
+    data_tests:
+    - accepted_values:
+        arguments:
+          values:
+          - Potato Chips
+          - Kettle Chips
+          - Tortilla Chips
+          - Pretzels
+          - Popcorn
+          - Cheese Snacks
+          - Nuts
+          - Trail Mix
+  - name: brand_type
+    data_type: varchar
+    description: National, Regional, Private Label or Value classification from the item master.
+    data_tests:
+    - accepted_values:
+        arguments:
+          values:
+          - National
+          - Regional
+          - Private Label
+          - Value
+  - name: flavor
+    data_type: varchar
+    description: Flavor. Recorded in the supplied master data.
+  - name: size_desc
+    data_type: varchar
+    description: Size desc. Recorded in the supplied master data.
+  - name: size_oz
+    data_type: decimal(8,2)
+    description: Size oz. Recorded in the supplied master data.
+  - name: case_pack
+    data_type: integer
+    description: Case pack. Recorded in the supplied master data.
+  - name: launch_date
+    data_type: date
+    description: Launch date. Recorded in the supplied master data.
+  - name: discontinue_date
+    data_type: date
+    description: Discontinue date. Recorded in the supplied master data.
+  - name: replaces_sku
+    data_type: varchar
+    description: Replaces sku. Recorded in the supplied master data.
+  - name: status
+    data_type: varchar
+    description: 'Item lifecycle status: Active or Discontinued.'
+    data_tests:
+    - accepted_values:
+        arguments:
+          values:
+          - Active
+          - Discontinued
+  - name: _source_file
+    data_type: varchar
+    description: Original extract filename retained for row-level traceability.
+  - name: _source_row
+    data_type: bigint
+    description: Original extract row number; headers occupy row 1 in each file or sheet.
+- name: stg_planograms
+  description: Typed source projection of planograms. Money uses fixed precision and calendar values use DATE. Original
+    source file and row identify every observation.
+  columns:
+  - name: planogram_id
+    data_type: varchar
+    description: Scheduled shelf-plan identifier resolved by store and effective dates.
+  - name: sku_id
+    data_type: varchar
+    description: Internal product SKU identifier; replacement pack sizes retain distinct keys.
+  - name: facings
+    data_type: integer
+    description: Scheduled number of shelf faces for this item; not physically verified execution.
+  - name: shelf_capacity_units
+    data_type: integer
+    description: Scheduled units that fit on the shelf for the item.
+  - name: effective_start
+    data_type: date
+    description: Inclusive first DATE on which this period applies.
+    data_tests:
+    - not_null
+  - name: effective_end
+    data_type: date
+    description: Inclusive last DATE on which this period applies; null means open ended.
+  - name: _source_file
+    data_type: varchar
+    description: Original extract filename retained for row-level traceability.
+  - name: _source_row
+    data_type: bigint
+    description: Original extract row number; headers occupy row 1 in each file or sheet.
+  data_tests:
+  - dbt_utils.unique_combination_of_columns:
+      arguments:
+        combination_of_columns:
+        - planogram_id
+        - sku_id
+        - effective_start
+  - no_overlapping_periods:
+      arguments:
+        partition_by:
+        - planogram_id
+        - sku_id
+        start_col: effective_start
+        end_col: effective_end
+- name: stg_pos_audit
+  description: One original POS extract row with typed fields, replay rank and accepted/header/replay/invalid disposition.
+    Original strings and row lineage are retained.
+  columns:
+  - name: store_nbr
+    data_type: varchar
+    description: Store nbr. Recorded in the supplied master data.
+  - name: upc
+    data_type: varchar
+    description: 12-character UPC string normalized by normalize_upc; leading zeroes are significant.
+  - name: week_ending
+    data_type: varchar
+    description: Saturday DATE closing the Sunday-Saturday selling week.
+  - name: units
+    data_type: varchar
+    description: Signed net units sold after returns; negative values are valid return records.
+  - name: gross_sales
+    data_type: varchar
+    description: USD at regular shelf prices before promotional discount.
+  - name: promo_discount
+    data_type: varchar
+    description: Promotional markdown in USD recorded at the register.
+  - name: net_sales
+    data_type: varchar
+    description: USD paid by shoppers after promotional discount; returns remain signed.
+  - name: _source_file
+    data_type: varchar
+    description: Original extract filename retained for row-level traceability.
+  - name: _source_row
+    data_type: bigint
+    description: Original extract row number; headers occupy row 1 in each file or sheet.
+  - name: replay_number
+    data_type: bigint
+    description: Rank among field-identical source records; only the earliest original row is accepted.
+  - name: store_id
+    data_type: integer
+    description: Store master identifier used consistently across sales, inventory and planograms.
+  - name: normalized_upc
+    data_type: varchar
+    description: 12-character normalized UPC derived from the original string.
+  - name: parsed_week_ending
+    data_type: date
+    description: Typed Saturday DATE closing the Sunday-Saturday selling week.
+  - name: parsed_units
+    data_type: integer
+    description: Typed Signed net units sold after returns; negative values are valid return records.
+  - name: parsed_gross_sales
+    data_type: decimal(18,2)
+    description: Typed USD at regular shelf prices before promotional discount.
+  - name: parsed_promo_discount
+    data_type: decimal(18,2)
+    description: Typed Promotional markdown in USD recorded at the register.
+  - name: parsed_net_sales
+    data_type: decimal(18,2)
+    description: Typed USD paid by shoppers after promotional discount; returns remain signed.
+  - name: disposition
+    data_type: varchar
+    description: 'Original POS row classification: accepted, embedded_header, exact_replay or invalid_record.'
+    data_tests:
+    - accepted_values:
+        arguments:
+          values:
+          - accepted
+          - exact_replay
+          - embedded_header
+          - invalid_record
+- name: stg_promotions
+  description: Typed source projection of promotions. Money uses fixed precision and calendar values use DATE. Original
+    source file and row identify every observation.
+  columns:
+  - name: promo_id
+    data_type: varchar
+    description: Promotion calendar identifier; claims may contain multiple rows for this event.
+    data_tests:
+    - unique
+    - not_null
+  - name: sku_id
+    data_type: varchar
+    description: Internal product SKU identifier; replacement pack sizes retain distinct keys.
+  - name: vendor_id
+    data_type: varchar
+    description: Vendor master identifier; joins to dim_vendor.vendor_id.
+  - name: start_date
+    data_type: date
+    description: Inclusive planned promotion start DATE.
+  - name: end_date
+    data_type: date
+    description: Inclusive planned promotion end DATE.
+  - name: mechanic
+    data_type: varchar
+    description: TPR, Multi-buy or BOGO planned promotion mechanism.
+    data_tests:
+    - accepted_values:
+        arguments:
+          values:
+          - TPR
+          - Multi-buy
+          - BOGO
+  - name: offer
+    data_type: varchar
+    description: Offer. Recorded in the supplied master data.
+  - name: promo_price
+    data_type: decimal(18,2)
+    description: Planned offer USD price; multi-buy values are bundle prices, and BOGO is null.
+  - name: store_scope
+    data_type: varchar
+    description: ALL or ZONE:Metro/Suburban/Value contractual store scope for the event.
+    data_tests:
+    - accepted_values:
+        arguments:
+          values:
+          - ALL
+          - ZONE:Metro
+          - ZONE:Suburban
+          - ZONE:Value
+  - name: display
+    data_type: varchar
+    description: Y/N indicator of a planned secondary display; execution is not independently observed.
+    data_tests:
+    - accepted_values:
+        arguments:
+          values:
+          - Y
+          - N
+  - name: circular_feature
+    data_type: varchar
+    description: Y/N indicator of a planned weekly-ad feature.
+    data_tests:
+    - accepted_values:
+        arguments:
+          values:
+          - Y
+          - N
+  - name: vendor_scan_per_unit
+    data_type: decimal(18,2)
+    description: Per-unit contractual scan-back funding term in USD from the planned event.
+  - name: vendor_display_fee
+    data_type: decimal(18,2)
+    description: Flat contractual display fee in USD from the planned event.
+  - name: status
+    data_type: varchar
+    description: 'Calendar event status: Approved or Cancelled.'
+    data_tests:
+    - accepted_values:
+        arguments:
+          values:
+          - Approved
+          - Cancelled
+  - name: _source_file
+    data_type: varchar
+    description: Original extract filename retained for row-level traceability.
+  - name: _source_row
+    data_type: bigint
+    description: Original extract row number; headers occupy row 1 in each file or sheet.
+- name: stg_reg_price
+  description: Typed source projection of reg_price. Money uses fixed precision and calendar values use DATE. Original
+    source file and row identify every observation.
+  columns:
+  - name: sku_id
+    data_type: varchar
+    description: Internal product SKU identifier; replacement pack sizes retain distinct keys.
+  - name: price_zone
+    data_type: varchar
+    description: Metro, Suburban or Value store pricing zone.
+  - name: effective_start
+    data_type: date
+    description: Inclusive first DATE on which this period applies.
+    data_tests:
+    - not_null
+  - name: effective_end
+    data_type: date
+    description: Inclusive last DATE on which this period applies; null means open ended.
+  - name: reg_retail
+    data_type: decimal(18,2)
+    description: Effective regular per-unit shelf price in USD by SKU and zone.
+  - name: _source_file
+    data_type: varchar
+    description: Original extract filename retained for row-level traceability.
+  - name: _source_row
+    data_type: bigint
+    description: Original extract row number; headers occupy row 1 in each file or sheet.
+  data_tests:
+  - dbt_utils.unique_combination_of_columns:
+      arguments:
+        combination_of_columns:
+        - sku_id
+        - price_zone
+        - effective_start
+  - no_overlapping_periods:
+      arguments:
+        partition_by:
+        - sku_id
+        - price_zone
+        start_col: effective_start
+        end_col: effective_end
+- name: stg_store_planogram
+  description: Typed source projection of store_planogram. Money uses fixed precision and calendar values use DATE.
+    Original source file and row identify every observation.
+  columns:
+  - name: store_id
+    data_type: integer
+    description: Store master identifier used consistently across sales, inventory and planograms.
+  - name: planogram_id
+    data_type: varchar
+    description: Scheduled shelf-plan identifier resolved by store and effective dates.
+  - name: effective_start
+    data_type: date
+    description: Inclusive first DATE on which this period applies.
+    data_tests:
+    - not_null
+  - name: effective_end
+    data_type: date
+    description: Inclusive last DATE on which this period applies; null means open ended.
+  - name: _source_file
+    data_type: varchar
+    description: Original extract filename retained for row-level traceability.
+  - name: _source_row
+    data_type: bigint
+    description: Original extract row number; headers occupy row 1 in each file or sheet.
+  data_tests:
+  - dbt_utils.unique_combination_of_columns:
+      arguments:
+        combination_of_columns:
+        - store_id
+        - effective_start
+  - no_overlapping_periods:
+      arguments:
+        partition_by:
+        - store_id
+        start_col: effective_start
+        end_col: effective_end
+- name: stg_stores
+  description: Typed source projection of stores. Money uses fixed precision and calendar values use DATE. Original
+    source file and row identify every observation.
+  columns:
+  - name: store_id
+    data_type: integer
+    description: Store master identifier used consistently across sales, inventory and planograms.
+    data_tests:
+    - unique
+    - not_null
+  - name: store_name
+    data_type: varchar
+    description: Store name. Recorded in the supplied master data.
+  - name: city
+    data_type: varchar
+    description: City. Recorded in the supplied master data.
+  - name: state
+    data_type: varchar
+    description: State. Recorded in the supplied master data.
+    data_tests:
+    - accepted_values:
+        arguments:
+          values:
+          - TX
+          - OK
+  - name: format
+    data_type: varchar
+    description: Format. Recorded in the supplied master data.
+    data_tests:
+    - accepted_values:
+        arguments:
+          values:
+          - L
+          - M
+          - S
+  - name: sqft
+    data_type: integer
+    description: Sqft. Recorded in the supplied master data.
+  - name: price_zone
+    data_type: varchar
+    description: Metro, Suburban or Value store pricing zone.
+    data_tests:
+    - accepted_values:
+        arguments:
+          values:
+          - Metro
+          - Suburban
+          - Value
+  - name: pos_system
+    data_type: varchar
+    description: Pos system. Recorded in the supplied master data.
+  - name: open_date
+    data_type: date
+    description: Open date. Recorded in the supplied master data.
+  - name: remodel_start
+    data_type: date
+    description: Remodel start. Recorded in the supplied master data.
+  - name: remodel_end
+    data_type: date
+    description: Remodel end. Recorded in the supplied master data.
+  - name: _source_file
+    data_type: varchar
+    description: Original extract filename retained for row-level traceability.
+  - name: _source_row
+    data_type: bigint
+    description: Original extract row number; headers occupy row 1 in each file or sheet.
+- name: stg_vendor_claims
+  description: Typed source projection of vendor_claims. Money uses fixed precision and calendar values use DATE.
+    Original source file and row identify every observation.
+  columns:
+  - name: claim_id
+    data_type: varchar
+    description: Unique vendor-claim identifier in the supplied extract.
+    data_tests:
+    - unique
+    - not_null
+  - name: promo_id
+    data_type: varchar
+    description: Promotion calendar identifier; claims may contain multiple rows for this event.
+  - name: vendor_id
+    data_type: varchar
+    description: Vendor master identifier; joins to dim_vendor.vendor_id.
+  - name: submitted_date
+    data_type: date
+    description: DATE claim was submitted; this is not the cash collection date.
+  - name: scan_units_billed
+    data_type: integer
+    description: Net units recorded on the actual vendor claim.
+  - name: scan_rate
+    data_type: decimal(18,2)
+    description: Per-unit scan-back rate used on the actual claim, USD.
+  - name: scan_amount_billed
+    data_type: decimal(18,2)
+    description: Actual scan-back funding billed in USD.
+  - name: display_fee_billed
+    data_type: decimal(18,2)
+    description: Actual display funding billed in USD.
+  - name: total_billed
+    data_type: decimal(18,2)
+    description: Actual claimed funding in USD; funding mart uses zero when no claim record exists.
+  - name: status
+    data_type: varchar
+    description: 'Claim state in the extract: Paid or Disputed.'
+    data_tests:
+    - accepted_values:
+        arguments:
+          values:
+          - Paid
+          - Disputed
+  - name: amount_collected
+    data_type: decimal(18,2)
+    description: Collected funding in USD according to the extract; no collection timestamp is supplied.
+  - name: _source_file
+    data_type: varchar
+    description: Original extract filename retained for row-level traceability.
+  - name: _source_row
+    data_type: bigint
+    description: Original extract row number; headers occupy row 1 in each file or sheet.
+- name: stg_vendors
+  description: Typed source projection of vendors. Money uses fixed precision and calendar values use DATE. Original
+    source file and row identify every observation.
+  columns:
+  - name: vendor_id
+    data_type: varchar
+    description: Vendor master identifier; joins to dim_vendor.vendor_id.
+    data_tests:
+    - unique
+    - not_null
+  - name: vendor_name
+    data_type: varchar
+    description: Vendor name. Recorded in the supplied master data.
+  - name: payment_terms
+    data_type: varchar
+    description: Payment terms. Recorded in the supplied master data.
+  - name: _source_file
+    data_type: varchar
+    description: Original extract filename retained for row-level traceability.
+  - name: _source_row
+    data_type: bigint
+    description: Original extract row number; headers occupy row 1 in each file or sheet.

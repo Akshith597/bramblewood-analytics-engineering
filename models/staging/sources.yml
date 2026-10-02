@@ -1,0 +1,20 @@
+version: 2
+sources:
+  - name: raw
+    schema: raw
+    description: "Immutable synthetic retail extracts. Business period ends 2026-01-31; claims include later submissions. No ingestion timestamp exists in the source."
+    tables:
+      - name: pos_weekly_sales
+      - name: store_inventory_weekly
+      - name: fiscal_calendar
+      - name: stores
+      - name: vendors
+      - name: items
+      - name: item_cost
+      - name: reg_price
+      - name: promotions
+      - name: vendor_claims
+      - name: planograms
+      - name: store_planogram
+      - name: forecast_chain_weekly
+      - name: data_dictionary

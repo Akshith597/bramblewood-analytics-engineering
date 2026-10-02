@@ -1,0 +1,75 @@
+version: 2
+unit_tests:
+- name: normalizes_dates_keys_and_preserves_returns
+  model: stg_pos_audit
+  given:
+  - input: source('raw', 'pos_weekly_sales')
+    rows:
+    - store_nbr: '109'
+      upc: '41230001146'
+      week_ending: 02/10/2024
+      units: '-2'
+      gross_sales: '-6.58'
+      promo_discount: '0.00'
+      net_sales: '-6.58'
+      _source_row: 2
+      _source_file: fixture.csv
+  expect:
+    rows:
+    - store_id: 109
+      normalized_upc: '041230001146'
+      parsed_week_ending: '2024-02-10'
+      parsed_units: -2
+      parsed_net_sales: -6.58
+      disposition: accepted
+- name: separates_replays_headers_and_invalid_records
+  model: stg_pos_audit
+  given:
+  - input: source('raw', 'pos_weekly_sales')
+    rows:
+    - store_nbr: '101'
+      upc: '812450001342'
+      week_ending: '2024-02-10'
+      units: '2'
+      gross_sales: '8.00'
+      promo_discount: '0.00'
+      net_sales: '8.00'
+      _source_row: 2
+      _source_file: fixture.csv
+    - store_nbr: '101'
+      upc: '812450001342'
+      week_ending: '2024-02-10'
+      units: '2'
+      gross_sales: '8.00'
+      promo_discount: '0.00'
+      net_sales: '8.00'
+      _source_row: 3
+      _source_file: fixture.csv
+    - store_nbr: store_nbr
+      upc: upc
+      week_ending: week_ending
+      units: units
+      gross_sales: gross_sales
+      promo_discount: promo_discount
+      net_sales: net_sales
+      _source_row: 4
+      _source_file: fixture.csv
+    - store_nbr: '101'
+      upc: '812450001342'
+      week_ending: bad-date
+      units: '2'
+      gross_sales: '8.00'
+      promo_discount: '0.00'
+      net_sales: '8.00'
+      _source_row: 5
+      _source_file: fixture.csv
+  expect:
+    rows:
+    - _source_row: 2
+      disposition: accepted
+    - _source_row: 3
+      disposition: exact_replay
+    - _source_row: 4
+      disposition: embedded_header
+    - _source_row: 5
+      disposition: invalid_record
