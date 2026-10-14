@@ -16,11 +16,11 @@ def main():
     if reconciliation.get('status') != 'pass':
         raise RuntimeError('Independent reconciliation must pass before publication')
 
-    files = ['index.html', 'manifest.json', 'catalog.json']
+    files = ['index.html', 'manifest.json', 'catalog.json', 'insights.html']
     for name in files:
         path = ROOT / 'target' / name
         if not path.is_file() or path.stat().st_size == 0:
-            raise FileNotFoundError(f'Missing generated documentation: {path}')
+            raise FileNotFoundError(f'Missing generated site file: {path}')
         if name.endswith('.json'):
             json.loads(path.read_text(encoding='utf-8'))
 
@@ -29,7 +29,7 @@ def main():
     for name in files:
         shutil.copyfile(ROOT / 'target' / name, destination / name)
     (destination / '.nojekyll').touch()
-    print('Staged dbt documentation in public_site/')
+    print('Staged dbt documentation and insights page in public_site/')
 
 
 if __name__ == '__main__':

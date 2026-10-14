@@ -4,6 +4,8 @@
 Analytics engineering portfolio · dbt / DuckDB / SQL / Python  
 Synthetic data · FY2024–FY2025 · 24 stores · 151 master SKUs
 
+[Live insights dashboard](https://akshith597.github.io/bramblewood-analytics-engineering/insights.html) · [dbt catalog](https://akshith597.github.io/bramblewood-analytics-engineering/) · [Repository](https://github.com/Akshith597/bramblewood-analytics-engineering)
+
 ## Business context
 
 A fictional regional grocer needs consistent answers about category performance, replenishment, assortment and vendor funding. The supplied POS, inventory and merchandising systems disagree on keys and date formats, while prices, costs and shelf plans change over time.
