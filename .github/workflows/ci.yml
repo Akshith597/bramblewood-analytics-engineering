@@ -1,12 +1,15 @@
 name: Warehouse quality gate
 on: [push, pull_request]
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
 jobs:
   dbt-build:
     runs-on: ubuntu-latest
     env:
       DBT_SEND_ANONYMOUS_USAGE_STATS: 'false'
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
@@ -25,4 +28,6 @@ jobs:
             target/manifest.json
             target/run_results.json
             target/catalog.json
+            target/insights.html
+            docs/assets/insights/
             evidence/
