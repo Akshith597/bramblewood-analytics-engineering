@@ -1,0 +1,45 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="462" viewBox="0 0 960 462" role="img" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif">
+<title>Estimated vendor funding owed but not billed</title><desc>Approved promotions: contractual scan-back + display fees minus amounts billed, by vendor.</desc>
+<rect width="960" height="462" rx="12" fill="#fcfcfb" stroke="#e6e5e0"/>
+<text x="28.0" y="40.0" font-size="19" fill="#0b0b0b" font-weight="650" text-anchor="start">Estimated vendor funding owed but not billed</text>
+<text x="28.0" y="64.0" font-size="13.5" fill="#52514e" font-weight="400" text-anchor="start">Approved promotions: contractual scan-back + display fees minus amounts billed, by vendor.</text>
+<text x="28.0" y="444.0" font-size="11.5" fill="#8a8984" font-weight="400" text-anchor="start">Source: mart_promotion_funding · estimate assumes approved events executed as planned · a review queue, not recovered cash · synthetic data</text>
+<text x="290.0" y="90.0" font-size="12" fill="#52514e" font-weight="600" text-anchor="start">Owed − billed</text>
+<text x="760.0" y="90.0" font-size="12" fill="#52514e" font-weight="600" text-anchor="start">Owed vs billed</text>
+<text x="278.0" y="121.0" font-size="12.5" fill="#0b0b0b" font-weight="400" text-anchor="end">Crispwell Foods Inc.</text>
+<rect class="hit" x="290" y="109" width="360.0" height="16" rx="3" fill="#eb6834"><title>Crispwell Foods Inc.: owed $513.6K, billed $474.5K, gap $39.1K; 11 approved events without a claim</title></rect>
+<text x="658.0" y="122.0" font-size="12" fill="#0b0b0b" font-weight="600" text-anchor="start">$39.1K</text>
+<text x="760.0" y="122.0" font-size="12" fill="#52514e" font-weight="400" text-anchor="start">$514K vs $474K</text>
+<text x="278.0" y="155.0" font-size="12.5" fill="#0b0b0b" font-weight="400" text-anchor="end">Rojo Mesa Foods</text>
+<rect class="hit" x="290" y="143" width="243.8" height="16" rx="3" fill="#eb6834"><title>Rojo Mesa Foods: owed $214.5K, billed $188.1K, gap $26.5K; 5 approved events without a claim</title></rect>
+<text x="541.8" y="156.0" font-size="12" fill="#0b0b0b" font-weight="600" text-anchor="start">$26.5K</text>
+<text x="760.0" y="156.0" font-size="12" fill="#52514e" font-weight="400" text-anchor="start">$215K vs $188K</text>
+<text x="278.0" y="189.0" font-size="12.5" fill="#0b0b0b" font-weight="400" text-anchor="end">Hartwell Snack Co.</text>
+<rect class="hit" x="290" y="177" width="141.2" height="16" rx="3" fill="#eb6834"><title>Hartwell Snack Co.: owed $90.1K, billed $74.8K, gap $15.3K; 6 approved events without a claim</title></rect>
+<text x="439.2" y="190.0" font-size="12" fill="#0b0b0b" font-weight="600" text-anchor="start">$15.3K</text>
+<text x="760.0" y="190.0" font-size="12" fill="#52514e" font-weight="400" text-anchor="start">$90K vs $75K</text>
+<text x="278.0" y="223.0" font-size="12.5" fill="#0b0b0b" font-weight="400" text-anchor="end">Golden Ridge Kettle Co.</text>
+<rect class="hit" x="290" y="211" width="133.7" height="16" rx="3" fill="#eb6834"><title>Golden Ridge Kettle Co.: owed $129.0K, billed $114.5K, gap $14.5K; 5 approved events without a claim</title></rect>
+<text x="431.7" y="224.0" font-size="12" fill="#0b0b0b" font-weight="600" text-anchor="start">$14.5K</text>
+<text x="760.0" y="224.0" font-size="12" fill="#52514e" font-weight="400" text-anchor="start">$129K vs $114K</text>
+<text x="278.0" y="257.0" font-size="12.5" fill="#0b0b0b" font-weight="400" text-anchor="end">PopWorks Inc.</text>
+<rect class="hit" x="290" y="245" width="124.0" height="16" rx="3" fill="#eb6834"><title>PopWorks Inc.: owed $45.4K, billed $32.0K, gap $13.5K; 4 approved events without a claim</title></rect>
+<text x="422.0" y="258.0" font-size="12" fill="#0b0b0b" font-weight="600" text-anchor="start">$13.5K</text>
+<text x="760.0" y="258.0" font-size="12" fill="#52514e" font-weight="400" text-anchor="start">$45K vs $32K</text>
+<text x="278.0" y="291.0" font-size="12.5" fill="#0b0b0b" font-weight="400" text-anchor="end">Orchard &amp; Oak Nut Co.</text>
+<rect class="hit" x="290" y="279" width="114.5" height="16" rx="3" fill="#eb6834"><title>Orchard &amp; Oak Nut Co.: owed $89.0K, billed $76.6K, gap $12.4K; 1 approved events without a claim</title></rect>
+<text x="412.5" y="292.0" font-size="12" fill="#0b0b0b" font-weight="600" text-anchor="start">$12.4K</text>
+<text x="760.0" y="292.0" font-size="12" fill="#52514e" font-weight="400" text-anchor="start">$89K vs $77K</text>
+<text x="278.0" y="325.0" font-size="12.5" fill="#0b0b0b" font-weight="400" text-anchor="end">Twistwell Bakery</text>
+<rect class="hit" x="290" y="313" width="60.3" height="16" rx="3" fill="#eb6834"><title>Twistwell Bakery: owed $79.3K, billed $72.7K, gap $6.5K; 4 approved events without a claim</title></rect>
+<text x="358.3" y="326.0" font-size="12" fill="#0b0b0b" font-weight="600" text-anchor="start">$6.5K</text>
+<text x="760.0" y="326.0" font-size="12" fill="#52514e" font-weight="400" text-anchor="start">$79K vs $73K</text>
+<text x="278.0" y="359.0" font-size="12.5" fill="#0b0b0b" font-weight="400" text-anchor="end">Trailhead Trading Co.</text>
+<rect class="hit" x="290" y="347" width="34.7" height="16" rx="3" fill="#eb6834"><title>Trailhead Trading Co.: owed $20.2K, billed $16.4K, gap $3.8K; 0 approved events without a claim</title></rect>
+<text x="332.7" y="360.0" font-size="12" fill="#0b0b0b" font-weight="600" text-anchor="start">$3.8K</text>
+<text x="760.0" y="360.0" font-size="12" fill="#52514e" font-weight="400" text-anchor="start">$20K vs $16K</text>
+<text x="278.0" y="393.0" font-size="12.5" fill="#0b0b0b" font-weight="400" text-anchor="end">Sunnyfield Brands LLC</text>
+<rect class="hit" x="290" y="381" width="12.6" height="16" rx="3" fill="#eb6834"><title>Sunnyfield Brands LLC: owed $71.1K, billed $69.7K, gap $1.4K; 2 approved events without a claim</title></rect>
+<text x="310.6" y="394.0" font-size="12" fill="#0b0b0b" font-weight="600" text-anchor="start">$1.4K</text>
+<text x="760.0" y="394.0" font-size="12" fill="#52514e" font-weight="400" text-anchor="start">$71K vs $70K</text>
+</svg>

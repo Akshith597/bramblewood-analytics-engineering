@@ -1,0 +1,71 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="380" viewBox="0 0 960 380" role="img" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif">
+<title>Forecast accuracy by fiscal period (two-week lead)</title><desc>The chain forecast over-forecasts in every one of 24 periods; WAPE ranges 18%–29%.</desc>
+<rect width="960" height="380" rx="12" fill="#fcfcfb" stroke="#e6e5e0"/>
+<text x="28.0" y="40.0" font-size="19" fill="#0b0b0b" font-weight="650" text-anchor="start">Forecast accuracy by fiscal period (two-week lead)</text>
+<text x="28.0" y="64.0" font-size="13.5" fill="#52514e" font-weight="400" text-anchor="start">The chain forecast over-forecasts in every one of 24 periods; WAPE ranges 18%–29%.</text>
+<text x="28.0" y="362.0" font-size="11.5" fill="#8a8984" font-weight="400" text-anchor="start">Source: mart_forecast_accuracy · WAPE = Σ|forecast − actual| / Σactual; bias = Σ(forecast − actual) / Σactual · actuals may be stock-constrained · synthetic data</text>
+<line x1="64" x2="840" y1="318.0" y2="318.0" stroke="#52514e"/>
+<text x="54.0" y="322.0" font-size="11.5" fill="#52514e" font-weight="400" text-anchor="end">0%</text>
+<line x1="64" x2="840" y1="245.3" y2="245.3" stroke="#e6e5e0"/>
+<text x="54.0" y="249.3" font-size="11.5" fill="#52514e" font-weight="400" text-anchor="end">10%</text>
+<line x1="64" x2="840" y1="172.7" y2="172.7" stroke="#e6e5e0"/>
+<text x="54.0" y="176.7" font-size="11.5" fill="#52514e" font-weight="400" text-anchor="end">20%</text>
+<line x1="64" x2="840" y1="100.0" y2="100.0" stroke="#e6e5e0"/>
+<text x="54.0" y="104.0" font-size="11.5" fill="#52514e" font-weight="400" text-anchor="end">30%</text>
+<text x="64.0" y="338.0" font-size="11.5" fill="#52514e" font-weight="400" text-anchor="middle">FY2024 P1</text>
+<text x="266.4" y="338.0" font-size="11.5" fill="#52514e" font-weight="400" text-anchor="middle">FY2024 P7</text>
+<text x="468.9" y="338.0" font-size="11.5" fill="#52514e" font-weight="400" text-anchor="middle">FY2025 P1</text>
+<text x="671.3" y="338.0" font-size="11.5" fill="#52514e" font-weight="400" text-anchor="middle">FY2025 P7</text>
+<path d="M64.0,154.2 L97.7,134.2 L131.5,153.4 L165.2,174.5 L199.0,172.7 L232.7,166.7 L266.4,190.3 L300.2,156.3 L333.9,181.1 L367.7,188.7 L401.4,126.0 L435.1,180.4 L468.9,133.3 L502.6,158.9 L536.3,169.5 L570.1,180.2 L603.8,155.8 L637.6,173.9 L671.3,145.2 L705.0,160.0 L738.8,133.6 L772.5,105.5 L806.3,170.9 L840.0,169.8" fill="none" stroke="#2a78d6" stroke-width="2" stroke-linejoin="round"/>
+<circle cx="64.0" cy="154.2" r="3" fill="#2a78d6"/><circle class="hit" cx="64.0" cy="154.2" r="8" fill="transparent"><title>FY2024 P1 WAPE: 22.5%</title></circle>
+<circle cx="97.7" cy="134.2" r="3" fill="#2a78d6"/><circle class="hit" cx="97.7" cy="134.2" r="8" fill="transparent"><title>FY2024 P2 WAPE: 25.3%</title></circle>
+<circle cx="131.5" cy="153.4" r="3" fill="#2a78d6"/><circle class="hit" cx="131.5" cy="153.4" r="8" fill="transparent"><title>FY2024 P3 WAPE: 22.6%</title></circle>
+<circle cx="165.2" cy="174.5" r="3" fill="#2a78d6"/><circle class="hit" cx="165.2" cy="174.5" r="8" fill="transparent"><title>FY2024 P4 WAPE: 19.8%</title></circle>
+<circle cx="199.0" cy="172.7" r="3" fill="#2a78d6"/><circle class="hit" cx="199.0" cy="172.7" r="8" fill="transparent"><title>FY2024 P5 WAPE: 20.0%</title></circle>
+<circle cx="232.7" cy="166.7" r="3" fill="#2a78d6"/><circle class="hit" cx="232.7" cy="166.7" r="8" fill="transparent"><title>FY2024 P6 WAPE: 20.8%</title></circle>
+<circle cx="266.4" cy="190.3" r="3" fill="#2a78d6"/><circle class="hit" cx="266.4" cy="190.3" r="8" fill="transparent"><title>FY2024 P7 WAPE: 17.6%</title></circle>
+<circle cx="300.2" cy="156.3" r="3" fill="#2a78d6"/><circle class="hit" cx="300.2" cy="156.3" r="8" fill="transparent"><title>FY2024 P8 WAPE: 22.3%</title></circle>
+<circle cx="333.9" cy="181.1" r="3" fill="#2a78d6"/><circle class="hit" cx="333.9" cy="181.1" r="8" fill="transparent"><title>FY2024 P9 WAPE: 18.8%</title></circle>
+<circle cx="367.7" cy="188.7" r="3" fill="#2a78d6"/><circle class="hit" cx="367.7" cy="188.7" r="8" fill="transparent"><title>FY2024 P10 WAPE: 17.8%</title></circle>
+<circle cx="401.4" cy="126.0" r="3" fill="#2a78d6"/><circle class="hit" cx="401.4" cy="126.0" r="8" fill="transparent"><title>FY2024 P11 WAPE: 26.4%</title></circle>
+<circle cx="435.1" cy="180.4" r="3" fill="#2a78d6"/><circle class="hit" cx="435.1" cy="180.4" r="8" fill="transparent"><title>FY2024 P12 WAPE: 18.9%</title></circle>
+<circle cx="468.9" cy="133.3" r="3" fill="#2a78d6"/><circle class="hit" cx="468.9" cy="133.3" r="8" fill="transparent"><title>FY2025 P1 WAPE: 25.4%</title></circle>
+<circle cx="502.6" cy="158.9" r="3" fill="#2a78d6"/><circle class="hit" cx="502.6" cy="158.9" r="8" fill="transparent"><title>FY2025 P2 WAPE: 21.9%</title></circle>
+<circle cx="536.3" cy="169.5" r="3" fill="#2a78d6"/><circle class="hit" cx="536.3" cy="169.5" r="8" fill="transparent"><title>FY2025 P3 WAPE: 20.4%</title></circle>
+<circle cx="570.1" cy="180.2" r="3" fill="#2a78d6"/><circle class="hit" cx="570.1" cy="180.2" r="8" fill="transparent"><title>FY2025 P4 WAPE: 19.0%</title></circle>
+<circle cx="603.8" cy="155.8" r="3" fill="#2a78d6"/><circle class="hit" cx="603.8" cy="155.8" r="8" fill="transparent"><title>FY2025 P5 WAPE: 22.3%</title></circle>
+<circle cx="637.6" cy="173.9" r="3" fill="#2a78d6"/><circle class="hit" cx="637.6" cy="173.9" r="8" fill="transparent"><title>FY2025 P6 WAPE: 19.8%</title></circle>
+<circle cx="671.3" cy="145.2" r="3" fill="#2a78d6"/><circle class="hit" cx="671.3" cy="145.2" r="8" fill="transparent"><title>FY2025 P7 WAPE: 23.8%</title></circle>
+<circle cx="705.0" cy="160.0" r="3" fill="#2a78d6"/><circle class="hit" cx="705.0" cy="160.0" r="8" fill="transparent"><title>FY2025 P8 WAPE: 21.7%</title></circle>
+<circle cx="738.8" cy="133.6" r="3" fill="#2a78d6"/><circle class="hit" cx="738.8" cy="133.6" r="8" fill="transparent"><title>FY2025 P9 WAPE: 25.4%</title></circle>
+<circle cx="772.5" cy="105.5" r="3" fill="#2a78d6"/><circle class="hit" cx="772.5" cy="105.5" r="8" fill="transparent"><title>FY2025 P10 WAPE: 29.2%</title></circle>
+<circle cx="806.3" cy="170.9" r="3" fill="#2a78d6"/><circle class="hit" cx="806.3" cy="170.9" r="8" fill="transparent"><title>FY2025 P11 WAPE: 20.2%</title></circle>
+<circle cx="840.0" cy="169.8" r="3" fill="#2a78d6"/><circle class="hit" cx="840.0" cy="169.8" r="8" fill="transparent"><title>FY2025 P12 WAPE: 20.4%</title></circle>
+<text x="850.0" y="173.8" font-size="12" fill="#0b0b0b" font-weight="650" text-anchor="start">WAPE</text>
+<path d="M64.0,187.7 L97.7,171.6 L131.5,205.6 L165.2,242.3 L199.0,271.4 L232.7,214.1 L266.4,254.0 L300.2,202.4 L333.9,237.4 L367.7,253.1 L401.4,180.7 L435.1,247.7 L468.9,241.6 L502.6,203.3 L536.3,227.2 L570.1,242.3 L603.8,243.6 L637.6,221.2 L671.3,225.0 L705.0,202.8 L738.8,196.0 L772.5,159.6 L806.3,245.5 L840.0,224.4" fill="none" stroke="#eb6834" stroke-width="2" stroke-linejoin="round"/>
+<circle cx="64.0" cy="187.7" r="3" fill="#eb6834"/><circle class="hit" cx="64.0" cy="187.7" r="8" fill="transparent"><title>FY2024 P1 Bias: 17.9%</title></circle>
+<circle cx="97.7" cy="171.6" r="3" fill="#eb6834"/><circle class="hit" cx="97.7" cy="171.6" r="8" fill="transparent"><title>FY2024 P2 Bias: 20.1%</title></circle>
+<circle cx="131.5" cy="205.6" r="3" fill="#eb6834"/><circle class="hit" cx="131.5" cy="205.6" r="8" fill="transparent"><title>FY2024 P3 Bias: 15.5%</title></circle>
+<circle cx="165.2" cy="242.3" r="3" fill="#eb6834"/><circle class="hit" cx="165.2" cy="242.3" r="8" fill="transparent"><title>FY2024 P4 Bias: 10.4%</title></circle>
+<circle cx="199.0" cy="271.4" r="3" fill="#eb6834"/><circle class="hit" cx="199.0" cy="271.4" r="8" fill="transparent"><title>FY2024 P5 Bias: 6.4%</title></circle>
+<circle cx="232.7" cy="214.1" r="3" fill="#eb6834"/><circle class="hit" cx="232.7" cy="214.1" r="8" fill="transparent"><title>FY2024 P6 Bias: 14.3%</title></circle>
+<circle cx="266.4" cy="254.0" r="3" fill="#eb6834"/><circle class="hit" cx="266.4" cy="254.0" r="8" fill="transparent"><title>FY2024 P7 Bias: 8.8%</title></circle>
+<circle cx="300.2" cy="202.4" r="3" fill="#eb6834"/><circle class="hit" cx="300.2" cy="202.4" r="8" fill="transparent"><title>FY2024 P8 Bias: 15.9%</title></circle>
+<circle cx="333.9" cy="237.4" r="3" fill="#eb6834"/><circle class="hit" cx="333.9" cy="237.4" r="8" fill="transparent"><title>FY2024 P9 Bias: 11.1%</title></circle>
+<circle cx="367.7" cy="253.1" r="3" fill="#eb6834"/><circle class="hit" cx="367.7" cy="253.1" r="8" fill="transparent"><title>FY2024 P10 Bias: 8.9%</title></circle>
+<circle cx="401.4" cy="180.7" r="3" fill="#eb6834"/><circle class="hit" cx="401.4" cy="180.7" r="8" fill="transparent"><title>FY2024 P11 Bias: 18.9%</title></circle>
+<circle cx="435.1" cy="247.7" r="3" fill="#eb6834"/><circle class="hit" cx="435.1" cy="247.7" r="8" fill="transparent"><title>FY2024 P12 Bias: 9.7%</title></circle>
+<circle cx="468.9" cy="241.6" r="3" fill="#eb6834"/><circle class="hit" cx="468.9" cy="241.6" r="8" fill="transparent"><title>FY2025 P1 Bias: 10.5%</title></circle>
+<circle cx="502.6" cy="203.3" r="3" fill="#eb6834"/><circle class="hit" cx="502.6" cy="203.3" r="8" fill="transparent"><title>FY2025 P2 Bias: 15.8%</title></circle>
+<circle cx="536.3" cy="227.2" r="3" fill="#eb6834"/><circle class="hit" cx="536.3" cy="227.2" r="8" fill="transparent"><title>FY2025 P3 Bias: 12.5%</title></circle>
+<circle cx="570.1" cy="242.3" r="3" fill="#eb6834"/><circle class="hit" cx="570.1" cy="242.3" r="8" fill="transparent"><title>FY2025 P4 Bias: 10.4%</title></circle>
+<circle cx="603.8" cy="243.6" r="3" fill="#eb6834"/><circle class="hit" cx="603.8" cy="243.6" r="8" fill="transparent"><title>FY2025 P5 Bias: 10.2%</title></circle>
+<circle cx="637.6" cy="221.2" r="3" fill="#eb6834"/><circle class="hit" cx="637.6" cy="221.2" r="8" fill="transparent"><title>FY2025 P6 Bias: 13.3%</title></circle>
+<circle cx="671.3" cy="225.0" r="3" fill="#eb6834"/><circle class="hit" cx="671.3" cy="225.0" r="8" fill="transparent"><title>FY2025 P7 Bias: 12.8%</title></circle>
+<circle cx="705.0" cy="202.8" r="3" fill="#eb6834"/><circle class="hit" cx="705.0" cy="202.8" r="8" fill="transparent"><title>FY2025 P8 Bias: 15.9%</title></circle>
+<circle cx="738.8" cy="196.0" r="3" fill="#eb6834"/><circle class="hit" cx="738.8" cy="196.0" r="8" fill="transparent"><title>FY2025 P9 Bias: 16.8%</title></circle>
+<circle cx="772.5" cy="159.6" r="3" fill="#eb6834"/><circle class="hit" cx="772.5" cy="159.6" r="8" fill="transparent"><title>FY2025 P10 Bias: 21.8%</title></circle>
+<circle cx="806.3" cy="245.5" r="3" fill="#eb6834"/><circle class="hit" cx="806.3" cy="245.5" r="8" fill="transparent"><title>FY2025 P11 Bias: 10.0%</title></circle>
+<circle cx="840.0" cy="224.4" r="3" fill="#eb6834"/><circle class="hit" cx="840.0" cy="224.4" r="8" fill="transparent"><title>FY2025 P12 Bias: 12.9%</title></circle>
+<text x="850.0" y="228.4" font-size="12" fill="#0b0b0b" font-weight="650" text-anchor="start">Bias</text>
+</svg>
