@@ -26,3 +26,20 @@ exposures:
   depends_on:
   - ref('mart_promotion_funding')
   - ref('dim_vendor')
+- name: retail_insights_dashboard
+  label: Retail Insights Dashboard
+  type: dashboard
+  maturity: medium
+  url: https://akshith597.github.io/bramblewood-analytics-engineering/insights.html
+  description: Static charts rendered by scripts/build_insights.py on every validated build and published beside the
+    dbt catalog. Covers weekly chain sales, subcategory growth and margin, forecast accuracy and the vendor funding gap.
+  owner:
+    name: Aakshith Reddy
+  depends_on:
+  - ref('mart_category_weekly')
+  - ref('mart_forecast_accuracy')
+  - ref('mart_promotion_funding')
+  - ref('fct_sales')
+  - ref('dim_week')
+  - ref('dim_vendor')
+  - ref('audit_reconciliation')

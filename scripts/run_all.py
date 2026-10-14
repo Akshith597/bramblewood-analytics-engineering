@@ -5,7 +5,8 @@ ROOT = Path(__file__).resolve().parents[1]
 for args in [("scripts/invoke_dbt.py", "deps"), ("scripts/ingest.py",), ("scripts/invoke_dbt.py", "build"),
              ("scripts/verify_project.py",),
              ("scripts/independent_reconcile.py",),
-             ("scripts/invoke_dbt.py", "docs", "generate"), ("scripts/export_evidence.py",)]:
+             ("scripts/invoke_dbt.py", "docs", "generate"), ("scripts/export_evidence.py",),
+             ("scripts/build_insights.py",)]:
     subprocess.run([sys.executable, *args], cwd=ROOT, check=True)
     if args == ("scripts/invoke_dbt.py", "build"):
         (ROOT/'evidence').mkdir(exist_ok=True)

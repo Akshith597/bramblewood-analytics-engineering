@@ -1,0 +1,150 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="400" viewBox="0 0 960 400" role="img" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif">
+<title>Weekly chain net sales, FY2024 vs FY2025</title><desc>Holiday weeks drive the peaks; FY2025 runs ahead of FY2024 in most weeks.</desc>
+<rect width="960" height="400" rx="12" fill="#fcfcfb" stroke="#e6e5e0"/>
+<text x="28.0" y="40.0" font-size="19" fill="#0b0b0b" font-weight="650" text-anchor="start">Weekly chain net sales, FY2024 vs FY2025</text>
+<text x="28.0" y="64.0" font-size="13.5" fill="#52514e" font-weight="400" text-anchor="start">Holiday weeks drive the peaks; FY2025 runs ahead of FY2024 in most weeks.</text>
+<text x="28.0" y="382.0" font-size="11.5" fill="#8a8984" font-weight="400" text-anchor="start">Source: mart_category_weekly · accepted POS only, returns netted · chain totals include a 24th store from FY2025 (not same-store growth) · synthetic data</text>
+<line x1="76" x2="880" y1="342.0" y2="342.0" stroke="#e6e5e0"/>
+<text x="66.0" y="346.0" font-size="11.5" fill="#52514e" font-weight="400" text-anchor="end">$0</text>
+<line x1="76" x2="880" y1="286.0" y2="286.0" stroke="#e6e5e0"/>
+<text x="66.0" y="290.0" font-size="11.5" fill="#52514e" font-weight="400" text-anchor="end">$100K</text>
+<line x1="76" x2="880" y1="230.0" y2="230.0" stroke="#e6e5e0"/>
+<text x="66.0" y="234.0" font-size="11.5" fill="#52514e" font-weight="400" text-anchor="end">$200K</text>
+<line x1="76" x2="880" y1="174.0" y2="174.0" stroke="#e6e5e0"/>
+<text x="66.0" y="178.0" font-size="11.5" fill="#52514e" font-weight="400" text-anchor="end">$300K</text>
+<line x1="76" x2="880" y1="118.0" y2="118.0" stroke="#e6e5e0"/>
+<text x="66.0" y="122.0" font-size="11.5" fill="#52514e" font-weight="400" text-anchor="end">$400K</text>
+<text x="76.0" y="362.0" font-size="11.5" fill="#52514e" font-weight="400" text-anchor="middle">Wk 1</text>
+<text x="265.2" y="362.0" font-size="11.5" fill="#52514e" font-weight="400" text-anchor="middle">Wk 13</text>
+<text x="470.1" y="362.0" font-size="11.5" fill="#52514e" font-weight="400" text-anchor="middle">Wk 26</text>
+<text x="675.1" y="362.0" font-size="11.5" fill="#52514e" font-weight="400" text-anchor="middle">Wk 39</text>
+<text x="880.0" y="362.0" font-size="11.5" fill="#52514e" font-weight="400" text-anchor="middle">Wk 52</text>
+<line x1="76.0" x2="76.0" y1="96.0" y2="342" stroke="#e6e5e0" stroke-dasharray="3 3"/>
+<text x="76.0" y="92.0" font-size="10.5" fill="#8a8984" font-weight="400" text-anchor="middle">Super Bowl</text>
+<line x1="265.2" x2="265.2" y1="109.0" y2="342" stroke="#e6e5e0" stroke-dasharray="3 3"/>
+<text x="265.2" y="105.0" font-size="10.5" fill="#8a8984" font-weight="400" text-anchor="middle">Cinco de Mayo</text>
+<line x1="312.5" x2="312.5" y1="96.0" y2="342" stroke="#e6e5e0" stroke-dasharray="3 3"/>
+<text x="312.5" y="92.0" font-size="10.5" fill="#8a8984" font-weight="400" text-anchor="middle">Memorial Day</text>
+<line x1="407.1" x2="407.1" y1="109.0" y2="342" stroke="#e6e5e0" stroke-dasharray="3 3"/>
+<text x="407.1" y="105.0" font-size="10.5" fill="#8a8984" font-weight="400" text-anchor="middle">July 4th</text>
+<line x1="533.2" x2="533.2" y1="96.0" y2="342" stroke="#e6e5e0" stroke-dasharray="3 3"/>
+<text x="533.2" y="92.0" font-size="10.5" fill="#8a8984" font-weight="400" text-anchor="middle">Labor Day</text>
+<line x1="738.1" x2="738.1" y1="109.0" y2="342" stroke="#e6e5e0" stroke-dasharray="3 3"/>
+<text x="738.1" y="105.0" font-size="10.5" fill="#8a8984" font-weight="400" text-anchor="middle">Thanksgiving</text>
+<line x1="801.2" x2="801.2" y1="96.0" y2="342" stroke="#e6e5e0" stroke-dasharray="3 3"/>
+<text x="801.2" y="92.0" font-size="10.5" fill="#8a8984" font-weight="400" text-anchor="middle">Christmas</text>
+<line x1="816.9" x2="816.9" y1="109.0" y2="342" stroke="#e6e5e0" stroke-dasharray="3 3"/>
+<text x="816.9" y="105.0" font-size="10.5" fill="#8a8984" font-weight="400" text-anchor="middle">New Year</text>
+<path d="M76.0,177.5 L91.8,236.2 L107.5,230.3 L123.3,227.0 L139.1,239.6 L154.8,234.4 L170.6,240.3 L186.4,239.0 L202.1,236.8 L217.9,226.8 L233.6,236.4 L249.4,236.1 L265.2,223.6 L280.9,239.7 L296.7,234.9 L312.5,196.7 L328.2,237.6 L344.0,226.3 L359.8,225.5 L375.5,234.1 L391.3,233.5 L407.1,157.9 L422.8,232.4 L438.6,236.0 L454.4,236.4 L470.1,231.8 L485.9,228.7 L501.6,222.0 L517.4,235.2 L533.2,190.9 L548.9,234.9 L564.7,237.8 L580.5,235.4 L596.2,233.3 L612.0,228.6 L627.8,232.9 L643.5,235.2 L659.3,235.5 L675.1,232.4 L690.8,231.6 L706.6,219.4 L722.4,233.4 L738.1,210.2 L753.9,235.4 L769.6,236.1 L785.4,234.8 L801.2,204.5 L816.9,213.2 L832.7,242.7 L848.5,230.2 L864.2,237.9 L880.0,236.1" fill="none" stroke="#b4b2aa" stroke-width="2" stroke-linejoin="round"/>
+<circle class="hit" cx="76.0" cy="177.5" r="7" fill="transparent"><title>FY2024 week 1: $293.8K (23 stores)</title></circle>
+<circle class="hit" cx="91.8" cy="236.2" r="7" fill="transparent"><title>FY2024 week 2: $188.9K (23 stores)</title></circle>
+<circle class="hit" cx="107.5" cy="230.3" r="7" fill="transparent"><title>FY2024 week 3: $199.4K (23 stores)</title></circle>
+<circle class="hit" cx="123.3" cy="227.0" r="7" fill="transparent"><title>FY2024 week 4: $205.4K (23 stores)</title></circle>
+<circle class="hit" cx="139.1" cy="239.6" r="7" fill="transparent"><title>FY2024 week 5: $182.8K (23 stores)</title></circle>
+<circle class="hit" cx="154.8" cy="234.4" r="7" fill="transparent"><title>FY2024 week 6: $192.1K (23 stores)</title></circle>
+<circle class="hit" cx="170.6" cy="240.3" r="7" fill="transparent"><title>FY2024 week 7: $181.7K (23 stores)</title></circle>
+<circle class="hit" cx="186.4" cy="239.0" r="7" fill="transparent"><title>FY2024 week 8: $183.9K (23 stores)</title></circle>
+<circle class="hit" cx="202.1" cy="236.8" r="7" fill="transparent"><title>FY2024 week 9: $187.9K (23 stores)</title></circle>
+<circle class="hit" cx="217.9" cy="226.8" r="7" fill="transparent"><title>FY2024 week 10: $205.6K (23 stores)</title></circle>
+<circle class="hit" cx="233.6" cy="236.4" r="7" fill="transparent"><title>FY2024 week 11: $188.5K (23 stores)</title></circle>
+<circle class="hit" cx="249.4" cy="236.1" r="7" fill="transparent"><title>FY2024 week 12: $189.1K (23 stores)</title></circle>
+<circle class="hit" cx="265.2" cy="223.6" r="7" fill="transparent"><title>FY2024 week 13: $211.4K (23 stores)</title></circle>
+<circle class="hit" cx="280.9" cy="239.7" r="7" fill="transparent"><title>FY2024 week 14: $182.7K (23 stores)</title></circle>
+<circle class="hit" cx="296.7" cy="234.9" r="7" fill="transparent"><title>FY2024 week 15: $191.2K (23 stores)</title></circle>
+<circle class="hit" cx="312.5" cy="196.7" r="7" fill="transparent"><title>FY2024 week 16: $259.4K (23 stores)</title></circle>
+<circle class="hit" cx="328.2" cy="237.6" r="7" fill="transparent"><title>FY2024 week 17: $186.4K (23 stores)</title></circle>
+<circle class="hit" cx="344.0" cy="226.3" r="7" fill="transparent"><title>FY2024 week 18: $206.6K (23 stores)</title></circle>
+<circle class="hit" cx="359.8" cy="225.5" r="7" fill="transparent"><title>FY2024 week 19: $208.1K (23 stores)</title></circle>
+<circle class="hit" cx="375.5" cy="234.1" r="7" fill="transparent"><title>FY2024 week 20: $192.6K (23 stores)</title></circle>
+<circle class="hit" cx="391.3" cy="233.5" r="7" fill="transparent"><title>FY2024 week 21: $193.7K (23 stores)</title></circle>
+<circle class="hit" cx="407.1" cy="157.9" r="7" fill="transparent"><title>FY2024 week 22: $328.8K (23 stores)</title></circle>
+<circle class="hit" cx="422.8" cy="232.4" r="7" fill="transparent"><title>FY2024 week 23: $195.7K (23 stores)</title></circle>
+<circle class="hit" cx="438.6" cy="236.0" r="7" fill="transparent"><title>FY2024 week 24: $189.4K (23 stores)</title></circle>
+<circle class="hit" cx="454.4" cy="236.4" r="7" fill="transparent"><title>FY2024 week 25: $188.5K (23 stores)</title></circle>
+<circle class="hit" cx="470.1" cy="231.8" r="7" fill="transparent"><title>FY2024 week 26: $196.8K (23 stores)</title></circle>
+<circle class="hit" cx="485.9" cy="228.7" r="7" fill="transparent"><title>FY2024 week 27: $202.4K (23 stores)</title></circle>
+<circle class="hit" cx="501.6" cy="222.0" r="7" fill="transparent"><title>FY2024 week 28: $214.3K (23 stores)</title></circle>
+<circle class="hit" cx="517.4" cy="235.2" r="7" fill="transparent"><title>FY2024 week 29: $190.7K (23 stores)</title></circle>
+<circle class="hit" cx="533.2" cy="190.9" r="7" fill="transparent"><title>FY2024 week 30: $269.8K (23 stores)</title></circle>
+<circle class="hit" cx="548.9" cy="234.9" r="7" fill="transparent"><title>FY2024 week 31: $191.3K (23 stores)</title></circle>
+<circle class="hit" cx="564.7" cy="237.8" r="7" fill="transparent"><title>FY2024 week 32: $186.1K (23 stores)</title></circle>
+<circle class="hit" cx="580.5" cy="235.4" r="7" fill="transparent"><title>FY2024 week 33: $190.4K (23 stores)</title></circle>
+<circle class="hit" cx="596.2" cy="233.3" r="7" fill="transparent"><title>FY2024 week 34: $194.1K (23 stores)</title></circle>
+<circle class="hit" cx="612.0" cy="228.6" r="7" fill="transparent"><title>FY2024 week 35: $202.6K (23 stores)</title></circle>
+<circle class="hit" cx="627.8" cy="232.9" r="7" fill="transparent"><title>FY2024 week 36: $194.7K (23 stores)</title></circle>
+<circle class="hit" cx="643.5" cy="235.2" r="7" fill="transparent"><title>FY2024 week 37: $190.7K (23 stores)</title></circle>
+<circle class="hit" cx="659.3" cy="235.5" r="7" fill="transparent"><title>FY2024 week 38: $190.2K (23 stores)</title></circle>
+<circle class="hit" cx="675.1" cy="232.4" r="7" fill="transparent"><title>FY2024 week 39: $195.7K (23 stores)</title></circle>
+<circle class="hit" cx="690.8" cy="231.6" r="7" fill="transparent"><title>FY2024 week 40: $197.1K (23 stores)</title></circle>
+<circle class="hit" cx="706.6" cy="219.4" r="7" fill="transparent"><title>FY2024 week 41: $218.9K (23 stores)</title></circle>
+<circle class="hit" cx="722.4" cy="233.4" r="7" fill="transparent"><title>FY2024 week 42: $193.9K (23 stores)</title></circle>
+<circle class="hit" cx="738.1" cy="210.2" r="7" fill="transparent"><title>FY2024 week 43: $235.4K (23 stores)</title></circle>
+<circle class="hit" cx="753.9" cy="235.4" r="7" fill="transparent"><title>FY2024 week 44: $190.3K (23 stores)</title></circle>
+<circle class="hit" cx="769.6" cy="236.1" r="7" fill="transparent"><title>FY2024 week 45: $189.1K (23 stores)</title></circle>
+<circle class="hit" cx="785.4" cy="234.8" r="7" fill="transparent"><title>FY2024 week 46: $191.3K (23 stores)</title></circle>
+<circle class="hit" cx="801.2" cy="204.5" r="7" fill="transparent"><title>FY2024 week 47: $245.6K (23 stores)</title></circle>
+<circle class="hit" cx="816.9" cy="213.2" r="7" fill="transparent"><title>FY2024 week 48: $229.9K (23 stores)</title></circle>
+<circle class="hit" cx="832.7" cy="242.7" r="7" fill="transparent"><title>FY2024 week 49: $177.3K (23 stores)</title></circle>
+<circle class="hit" cx="848.5" cy="230.2" r="7" fill="transparent"><title>FY2024 week 50: $199.7K (23 stores)</title></circle>
+<circle class="hit" cx="864.2" cy="237.9" r="7" fill="transparent"><title>FY2024 week 51: $185.9K (23 stores)</title></circle>
+<circle class="hit" cx="880.0" cy="236.1" r="7" fill="transparent"><title>FY2024 week 52: $189.1K (23 stores)</title></circle>
+<circle cx="880.0" cy="236.1" r="4" fill="#b4b2aa" stroke="#fcfcfb" stroke-width="2"/>
+<text x="890.0" y="248.1" font-size="12" fill="#0b0b0b" font-weight="650" text-anchor="start">FY2024</text>
+<text x="890.0" y="262.1" font-size="11" fill="#52514e" font-weight="400" text-anchor="start">$10.59M</text>
+<path d="M76.0,173.8 L91.8,235.3 L107.5,241.4 L123.3,237.4 L139.1,235.8 L154.8,237.4 L170.6,237.8 L186.4,229.2 L202.1,235.6 L217.9,239.1 L233.6,234.6 L249.4,237.8 L265.2,219.0 L280.9,238.8 L296.7,234.6 L312.5,194.8 L328.2,229.0 L344.0,229.9 L359.8,226.8 L375.5,224.4 L391.3,224.9 L407.1,157.3 L422.8,230.8 L438.6,226.6 L454.4,225.2 L470.1,220.2 L485.9,205.3 L501.6,226.8 L517.4,225.3 L533.2,177.6 L548.9,221.1 L564.7,217.1 L580.5,220.5 L596.2,222.5 L612.0,220.1 L627.8,222.3 L643.5,215.7 L659.3,218.8 L675.1,217.8 L690.8,200.8 L706.6,228.3 L722.4,227.0 L738.1,202.2 L753.9,218.8 L769.6,221.3 L785.4,220.7 L801.2,193.9 L816.9,180.4 L832.7,218.9 L848.5,231.3 L864.2,226.3 L880.0,218.0" fill="none" stroke="#2a78d6" stroke-width="2" stroke-linejoin="round"/>
+<circle class="hit" cx="76.0" cy="173.8" r="7" fill="transparent"><title>FY2025 week 1: $300.3K (23 stores)</title></circle>
+<circle class="hit" cx="91.8" cy="235.3" r="7" fill="transparent"><title>FY2025 week 2: $190.6K (23 stores)</title></circle>
+<circle class="hit" cx="107.5" cy="241.4" r="7" fill="transparent"><title>FY2025 week 3: $179.6K (23 stores)</title></circle>
+<circle class="hit" cx="123.3" cy="237.4" r="7" fill="transparent"><title>FY2025 week 4: $186.9K (23 stores)</title></circle>
+<circle class="hit" cx="139.1" cy="235.8" r="7" fill="transparent"><title>FY2025 week 5: $189.6K (23 stores)</title></circle>
+<circle class="hit" cx="154.8" cy="237.4" r="7" fill="transparent"><title>FY2025 week 6: $186.9K (23 stores)</title></circle>
+<circle class="hit" cx="170.6" cy="237.8" r="7" fill="transparent"><title>FY2025 week 7: $186.1K (23 stores)</title></circle>
+<circle class="hit" cx="186.4" cy="229.2" r="7" fill="transparent"><title>FY2025 week 8: $201.5K (23 stores)</title></circle>
+<circle class="hit" cx="202.1" cy="235.6" r="7" fill="transparent"><title>FY2025 week 9: $190.1K (23 stores)</title></circle>
+<circle class="hit" cx="217.9" cy="239.1" r="7" fill="transparent"><title>FY2025 week 10: $183.7K (23 stores)</title></circle>
+<circle class="hit" cx="233.6" cy="234.6" r="7" fill="transparent"><title>FY2025 week 11: $191.8K (23 stores)</title></circle>
+<circle class="hit" cx="249.4" cy="237.8" r="7" fill="transparent"><title>FY2025 week 12: $186.0K (23 stores)</title></circle>
+<circle class="hit" cx="265.2" cy="219.0" r="7" fill="transparent"><title>FY2025 week 13: $219.7K (23 stores)</title></circle>
+<circle class="hit" cx="280.9" cy="238.8" r="7" fill="transparent"><title>FY2025 week 14: $184.3K (23 stores)</title></circle>
+<circle class="hit" cx="296.7" cy="234.6" r="7" fill="transparent"><title>FY2025 week 15: $191.9K (23 stores)</title></circle>
+<circle class="hit" cx="312.5" cy="194.8" r="7" fill="transparent"><title>FY2025 week 16: $262.8K (23 stores)</title></circle>
+<circle class="hit" cx="328.2" cy="229.0" r="7" fill="transparent"><title>FY2025 week 17: $201.8K (23 stores)</title></circle>
+<circle class="hit" cx="344.0" cy="229.9" r="7" fill="transparent"><title>FY2025 week 18: $200.2K (24 stores)</title></circle>
+<circle class="hit" cx="359.8" cy="226.8" r="7" fill="transparent"><title>FY2025 week 19: $205.6K (24 stores)</title></circle>
+<circle class="hit" cx="375.5" cy="224.4" r="7" fill="transparent"><title>FY2025 week 20: $210.0K (24 stores)</title></circle>
+<circle class="hit" cx="391.3" cy="224.9" r="7" fill="transparent"><title>FY2025 week 21: $209.1K (24 stores)</title></circle>
+<circle class="hit" cx="407.1" cy="157.3" r="7" fill="transparent"><title>FY2025 week 22: $329.9K (24 stores)</title></circle>
+<circle class="hit" cx="422.8" cy="230.8" r="7" fill="transparent"><title>FY2025 week 23: $198.6K (24 stores)</title></circle>
+<circle class="hit" cx="438.6" cy="226.6" r="7" fill="transparent"><title>FY2025 week 24: $206.1K (24 stores)</title></circle>
+<circle class="hit" cx="454.4" cy="225.2" r="7" fill="transparent"><title>FY2025 week 25: $208.5K (24 stores)</title></circle>
+<circle class="hit" cx="470.1" cy="220.2" r="7" fill="transparent"><title>FY2025 week 26: $217.6K (24 stores)</title></circle>
+<circle class="hit" cx="485.9" cy="205.3" r="7" fill="transparent"><title>FY2025 week 27: $244.1K (24 stores)</title></circle>
+<circle class="hit" cx="501.6" cy="226.8" r="7" fill="transparent"><title>FY2025 week 28: $205.7K (24 stores)</title></circle>
+<circle class="hit" cx="517.4" cy="225.3" r="7" fill="transparent"><title>FY2025 week 29: $208.3K (24 stores)</title></circle>
+<circle class="hit" cx="533.2" cy="177.6" r="7" fill="transparent"><title>FY2025 week 30: $293.6K (24 stores)</title></circle>
+<circle class="hit" cx="548.9" cy="221.1" r="7" fill="transparent"><title>FY2025 week 31: $215.9K (24 stores)</title></circle>
+<circle class="hit" cx="564.7" cy="217.1" r="7" fill="transparent"><title>FY2025 week 32: $223.0K (24 stores)</title></circle>
+<circle class="hit" cx="580.5" cy="220.5" r="7" fill="transparent"><title>FY2025 week 33: $216.9K (24 stores)</title></circle>
+<circle class="hit" cx="596.2" cy="222.5" r="7" fill="transparent"><title>FY2025 week 34: $213.4K (24 stores)</title></circle>
+<circle class="hit" cx="612.0" cy="220.1" r="7" fill="transparent"><title>FY2025 week 35: $217.7K (24 stores)</title></circle>
+<circle class="hit" cx="627.8" cy="222.3" r="7" fill="transparent"><title>FY2025 week 36: $213.7K (24 stores)</title></circle>
+<circle class="hit" cx="643.5" cy="215.7" r="7" fill="transparent"><title>FY2025 week 37: $225.6K (24 stores)</title></circle>
+<circle class="hit" cx="659.3" cy="218.8" r="7" fill="transparent"><title>FY2025 week 38: $220.0K (24 stores)</title></circle>
+<circle class="hit" cx="675.1" cy="217.8" r="7" fill="transparent"><title>FY2025 week 39: $221.8K (24 stores)</title></circle>
+<circle class="hit" cx="690.8" cy="200.8" r="7" fill="transparent"><title>FY2025 week 40: $252.2K (24 stores)</title></circle>
+<circle class="hit" cx="706.6" cy="228.3" r="7" fill="transparent"><title>FY2025 week 41: $203.0K (24 stores)</title></circle>
+<circle class="hit" cx="722.4" cy="227.0" r="7" fill="transparent"><title>FY2025 week 42: $205.4K (24 stores)</title></circle>
+<circle class="hit" cx="738.1" cy="202.2" r="7" fill="transparent"><title>FY2025 week 43: $249.7K (24 stores)</title></circle>
+<circle class="hit" cx="753.9" cy="218.8" r="7" fill="transparent"><title>FY2025 week 44: $220.0K (24 stores)</title></circle>
+<circle class="hit" cx="769.6" cy="221.3" r="7" fill="transparent"><title>FY2025 week 45: $215.5K (24 stores)</title></circle>
+<circle class="hit" cx="785.4" cy="220.7" r="7" fill="transparent"><title>FY2025 week 46: $216.7K (24 stores)</title></circle>
+<circle class="hit" cx="801.2" cy="193.9" r="7" fill="transparent"><title>FY2025 week 47: $264.6K (24 stores)</title></circle>
+<circle class="hit" cx="816.9" cy="180.4" r="7" fill="transparent"><title>FY2025 week 48: $288.6K (24 stores)</title></circle>
+<circle class="hit" cx="832.7" cy="218.9" r="7" fill="transparent"><title>FY2025 week 49: $219.8K (24 stores)</title></circle>
+<circle class="hit" cx="848.5" cy="231.3" r="7" fill="transparent"><title>FY2025 week 50: $197.7K (24 stores)</title></circle>
+<circle class="hit" cx="864.2" cy="226.3" r="7" fill="transparent"><title>FY2025 week 51: $206.6K (24 stores)</title></circle>
+<circle class="hit" cx="880.0" cy="218.0" r="7" fill="transparent"><title>FY2025 week 52: $221.4K (24 stores)</title></circle>
+<circle cx="880.0" cy="218.0" r="4" fill="#2a78d6" stroke="#fcfcfb" stroke-width="2"/>
+<text x="890.0" y="212.0" font-size="12" fill="#0b0b0b" font-weight="650" text-anchor="start">FY2025</text>
+<text x="890.0" y="226.0" font-size="11" fill="#52514e" font-weight="400" text-anchor="start">$11.30M</text>
+</svg>
