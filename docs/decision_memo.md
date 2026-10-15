@@ -7,9 +7,9 @@ Method and decision rules were [committed before any outcome was computed](../an
 | Question | Answer | Dollar figure (90% range) | Recommendation |
 |---|---|---|---|
 | 1. Delisting test | **Inconclusive** — the test cannot detect a GP change smaller than 4.3% | +$15.3K per year if rolled out to the other large stores (−$19.7K to +$50.3K) | Do not roll out on this evidence; rerun as a randomized, full-year test |
-| 2. Promotions | **Not yet answered** | — | See below |
+| 2. Promotions | **Roughly break-even, and only because of vendor money** — 1% of FY2025 events made gross profit before funding | +$13.4K net in FY2025 (−$14.4K to +$47.0K); −$661.0K before funding | Cut or redesign promotions without a display; keep display events only where display execution is verified and the fee collected |
 | 3. Price increases | **Not identified** from the data; break-even analysis favours Golden Ridge, tortilla is a coin flip | Golden Ridge +$52.9K (+$49.4K to +$56.3K); tortilla −$1.2K (−$11.4K to +$8.3K) — scenarios, not estimates | Keep Golden Ridge; test the tortilla price in a randomized subset of stores |
-| 4. Forecast and in-stock | **Forecast over-forecasts by +13.4%** (+11.8% to +15.0%); out-of-stock cost not yet answered | $1.05M of planned inventory against demand that did not occur in FY2025 | Apply per-subcategory bias correction now; it cut FY2025 bias to +0.5% out of sample |
+| 4. Forecast and in-stock | **Forecast over-forecasts by +13.4%** (+11.8% to +15.0%); stock-outs cost an estimated $26.4K of GP (exploratory, likely understated) | $1.05M of planned inventory against demand that did not occur in FY2025; stock-outs $20.7K to $31.8K | Apply per-subcategory bias correction now; it cut FY2025 bias to +0.5% out of sample. In-stock is a lower priority |
 | 5. Vendor funding | **Under-billed** on approved promotions | $65.5K to $133.0K | Bill the scan-back shortfall now; verify display execution before billing displays |
 
 ## 1. Delisting test (stores 102, 106, 113, 116 from FY2025 W27)
@@ -27,11 +27,34 @@ and large-store-only comparisons agree in direction but not magnitude (synthetic
 **Next:** randomize the planogram across matched large-store pairs and run it for a full year so seasonality
 differences cancel.
 
-## 2. Promotions — not yet answered
+## 2. Promotions (FY2025 events)
 
-Deferred to protect depth on questions 1 and 3. Planned method: lift against a non-promoted store-SKU baseline,
-net of cannibalisation (same subcategory) and a two-week post-promotion dip, with a per-event P&L including
-vendor funding.
+Each promoted store-SKU-week is compared with an imputed baseline: what that SKU would have sold in that store
+that week without the promotion, from a model fitted only on weeks with no promotion nearby. Promotions sold
+189% more units than baseline (391,499 extra units across 397 events), but the weeks after a
+promotion fell 27% and 13% below baseline, and same-subcategory sister SKUs lost 136,498 units
+(each promoted sister cuts a sister's sales by 2% to 12%, depending on subcategory).
+
+| Mechanic | Events | Unit lift | GP before funding | Vendor funding | Net GP (90% range) | Decision rule |
+|---|---|---|---|---|---|---|
+| BOGO | 21 | +382% | −$77.4K | +$54.5K | **−$22.9K** (−$24.5K to −$21.4K) | Cut or redesign |
+| BOGO + display | 26 | +634% | −$149.4K | +$189.2K | **+$39.8K** (+$33.2K to +$46.3K) | Keep (funding-dependent) |
+| Multi-buy | 52 | +94% | −$50.4K | +$19.5K | **−$30.9K** (−$33.2K to −$28.6K) | Cut or redesign |
+| Multi-buy + display | 25 | +179% | −$28.0K | +$47.6K | **+$19.6K** (+$15.5K to +$24.4K) | Keep (funding-dependent) |
+| TPR | 155 | +117% | −$216.6K | +$108.0K | **−$108.6K** (−$115.5K to −$101.5K) | Cut or redesign |
+| TPR + display | 118 | +204% | −$139.1K | +$255.6K | **+$116.5K** (+$100.7K to +$135.3K) | Keep (funding-dependent) |
+
+Before funding, the promotions' net GP was **−$661.0K**: only 1% of events made money on their own. Vendor
+funding owed under the deal terms ($674.4K, of which $232.0K display fees) turns that into
+**+$13.4K** (−$14.4K to +$47.0K), with 36% of events net positive. Every display cell clears zero only because of
+its display fee, and display execution cannot be verified from these extracts (question 5). By subcategory:
+Potato Chips +$31.0K; Tortilla Chips +$8.7K; Cheese Snacks +$5.6K; Kettle Chips +$3.1K; Popcorn −$302.13; Trail Mix −$1.9K; Pretzels −$9.4K; Nuts −$23.4K. FY2024 and FY2025 together: +$66.7K (+$15.1K to +$129.1K).
+
+Checks: in the two weeks before each promotion, held out of the fit, sales were −0.6% from the baseline;
+fake promotions placed eight weeks earlier were −0.1% from it; a planted cannibalisation slope of
+−0.05 was recovered exactly. **Next:** stop non-display TPR, BOGO and multi-buy events or renegotiate their
+funding; audit display execution before relying on display fees; run any promotion you keep with a randomised
+holdout of stores.
 
 ## 3. Spring 2025 regular-price increases
 
@@ -56,8 +79,18 @@ FY2025 forecast bias is **+13.4%** (SKU-bootstrap +11.8% to +15.0%); WAPE 22.5%.
 promoted weeks versus +10.0% otherwise. The forecast still beats naive benchmarks (MASE 0.45
 vs the lag-2 actual; 0.53 vs last year), so it should be corrected, not replaced: per-subcategory
 factors learned on FY2024 cut FY2025 bias from +13.4% to +0.5% and WAPE from 22.5% to
-19.1%. **Out-of-stock cost — not yet answered:** a weekly on-hand snapshot cannot date a stock-out;
-the planned lower-bound method is in the analysis plan.
+19.1%.
+
+**Out-of-stock cost (exploratory).** On the 1,085 non-promoted FY2025 weeks that ended with zero stock, the
+store sold everything it had, so demand was at least what it sold. Using the promotion baseline model and the
+spread of its in-stock errors, the expected demand above that floor is 13,959 units, or **$26.4K** of gross
+profit ($20.7K to $31.8K; 0.8% of category GP), plus $4.8K in promoted weeks. That is below the 1%
+threshold for prioritising replenishment work. Treat it as a floor, not a measurement: the planned
+adjacent-week method gives −$36.1K (stock-outs happen in demand spikes, so neighbouring weeks understate
+demand); the model predicts 1,360 stock-outs against 1,857 observed, so its demand tail is too
+thin; and a planted test recovered 135% of known losses when the floor was tied to the week's own sales,
+but 92% under realistic censoring (post-hoc). **Next:** capture a daily stock-out flag or time of
+stock-out; the weekly snapshot cannot measure this well.
 
 ## 5. Vendor funding
 
@@ -69,10 +102,14 @@ collected.
 ## How the results were checked
 
 - **Ground truth:** the dataset's answer key is distributed separately and is not public, so it was not used.
-- **Second implementation:** 18 headline coefficients and clustered SEs re-estimated by an independent
+- **Second implementation:** 34 headline coefficients and clustered SEs re-estimated by an independent
   pure-Python solver (all agree); CI repeats them in R `fixest`.
 - **Planted effects:** known effects added to the real data were recovered exactly (delist ±2%, elasticity −1.5).
 - **Deviations from plan:** (1) delist GP indexed to each store's pre-period mean, because one comparison
   store-week had negative GP (log version: +1.4%, −3.8% to +6.7%); (2) the cross-zone price design and (3) the year-over-year
   delist adjustment were added after diagnostics and are labelled exploratory; (4) promotions and out-of-stock
-  cost deferred.
+  cost were specified in a later plan addendum, written after unit-level aggregates (not dollars) had been seen;
+  the addendum lists what was seen; (5) the out-of-stock estimator was switched to censored demand after the
+  planned one came out negative, so that answer is exploratory, and a realistic planted check was added
+  post-hoc. Data fix: one promotion with swapped start and end dates in the source was corrected, confirmed by
+  POS discounts.
