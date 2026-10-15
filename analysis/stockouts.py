@@ -10,7 +10,7 @@ import json
 import math
 import random
 
-from analysis.common import RESULTS, connect, round_floats, write_result
+from analysis.common import RESULTS, connect, export_panel, round_floats, write_result
 from analysis.fe import quantile
 from analysis.promotions import SEED, build, fit_baseline, impute
 
@@ -107,7 +107,7 @@ def censored_estimates(rows, clean, bins):
             group = 'non_promoted'
             units = lost_units(mu, r['units'], tails(mu))
             margin = r['reg_margin']
-        out.append({'store_id': r['store_id'], 'fiscal_year': r['fiscal_year'], 'group': group,
+        out.append({'store_id': r['store_id'], 'sku_id': r['sku_id'], 'w': r['w'], 'fiscal_year': r['fiscal_year'], 'group': group,
                     'lost_units': units, 'lost_gp': units * margin, 'sold': r['units']})
     return out, tails
 
@@ -173,6 +173,9 @@ def main():
     rows = [dict(zip(cols, r)) for r in cur.fetchall()]
     clean = [r for r in rows if r['role'] == 'clean']
     records, tails = censored_estimates(rows, clean, BINS)
+    # Per-week censored demand, reused by analysis/physical.py (bias on restored demand) and the inventory simulation.
+    export_panel('stockout_lost_units', [{k: r[k] for k in ('store_id', 'sku_id', 'w', 'fiscal_year', 'group',
+                                                            'sold', 'lost_units')} for r in records])
 
     # Calibration: predicted number of stock-outs among non-promoted weeks with known availability.
     eligible = [r for r in rows if r['role'] in ('clean', 'stockout') and r['available'] and r['available'] > 0]

@@ -1,0 +1,225 @@
+{
+  "bias_refit": {
+    "all_weeks": {
+      "bias": 0.133996,
+      "ci90": [
+        0.11806,
+        0.149738
+      ],
+      "rows": 7184,
+      "wape": 0.225287
+    },
+    "correction_in_stock": {
+      "after": {
+        "bias": 0.013974,
+        "rows": 6418,
+        "wape": 0.177532
+      },
+      "before": {
+        "bias": 0.192856,
+        "rows": 6418,
+        "wape": 0.242494
+      },
+      "evaluated_on": "FY2025 in-stock chain SKU-weeks",
+      "factors": {
+        "Cheese Snacks": 0.871855,
+        "Kettle Chips": 0.837349,
+        "Nuts": 0.85155,
+        "Popcorn": 0.894206,
+        "Potato Chips": 0.846628,
+        "Pretzels": 0.79924,
+        "Tortilla Chips": 0.848606,
+        "Trail Mix": 0.939234
+      },
+      "trained_on": "FY2024 lead-2 in-stock chain SKU-weeks"
+    },
+    "in_stock_by_promoted": {
+      "False": {
+        "bias": 0.153831,
+        "rows": 6001,
+        "wape": 0.216574
+      },
+      "True": {
+        "bias": 0.308124,
+        "rows": 417,
+        "wape": 0.319053
+      }
+    },
+    "in_stock_by_subcategory": {
+      "Cheese Snacks": {
+        "bias": 0.218823,
+        "ci90": [
+          0.166607,
+          0.252816
+        ],
+        "rows": 562,
+        "wape": 0.267699
+      },
+      "Kettle Chips": {
+        "bias": 0.13317,
+        "ci90": [
+          0.105915,
+          0.15059
+        ],
+        "rows": 876,
+        "wape": 0.198428
+      },
+      "Nuts": {
+        "bias": 0.22906,
+        "ci90": [
+          0.168965,
+          0.271046
+        ],
+        "rows": 822,
+        "wape": 0.293165
+      },
+      "Popcorn": {
+        "bias": 0.112912,
+        "ci90": [
+          0.0918271,
+          0.143221
+        ],
+        "rows": 651,
+        "wape": 0.18503
+      },
+      "Potato Chips": {
+        "bias": 0.206237,
+        "ci90": [
+          0.174139,
+          0.233593
+        ],
+        "rows": 1274,
+        "wape": 0.241254
+      },
+      "Pretzels": {
+        "bias": 0.191028,
+        "ci90": [
+          0.140994,
+          0.231999
+        ],
+        "rows": 693,
+        "wape": 0.24319
+      },
+      "Tortilla Chips": {
+        "bias": 0.228144,
+        "ci90": [
+          0.1793,
+          0.261824
+        ],
+        "rows": 1104,
+        "wape": 0.272088
+      },
+      "Trail Mix": {
+        "bias": 0.11446,
+        "ci90": [
+          0.0866145,
+          0.140321
+        ],
+        "rows": 436,
+        "wape": 0.18343
+      }
+    },
+    "in_stock_weeks": {
+      "bias": 0.192856,
+      "ci90": [
+        0.174255,
+        0.211159
+      ],
+      "rows": 6418,
+      "wape": 0.242494
+    },
+    "restored_demand_all_weeks": {
+      "bias": 0.12459,
+      "ci90": [
+        0.107653,
+        0.140803
+      ],
+      "lost_units_added": 18990.8,
+      "rows": 7184,
+      "wape": 0.229862
+    },
+    "selection_note": "Stock-out weeks are demand spikes the forecast under-calls, so dropping them raises the measured bias; restoring censored demand on all weeks is the less selected estimate and is the one carried into the plan.",
+    "stocked_out_weeks": {
+      "bias": -0.106324,
+      "rows": 766,
+      "wape": 0.155032
+    }
+  },
+  "comparable_stores": 22,
+  "flow_identity": {
+    "2024": {
+      "exact_share": 0.915143,
+      "receipts_units": 2189740.0,
+      "shrink_share_of_receipts": 0.00561712,
+      "shrink_units": 12300.0,
+      "store_sku_weeks": 131716,
+      "units_sold": 2152970.0
+    },
+    "2025": {
+      "exact_share": 0.912598,
+      "receipts_units": 2360160.0,
+      "shrink_share_of_receipts": 0.00401328,
+      "shrink_units": 9472.0,
+      "store_sku_weeks": 140534,
+      "units_sold": 2354170.0
+    }
+  },
+  "receipts_vs_forecast_fy2025": {
+    "actual_units": 2270550.0,
+    "forecast_over_actual": 0.133996,
+    "forecast_units": 2574790.0,
+    "over_forecast_cost": 1048780.0,
+    "r2_receipts_on_forecast": 0.876351,
+    "r2_receipts_on_sales": 0.796808,
+    "receipt_units": 2290010.0,
+    "receipts_minus_sales_cost": 83894.6,
+    "receipts_over_actual": 0.00857283,
+    "sku_weeks": 7184
+  },
+  "restated": {
+    "excess_share_of_memo_figure": 0.0184532,
+    "excess_store_stock_cost": 19353.4,
+    "memo_over_forecast_cost": 1048780.0,
+    "note": "Store receipts followed sales, not the forecast; the over-forecast is a planning-number error. Distribution-centre stock is not in the extracts, so excess held upstream cannot be ruled out or measured.",
+    "reached_stores": false,
+    "receipts_minus_sales_cost": 83894.6
+  },
+  "store_stock_all_stores": {
+    "by_year": {
+      "2024": {
+        "avg_on_hand_cost": 189767.0,
+        "avg_on_hand_units": 59367.1,
+        "avg_weekly_units_sold": 42533.7,
+        "weeks_of_supply": 1.39577
+      },
+      "2025": {
+        "avg_on_hand_cost": 218949.0,
+        "avg_on_hand_units": 66411.0,
+        "avg_weekly_units_sold": 45353.3,
+        "weeks_of_supply": 1.4643
+      }
+    },
+    "change": -1170.11,
+    "on_hand_cost_end_fy2024": 193185.0,
+    "on_hand_cost_end_fy2025": 192015.0
+  },
+  "store_stock_comparable": {
+    "by_year": {
+      "2024": {
+        "avg_on_hand_cost": 177514.0,
+        "avg_on_hand_units": 55590.4,
+        "avg_weekly_units_sold": 39652.3,
+        "weeks_of_supply": 1.40195
+      },
+      "2025": {
+        "avg_on_hand_cost": 196867.0,
+        "avg_on_hand_units": 59714.7,
+        "avg_weekly_units_sold": 40657.4,
+        "weeks_of_supply": 1.46873
+      }
+    },
+    "change": -11117.0,
+    "on_hand_cost_end_fy2024": 180765.0,
+    "on_hand_cost_end_fy2025": 169648.0
+  }
+}

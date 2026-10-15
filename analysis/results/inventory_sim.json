@@ -1,0 +1,566 @@
+{
+  "actual_fy2025": {
+    "avg_stock_cost": 224425.0,
+    "fill_rate": 0.991823,
+    "lost_gp": 36587.9,
+    "receipts": 2369920.0,
+    "zero_stock_share": 0.00893199
+  },
+  "corrected_equal_stock": {
+    "avg_stock_cost": 557534.0,
+    "carrying_cost": 139384.0,
+    "fill_rate": 0.986582,
+    "k": 4.5,
+    "lost_gp": 64982.3,
+    "lost_units": 31906.1,
+    "policy_cost": 204366.0,
+    "policy_cost_carry_sensitivity": {
+      "0.15": 148612.0,
+      "0.35": 260119.0
+    },
+    "receipts": 2462390.0,
+    "units_sold": 2345910.0,
+    "zero_stock_share": 0.009216
+  },
+  "corrected_same_k": {
+    "avg_stock_cost": 500398.0,
+    "carrying_cost": 125099.0,
+    "fill_rate": 0.985427,
+    "k": 4.0,
+    "lost_gp": 69562.9,
+    "lost_units": 34652.0,
+    "policy_cost": 194662.0,
+    "policy_cost_carry_sensitivity": {
+      "0.15": 144623.0,
+      "0.35": 244702.0
+    },
+    "receipts": 2441280.0,
+    "units_sold": 2343160.0,
+    "zero_stock_share": 0.0105153
+  },
+  "corrected_same_service": {
+    "avg_stock_cost": 615091.0,
+    "carrying_cost": 153773.0,
+    "fill_rate": 0.987492,
+    "k": 5.0,
+    "lost_gp": 61400.3,
+    "lost_units": 29741.0,
+    "policy_cost": 215173.0,
+    "policy_cost_carry_sensitivity": {
+      "0.15": 153664.0,
+      "0.35": 276682.0
+    },
+    "receipts": 2483450.0,
+    "units_sold": 2348070.0,
+    "zero_stock_share": 0.00844918
+  },
+  "design": {
+    "carry_rate": 0.25,
+    "store_sku_series": 2900,
+    "trail_weeks": 13,
+    "weeks": 52,
+    "z_grid": [
+      0.0,
+      0.25,
+      0.5,
+      0.75,
+      1.0,
+      1.25,
+      1.5,
+      1.75,
+      2.0,
+      2.25,
+      2.5,
+      2.75,
+      3.0,
+      3.25,
+      3.5,
+      3.75,
+      4.0,
+      4.25,
+      4.5,
+      4.75,
+      5.0,
+      5.25,
+      5.5,
+      5.75,
+      6.0
+    ]
+  },
+  "frontier": {
+    "corrected": [
+      {
+        "avg_stock_cost": 97991.4,
+        "fill_rate": 0.878683,
+        "k": 0.0,
+        "lost_gp": 538895.0,
+        "policy_cost": 563393.0,
+        "zero_stock_share": 0.232211
+      },
+      {
+        "avg_stock_cost": 115156.0,
+        "fill_rate": 0.906357,
+        "k": 0.25,
+        "lost_gp": 416426.0,
+        "policy_cost": 445215.0,
+        "zero_stock_share": 0.178782
+      },
+      {
+        "avg_stock_cost": 134701.0,
+        "fill_rate": 0.926579,
+        "k": 0.5,
+        "lost_gp": 326799.0,
+        "policy_cost": 360475.0,
+        "zero_stock_share": 0.137338
+      },
+      {
+        "avg_stock_cost": 156216.0,
+        "fill_rate": 0.941155,
+        "k": 0.75,
+        "lost_gp": 261700.0,
+        "policy_cost": 300754.0,
+        "zero_stock_share": 0.10477
+      },
+      {
+        "avg_stock_cost": 179246.0,
+        "fill_rate": 0.951954,
+        "k": 1.0,
+        "lost_gp": 214064.0,
+        "policy_cost": 258875.0,
+        "zero_stock_share": 0.0795856
+      },
+      {
+        "avg_stock_cost": 203275.0,
+        "fill_rate": 0.960094,
+        "k": 1.25,
+        "lost_gp": 178081.0,
+        "policy_cost": 228899.0,
+        "zero_stock_share": 0.060898
+      },
+      {
+        "avg_stock_cost": 228390.0,
+        "fill_rate": 0.966097,
+        "k": 1.5,
+        "lost_gp": 151619.0,
+        "policy_cost": 208717.0,
+        "zero_stock_share": 0.0469533
+      },
+      {
+        "avg_stock_cost": 253948.0,
+        "fill_rate": 0.970651,
+        "k": 1.75,
+        "lost_gp": 131438.0,
+        "policy_cost": 194925.0,
+        "zero_stock_share": 0.0370983
+      },
+      {
+        "avg_stock_cost": 279884.0,
+        "fill_rate": 0.974087,
+        "k": 2.0,
+        "lost_gp": 116528.0,
+        "policy_cost": 186499.0,
+        "zero_stock_share": 0.0302112
+      },
+      {
+        "avg_stock_cost": 306422.0,
+        "fill_rate": 0.976686,
+        "k": 2.25,
+        "lost_gp": 105441.0,
+        "policy_cost": 182046.0,
+        "zero_stock_share": 0.0247085
+      },
+      {
+        "avg_stock_cost": 333120.0,
+        "fill_rate": 0.978755,
+        "k": 2.5,
+        "lost_gp": 96737.6,
+        "policy_cost": 180018.0,
+        "zero_stock_share": 0.0206615
+      },
+      {
+        "avg_stock_cost": 360498.0,
+        "fill_rate": 0.980563,
+        "k": 2.75,
+        "lost_gp": 89317.0,
+        "policy_cost": 179441.0,
+        "zero_stock_share": 0.0178001
+      },
+      {
+        "avg_stock_cost": 388111.0,
+        "fill_rate": 0.982011,
+        "k": 3.0,
+        "lost_gp": 83299.9,
+        "policy_cost": 180328.0,
+        "zero_stock_share": 0.0154925
+      },
+      {
+        "avg_stock_cost": 416029.0,
+        "fill_rate": 0.983082,
+        "k": 3.25,
+        "lost_gp": 78977.8,
+        "policy_cost": 182985.0,
+        "zero_stock_share": 0.0138879
+      },
+      {
+        "avg_stock_cost": 443797.0,
+        "fill_rate": 0.983982,
+        "k": 3.5,
+        "lost_gp": 75354.6,
+        "policy_cost": 186304.0,
+        "zero_stock_share": 0.0125176
+      },
+      {
+        "avg_stock_cost": 472079.0,
+        "fill_rate": 0.984807,
+        "k": 3.75,
+        "lost_gp": 72061.0,
+        "policy_cost": 190081.0,
+        "zero_stock_share": 0.0113389
+      },
+      {
+        "avg_stock_cost": 500398.0,
+        "fill_rate": 0.985427,
+        "k": 4.0,
+        "lost_gp": 69562.9,
+        "policy_cost": 194662.0,
+        "zero_stock_share": 0.0105153
+      },
+      {
+        "avg_stock_cost": 529003.0,
+        "fill_rate": 0.986012,
+        "k": 4.25,
+        "lost_gp": 67263.0,
+        "policy_cost": 199514.0,
+        "zero_stock_share": 0.00977691
+      },
+      {
+        "avg_stock_cost": 557534.0,
+        "fill_rate": 0.986582,
+        "k": 4.5,
+        "lost_gp": 64982.3,
+        "policy_cost": 204366.0,
+        "zero_stock_share": 0.009216
+      },
+      {
+        "avg_stock_cost": 586353.0,
+        "fill_rate": 0.987094,
+        "k": 4.75,
+        "lost_gp": 62958.1,
+        "policy_cost": 209546.0,
+        "zero_stock_share": 0.00881839
+      },
+      {
+        "avg_stock_cost": 615091.0,
+        "fill_rate": 0.987492,
+        "k": 5.0,
+        "lost_gp": 61400.3,
+        "policy_cost": 215173.0,
+        "zero_stock_share": 0.00844918
+      },
+      {
+        "avg_stock_cost": 644025.0,
+        "fill_rate": 0.987872,
+        "k": 5.25,
+        "lost_gp": 59916.0,
+        "policy_cost": 220922.0,
+        "zero_stock_share": 0.00820068
+      },
+      {
+        "avg_stock_cost": 673222.0,
+        "fill_rate": 0.988244,
+        "k": 5.5,
+        "lost_gp": 58396.9,
+        "policy_cost": 226702.0,
+        "zero_stock_share": 0.00800897
+      },
+      {
+        "avg_stock_cost": 702411.0,
+        "fill_rate": 0.98854,
+        "k": 5.75,
+        "lost_gp": 57238.2,
+        "policy_cost": 232841.0,
+        "zero_stock_share": 0.00778177
+      },
+      {
+        "avg_stock_cost": 731593.0,
+        "fill_rate": 0.988806,
+        "k": 6.0,
+        "lost_gp": 56207.8,
+        "policy_cost": 239106.0,
+        "zero_stock_share": 0.00757587
+      }
+    ],
+    "raw": [
+      {
+        "avg_stock_cost": 129353.0,
+        "fill_rate": 0.912893,
+        "k": 0.0,
+        "lost_gp": 392836.0,
+        "policy_cost": 425174.0,
+        "zero_stock_share": 0.16833
+      },
+      {
+        "avg_stock_cost": 150429.0,
+        "fill_rate": 0.933637,
+        "k": 0.25,
+        "lost_gp": 299729.0,
+        "policy_cost": 337336.0,
+        "zero_stock_share": 0.125076
+      },
+      {
+        "avg_stock_cost": 173880.0,
+        "fill_rate": 0.947682,
+        "k": 0.5,
+        "lost_gp": 236622.0,
+        "policy_cost": 280092.0,
+        "zero_stock_share": 0.0925363
+      },
+      {
+        "avg_stock_cost": 198895.0,
+        "fill_rate": 0.957516,
+        "k": 0.75,
+        "lost_gp": 192351.0,
+        "policy_cost": 242075.0,
+        "zero_stock_share": 0.0695815
+      },
+      {
+        "avg_stock_cost": 225145.0,
+        "fill_rate": 0.96484,
+        "k": 1.0,
+        "lost_gp": 159682.0,
+        "policy_cost": 215969.0,
+        "zero_stock_share": 0.0530169
+      },
+      {
+        "avg_stock_cost": 252063.0,
+        "fill_rate": 0.970101,
+        "k": 1.25,
+        "lost_gp": 135889.0,
+        "policy_cost": 198905.0,
+        "zero_stock_share": 0.0404425
+      },
+      {
+        "avg_stock_cost": 279977.0,
+        "fill_rate": 0.974167,
+        "k": 1.5,
+        "lost_gp": 117768.0,
+        "policy_cost": 187763.0,
+        "zero_stock_share": 0.0320714
+      },
+      {
+        "avg_stock_cost": 308128.0,
+        "fill_rate": 0.977097,
+        "k": 1.75,
+        "lost_gp": 104843.0,
+        "policy_cost": 181875.0,
+        "zero_stock_share": 0.0255464
+      },
+      {
+        "avg_stock_cost": 336822.0,
+        "fill_rate": 0.979432,
+        "k": 2.0,
+        "lost_gp": 94716.5,
+        "policy_cost": 178922.0,
+        "zero_stock_share": 0.0208319
+      },
+      {
+        "avg_stock_cost": 366156.0,
+        "fill_rate": 0.981283,
+        "k": 2.25,
+        "lost_gp": 86961.1,
+        "policy_cost": 178500.0,
+        "zero_stock_share": 0.0175232
+      },
+      {
+        "avg_stock_cost": 395936.0,
+        "fill_rate": 0.982712,
+        "k": 2.5,
+        "lost_gp": 80843.4,
+        "policy_cost": 179827.0,
+        "zero_stock_share": 0.0151446
+      },
+      {
+        "avg_stock_cost": 426038.0,
+        "fill_rate": 0.983817,
+        "k": 2.75,
+        "lost_gp": 76254.9,
+        "policy_cost": 182764.0,
+        "zero_stock_share": 0.0133625
+      },
+      {
+        "avg_stock_cost": 456775.0,
+        "fill_rate": 0.984743,
+        "k": 3.0,
+        "lost_gp": 72516.8,
+        "policy_cost": 186711.0,
+        "zero_stock_share": 0.0119851
+      },
+      {
+        "avg_stock_cost": 487554.0,
+        "fill_rate": 0.985546,
+        "k": 3.25,
+        "lost_gp": 69321.2,
+        "policy_cost": 191210.0,
+        "zero_stock_share": 0.0107993
+      },
+      {
+        "avg_stock_cost": 518657.0,
+        "fill_rate": 0.986194,
+        "k": 3.5,
+        "lost_gp": 66721.3,
+        "policy_cost": 196386.0,
+        "zero_stock_share": 0.00998992
+      },
+      {
+        "avg_stock_cost": 549951.0,
+        "fill_rate": 0.986692,
+        "k": 3.75,
+        "lost_gp": 64681.3,
+        "policy_cost": 202169.0,
+        "zero_stock_share": 0.0093012
+      },
+      {
+        "avg_stock_cost": 581324.0,
+        "fill_rate": 0.987211,
+        "k": 4.0,
+        "lost_gp": 62638.3,
+        "policy_cost": 207969.0,
+        "zero_stock_share": 0.00879709
+      },
+      {
+        "avg_stock_cost": 613027.0,
+        "fill_rate": 0.987655,
+        "k": 4.25,
+        "lost_gp": 60864.4,
+        "policy_cost": 214121.0,
+        "zero_stock_share": 0.00828588
+      },
+      {
+        "avg_stock_cost": 644613.0,
+        "fill_rate": 0.988037,
+        "k": 4.5,
+        "lost_gp": 59323.9,
+        "policy_cost": 220477.0,
+        "zero_stock_share": 0.00808708
+      },
+      {
+        "avg_stock_cost": 676359.0,
+        "fill_rate": 0.988358,
+        "k": 4.75,
+        "lost_gp": 58045.8,
+        "policy_cost": 227136.0,
+        "zero_stock_share": 0.00780307
+      },
+      {
+        "avg_stock_cost": 708486.0,
+        "fill_rate": 0.988701,
+        "k": 5.0,
+        "lost_gp": 56712.4,
+        "policy_cost": 233834.0,
+        "zero_stock_share": 0.00757587
+      },
+      {
+        "avg_stock_cost": 740430.0,
+        "fill_rate": 0.988926,
+        "k": 5.25,
+        "lost_gp": 55800.9,
+        "policy_cost": 240908.0,
+        "zero_stock_share": 0.00741256
+      },
+      {
+        "avg_stock_cost": 772727.0,
+        "fill_rate": 0.989214,
+        "k": 5.5,
+        "lost_gp": 54662.6,
+        "policy_cost": 247844.0,
+        "zero_stock_share": 0.00724926
+      },
+      {
+        "avg_stock_cost": 805209.0,
+        "fill_rate": 0.98942,
+        "k": 5.75,
+        "lost_gp": 53829.8,
+        "policy_cost": 255132.0,
+        "zero_stock_share": 0.00710015
+      },
+      {
+        "avg_stock_cost": 837622.0,
+        "fill_rate": 0.989597,
+        "k": 6.0,
+        "lost_gp": 53145.2,
+        "policy_cost": 262551.0,
+        "zero_stock_share": 0.00696525
+      }
+    ]
+  },
+  "min_cost": {
+    "corrected": {
+      "avg_stock_cost": 360498.0,
+      "fill_rate": 0.980563,
+      "k": 2.75,
+      "lost_gp": 89317.0,
+      "policy_cost": 179441.0
+    },
+    "raw": {
+      "avg_stock_cost": 366156.0,
+      "fill_rate": 0.981283,
+      "k": 2.25,
+      "lost_gp": 86961.1,
+      "policy_cost": 178500.0
+    }
+  },
+  "observed_replenishment": {
+    "coef_opening_stock": -0.258942,
+    "coef_sales_next_week": -0.00723481,
+    "coef_sales_prev_week": 0.0929722,
+    "coef_sales_same_week": 1.26319,
+    "r2": 0.716111,
+    "rows": 137662
+  },
+  "raw_calibrated": {
+    "avg_stock_cost": 581324.0,
+    "carrying_cost": 145331.0,
+    "fill_rate": 0.987211,
+    "k": 4.0,
+    "lost_gp": 62638.3,
+    "lost_units": 30409.3,
+    "policy_cost": 207969.0,
+    "policy_cost_carry_sensitivity": {
+      "0.15": 149837.0,
+      "0.35": 266102.0
+    },
+    "receipts": 2473220.0,
+    "units_sold": 2347410.0,
+    "zero_stock_share": 0.00879709
+  },
+  "stock_at_fill_rate": {
+    "0.975": {
+      "corrected": 289203.0,
+      "raw": 287982.0
+    },
+    "0.98": {
+      "corrected": 351971.0,
+      "raw": 345830.0
+    },
+    "0.985": {
+      "corrected": 480893.0,
+      "raw": 466615.0
+    },
+    "0.99": {
+      "corrected": null,
+      "raw": null
+    }
+  },
+  "verdict": {
+    "adopt": false,
+    "lost_gp_change_same_z": 6924.56,
+    "material_threshold": 5000.0,
+    "note": "Correcting the bias without re-tuning safety stock removes the cushion the bias was providing; the fair comparison re-tunes z to the same zero-stock rate. Applies to forecast-driven replenishment; under the observed process store receipts follow same-week sales.",
+    "policy_cost_saving_at_best_z": -941.32,
+    "policy_cost_saving_at_best_z_carry_sensitivity": {
+      "0.15": -1221.65,
+      "0.35": -83.9819
+    },
+    "stock_change_same_service": 33767.0
+  }
+}

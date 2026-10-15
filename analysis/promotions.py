@@ -244,6 +244,13 @@ def summarise(rows, cann_rows, gamma_hat, gamma_draws, stores, year=None):
                 boot.append(sum(fixed[g] + cann_loss(per[g]['cm'], gamma) for g in draw) / b_ * total_base
                             if b_ else 0.0)
             ci_boot = [quantile(boot, 0.05), quantile(boot, 0.95)]
+            # Unit lift range (added for the answer-key scorecard): store cluster bootstrap of units / baseline.
+            rng_l = random.Random(SEED)
+            lift_boot = []
+            for _ in range(len(gamma_draws)):
+                draw = [g for g in (rng_l.choice(stores) for _ in stores) if g in per]
+                bu = sum(per[g]['base_units'] for g in draw)
+                lift_boot.append(sum(per[g]['units'] for g in draw) / bu - 1 if bu else 0.0)
             ci = max(ci_cr1, ci_boot, key=lambda c: c[1] - c[0])
             s = {c: sum(v[c] for v in per.values()) for c in COMPONENTS + SUMS}
             cann_units = sum(cann_loss(v['cv'], gamma_hat) for v in per.values())
@@ -252,6 +259,7 @@ def summarise(rows, cann_rows, gamma_hat, gamma_draws, stores, year=None):
             result[label] = {
                 'events': len(cell['events']), 'store_clusters': g_n,
                 'lift_pct': s['units'] / s['base_units'] - 1,
+                'lift_pct_ci90_store_bootstrap': [quantile(lift_boot, 0.05), quantile(lift_boot, 0.95)],
                 'incremental_units': s['lift_units'], 'dip_units': s['dip_units'], 'cannibalised_units': cann_units,
                 'net_incremental_units': s['lift_units'] + s['dip_units'] + cann_units,
                 'lift_gp': s['lift_gp'], 'dip_gp': s['dip_gp'], 'cannibalisation_gp': cann_gp,
@@ -301,6 +309,21 @@ def holdout_error(con, role):
             'gp_error': gp_err}
 
 
+def post_dip_ci(con):
+    """Store cluster bootstrap range of the post-promotion dip by week (added for the answer-key scorecard)."""
+    out = {}
+    for k in range(1, POST_WEEKS + 1):
+        per_store = con.execute(f"""select store_id, sum(units), sum(base_units) from promo_panel
+            where role = 'post' and post_k = {k} and log_base is not null group by 1 order by 1""").fetchall()
+        rng = random.Random(SEED)
+        boot = []
+        for _ in range(DRAWS):
+            draw = [rng.choice(per_store) for _ in per_store]
+            boot.append(sum(d[1] for d in draw) / sum(d[2] for d in draw) - 1)
+        out[str(k)] = [quantile(boot, 0.05), quantile(boot, 0.95)]
+    return out
+
+
 def fetch(con, sql):
     cur = con.execute(sql)
     cols = [d[0] for d in cur.description]
@@ -341,6 +364,7 @@ def main():
         'placebo': holdout_error(con, 'placebo'),
         'post_dip_by_week': {str(k): v for k, v in con.execute("""select post_k, sum(units) / sum(base_units) - 1
             from promo_panel where role = 'post' and log_base is not null group by 1 order by 1""").fetchall()},
+        'post_dip_ci90_store_bootstrap': post_dip_ci(con),
         'all_years': summarise(rows, cann_rows, gamma_hat, gamma_draws, stores),
         'fy2025': summarise(rows, cann_rows, gamma_hat, gamma_draws, stores, year=DECISION_YEAR),
     }
