@@ -43,6 +43,19 @@ for (design in names(designs)) {
   }
 }
 
+# Q2: cannibalisation slopes of the promotion baseline model (clean weeks), three FEs, clustered by store.
+promotions <- fromJSON(file.path(results, "promotions.json"))
+p <- read.csv(file.path(panels, "promotions_clean.csv"))
+xs <- grep("^cann_", names(p), value = TRUE)
+m <- feols(as.formula(paste("y ~", paste(xs, collapse = " + "), "| fe_a + fe_b + fe_c")),
+           data = p, cluster = ~cluster_id, ssc = cr1)
+for (s in names(promotions$cannibalisation)) {
+  x <- paste0("cann_", gsub(" ", "_", tolower(s)))
+  add(paste("promotions", x, "beta", sep = "_"), promotions$cannibalisation[[s]]$per_promoted_sister,
+      unname(coef(m)[x]))
+  add(paste("promotions", x, "se", sep = "_"), promotions$cannibalisation[[s]]$se_store_cr1, unname(se(m)[x]))
+}
+
 # Primary results are stored at 6 significant figures.
 checks$abs_diff <- abs(checks$primary - checks$fixest)
 checks$pass <- checks$abs_diff <= pmax(1e-5, 5e-6 * abs(checks$fixest))
