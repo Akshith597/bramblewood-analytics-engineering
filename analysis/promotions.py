@@ -19,6 +19,9 @@ PLACEBO_SHIFT_WEEKS = 8         # held-out fake events: each real event moved 8 
 DRAWS = 1999
 Z90 = 1.6448536269514722
 FES = ['fe_a', 'fe_b', 'fe_c']  # store x SKU, store x week, subcategory x fiscal period (holiday weeks split out)
+# Specification check (post-hoc, deviation 6): subcategory x week instead of subcategory x period, so the
+# cannibalisation slope is identified only from stores that differ in promoted sisters within the same week.
+FES_ALT = ['fe_a', 'fe_b', 'fe_d']
 PLANTED_CANNIBALISATION = -0.05
 DECISION_YEAR = 2025
 SUBCATS = ['Cheese Snacks', 'Kettle Chips', 'Nuts', 'Popcorn', 'Potato Chips', 'Pretzels', 'Tortilla Chips',
@@ -72,6 +75,7 @@ sales as (
         s.store_id || '|' || s.sku_id as fe_a, s.store_id || '|' || c.w as fe_b,
         i.subcategory || '|' || c.fiscal_year || '|' || c.fiscal_period || '|' || coalesce(c.holiday_event, '')
             as fe_c,
+        i.subcategory || '|' || c.w as fe_d,
         coalesce(inv.zero_stock_snapshot, false) as zero_stock
     from int_sales_enriched s
     join cal c using (week_key)
@@ -113,11 +117,11 @@ def build(con):
     con.execute(f'create or replace temp table promo_panel as select *, {cols} from promo_panel')
 
 
-def fit_baseline(con, shift=None):
+def fit_baseline(con, shift=None, fes=FES):
     """Fit the clean-week model. `shift` adds a planted cannibalisation slope (log points per promoted sister)."""
     y = 'log_units' if shift is None else f'(log_units + {shift!r} * n_sisters)'
     con.execute(f"create or replace temp view clean as select *, {y} as y from promo_panel where role = 'clean'")
-    return feols(con, 'clean', 'y', [xname(s) for s in SUBCATS], FES, cluster_label='store_id')
+    return feols(con, 'clean', 'y', [xname(s) for s in SUBCATS], fes, cluster_label='store_id')
 
 
 def impute(con, fit):
@@ -151,7 +155,7 @@ with ev_store as (
 ),
 post as (
     select post_promo_id as promo_id, store_id, sum(units - base_units) as dip_units,
-        sum(gp - base_units * reg_margin) as dip_gp
+        sum(gp - base_units * reg_margin) as dip_gp, sum(base_units * reg_margin) as post_base_gp
     from promo_panel where role = 'post' and log_base is not null group by all
 ),
 stores_per_event as (select promo_id, count(*) as n_stores from ev_store group by 1)
@@ -159,6 +163,7 @@ select e.promo_id, e.store_id, ev.mechanic, ev.display, ev.subcategory, ev.fisca
     e.units, e.base_units, e.gp, e.base_gp,
     e.units - e.base_units as lift_units, e.gp - e.base_gp as lift_gp,
     coalesce(p.dip_units, 0) as dip_units, coalesce(p.dip_gp, 0) as dip_gp,
+    coalesce(p.post_base_gp, 0) as post_base_gp,
     ev.scan_per_unit * e.units as scan_back, ev.display_fee / s.n_stores as display_fee
 from ev_store e
 join promo_events ev using (promo_id)
@@ -190,7 +195,7 @@ GROUPINGS = {
     'subcategory': lambda c: c['subcategory'],
 }
 COMPONENTS = ('lift_gp', 'dip_gp', 'scan_back', 'display_fee')
-SUMS = ('base_gp', 'units', 'base_units', 'lift_units', 'dip_units')
+SUMS = ('base_gp', 'post_base_gp', 'units', 'base_units', 'lift_units', 'dip_units')
 
 
 def cann_loss(keys, gamma):
@@ -202,9 +207,13 @@ def outcome(ci):
     return 'keep' if ci[0] > 0 else ('cut_or_redesign' if ci[1] < 0 else 'inconclusive')
 
 
-def summarise(rows, cann_rows, gamma_hat, gamma_draws, stores, year=None):
+def summarise(rows, cann_rows, gamma_hat, gamma_draws, stores, model_error, year=None):
     """Totals and 90% ranges for every grouping. Ranges: store cluster bootstrap of the ratio to baseline GP (with
-    gamma redrawn from the wild cluster bootstrap) and CR1 linearisation over stores; the wider is reported."""
+    gamma redrawn from the wild cluster bootstrap) and CR1 linearisation over stores; the wider is reported.
+
+    Post-hoc additions (deviation 6): (a) a model-error band added to each side of that sampling range: the
+    baseline level error (largest held-out 90% bound, applied to promo- and post-week baseline GP) plus the shift
+    in cannibalisation GP under the alternative specification; (b) net GP on funding actually collected."""
     rows = [r for r in rows if year is None or r['fiscal_year'] == year]
     meta = {r['promo_id']: r for r in rows}
     cann_rows = [r for r in cann_rows if r['promo_id'] in meta]
@@ -249,6 +258,13 @@ def summarise(rows, cann_rows, gamma_hat, gamma_draws, stores, year=None):
             cann_units = sum(cann_loss(v['cv'], gamma_hat) for v in per.values())
             cann_gp = sum(cann.values())
             before_funding = s['lift_gp'] + s['dip_gp'] + cann_gp
+            baseline_band = model_error['baseline_error'] * (s['base_gp'] + s['post_base_gp'])
+            spec_shift = sum(cann_loss(v['cm'], model_error['gamma_alt']) for v in per.values()) - cann_gp
+            band = baseline_band + abs(spec_shift)
+            ci_model = [ci[0] - band, ci[1] + band]
+            collected = sum(model_error['collected'].get(e, 0.0) for e in cell['events'])
+            owed = s['scan_back'] + s['display_fee']
+            ci_collected = [x - owed + collected for x in ci_model]
             result[label] = {
                 'events': len(cell['events']), 'store_clusters': g_n,
                 'lift_pct': s['units'] / s['base_units'] - 1,
@@ -262,7 +278,13 @@ def summarise(rows, cann_rows, gamma_hat, gamma_draws, stores, year=None):
                 'ci_source': 'bootstrap' if ci is ci_boot else 'cr1',
                 'mde': 2.8 * (ci[1] - ci[0]) / 2 / Z90,
                 'outcome': outcome(ci),
-                'funding_dependent': outcome(ci) == 'keep' and before_funding < 0}
+                'funding_dependent': outcome(ci) == 'keep' and before_funding < 0,
+                'model_error': {'baseline_band': baseline_band, 'cannibalisation_spec_shift': spec_shift,
+                                'band': band},
+                'ci90_with_model_error': ci_model, 'outcome_with_model_error': outcome(ci_model),
+                'funding_owed': owed, 'funding_collected': collected,
+                'net_gp_collected': total_net - owed + collected, 'ci90_collected': ci_collected,
+                'outcome_collected': outcome(ci_collected)}
         out[gname] = result
     return out
 
@@ -311,6 +333,7 @@ def main():
     con = connect()
     build(con)
     planted = fit_baseline(con, shift=PLANTED_CANNIBALISATION)
+    alt = fit_baseline(con, fes=FES_ALT)
     fit = fit_baseline(con)
     export_panel('promotions_clean', fetch(con, f"""select fe_a, fe_b, fe_c, cluster_id, y,
         {', '.join(xname(s) for s in SUBCATS)} from clean order by fe_a, fe_b"""))
@@ -323,6 +346,13 @@ def main():
     gamma_hat = fit['beta']
     gamma_draws = wild_draws(fit, DRAWS, SEED)
     events = event_pnl(rows, cann_rows, gamma_hat)
+    pre, placebo = holdout_error(con, 'pre'), holdout_error(con, 'placebo')
+    model_error = {
+        'baseline_error': max(abs(x) for h in (pre, placebo) for x in h['error_ci90_store_bootstrap']),
+        'gamma_alt': alt['beta'],
+        'collected': {r[0]: float(r[1]) for r in con.execute(
+            'select promo_id, coalesce(amount_collected, 0) from promo_events left join int_claim_totals '
+            'using (promo_id)').fetchall()}}
 
     result = {
         'design': {'clean_rows': fit['n'], 'store_clusters': fit['clusters'], 'fe': FES,
@@ -337,12 +367,15 @@ def main():
         'cannibalisation': {s: {'per_promoted_sister': fit['beta'][xname(s)], 'se_store_cr1': fit['se'][xname(s)]}
                             for s in SUBCATS},
         'planted_cannibalisation_recovered': {s: planted['beta'][xname(s)] - fit['beta'][xname(s)] for s in SUBCATS},
-        'pre_period': holdout_error(con, 'pre'),
-        'placebo': holdout_error(con, 'placebo'),
+        'cannibalisation_alt_spec': {s: {'per_promoted_sister': alt['beta'][xname(s)],
+                                         'se_store_cr1': alt['se'][xname(s)]} for s in SUBCATS},
+        'model_error_baseline_pct': model_error['baseline_error'],
+        'pre_period': pre,
+        'placebo': placebo,
         'post_dip_by_week': {str(k): v for k, v in con.execute("""select post_k, sum(units) / sum(base_units) - 1
             from promo_panel where role = 'post' and log_base is not null group by 1 order by 1""").fetchall()},
-        'all_years': summarise(rows, cann_rows, gamma_hat, gamma_draws, stores),
-        'fy2025': summarise(rows, cann_rows, gamma_hat, gamma_draws, stores, year=DECISION_YEAR),
+        'all_years': summarise(rows, cann_rows, gamma_hat, gamma_draws, stores, model_error),
+        'fy2025': summarise(rows, cann_rows, gamma_hat, gamma_draws, stores, model_error, year=DECISION_YEAR),
     }
     fy = [e for e in events.values() if e['fiscal_year'] == DECISION_YEAR]
     ranked = sorted(({'promo_id': k, **{x: v[x] for x in ('mechanic', 'display', 'subcategory', 'net_gp')}}
