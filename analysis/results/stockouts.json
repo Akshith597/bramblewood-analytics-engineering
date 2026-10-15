@@ -1,0 +1,94 @@
+{
+  "calibration": {
+    "eligible_weeks": 182474,
+    "observed_stockouts": 1857,
+    "passed": false,
+    "predicted_stockouts": 1359.93,
+    "ratio": 0.732325
+  },
+  "category_gp_fy2025": 3205590.0,
+  "checks_passed": {
+    "calibration_within_25pct": false,
+    "planted_recovery_below_truth": false
+  },
+  "credible": false,
+  "decision": {
+    "outcome": "lower_priority_than_forecast_bias",
+    "threshold_share_of_category_gp": 0.01
+  },
+  "design": {
+    "bins": 10,
+    "decision_year": 2025,
+    "note": "Exploratory: estimator chosen after the planned estimator was seen to be negative.",
+    "zero_stock_weeks_all_years": 2498
+  },
+  "fy2024_non_promoted": {
+    "lost_gp": 30402.9,
+    "lost_units": 16266.5,
+    "units_sold": 41690.0,
+    "zero_stock_weeks": 1072
+  },
+  "fy2025_non_promoted": {
+    "bin_sensitivity_lost_gp": {
+      "20": 20686.8,
+      "5": 26081.4
+    },
+    "ci90": [
+      20686.8,
+      31822.1
+    ],
+    "ci90_share_of_category_gp": [
+      0.00645334,
+      0.00992706
+    ],
+    "ci90_store_bootstrap": [
+      22279.1,
+      31822.1
+    ],
+    "lost_gp": 26448.8,
+    "lost_units": 13959.3,
+    "share_of_category_gp": 0.00825085,
+    "units_sold": 41894.0,
+    "zero_stock_weeks": 1085
+  },
+  "fy2025_promoted_secondary": {
+    "ci90_store_bootstrap": [
+      4044.12,
+      5674.35
+    ],
+    "lost_gp": 4790.95,
+    "lost_units": 5484.87,
+    "units_sold": 18683.0,
+    "zero_stock_weeks": 173
+  },
+  "planted_censoring": {
+    "below_truth": false,
+    "note": "Censoring at 70% of the week's own sales ties the floor to the demand shock, unlike a real stock-out; see the post-hoc check.",
+    "recovered_lost_units": 58855.6,
+    "recovered_share": 1.3539,
+    "true_lost_units": 43471.0,
+    "weeks": 9016
+  },
+  "planted_censoring_posthoc": {
+    "note": "Not registered. Availability = imputed baseline units.",
+    "recovered_lost_units": 18798.9,
+    "recovered_share": 0.92278,
+    "true_lost_units": 20372.0,
+    "weeks": 4501
+  },
+  "preregistered_adjacent_weeks": {
+    "informative": false,
+    "lost_gp": -36077.4,
+    "lost_units": -17255.8,
+    "share_weeks_with_positive_loss": 0.0,
+    "zero_stock_weeks_with_both_sides": 997
+  },
+  "substitution_context": {
+    "category_loss_range": [
+      -17528.7,
+      5092.12
+    ],
+    "delist_transfer_rate": 1.23511,
+    "note": "Lost SKU GP x (1 - transfer rate from the delist test); permanent delisting is not a temporary stock-out, so context only."
+  }
+}
