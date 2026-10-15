@@ -1,0 +1,111 @@
+{
+  "bias_correction_backtest": {
+    "bias_after": 0.00466157,
+    "bias_before": 0.133996,
+    "evaluated_on": "FY2025",
+    "factors": {
+      "Cheese Snacks": 0.8858,
+      "Kettle Chips": 0.862364,
+      "Nuts": 0.889672,
+      "Popcorn": 0.925939,
+      "Potato Chips": 0.890039,
+      "Pretzels": 0.829809,
+      "Tortilla Chips": 0.887253,
+      "Trail Mix": 0.986825
+    },
+    "trained_on": "FY2024 lead-2 rows",
+    "wape_after": 0.191083,
+    "wape_before": 0.225287
+  },
+  "by_lead_weeks_all_years": {
+    "0.0": {
+      "bias": -0.210244,
+      "rows": 144,
+      "wape": 0.226167
+    },
+    "1.0": {
+      "bias": 0.0458377,
+      "rows": 144,
+      "wape": 0.151121
+    },
+    "2.0": {
+      "bias": 0.132481,
+      "rows": 14316,
+      "wape": 0.21902
+    }
+  },
+  "by_promoted": {
+    "False": {
+      "bias": 0.100349,
+      "rows": 6673,
+      "wape": 0.207122
+    },
+    "True": {
+      "bias": 0.227817,
+      "rows": 511,
+      "wape": 0.275936
+    }
+  },
+  "by_subcategory": {
+    "Cheese Snacks": {
+      "bias": 0.184647,
+      "rows": 600,
+      "wape": 0.254681
+    },
+    "Kettle Chips": {
+      "bias": 0.0919121,
+      "rows": 950,
+      "wape": 0.185975
+    },
+    "Nuts": {
+      "bias": 0.190205,
+      "rows": 850,
+      "wape": 0.280972
+    },
+    "Popcorn": {
+      "bias": 0.0707123,
+      "rows": 700,
+      "wape": 0.187058
+    },
+    "Potato Chips": {
+      "bias": 0.128946,
+      "rows": 1591,
+      "wape": 0.212903
+    },
+    "Pretzels": {
+      "bias": 0.15476,
+      "rows": 750,
+      "wape": 0.227971
+    },
+    "Tortilla Chips": {
+      "bias": 0.156311,
+      "rows": 1255,
+      "wape": 0.257666
+    },
+    "Trail Mix": {
+      "bias": 0.0634316,
+      "rows": 488,
+      "wape": 0.176756
+    }
+  },
+  "fy2025": {
+    "bias": 0.133996,
+    "bias_ci90_sku_bootstrap": [
+      0.11806,
+      0.149738
+    ],
+    "rows": 7184,
+    "wape": 0.225287
+  },
+  "fy2025_net_overforecast": {
+    "cost": 1048780.0,
+    "note": "Net forecast minus actual at unit cost: inventory planned against demand that did not occur. An exposure; the realised loss depends on order policy and carrying cost, not in the extracts.",
+    "units": 304244.0
+  },
+  "mase": {
+    "bias_lag2_naive": -0.00604798,
+    "rows": 6969,
+    "vs_lag2_naive": 0.453547,
+    "vs_seasonal_naive": 0.532444
+  }
+}
