@@ -9,6 +9,7 @@ import json
 from analysis.common import PANELS, RESULTS, round_floats, write_result
 from analysis.delist import TREATED
 from analysis.fe_reference import feols_reference
+from analysis.promotions import SUBCATS, xname
 
 TOL_BETA, TOL_SE = 1e-6, 1e-4
 
@@ -57,6 +58,17 @@ def main():
                 primary = pricing[design][event][x]
                 checks.append((f'{design}_{event}_{x}_beta', primary['elasticity'], ref['beta'][x], TOL_BETA * 10))
                 checks.append((f'{design}_{event}_{x}_se', primary['se_store_cr1'], ref['se'][x], TOL_SE))
+
+    promotions = json.loads((RESULTS / 'promotions.json').read_text(encoding='utf-8'))
+    xs = [xname(s) for s in SUBCATS]
+    panel = [{**{k: r[k] for k in ('fe_a', 'fe_b', 'fe_c', 'cluster_id')}, 'y': float(r['y']),
+              **{x: float(r[x]) for x in xs}} for r in read('promotions_clean')]
+    ref = feols_reference(panel, 'y', xs, ['fe_a', 'fe_b', 'fe_c'])
+    for s in SUBCATS:
+        primary = promotions['cannibalisation'][s]
+        checks.append((f'promotions_{xname(s)}_beta', primary['per_promoted_sister'], ref['beta'][xname(s)],
+                       TOL_BETA * 10))
+        checks.append((f'promotions_{xname(s)}_se', primary['se_store_cr1'], ref['se'][xname(s)], TOL_SE))
 
     rows = []
     for name, primary, reference, tol in checks:

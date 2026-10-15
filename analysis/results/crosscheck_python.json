@@ -125,6 +125,118 @@
       "pass": true,
       "primary": 1.51474,
       "reference": 1.51474
+    },
+    {
+      "abs_diff": 5.32452e-10,
+      "check": "promotions_cann_cheese_snacks_beta",
+      "pass": true,
+      "primary": -0.0911365,
+      "reference": -0.0911365
+    },
+    {
+      "abs_diff": 3.33374e-09,
+      "check": "promotions_cann_cheese_snacks_se",
+      "pass": true,
+      "primary": 0.00563577,
+      "reference": 0.00563577
+    },
+    {
+      "abs_diff": 4.0606e-08,
+      "check": "promotions_cann_kettle_chips_beta",
+      "pass": true,
+      "primary": -0.0482926,
+      "reference": -0.0482926
+    },
+    {
+      "abs_diff": 2.43923e-09,
+      "check": "promotions_cann_kettle_chips_se",
+      "pass": true,
+      "primary": 0.0028003,
+      "reference": 0.0028003
+    },
+    {
+      "abs_diff": 2.80991e-07,
+      "check": "promotions_cann_nuts_beta",
+      "pass": true,
+      "primary": -0.119364,
+      "reference": -0.119364
+    },
+    {
+      "abs_diff": 4.62585e-09,
+      "check": "promotions_cann_nuts_se",
+      "pass": true,
+      "primary": 0.00900625,
+      "reference": 0.00900625
+    },
+    {
+      "abs_diff": 3.23842e-08,
+      "check": "promotions_cann_popcorn_beta",
+      "pass": true,
+      "primary": -0.0768288,
+      "reference": -0.0768288
+    },
+    {
+      "abs_diff": 9.69096e-10,
+      "check": "promotions_cann_popcorn_se",
+      "pass": true,
+      "primary": 0.00521232,
+      "reference": 0.00521232
+    },
+    {
+      "abs_diff": 8.93393e-09,
+      "check": "promotions_cann_potato_chips_beta",
+      "pass": true,
+      "primary": -0.0194146,
+      "reference": -0.0194146
+    },
+    {
+      "abs_diff": 2.8627e-09,
+      "check": "promotions_cann_potato_chips_se",
+      "pass": true,
+      "primary": 0.00189159,
+      "reference": 0.00189159
+    },
+    {
+      "abs_diff": 2.40988e-07,
+      "check": "promotions_cann_pretzels_beta",
+      "pass": true,
+      "primary": -0.116261,
+      "reference": -0.116261
+    },
+    {
+      "abs_diff": 4.27594e-09,
+      "check": "promotions_cann_pretzels_se",
+      "pass": true,
+      "primary": 0.00465876,
+      "reference": 0.00465876
+    },
+    {
+      "abs_diff": 1.56992e-08,
+      "check": "promotions_cann_tortilla_chips_beta",
+      "pass": true,
+      "primary": -0.0609288,
+      "reference": -0.0609288
+    },
+    {
+      "abs_diff": 1.65579e-09,
+      "check": "promotions_cann_tortilla_chips_se",
+      "pass": true,
+      "primary": 0.00317905,
+      "reference": 0.00317905
+    },
+    {
+      "abs_diff": 4.61362e-08,
+      "check": "promotions_cann_trail_mix_beta",
+      "pass": true,
+      "primary": -0.097637,
+      "reference": -0.097637
+    },
+    {
+      "abs_diff": 2.13673e-08,
+      "check": "promotions_cann_trail_mix_se",
+      "pass": true,
+      "primary": 0.0169496,
+      "reference": 0.0169496
     }
   ],
   "status": "pass"

@@ -1,0 +1,1598 @@
+{
+  "all_years": {
+    "all": {
+      "all": {
+        "baseline_gp": 675280.0,
+        "cannibalisation_gp": -437836.0,
+        "cannibalised_units": -255472.0,
+        "ci90": [
+          15086.6,
+          129090.0
+        ],
+        "ci90_store_bootstrap": [
+          15086.6,
+          129090.0
+        ],
+        "ci90_store_cr1": [
+          12896.6,
+          120415.0
+        ],
+        "ci_source": "bootstrap",
+        "dip_gp": -200107.0,
+        "dip_units": -117269.0,
+        "display_fee": 468000.0,
+        "events": 769,
+        "funding_dependent": true,
+        "gp_before_funding": -1183130.0,
+        "incremental_units": 714333.0,
+        "lift_gp": -545190.0,
+        "lift_pct": 1.84655,
+        "mde": 97032.7,
+        "net_gp": 66655.6,
+        "net_gp_per_event": 86.6783,
+        "net_incremental_units": 341592.0,
+        "outcome": "keep",
+        "scan_back": 781789.0,
+        "store_clusters": 24
+      }
+    },
+    "display": {
+      "display": {
+        "baseline_gp": 283631.0,
+        "cannibalisation_gp": -196055.0,
+        "cannibalised_units": -114057.0,
+        "ci90": [
+          294420.0,
+          386633.0
+        ],
+        "ci90_store_bootstrap": [
+          298660.0,
+          390465.0
+        ],
+        "ci90_store_cr1": [
+          294420.0,
+          386633.0
+        ],
+        "ci_source": "cr1",
+        "dip_gp": -108990.0,
+        "dip_units": -65636.1,
+        "display_fee": 468000.0,
+        "events": 347,
+        "funding_dependent": true,
+        "gp_before_funding": -579152.0,
+        "incremental_units": 430151.0,
+        "lift_gp": -274107.0,
+        "lift_pct": 2.55176,
+        "mde": 78485.7,
+        "net_gp": 340526.0,
+        "net_gp_per_event": 981.344,
+        "net_incremental_units": 250459.0,
+        "outcome": "keep",
+        "scan_back": 451678.0,
+        "store_clusters": 24
+      },
+      "no display": {
+        "baseline_gp": 391649.0,
+        "cannibalisation_gp": -241782.0,
+        "cannibalised_units": -141415.0,
+        "ci90": [
+          -289783.0,
+          -257280.0
+        ],
+        "ci90_store_bootstrap": [
+          -289783.0,
+          -257280.0
+        ],
+        "ci90_store_cr1": [
+          -283462.0,
+          -264279.0
+        ],
+        "ci_source": "bootstrap",
+        "dip_gp": -91117.5,
+        "dip_units": -51632.9,
+        "display_fee": 0.0,
+        "events": 422,
+        "funding_dependent": false,
+        "gp_before_funding": -603981.0,
+        "incremental_units": 284182.0,
+        "lift_gp": -271082.0,
+        "lift_pct": 1.30194,
+        "mde": 27664.4,
+        "net_gp": -273871.0,
+        "net_gp_per_event": -648.983,
+        "net_incremental_units": 91133.5,
+        "outcome": "cut_or_redesign",
+        "scan_back": 330111.0,
+        "store_clusters": 24
+      }
+    },
+    "mechanic": {
+      "BOGO": {
+        "baseline_gp": 63209.4,
+        "cannibalisation_gp": -54086.6,
+        "cannibalised_units": -32259.3,
+        "ci90": [
+          25663.6,
+          49749.6
+        ],
+        "ci90_store_bootstrap": [
+          26685.7,
+          50354.3
+        ],
+        "ci90_store_cr1": [
+          25663.6,
+          49749.6
+        ],
+        "ci_source": "cr1",
+        "dip_gp": -46822.9,
+        "dip_units": -29319.6,
+        "display_fee": 92250.0,
+        "events": 98,
+        "funding_dependent": true,
+        "gp_before_funding": -381235.0,
+        "incremental_units": 205542.0,
+        "lift_gp": -280326.0,
+        "lift_pct": 5.11196,
+        "mde": 20500.5,
+        "net_gp": 37706.6,
+        "net_gp_per_event": 384.761,
+        "net_incremental_units": 143963.0,
+        "outcome": "keep",
+        "scan_back": 326692.0,
+        "store_clusters": 24
+      },
+      "Multi-buy": {
+        "baseline_gp": 136717.0,
+        "cannibalisation_gp": -77083.6,
+        "cannibalised_units": -45809.5,
+        "ci90": [
+          -9250.03,
+          12140.2
+        ],
+        "ci90_store_bootstrap": [
+          -9250.03,
+          12140.2
+        ],
+        "ci90_store_cr1": [
+          -9055.02,
+          10188.1
+        ],
+        "ci_source": "bootstrap",
+        "dip_gp": -31272.2,
+        "dip_units": -20150.8,
+        "display_fee": 67500.0,
+        "events": 136,
+        "funding_dependent": false,
+        "gp_before_funding": -153362.0,
+        "incremental_units": 109760.0,
+        "lift_gp": -45006.0,
+        "lift_pct": 1.31052,
+        "mde": 18206.1,
+        "net_gp": 566.567,
+        "net_gp_per_event": 4.16593,
+        "net_incremental_units": 43799.8,
+        "outcome": "inconclusive",
+        "scan_back": 86428.3,
+        "store_clusters": 24
+      },
+      "TPR": {
+        "baseline_gp": 475353.0,
+        "cannibalisation_gp": -306666.0,
+        "cannibalised_units": -177403.0,
+        "ci90": [
+          -9693.75,
+          72598.8
+        ],
+        "ci90_store_bootstrap": [
+          -9693.75,
+          72598.8
+        ],
+        "ci90_store_cr1": [
+          -11241.1,
+          68006.1
+        ],
+        "ci_source": "bootstrap",
+        "dip_gp": -122012.0,
+        "dip_units": -67798.6,
+        "display_fee": 308250.0,
+        "events": 535,
+        "funding_dependent": false,
+        "gp_before_funding": -648536.0,
+        "incremental_units": 399031.0,
+        "lift_gp": -219858.0,
+        "lift_pct": 1.51789,
+        "mde": 70042.4,
+        "net_gp": 28382.5,
+        "net_gp_per_event": 53.0514,
+        "net_incremental_units": 153830.0,
+        "outcome": "inconclusive",
+        "scan_back": 368668.0,
+        "store_clusters": 24
+      }
+    },
+    "mechanic_display": {
+      "BOGO": {
+        "baseline_gp": 25196.3,
+        "cannibalisation_gp": -25138.6,
+        "cannibalised_units": -15156.8,
+        "ci90": [
+          -38248.6,
+          -33321.7
+        ],
+        "ci90_store_bootstrap": [
+          -38248.6,
+          -33321.7
+        ],
+        "ci90_store_cr1": [
+          -37786.1,
+          -33565.8
+        ],
+        "ci_source": "bootstrap",
+        "dip_gp": -18166.6,
+        "dip_units": -11996.3,
+        "display_fee": 0.0,
+        "events": 41,
+        "funding_dependent": false,
+        "gp_before_funding": -138500.0,
+        "incremental_units": 68810.9,
+        "lift_gp": -95195.0,
+        "lift_pct": 4.01836,
+        "mde": 4193.48,
+        "net_gp": -35676.0,
+        "net_gp_per_event": -870.146,
+        "net_incremental_units": 41657.8,
+        "outcome": "cut_or_redesign",
+        "scan_back": 102824.0,
+        "store_clusters": 24
+      },
+      "BOGO + display": {
+        "baseline_gp": 38013.1,
+        "cannibalisation_gp": -28947.9,
+        "cannibalised_units": -17102.5,
+        "ci90": [
+          62102.3,
+          84662.8
+        ],
+        "ci90_store_bootstrap": [
+          62969.2,
+          84707.5
+        ],
+        "ci90_store_cr1": [
+          62102.3,
+          84662.8
+        ],
+        "ci_source": "cr1",
+        "dip_gp": -28656.3,
+        "dip_units": -17323.3,
+        "display_fee": 92250.0,
+        "events": 57,
+        "funding_dependent": true,
+        "gp_before_funding": -242735.0,
+        "incremental_units": 136731.0,
+        "lift_gp": -185131.0,
+        "lift_pct": 5.92321,
+        "mde": 19202.1,
+        "net_gp": 73382.6,
+        "net_gp_per_event": 1287.41,
+        "net_incremental_units": 102305.0,
+        "outcome": "keep",
+        "scan_back": 223868.0,
+        "store_clusters": 24
+      },
+      "Multi-buy": {
+        "baseline_gp": 84886.1,
+        "cannibalisation_gp": -45507.1,
+        "cannibalised_units": -27133.5,
+        "ci90": [
+          -46172.0,
+          -38283.4
+        ],
+        "ci90_store_bootstrap": [
+          -46172.0,
+          -38283.4
+        ],
+        "ci90_store_cr1": [
+          -44861.3,
+          -39567.2
+        ],
+        "ci_source": "bootstrap",
+        "dip_gp": -13291.7,
+        "dip_units": -8519.55,
+        "display_fee": 0.0,
+        "events": 81,
+        "funding_dependent": false,
+        "gp_before_funding": -96149.0,
+        "incremental_units": 48722.6,
+        "lift_gp": -37350.2,
+        "lift_pct": 0.983831,
+        "mde": 6714.28,
+        "net_gp": -42214.3,
+        "net_gp_per_event": -521.164,
+        "net_incremental_units": 13069.6,
+        "outcome": "cut_or_redesign",
+        "scan_back": 53934.8,
+        "store_clusters": 24
+      },
+      "Multi-buy + display": {
+        "baseline_gp": 51830.8,
+        "cannibalisation_gp": -31576.5,
+        "cannibalised_units": -18676.0,
+        "ci90": [
+          34998.6,
+          52037.4
+        ],
+        "ci90_store_bootstrap": [
+          34998.6,
+          52037.4
+        ],
+        "ci90_store_cr1": [
+          34489.6,
+          51072.1
+        ],
+        "ci_source": "bootstrap",
+        "dip_gp": -17980.5,
+        "dip_units": -11631.2,
+        "display_fee": 67500.0,
+        "events": 55,
+        "funding_dependent": true,
+        "gp_before_funding": -57212.8,
+        "incremental_units": 61037.4,
+        "lift_gp": -7655.82,
+        "lift_pct": 1.78317,
+        "mde": 14502.3,
+        "net_gp": 42780.8,
+        "net_gp_per_event": 777.833,
+        "net_incremental_units": 30730.2,
+        "outcome": "keep",
+        "scan_back": 32493.6,
+        "store_clusters": 24
+      },
+      "TPR": {
+        "baseline_gp": 281567.0,
+        "cannibalisation_gp": -171136.0,
+        "cannibalised_units": -99125.0,
+        "ci90": [
+          -208353.0,
+          -182957.0
+        ],
+        "ci90_store_bootstrap": [
+          -208353.0,
+          -182957.0
+        ],
+        "ci90_store_cr1": [
+          -204641.0,
+          -187320.0
+        ],
+        "ci_source": "bootstrap",
+        "dip_gp": -59659.2,
+        "dip_units": -31117.1,
+        "display_fee": 0.0,
+        "events": 300,
+        "funding_dependent": false,
+        "gp_before_funding": -369332.0,
+        "incremental_units": 166648.0,
+        "lift_gp": -138537.0,
+        "lift_pct": 1.09905,
+        "mde": 21615.1,
+        "net_gp": -195981.0,
+        "net_gp_per_event": -653.269,
+        "net_incremental_units": 36406.1,
+        "outcome": "cut_or_redesign",
+        "scan_back": 173352.0,
+        "store_clusters": 24
+      },
+      "TPR + display": {
+        "baseline_gp": 193787.0,
+        "cannibalisation_gp": -135530.0,
+        "cannibalised_units": -78278.1,
+        "ci90": [
+          193434.0,
+          255292.0
+        ],
+        "ci90_store_bootstrap": [
+          196046.0,
+          257666.0
+        ],
+        "ci90_store_cr1": [
+          193434.0,
+          255292.0
+        ],
+        "ci_source": "cr1",
+        "dip_gp": -62353.0,
+        "dip_units": -36681.6,
+        "display_fee": 308250.0,
+        "events": 235,
+        "funding_dependent": true,
+        "gp_before_funding": -279204.0,
+        "incremental_units": 232383.0,
+        "lift_gp": -81320.4,
+        "lift_pct": 2.08871,
+        "mde": 52650.1,
+        "net_gp": 224363.0,
+        "net_gp_per_event": 954.736,
+        "net_incremental_units": 117423.0,
+        "outcome": "keep",
+        "scan_back": 195317.0,
+        "store_clusters": 24
+      }
+    },
+    "subcategory": {
+      "Cheese Snacks": {
+        "baseline_gp": 26584.4,
+        "cannibalisation_gp": -18550.0,
+        "cannibalised_units": -16697.8,
+        "ci90": [
+          12831.3,
+          23042.4
+        ],
+        "ci90_store_bootstrap": [
+          12831.3,
+          23042.4
+        ],
+        "ci90_store_cr1": [
+          12880.1,
+          22410.1
+        ],
+        "ci_source": "bootstrap",
+        "dip_gp": -7188.47,
+        "dip_units": -7201.35,
+        "display_fee": 34250.0,
+        "events": 67,
+        "funding_dependent": true,
+        "gp_before_funding": -45139.0,
+        "incremental_units": 39440.6,
+        "lift_gp": -19400.6,
+        "lift_pct": 1.54479,
+        "mde": 8691.01,
+        "net_gp": 17645.1,
+        "net_gp_per_event": 263.36,
+        "net_incremental_units": 15541.5,
+        "outcome": "keep",
+        "scan_back": 28534.1,
+        "store_clusters": 24
+      },
+      "Kettle Chips": {
+        "baseline_gp": 88362.7,
+        "cannibalisation_gp": -52674.5,
+        "cannibalised_units": -30756.9,
+        "ci90": [
+          28042.2,
+          45320.1
+        ],
+        "ci90_store_bootstrap": [
+          28042.2,
+          45320.1
+        ],
+        "ci90_store_cr1": [
+          29236.4,
+          43087.8
+        ],
+        "ci_source": "bootstrap",
+        "dip_gp": -26982.8,
+        "dip_units": -15441.0,
+        "display_fee": 76750.0,
+        "events": 118,
+        "funding_dependent": true,
+        "gp_before_funding": -154116.0,
+        "incremental_units": 92870.0,
+        "lift_gp": -74458.5,
+        "lift_pct": 1.8365,
+        "mde": 14705.9,
+        "net_gp": 36162.1,
+        "net_gp_per_event": 306.459,
+        "net_incremental_units": 46672.1,
+        "outcome": "keep",
+        "scan_back": 113528.0,
+        "store_clusters": 24
+      },
+      "Nuts": {
+        "baseline_gp": 43217.0,
+        "cannibalisation_gp": -39908.9,
+        "cannibalised_units": -18699.3,
+        "ci90": [
+          -44227.6,
+          -27791.3
+        ],
+        "ci90_store_bootstrap": [
+          -44227.6,
+          -27791.3
+        ],
+        "ci90_store_cr1": [
+          -42720.7,
+          -29952.2
+        ],
+        "ci_source": "bootstrap",
+        "dip_gp": -23916.3,
+        "dip_units": -11708.5,
+        "display_fee": 43250.0,
+        "events": 61,
+        "funding_dependent": false,
+        "gp_before_funding": -137476.0,
+        "incremental_units": 42479.2,
+        "lift_gp": -73650.4,
+        "lift_pct": 2.07228,
+        "mde": 13989.6,
+        "net_gp": -36336.4,
+        "net_gp_per_event": -595.679,
+        "net_incremental_units": 12071.4,
+        "outcome": "cut_or_redesign",
+        "scan_back": 57889.2,
+        "store_clusters": 24
+      },
+      "Popcorn": {
+        "baseline_gp": 34824.8,
+        "cannibalisation_gp": -17334.1,
+        "cannibalised_units": -12477.1,
+        "ci90": [
+          -2548.06,
+          4300.22
+        ],
+        "ci90_store_bootstrap": [
+          -2548.06,
+          4300.22
+        ],
+        "ci90_store_cr1": [
+          -1938.14,
+          3515.5
+        ],
+        "ci_source": "bootstrap",
+        "dip_gp": -12806.9,
+        "dip_units": -8980.18,
+        "display_fee": 24750.0,
+        "events": 55,
+        "funding_dependent": false,
+        "gp_before_funding": -51813.8,
+        "incremental_units": 36476.6,
+        "lift_gp": -21672.7,
+        "lift_pct": 1.46249,
+        "mde": 5828.85,
+        "net_gp": 788.683,
+        "net_gp_per_event": 14.3397,
+        "net_incremental_units": 15019.4,
+        "outcome": "inconclusive",
+        "scan_back": 27852.5,
+        "store_clusters": 24
+      },
+      "Potato Chips": {
+        "baseline_gp": 277480.0,
+        "cannibalisation_gp": -127753.0,
+        "cannibalised_units": -62332.6,
+        "ci90": [
+          35250.3,
+          90177.1
+        ],
+        "ci90_store_bootstrap": [
+          35250.3,
+          90177.1
+        ],
+        "ci90_store_cr1": [
+          43588.2,
+          81069.8
+        ],
+        "ci_source": "bootstrap",
+        "dip_gp": -58784.3,
+        "dip_units": -30347.9,
+        "display_fee": 144750.0,
+        "events": 234,
+        "funding_dependent": true,
+        "gp_before_funding": -383754.0,
+        "incremental_units": 244093.0,
+        "lift_gp": -197217.0,
+        "lift_pct": 1.76264,
+        "mde": 46750.4,
+        "net_gp": 62329.0,
+        "net_gp_per_event": 266.363,
+        "net_incremental_units": 151413.0,
+        "outcome": "keep",
+        "scan_back": 301333.0,
+        "store_clusters": 24
+      },
+      "Pretzels": {
+        "baseline_gp": 47142.0,
+        "cannibalisation_gp": -42859.4,
+        "cannibalised_units": -32565.8,
+        "ci90": [
+          -16182.4,
+          -4744.63
+        ],
+        "ci90_store_bootstrap": [
+          -16182.4,
+          -4744.63
+        ],
+        "ci90_store_cr1": [
+          -15759.4,
+          -6023.35
+        ],
+        "ci_source": "bootstrap",
+        "dip_gp": -22346.4,
+        "dip_units": -16106.4,
+        "display_fee": 41750.0,
+        "events": 79,
+        "funding_dependent": false,
+        "gp_before_funding": -95336.0,
+        "incremental_units": 62291.1,
+        "lift_gp": -30130.1,
+        "lift_pct": 1.76658,
+        "mde": 9735.17,
+        "net_gp": -10891.4,
+        "net_gp_per_event": -137.866,
+        "net_incremental_units": 13618.9,
+        "outcome": "cut_or_redesign",
+        "scan_back": 42694.6,
+        "store_clusters": 24
+      },
+      "Tortilla Chips": {
+        "baseline_gp": 136283.0,
+        "cannibalisation_gp": -129497.0,
+        "cannibalised_units": -79066.5,
+        "ci90": [
+          -14112.9,
+          20967.3
+        ],
+        "ci90_store_bootstrap": [
+          -14112.9,
+          20967.3
+        ],
+        "ci90_store_cr1": [
+          -11175.0,
+          15819.3
+        ],
+        "ci_source": "bootstrap",
+        "dip_gp": -40517.1,
+        "dip_units": -24920.7,
+        "display_fee": 92000.0,
+        "events": 126,
+        "funding_dependent": false,
+        "gp_before_funding": -288696.0,
+        "incremental_units": 186698.0,
+        "lift_gp": -118682.0,
+        "lift_pct": 2.22317,
+        "mde": 29858.1,
+        "net_gp": 2322.18,
+        "net_gp_per_event": 18.43,
+        "net_incremental_units": 82710.5,
+        "outcome": "inconclusive",
+        "scan_back": 199018.0,
+        "store_clusters": 24
+      },
+      "Trail Mix": {
+        "baseline_gp": 21385.1,
+        "cannibalisation_gp": -9259.43,
+        "cannibalised_units": -2875.86,
+        "ci90": [
+          -8620.08,
+          -1930.8
+        ],
+        "ci90_store_bootstrap": [
+          -8620.08,
+          -1930.8
+        ],
+        "ci90_store_cr1": [
+          -7323.67,
+          -3403.58
+        ],
+        "ci_source": "bootstrap",
+        "dip_gp": -7564.85,
+        "dip_units": -2562.99,
+        "display_fee": 10500.0,
+        "events": 29,
+        "funding_dependent": false,
+        "gp_before_funding": -26802.6,
+        "incremental_units": 9984.66,
+        "lift_gp": -9978.34,
+        "lift_pct": 1.31631,
+        "mde": 5693.51,
+        "net_gp": -5363.62,
+        "net_gp_per_event": -184.953,
+        "net_incremental_units": 4545.8,
+        "outcome": "cut_or_redesign",
+        "scan_back": 10939.0,
+        "store_clusters": 24
+      }
+    }
+  },
+  "cannibalisation": {
+    "Cheese Snacks": {
+      "per_promoted_sister": -0.0911365,
+      "se_store_cr1": 0.00563577
+    },
+    "Kettle Chips": {
+      "per_promoted_sister": -0.0482926,
+      "se_store_cr1": 0.0028003
+    },
+    "Nuts": {
+      "per_promoted_sister": -0.119364,
+      "se_store_cr1": 0.00900625
+    },
+    "Popcorn": {
+      "per_promoted_sister": -0.0768288,
+      "se_store_cr1": 0.00521232
+    },
+    "Potato Chips": {
+      "per_promoted_sister": -0.0194146,
+      "se_store_cr1": 0.00189159
+    },
+    "Pretzels": {
+      "per_promoted_sister": -0.116261,
+      "se_store_cr1": 0.00465876
+    },
+    "Tortilla Chips": {
+      "per_promoted_sister": -0.0609288,
+      "se_store_cr1": 0.00317905
+    },
+    "Trail Mix": {
+      "per_promoted_sister": -0.097637,
+      "se_store_cr1": 0.0169496
+    }
+  },
+  "checks_passed": {
+    "placebo_does_not_flip_decisions": true,
+    "placebo_within_2pct": true,
+    "planted_cannibalisation_recovered": true,
+    "pre_period_within_3pct": true
+  },
+  "credible": true,
+  "design": {
+    "approved_events": 771,
+    "clean_rows": 183008,
+    "dates_swapped_fixed": [
+      "PR-25-0432"
+    ],
+    "events_with_sales": 769,
+    "fe": [
+      "fe_a",
+      "fe_b",
+      "fe_c"
+    ],
+    "fe_iterations": 12,
+    "fe_level_iterations": 12,
+    "retransformation": {
+      "Cheese Snacks": 1.08537,
+      "Kettle Chips": 1.074,
+      "Nuts": 1.0861,
+      "Popcorn": 1.08597,
+      "Potato Chips": 1.05975,
+      "Pretzels": 1.08031,
+      "Tortilla Chips": 1.07048,
+      "Trail Mix": 1.10167
+    },
+    "roles": {
+      "clean": {
+        "baseline_units": 2230780.0,
+        "rows": 183008,
+        "units": 2230780.0
+      },
+      "placebo": {
+        "baseline_units": 131521.0,
+        "rows": 9166,
+        "units": 131422.0
+      },
+      "post": {
+        "baseline_units": 576789.0,
+        "rows": 29184,
+        "units": 459748.0
+      },
+      "pre": {
+        "baseline_units": 573336.0,
+        "rows": 29674,
+        "units": 569736.0
+      },
+      "promo": {
+        "baseline_units": 386847.0,
+        "rows": 20027,
+        "units": 1101180.0
+      },
+      "stockout": {
+        "baseline_units": 55502.4,
+        "rows": 2043,
+        "units": 77417.0
+      }
+    },
+    "rows_without_baseline": 2,
+    "store_clusters": 24
+  },
+  "events_fy2025": {
+    "best_5": [
+      {
+        "display": "Y",
+        "mechanic": "TPR",
+        "net_gp": 3913.97,
+        "promo_id": "PR-25-0569",
+        "subcategory": "Kettle Chips"
+      },
+      {
+        "display": "Y",
+        "mechanic": "TPR",
+        "net_gp": 4532.51,
+        "promo_id": "PR-25-0727",
+        "subcategory": "Tortilla Chips"
+      },
+      {
+        "display": "Y",
+        "mechanic": "BOGO",
+        "net_gp": 6694.37,
+        "promo_id": "PR-25-0671",
+        "subcategory": "Tortilla Chips"
+      },
+      {
+        "display": "Y",
+        "mechanic": "TPR",
+        "net_gp": 6982.11,
+        "promo_id": "PR-25-0681",
+        "subcategory": "Potato Chips"
+      },
+      {
+        "display": "Y",
+        "mechanic": "BOGO",
+        "net_gp": 9673.7,
+        "promo_id": "PR-25-0577",
+        "subcategory": "Potato Chips"
+      }
+    ],
+    "events": 397,
+    "median_net_gp": -315.755,
+    "share_net_positive": 0.355164,
+    "share_positive_before_funding": 0.0125945,
+    "worst_5": [
+      {
+        "display": "N",
+        "mechanic": "TPR",
+        "net_gp": -3629.98,
+        "promo_id": "PR-25-0470",
+        "subcategory": "Nuts"
+      },
+      {
+        "display": "N",
+        "mechanic": "BOGO",
+        "net_gp": -3504.69,
+        "promo_id": "PR-25-0742",
+        "subcategory": "Potato Chips"
+      },
+      {
+        "display": "N",
+        "mechanic": "TPR",
+        "net_gp": -3456.94,
+        "promo_id": "PR-25-0535",
+        "subcategory": "Potato Chips"
+      },
+      {
+        "display": "N",
+        "mechanic": "TPR",
+        "net_gp": -3201.97,
+        "promo_id": "PR-25-0646",
+        "subcategory": "Tortilla Chips"
+      },
+      {
+        "display": "N",
+        "mechanic": "TPR",
+        "net_gp": -2982.06,
+        "promo_id": "PR-25-0427",
+        "subcategory": "Nuts"
+      }
+    ]
+  },
+  "fy2025": {
+    "all": {
+      "all": {
+        "baseline_gp": 359843.0,
+        "cannibalisation_gp": -236907.0,
+        "cannibalised_units": -136498.0,
+        "ci90": [
+          -14420.9,
+          47027.3
+        ],
+        "ci90_store_bootstrap": [
+          -14420.9,
+          47027.3
+        ],
+        "ci90_store_cr1": [
+          -15124.1,
+          41965.2
+        ],
+        "ci_source": "bootstrap",
+        "dip_gp": -110918.0,
+        "dip_units": -63614.4,
+        "display_fee": 232000.0,
+        "events": 397,
+        "funding_dependent": false,
+        "gp_before_funding": -660954.0,
+        "incremental_units": 391499.0,
+        "lift_gp": -313130.0,
+        "lift_pct": 1.8932,
+        "mde": 52301.0,
+        "net_gp": 13420.6,
+        "net_gp_per_event": 33.8049,
+        "net_incremental_units": 191387.0,
+        "outcome": "inconclusive",
+        "scan_back": 442375.0,
+        "store_clusters": 24
+      }
+    },
+    "display": {
+      "display": {
+        "baseline_gp": 149283.0,
+        "cannibalisation_gp": -99672.7,
+        "cannibalised_units": -57215.9,
+        "ci90": [
+          152489.0,
+          199302.0
+        ],
+        "ci90_store_bootstrap": [
+          154302.0,
+          200801.0
+        ],
+        "ci90_store_cr1": [
+          152489.0,
+          199302.0
+        ],
+        "ci_source": "cr1",
+        "dip_gp": -57662.8,
+        "dip_units": -33981.2,
+        "display_fee": 232000.0,
+        "events": 169,
+        "funding_dependent": true,
+        "gp_before_funding": -316535.0,
+        "incremental_units": 231645.0,
+        "lift_gp": -159200.0,
+        "lift_pct": 2.6682,
+        "mde": 39844.3,
+        "net_gp": 175895.0,
+        "net_gp_per_event": 1040.8,
+        "net_incremental_units": 140448.0,
+        "outcome": "keep",
+        "scan_back": 260431.0,
+        "store_clusters": 24
+      },
+      "no display": {
+        "baseline_gp": 210560.0,
+        "cannibalisation_gp": -137234.0,
+        "cannibalised_units": -79281.7,
+        "ci90": [
+          -171087.0,
+          -153487.0
+        ],
+        "ci90_store_bootstrap": [
+          -171087.0,
+          -153487.0
+        ],
+        "ci90_store_cr1": [
+          -167866.0,
+          -157083.0
+        ],
+        "ci_source": "bootstrap",
+        "dip_gp": -53255.0,
+        "dip_units": -29633.2,
+        "display_fee": 0.0,
+        "events": 228,
+        "funding_dependent": false,
+        "gp_before_funding": -344419.0,
+        "incremental_units": 159854.0,
+        "lift_gp": -153930.0,
+        "lift_pct": 1.33239,
+        "mde": 14980.4,
+        "net_gp": -162475.0,
+        "net_gp_per_event": -712.609,
+        "net_incremental_units": 50939.4,
+        "outcome": "cut_or_redesign",
+        "scan_back": 181944.0,
+        "store_clusters": 24
+      }
+    },
+    "mechanic": {
+      "BOGO": {
+        "baseline_gp": 36948.8,
+        "cannibalisation_gp": -26901.4,
+        "cannibalised_units": -15982.3,
+        "ci90": [
+          9784.44,
+          23883.7
+        ],
+        "ci90_store_bootstrap": [
+          10290.2,
+          24345.9
+        ],
+        "ci90_store_cr1": [
+          9784.44,
+          23883.7
+        ],
+        "ci_source": "cr1",
+        "dip_gp": -27024.0,
+        "dip_units": -16584.1,
+        "display_fee": 39500.0,
+        "events": 47,
+        "funding_dependent": true,
+        "gp_before_funding": -226828.0,
+        "incremental_units": 122442.0,
+        "lift_gp": -172902.0,
+        "lift_pct": 5.29804,
+        "mde": 12000.5,
+        "net_gp": 16834.1,
+        "net_gp_per_event": 358.172,
+        "net_incremental_units": 89875.8,
+        "outcome": "keep",
+        "scan_back": 204162.0,
+        "store_clusters": 24
+      },
+      "Multi-buy": {
+        "baseline_gp": 58730.6,
+        "cannibalisation_gp": -44397.2,
+        "cannibalised_units": -25808.3,
+        "ci90": [
+          -16662.6,
+          -5070.77
+        ],
+        "ci90_store_bootstrap": [
+          -16662.6,
+          -5070.77
+        ],
+        "ci90_store_cr1": [
+          -16312.6,
+          -6334.92
+        ],
+        "ci_source": "bootstrap",
+        "dip_gp": -13826.5,
+        "dip_units": -9057.67,
+        "display_fee": 32750.0,
+        "events": 77,
+        "funding_dependent": false,
+        "gp_before_funding": -78419.8,
+        "incremental_units": 48416.8,
+        "lift_gp": -20196.2,
+        "lift_pct": 1.24846,
+        "mde": 9866.23,
+        "net_gp": -11323.8,
+        "net_gp_per_event": -147.062,
+        "net_incremental_units": 13550.8,
+        "outcome": "cut_or_redesign",
+        "scan_back": 34346.0,
+        "store_clusters": 24
+      },
+      "TPR": {
+        "baseline_gp": 264163.0,
+        "cannibalisation_gp": -165608.0,
+        "cannibalised_units": -94707.0,
+        "ci90": [
+          -14294.0,
+          34377.4
+        ],
+        "ci90_store_bootstrap": [
+          -14294.0,
+          34377.4
+        ],
+        "ci90_store_cr1": [
+          -15081.2,
+          30901.7
+        ],
+        "ci_source": "bootstrap",
+        "dip_gp": -70067.3,
+        "dip_units": -37972.7,
+        "display_fee": 159750.0,
+        "events": 273,
+        "funding_dependent": false,
+        "gp_before_funding": -355707.0,
+        "incremental_units": 220640.0,
+        "lift_gp": -120032.0,
+        "lift_pct": 1.5227,
+        "mde": 41426.2,
+        "net_gp": 7910.23,
+        "net_gp_per_event": 28.9752,
+        "net_incremental_units": 87960.6,
+        "outcome": "inconclusive",
+        "scan_back": 203867.0,
+        "store_clusters": 24
+      }
+    },
+    "mechanic_display": {
+      "BOGO": {
+        "baseline_gp": 13592.0,
+        "cannibalisation_gp": -14974.0,
+        "cannibalised_units": -8703.57,
+        "ci90": [
+          -24489.3,
+          -21437.3
+        ],
+        "ci90_store_bootstrap": [
+          -24489.3,
+          -21437.3
+        ],
+        "ci90_store_cr1": [
+          -24218.2,
+          -21620.8
+        ],
+        "ci_source": "bootstrap",
+        "dip_gp": -9656.22,
+        "dip_units": -6476.37,
+        "display_fee": 0.0,
+        "events": 21,
+        "funding_dependent": false,
+        "gp_before_funding": -77431.1,
+        "incremental_units": 36484.8,
+        "lift_gp": -52800.9,
+        "lift_pct": 3.82071,
+        "mde": 2597.65,
+        "net_gp": -22919.5,
+        "net_gp_per_event": -1091.4,
+        "net_incremental_units": 21304.8,
+        "outcome": "cut_or_redesign",
+        "scan_back": 54511.7,
+        "store_clusters": 24
+      },
+      "BOGO + display": {
+        "baseline_gp": 23356.8,
+        "cannibalisation_gp": -11927.3,
+        "cannibalised_units": -7278.72,
+        "ci90": [
+          33221.5,
+          46285.6
+        ],
+        "ci90_store_bootstrap": [
+          33636.8,
+          46571.2
+        ],
+        "ci90_store_cr1": [
+          33221.5,
+          46285.6
+        ],
+        "ci_source": "cr1",
+        "dip_gp": -17367.8,
+        "dip_units": -10107.7,
+        "display_fee": 39500.0,
+        "events": 26,
+        "funding_dependent": true,
+        "gp_before_funding": -149396.0,
+        "incremental_units": 85957.4,
+        "lift_gp": -120101.0,
+        "lift_pct": 6.33828,
+        "mde": 11119.4,
+        "net_gp": 39753.6,
+        "net_gp_per_event": 1528.98,
+        "net_incremental_units": 68570.9,
+        "outcome": "keep",
+        "scan_back": 149650.0,
+        "store_clusters": 24
+      },
+      "Multi-buy": {
+        "baseline_gp": 37269.1,
+        "cannibalisation_gp": -29068.4,
+        "cannibalised_units": -16862.8,
+        "ci90": [
+          -33162.5,
+          -28646.7
+        ],
+        "ci90_store_bootstrap": [
+          -33162.5,
+          -28646.7
+        ],
+        "ci90_store_cr1": [
+          -32028.3,
+          -29805.0
+        ],
+        "ci_source": "bootstrap",
+        "dip_gp": -6891.66,
+        "dip_units": -4574.11,
+        "display_fee": 0.0,
+        "events": 52,
+        "funding_dependent": false,
+        "gp_before_funding": -50376.6,
+        "incremental_units": 23215.5,
+        "lift_gp": -14416.5,
+        "lift_pct": 0.9411,
+        "mde": 3843.59,
+        "net_gp": -30916.7,
+        "net_gp_per_event": -594.551,
+        "net_incremental_units": 1778.65,
+        "outcome": "cut_or_redesign",
+        "scan_back": 19459.9,
+        "store_clusters": 24
+      },
+      "Multi-buy + display": {
+        "baseline_gp": 21461.5,
+        "cannibalisation_gp": -15328.8,
+        "cannibalised_units": -8945.57,
+        "ci90": [
+          15524.4,
+          24369.0
+        ],
+        "ci90_store_bootstrap": [
+          15524.4,
+          24369.0
+        ],
+        "ci90_store_cr1": [
+          15263.2,
+          23922.6
+        ],
+        "ci_source": "bootstrap",
+        "dip_gp": -6934.79,
+        "dip_units": -4483.56,
+        "display_fee": 32750.0,
+        "events": 25,
+        "funding_dependent": true,
+        "gp_before_funding": -28043.2,
+        "incremental_units": 25201.3,
+        "lift_gp": -5779.63,
+        "lift_pct": 1.78572,
+        "mde": 7528.03,
+        "net_gp": 19592.9,
+        "net_gp_per_event": 783.716,
+        "net_incremental_units": 11772.2,
+        "outcome": "keep",
+        "scan_back": 14886.1,
+        "store_clusters": 24
+      },
+      "TPR": {
+        "baseline_gp": 159699.0,
+        "cannibalisation_gp": -93191.5,
+        "cannibalised_units": -53715.4,
+        "ci90": [
+          -115504.0,
+          -101545.0
+        ],
+        "ci90_store_bootstrap": [
+          -115504.0,
+          -101545.0
+        ],
+        "ci90_store_cr1": [
+          -113838.0,
+          -103439.0
+        ],
+        "ci_source": "bootstrap",
+        "dip_gp": -36707.1,
+        "dip_units": -18582.8,
+        "display_fee": 0.0,
+        "events": 155,
+        "funding_dependent": false,
+        "gp_before_funding": -216611.0,
+        "incremental_units": 100154.0,
+        "lift_gp": -86712.8,
+        "lift_pct": 1.16787,
+        "mde": 11881.1,
+        "net_gp": -108639.0,
+        "net_gp_per_event": -700.894,
+        "net_incremental_units": 27855.9,
+        "outcome": "cut_or_redesign",
+        "scan_back": 107973.0,
+        "store_clusters": 24
+      },
+      "TPR + display": {
+        "baseline_gp": 104465.0,
+        "cannibalisation_gp": -72416.5,
+        "cannibalised_units": -40991.6,
+        "ci90": [
+          100675.0,
+          135252.0
+        ],
+        "ci90_store_bootstrap": [
+          100675.0,
+          135252.0
+        ],
+        "ci90_store_cr1": [
+          99375.0,
+          133723.0
+        ],
+        "ci_source": "bootstrap",
+        "dip_gp": -33360.2,
+        "dip_units": -19389.9,
+        "display_fee": 159750.0,
+        "events": 118,
+        "funding_dependent": true,
+        "gp_before_funding": -139096.0,
+        "incremental_units": 120486.0,
+        "lift_gp": -33318.7,
+        "lift_pct": 2.03721,
+        "mde": 29429.8,
+        "net_gp": 116549.0,
+        "net_gp_per_event": 987.702,
+        "net_incremental_units": 60104.7,
+        "outcome": "keep",
+        "scan_back": 95894.4,
+        "store_clusters": 24
+      }
+    },
+    "subcategory": {
+      "Cheese Snacks": {
+        "baseline_gp": 14764.9,
+        "cannibalisation_gp": -9667.49,
+        "cannibalised_units": -8590.59,
+        "ci90": [
+          1366.86,
+          9824.96
+        ],
+        "ci90_store_bootstrap": [
+          1877.59,
+          10297.1
+        ],
+        "ci90_store_cr1": [
+          1366.86,
+          9824.96
+        ],
+        "ci_source": "cr1",
+        "dip_gp": -4541.76,
+        "dip_units": -4739.52,
+        "display_fee": 15250.0,
+        "events": 33,
+        "funding_dependent": true,
+        "gp_before_funding": -25978.0,
+        "incremental_units": 21743.3,
+        "lift_gp": -11768.7,
+        "lift_pct": 1.52544,
+        "mde": 7199.02,
+        "net_gp": 5595.91,
+        "net_gp_per_event": 169.573,
+        "net_incremental_units": 8413.15,
+        "outcome": "keep",
+        "scan_back": 16323.9,
+        "store_clusters": 24
+      },
+      "Kettle Chips": {
+        "baseline_gp": 48295.4,
+        "cannibalisation_gp": -29034.4,
+        "cannibalised_units": -16383.7,
+        "ci90": [
+          -1324.2,
+          8143.23
+        ],
+        "ci90_store_bootstrap": [
+          -1324.2,
+          8143.23
+        ],
+        "ci90_store_cr1": [
+          -594.595,
+          6820.55
+        ],
+        "ci_source": "bootstrap",
+        "dip_gp": -11905.3,
+        "dip_units": -6513.11,
+        "display_fee": 24750.0,
+        "events": 61,
+        "funding_dependent": false,
+        "gp_before_funding": -73147.1,
+        "incremental_units": 41377.4,
+        "lift_gp": -32207.5,
+        "lift_pct": 1.57991,
+        "mde": 8058.1,
+        "net_gp": 3112.98,
+        "net_gp_per_event": 51.0324,
+        "net_incremental_units": 18480.5,
+        "outcome": "inconclusive",
+        "scan_back": 51510.1,
+        "store_clusters": 24
+      },
+      "Nuts": {
+        "baseline_gp": 22626.9,
+        "cannibalisation_gp": -20526.1,
+        "cannibalised_units": -9739.92,
+        "ci90": [
+          -28452.6,
+          -17563.5
+        ],
+        "ci90_store_bootstrap": [
+          -28452.6,
+          -17563.5
+        ],
+        "ci90_store_cr1": [
+          -28257.2,
+          -18459.8
+        ],
+        "ci_source": "bootstrap",
+        "dip_gp": -13866.1,
+        "dip_units": -6816.2,
+        "display_fee": 22000.0,
+        "events": 32,
+        "funding_dependent": false,
+        "gp_before_funding": -76920.2,
+        "incremental_units": 22464.9,
+        "lift_gp": -42528.1,
+        "lift_pct": 2.10976,
+        "mde": 9268.2,
+        "net_gp": -23358.5,
+        "net_gp_per_event": -729.954,
+        "net_incremental_units": 5908.8,
+        "outcome": "cut_or_redesign",
+        "scan_back": 31561.7,
+        "store_clusters": 24
+      },
+      "Popcorn": {
+        "baseline_gp": 19119.1,
+        "cannibalisation_gp": -8163.19,
+        "cannibalised_units": -5919.82,
+        "ci90": [
+          -1880.3,
+          1343.12
+        ],
+        "ci90_store_bootstrap": [
+          -1880.3,
+          1343.12
+        ],
+        "ci90_store_cr1": [
+          -1589.21,
+          984.937
+        ],
+        "ci_source": "bootstrap",
+        "dip_gp": -6911.77,
+        "dip_units": -4797.66,
+        "display_fee": 11750.0,
+        "events": 26,
+        "funding_dependent": false,
+        "gp_before_funding": -25538.7,
+        "incremental_units": 18597.3,
+        "lift_gp": -10463.7,
+        "lift_pct": 1.3774,
+        "mde": 2743.58,
+        "net_gp": -302.134,
+        "net_gp_per_event": -11.6205,
+        "net_incremental_units": 7879.78,
+        "outcome": "inconclusive",
+        "scan_back": 13486.6,
+        "store_clusters": 24
+      },
+      "Potato Chips": {
+        "baseline_gp": 147532.0,
+        "cannibalisation_gp": -68539.4,
+        "cannibalised_units": -33677.1,
+        "ci90": [
+          15788.7,
+          47024.3
+        ],
+        "ci90_store_bootstrap": [
+          15788.7,
+          47024.3
+        ],
+        "ci90_store_cr1": [
+          19698.4,
+          42314.1
+        ],
+        "ci_source": "bootstrap",
+        "dip_gp": -39368.9,
+        "dip_units": -19800.4,
+        "display_fee": 82750.0,
+        "events": 122,
+        "funding_dependent": true,
+        "gp_before_funding": -230190.0,
+        "incremental_units": 138075.0,
+        "lift_gp": -122282.0,
+        "lift_pct": 1.79089,
+        "mde": 26585.9,
+        "net_gp": 31006.3,
+        "net_gp_per_event": 254.15,
+        "net_incremental_units": 84597.1,
+        "outcome": "keep",
+        "scan_back": 178446.0,
+        "store_clusters": 24
+      },
+      "Pretzels": {
+        "baseline_gp": 23220.4,
+        "cannibalisation_gp": -22340.0,
+        "cannibalised_units": -16391.2,
+        "ci90": [
+          -12024.1,
+          -6429.16
+        ],
+        "ci90_store_bootstrap": [
+          -12024.1,
+          -6429.16
+        ],
+        "ci90_store_cr1": [
+          -11724.7,
+          -7112.37
+        ],
+        "ci_source": "bootstrap",
+        "dip_gp": -11884.6,
+        "dip_units": -8167.82,
+        "display_fee": 19250.0,
+        "events": 41,
+        "funding_dependent": false,
+        "gp_before_funding": -51069.3,
+        "incremental_units": 28963.8,
+        "lift_gp": -16844.7,
+        "lift_pct": 1.73277,
+        "mde": 4762.11,
+        "net_gp": -9418.53,
+        "net_gp_per_event": -229.72,
+        "net_incremental_units": 4404.77,
+        "outcome": "cut_or_redesign",
+        "scan_back": 22400.8,
+        "store_clusters": 24
+      },
+      "Tortilla Chips": {
+        "baseline_gp": 71346.0,
+        "cannibalisation_gp": -73082.3,
+        "cannibalised_units": -44046.5,
+        "ci90": [
+          -651.478,
+          19127.4
+        ],
+        "ci90_store_bootstrap": [
+          -651.478,
+          19127.4
+        ],
+        "ci90_store_cr1": [
+          1299.92,
+          16057.6
+        ],
+        "ci_source": "bootstrap",
+        "dip_gp": -17527.3,
+        "dip_units": -10987.0,
+        "display_fee": 49000.0,
+        "events": 66,
+        "funding_dependent": false,
+        "gp_before_funding": -160388.0,
+        "incremental_units": 112905.0,
+        "lift_gp": -69778.3,
+        "lift_pct": 2.59054,
+        "mde": 16834.6,
+        "net_gp": 8678.78,
+        "net_gp_per_event": 131.497,
+        "net_incremental_units": 57871.1,
+        "outcome": "inconclusive",
+        "scan_back": 120067.0,
+        "store_clusters": 24
+      },
+      "Trail Mix": {
+        "baseline_gp": 12938.1,
+        "cannibalisation_gp": -5553.63,
+        "cannibalised_units": -1748.79,
+        "ci90": [
+          -3987.93,
+          266.814
+        ],
+        "ci90_store_bootstrap": [
+          -3987.93,
+          266.814
+        ],
+        "ci90_store_cr1": [
+          -3239.77,
+          -548.579
+        ],
+        "ci_source": "bootstrap",
+        "dip_gp": -4912.25,
+        "dip_units": -1792.7,
+        "display_fee": 7250.0,
+        "events": 16,
+        "funding_dependent": false,
+        "gp_before_funding": -17722.9,
+        "incremental_units": 7373.39,
+        "lift_gp": -7257.04,
+        "lift_pct": 1.53529,
+        "mde": 3621.38,
+        "net_gp": -1894.17,
+        "net_gp_per_event": -118.386,
+        "net_incremental_units": 3831.9,
+        "outcome": "inconclusive",
+        "scan_back": 8578.75,
+        "store_clusters": 24
+      }
+    }
+  },
+  "placebo": {
+    "error_ci90_store_bootstrap": [
+      -0.00816298,
+      0.00661798
+    ],
+    "error_pct": -0.000752844,
+    "gp_error": -297.378,
+    "rows": 9166
+  },
+  "planted_cannibalisation_recovered": {
+    "Cheese Snacks": -0.05,
+    "Kettle Chips": -0.05,
+    "Nuts": -0.05,
+    "Popcorn": -0.05,
+    "Potato Chips": -0.05,
+    "Pretzels": -0.05,
+    "Tortilla Chips": -0.05,
+    "Trail Mix": -0.05
+  },
+  "post_dip_by_week": {
+    "1": -0.27487,
+    "2": -0.130738
+  },
+  "pre_period": {
+    "error_ci90_store_bootstrap": [
+      -0.011316,
+      -0.000931471
+    ],
+    "error_pct": -0.00627947,
+    "gp_error": -5334.88,
+    "rows": 29674
+  }
+}

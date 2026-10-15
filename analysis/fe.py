@@ -157,3 +157,33 @@ def wild_percentile_ci(fit, x, level=0.90, draws=9999, seed=20261014, samples=No
 def clustered_ci(fit, x, level=0.90):
     z = {0.90: 1.6448536269514722, 0.95: 1.959963984540054}[level]
     return [fit['beta'][x] - z * fit['se'][x], fit['beta'][x] + z * fit['se'][x]]
+
+
+def fe_levels(con, source, y, beta, fes, tol=1e-9, max_iter=2000):
+    """Recover the absorbed fixed-effect levels after `feols`, by backfitting on y - X beta.
+
+    Creates temp table `_fe_<name>` (level, value) for each FE in `fes`. Levels are not unique, but their sum
+    is, which is all an imputed counterfactual needs. Gauss-Seidel on the FE normal equations, so it converges
+    to the same projection that `demean` removes.
+    """
+    resid = f'{y} - ' + ' - '.join(f'{b!r} * {x}' for x, b in beta.items()) if beta else y
+    cols = ', '.join(f'0.0::double as _c{i}' for i in range(len(fes)))
+    con.execute(f'create or replace temp table _bf as select {", ".join(fes)}, ({resid})::double as _r, {cols} '
+                f'from {source}')
+    for iteration in range(max_iter):
+        change = 0.0
+        for i, fe in enumerate(fes):
+            others = ' - '.join(f'_c{j}' for j in range(len(fes)) if j != i) or '0'
+            con.execute(f'create or replace temp table _bf_new as select * replace '
+                        f'(avg(_r - {others}) over (partition by {fe}) as _c{i}) from _bf')
+            change = max(change, con.execute(
+                f'select max(abs(n.v - o.v)) from (select {fe}, any_value(_c{i}) as v from _bf_new group by 1) n '
+                f'join (select {fe}, any_value(_c{i}) as v from _bf group by 1) o using ({fe})').fetchone()[0])
+            con.execute('create or replace temp table _bf as select * from _bf_new')
+        if change < tol:
+            break
+    else:
+        raise RuntimeError(f'Fixed-effect levels did not converge within {max_iter} iterations ({change})')
+    for i, fe in enumerate(fes):
+        con.execute(f'create or replace temp table _fe_{fe} as select distinct {fe} as level, _c{i} as value from _bf')
+    return iteration + 1
