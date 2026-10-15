@@ -2,14 +2,15 @@
 
 *To: VP Merchandising · Data: Bramblewood POS, inventory and merchandising extracts, FY2024–FY2025 (synthetic) ·
 Generated from code by `analysis/build_memo.py`; every figure is a named query result in `analysis/results/`.
-Method and decision rules were [committed before any outcome was computed](../analysis/PLAN.md).*
+Method and decision rules were [committed before any outcome was computed](../analysis/PLAN.md).
+The combined FY2026 plan built on these answers is [one page](fy2026_plan.md); estimates are frozen for the [answer-key scorecard](scorecard.md).*
 
 | Question | Answer | Dollar figure (90% range) | Recommendation |
 |---|---|---|---|
-| 1. Delisting test | **Inconclusive** — the test cannot detect a GP change smaller than 4.3% | +$15.3K per year if rolled out to the other large stores (−$19.7K to +$50.3K) | Do not roll out on this evidence; rerun as a randomized, full-year test |
+| 1. Delisting test | **Inconclusive** — the test cannot detect a GP change smaller than 4.3%; but its transfer rate passes its placebo checks and prices a cut list | Test planogram: +$15.3K per year if rolled out (−$19.7K to +$50.3K). Cut list of 11 SKUs: +$49.2K per year (+$14.8K to +$83.6K) | Do not roll out the test planogram; cut the 11 SKUs that lose least GP per facing, planogram by planogram |
 | 2. Promotions | **Roughly break-even, and only because of vendor money** — 1% of FY2025 events made gross profit before funding | +$13.4K net in FY2025 (−$14.4K to +$47.0K); −$661.0K before funding | Cut or redesign promotions without a display; keep display events only where display execution is verified and the fee collected |
-| 3. Price increases | **Not identified** from the data; break-even analysis favours Golden Ridge, tortilla is a coin flip | Golden Ridge +$52.9K (+$49.4K to +$56.3K); tortilla −$1.2K (−$11.4K to +$8.3K) — scenarios, not estimates | Keep Golden Ridge; test the tortilla price in a randomized subset of stores |
-| 4. Forecast and in-stock | **Forecast over-forecasts by +13.4%** (+11.8% to +15.0%); stock-outs cost an estimated $26.4K of GP (exploratory, likely understated) | $1.05M of planned inventory against demand that did not occur in FY2025; stock-outs $20.7K to $31.8K | Apply per-subcategory bias correction now; it cut FY2025 bias to +0.5% out of sample. In-stock is a lower priority |
+| 3. Price increases | **Not identified** from the data; break-even analysis favours Golden Ridge, tortilla is a coin flip | Golden Ridge +$52.9K (+$49.4K to +$56.3K); tortilla −$1.2K (−$11.4K to +$8.3K) — scenarios, not estimates | Keep Golden Ridge; tortilla: roll the price back — a randomized test is worth less than it costs |
+| 4. Forecast and in-stock | **Forecast over-forecasts by +13.4%** (+11.8% to +15.0%); +12.5% with censored demand restored. The over-forecast never reached store shelves | $1.05M of planned units at cost, of which $19.4K became extra store stock; stock-outs $26.4K ($20.7K to $31.8K) | Correct the planning number for budgets, but do not re-tune store replenishment around it: at equal service it saves nothing (−$941.32) |
 | 5. Vendor funding | **Under-billed** on approved promotions | $65.5K to $133.0K | Bill the scan-back shortfall now; verify display execution before billing displays |
 
 ## 1. Delisting test (stores 102, 106, 113, 116 from FY2025 W27)
@@ -25,7 +26,15 @@ power against a real 2% loss is only 28%. A fake treatment date one year earlier
 does not remove; a year-over-year adjustment would put the effect near −0.5% (exploratory). Synthetic-control
 and large-store-only comparisons agree in direction but not magnitude (synthetic control +0.5%; large-store controls only +0.3%).
 **Next:** randomize the planogram across matched large-store pairs and run it for a full year so seasonality
-differences cancel.
+differences cancel. *Update:* the inventory and value-of-information work below finds that test not worth its cost.
+
+**Which SKUs earn their space.** The test did measure one thing cleanly: retained SKUs gained 124% of the
+dollars the delisted SKUs lost, a rate that, unlike the GP effect, passes both fake-date checks (−0.18, −0.07 at the fake dates) and
+holds year over year (1.30, 0.86 to 1.75). Cutting SKU *i* therefore changes GP by −GP<sub>i</sub> + τ · sales<sub>i</sub> · margin of its
+subcategory's retained SKUs. Ranked by GP per facing, within each planogram's fixed facings, among SKUs no bigger
+than the ones the test cut, and cut only if the change is positive at the low end of τ's range: 11 SKUs
+(7 in the large planogram, 8 in the medium planogram, 7 in the small planogram), +$49.2K a year (+$14.8K to +$83.6K). 10 of the test's 20 delisted SKUs fall in the large planogram's
+bottom 20 by GP per facing. Full list: [FY2026 plan](fy2026_plan.md).
 
 ## 2. Promotions (FY2025 events)
 
@@ -71,7 +80,8 @@ design failed the backtest (Golden Ridge) or pre-trends (tortilla). The pooled m
 206,724 non-promoted SKU-store-weeks suggests kettle is inelastic (−0.52) — far from
 −2.78, so Golden Ridge very likely paid off — while private-label tortilla sits near its break-even.
 By subcategory: Potato Chips −2.05; Cheese Snacks −1.96; Pretzels −1.37; Tortilla Chips −1.29; Popcorn −1.16 (not identified); Nuts −1.11; Trail Mix −0.83; Kettle Chips −0.52. Private label is more price-sensitive by 1.15 elasticity points (shift −1.46 to −0.84), identified
-only from Bramble Select changes. **Next:** test the tortilla price in randomly chosen stores for 13 weeks.
+only from Bramble Select changes. **Next:** the tortilla decision is worth $501.24 even with perfect
+information, less than a 13-week store test costs; take the action with the higher expected GP (roll the price back).
 
 ## 4. Forecast and in-stock
 
@@ -80,6 +90,25 @@ promoted weeks versus +10.0% otherwise. The forecast still beats naive benchmark
 vs the lag-2 actual; 0.53 vs last year), so it should be corrected, not replaced: per-subcategory
 factors learned on FY2024 cut FY2025 bias from +13.4% to +0.5% and WAPE from 22.5% to
 19.1%.
+
+**Did the over-forecast become stock? No.** Receipts and on-hand obey the stock-flow identity on 91% of
+store-SKU-weeks (shrink 0.4% of receipts). In FY2025 stores received 0.9% more units than they
+sold while the forecast was +13.4% over: receipts follow sales, not the forecast — weekly receipts move
+1.26 units per unit sold the same week and 0.09 per unit sold the week before, the signature of
+direct-store delivery. Average store stock at cost in comparable stores rose $19.4K, 1.8% of the
+$1.05M the memo first quoted, and year-end stock fell $11.1K. Distribution-centre stock is not in the
+extracts, so excess held upstream cannot be measured. Refit on weeks with no stock-out, bias is +19.3%
+(+17.4% to +21.1%) — higher, not lower, because stock-outs happen in demand spikes the forecast under-calls
+(−10.6% on those weeks); with their censored demand restored instead, bias is +12.5%
+(+10.8% to +14.1%).
+
+**Is the correction worth it? Judged on stock, not WAPE: no.** Replaying FY2025 store by store with
+forecast-driven, case-pack orders and a safety stock sized on each forecast's own errors, each forecast at its
+best safety factor costs about the same (lost GP + carrying cost at 25% a year: raw $178.5K, corrected
+$179.4K); to reach 98% fill the corrected forecast needs $352.0K of stock against
+$345.8K. The bias was acting as safety stock; removing it only moves that stock into the buffer. Both
+forecast-driven policies need far more stock ($366.2K at best) than stores actually held ($224.4K
+at 99.2% fill), so the current delivery process should not be replaced by forecast-driven ordering.
 
 **Out-of-stock cost (exploratory).** On the 1,085 non-promoted FY2025 weeks that ended with zero stock, the
 store sold everything it had, so demand was at least what it sold. Using the promotion baseline model and the
@@ -101,7 +130,9 @@ collected.
 
 ## How the results were checked
 
-- **Ground truth:** the dataset's answer key is distributed separately and is not public, so it was not used.
+- **Ground truth:** the answer key is distributed separately; a [request to the dataset's author](answer_key_request.md) is drafted.
+  Every estimate and interval was frozen in the tagged commit `estimates-frozen-v1` before the key was opened;
+  the [scorecard](scorecard.md) compares them to it without re-tuning.
 - **Second implementation:** 34 headline coefficients and clustered SEs re-estimated by an independent
   pure-Python solver (all agree); CI repeats them in R `fixest`.
 - **Planted effects:** known effects added to the real data were recovered exactly (delist ±2%, elasticity −1.5).
@@ -112,4 +143,10 @@ collected.
   the addendum lists what was seen; (5) the out-of-stock estimator was switched to censored demand after the
   planned one came out negative, so that answer is exploratory, and a realistic planted check was added
   post-hoc. Data fix: one promotion with swapped start and end dates in the source was corrected, confirmed by
-  POS discounts.
+  POS discounts. Added in the FY2026 round, after the results above were known: (6) the cut list restricts
+  candidates to SKUs no bigger than those the test cut, after a first unrestricted ranking put best-sellers at the
+  top; (7) fake-date and same-season checks on τ; (8) the inventory simulation's safety stock was changed from a
+  fixed percentage of forecast to a multiple of each forecast's own error, after the first version could not match
+  the observed stock-out rate; (9) store-bootstrap ranges for promotion lift and the post-promotion dip, for the
+  scorecard; (10) restored-demand bias was made primary after the requested in-stock refit was seen to select on
+  low demand. All are logged in [the deviation log](../analysis/scorecard/DEVIATIONS.md).
