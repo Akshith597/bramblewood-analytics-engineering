@@ -2,8 +2,8 @@
 import importlib
 import time
 
-STEPS = ['analysis.delist', 'analysis.pricing', 'analysis.forecast', 'analysis.funding',
-         'analysis.crosscheck', 'analysis.build_memo']
+STEPS = ['analysis.delist', 'analysis.pricing', 'analysis.forecast', 'analysis.funding', 'analysis.promotions',
+         'analysis.stockouts', 'analysis.crosscheck', 'analysis.build_memo']
 
 
 def main():
