@@ -32,9 +32,9 @@ The source brief asks five questions for the FY2026 line review. The [decision m
 | Question | What the evidence supports |
 |---|---|
 | Delist slow sellers? | **Inconclusive.** The 4-store test cannot detect a gross-profit change under ~4%, and a fake test date a year earlier shows a same-sized "effect", so the design is confounded by large-store seasonality. Units fell, dollars held: shoppers switched to retained items. Rerun as a randomized, full-year test. |
-| Promotions | Not yet answered — deferred to keep depth on the delist and pricing questions. |
+| Promotions | **Break-even at best.** Before vendor money, FY2025 promotions lost ~$660K of gross profit; funding owed brings them to about break-even, and on funding actually collected they are below zero (both ranges span zero, model error included). Promotions without a display lose money under every check; display events pay only through the display fee, which can't be verified. |
 | Spring 2025 price increases | **Not identified** by either event design — both failed their own pre-trend, fake-date or backtest checks. Break-even arithmetic still decides Golden Ridge (shoppers would need to be ~5× more price-sensitive than kettle appears for it to lose money); private-label tortilla sits at break-even and needs a store-randomized test. |
-| Forecast | Over-forecasts by ~13% (more in promoted weeks) while still beating naive benchmarks. A correction learned on FY2024 removed the FY2025 bias **out of sample**. Out-of-stock cost not yet answered. |
+| Forecast | Over-forecasts by ~13% (more in promoted weeks) while still beating naive benchmarks. A correction learned on FY2024 removed the FY2025 bias **out of sample**. Stock-outs cost an exploratory ~$26K of gross profit, a floor because the weekly snapshot misses most of them. |
 | Vendor funding | Scan-back under-billed on approved events; a range, because display execution is not observable. |
 
 **How it is checked.** Estimators recover planted effects in simulated and real data; every headline coefficient and clustered SE is re-estimated by an independent pure-Python solver and by R `fixest` in CI; and CI fails if the memo or any result drifts from what the queries produce. The dataset's answer key is not public, so it was not used.

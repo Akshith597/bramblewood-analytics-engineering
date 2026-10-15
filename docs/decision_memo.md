@@ -7,7 +7,7 @@ Method and decision rules were [committed before any outcome was computed](../an
 | Question | Answer | Dollar figure (90% range) | Recommendation |
 |---|---|---|---|
 | 1. Delisting test | **Inconclusive** — the test cannot detect a GP change smaller than 4.3% | +$15.3K per year if rolled out to the other large stores (−$19.7K to +$50.3K) | Do not roll out on this evidence; rerun as a randomized, full-year test |
-| 2. Promotions | **Roughly break-even, and only because of vendor money** — 1% of FY2025 events made gross profit before funding | +$13.4K net in FY2025 (−$14.4K to +$47.0K); −$661.0K before funding | Cut or redesign promotions without a display; keep display events only where display execution is verified and the fee collected |
+| 2. Promotions | **Break-even on vendor money owed; below zero on money actually collected** (both ranges span zero) — 1% of FY2025 events made gross profit before funding | +$13.4K net in FY2025 on funding owed (−$60.9K to +$93.5K); −$47.7K on funding collected (−$122.1K to +$32.4K); −$661.0K before funding | Cut or redesign promotions without a display; keep display events only where display execution is verified and the fee collected |
 | 3. Price increases | **Not identified** from the data; break-even analysis favours Golden Ridge, tortilla is a coin flip | Golden Ridge +$52.9K (+$49.4K to +$56.3K); tortilla −$1.2K (−$11.4K to +$8.3K) — scenarios, not estimates | Keep Golden Ridge; test the tortilla price in a randomized subset of stores |
 | 4. Forecast and in-stock | **Forecast over-forecasts by +13.4%** (+11.8% to +15.0%); stock-outs cost an estimated $26.4K of GP (exploratory, likely understated) | $1.05M of planned inventory against demand that did not occur in FY2025; stock-outs $20.7K to $31.8K | Apply per-subcategory bias correction now; it cut FY2025 bias to +0.5% out of sample. In-stock is a lower priority |
 | 5. Vendor funding | **Under-billed** on approved promotions | $65.5K to $133.0K | Bill the scan-back shortfall now; verify display execution before billing displays |
@@ -35,20 +35,30 @@ that week without the promotion, from a model fitted only on weeks with no promo
 promotion fell 27% and 13% below baseline, and same-subcategory sister SKUs lost 136,498 units
 (each promoted sister cuts a sister's sales by 2% to 12%, depending on subcategory).
 
-| Mechanic | Events | Unit lift | GP before funding | Vendor funding | Net GP (90% range) | Decision rule |
-|---|---|---|---|---|---|---|
-| BOGO | 21 | +382% | −$77.4K | +$54.5K | **−$22.9K** (−$24.5K to −$21.4K) | Cut or redesign |
-| BOGO + display | 26 | +634% | −$149.4K | +$189.2K | **+$39.8K** (+$33.2K to +$46.3K) | Keep (funding-dependent) |
-| Multi-buy | 52 | +94% | −$50.4K | +$19.5K | **−$30.9K** (−$33.2K to −$28.6K) | Cut or redesign |
-| Multi-buy + display | 25 | +179% | −$28.0K | +$47.6K | **+$19.6K** (+$15.5K to +$24.4K) | Keep (funding-dependent) |
-| TPR | 155 | +117% | −$216.6K | +$108.0K | **−$108.6K** (−$115.5K to −$101.5K) | Cut or redesign |
-| TPR + display | 118 | +204% | −$139.1K | +$255.6K | **+$116.5K** (+$100.7K to +$135.3K) | Keep (funding-dependent) |
+| Mechanic | Events | Unit lift | GP before funding | Vendor funding owed | Net GP, funding owed (90% range with model error) | Net GP, funding collected | Decision rule |
+|---|---|---|---|---|---|---|---|
+| BOGO | 21 | +382% | −$77.4K | +$54.5K | **−$22.9K** (−$25.8K to −$20.1K) | −$24.4K (−$27.4K to −$21.6K) | Cut or redesign |
+| BOGO + display | 26 | +634% | −$149.4K | +$189.2K | **+$39.8K** (+$30.3K to +$49.3K) | +$23.6K (+$14.1K to +$33.1K) | Keep (funding-dependent) |
+| Multi-buy | 52 | +94% | −$50.4K | +$19.5K | **−$30.9K** (−$43.4K to −$18.5K) | −$32.7K (−$45.1K to −$20.2K) | Cut or redesign |
+| Multi-buy + display | 25 | +179% | −$28.0K | +$47.6K | **+$19.6K** (+$13.8K to +$26.1K) | +$15.0K (+$9.3K to +$21.5K) | Keep (funding-dependent) |
+| TPR | 155 | +117% | −$216.6K | +$108.0K | **−$108.6K** (−$131.7K to −$85.4K) | −$115.0K (−$138.0K to −$91.7K) | Cut or redesign |
+| TPR + display | 118 | +204% | −$139.1K | +$255.6K | **+$116.5K** (+$84.4K to +$151.5K) | +$85.7K (+$53.5K to +$120.6K) | Keep (funding-dependent) |
 
 Before funding, the promotions' net GP was **−$661.0K**: only 1% of events made money on their own. Vendor
 funding owed under the deal terms ($674.4K, of which $232.0K display fees) turns that into
 **+$13.4K** (−$14.4K to +$47.0K), with 36% of events net positive. Every display cell clears zero only because of
 its display fee, and display execution cannot be verified from these extracts (question 5). By subcategory:
 Potato Chips +$31.0K; Tortilla Chips +$8.7K; Cheese Snacks +$5.6K; Kettle Chips +$3.1K; Popcorn −$302.13; Trail Mix −$1.9K; Pretzels −$9.4K; Nuts −$23.4K. FY2024 and FY2025 together: +$66.7K (+$15.1K to +$129.1K).
+
+**On cash actually collected,** vendors paid $613.2K of the $674.4K owed for these events, so FY2025
+promotions net **−$47.7K** (−$122.1K to +$32.4K); FY2024 and FY2025 together, −$66.5K
+(−$204.9K to +$82.8K). Whether promotions pay at all depends on collecting what the deals promise.
+
+**Model error.** The ranges in the paragraph above reflect store-to-store sampling only. The table's ranges, and
+the collected-funding ranges, also add two model errors: the baseline could be off by up to 1.1% (the widest held-out bound below), and
+estimating cannibalisation only from stores that differ within the same week moves net GP by +$36.4K in
+total. Together they widen the FY2025 total to −$60.9K to +$93.5K. Every keep or cut decision in the table holds under
+the wider ranges and on collected funding.
 
 Checks: in the two weeks before each promotion, held out of the fit, sales were −0.6% from the baseline;
 fake promotions placed eight weeks earlier were −0.1% from it; a planted cannibalisation slope of
@@ -111,5 +121,7 @@ collected.
   cost were specified in a later plan addendum, written after unit-level aggregates (not dollars) had been seen;
   the addendum lists what was seen; (5) the out-of-stock estimator was switched to censored demand after the
   planned one came out negative, so that answer is exploratory, and a realistic planted check was added
-  post-hoc. Data fix: one promotion with swapped start and end dates in the source was corrected, confirmed by
+  post-hoc; (6) after review of the promotions result, net GP on funding collected and a model-error band
+  (held-out baseline error plus an alternative cannibalisation specification) were added; the pre-registered
+  ranges and decisions are still reported and did not change. Data fix: one promotion with swapped start and end dates in the source was corrected, confirmed by
   POS discounts.

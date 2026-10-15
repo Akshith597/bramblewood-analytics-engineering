@@ -9,6 +9,10 @@
           15086.6,
           129090.0
         ],
+        "ci90_collected": [
+          -204914.0,
+          82846.5
+        ],
         "ci90_store_bootstrap": [
           15086.6,
           129090.0
@@ -17,21 +21,35 @@
           12896.6,
           120415.0
         ],
+        "ci90_with_model_error": [
+          -71791.9,
+          215968.0
+        ],
         "ci_source": "bootstrap",
         "dip_gp": -200107.0,
         "dip_units": -117269.0,
         "display_fee": 468000.0,
         "events": 769,
+        "funding_collected": 1116670.0,
         "funding_dependent": true,
+        "funding_owed": 1249790.0,
         "gp_before_funding": -1183130.0,
         "incremental_units": 714333.0,
         "lift_gp": -545190.0,
         "lift_pct": 1.84655,
         "mde": 97032.7,
+        "model_error": {
+          "band": 86878.4,
+          "baseline_band": 19227.2,
+          "cannibalisation_spec_shift": 67651.3
+        },
         "net_gp": 66655.6,
+        "net_gp_collected": -66466.2,
         "net_gp_per_event": 86.6783,
         "net_incremental_units": 341592.0,
         "outcome": "keep",
+        "outcome_collected": "inconclusive",
+        "outcome_with_model_error": "inconclusive",
         "scan_back": 781789.0,
         "store_clusters": 24
       }
@@ -45,6 +63,10 @@
           294420.0,
           386633.0
         ],
+        "ci90_collected": [
+          155017.0,
+          318357.0
+        ],
         "ci90_store_bootstrap": [
           298660.0,
           390465.0
@@ -53,21 +75,35 @@
           294420.0,
           386633.0
         ],
+        "ci90_with_model_error": [
+          258856.0,
+          422197.0
+        ],
         "ci_source": "cr1",
         "dip_gp": -108990.0,
         "dip_units": -65636.1,
         "display_fee": 468000.0,
         "events": 347,
+        "funding_collected": 815838.0,
         "funding_dependent": true,
+        "funding_owed": 919678.0,
         "gp_before_funding": -579152.0,
         "incremental_units": 430151.0,
         "lift_gp": -274107.0,
         "lift_pct": 2.55176,
         "mde": 78485.7,
+        "model_error": {
+          "band": 35563.8,
+          "baseline_band": 8383.39,
+          "cannibalisation_spec_shift": 27180.4
+        },
         "net_gp": 340526.0,
+        "net_gp_collected": 236687.0,
         "net_gp_per_event": 981.344,
         "net_incremental_units": 250459.0,
         "outcome": "keep",
+        "outcome_collected": "keep",
+        "outcome_with_model_error": "keep",
         "scan_back": 451678.0,
         "store_clusters": 24
       },
@@ -79,6 +115,10 @@
           -289783.0,
           -257280.0
         ],
+        "ci90_collected": [
+          -370380.0,
+          -235248.0
+        ],
         "ci90_store_bootstrap": [
           -289783.0,
           -257280.0
@@ -87,21 +127,35 @@
           -283462.0,
           -264279.0
         ],
+        "ci90_with_model_error": [
+          -341098.0,
+          -205966.0
+        ],
         "ci_source": "bootstrap",
         "dip_gp": -91117.5,
         "dip_units": -51632.9,
         "display_fee": 0.0,
         "events": 422,
+        "funding_collected": 300829.0,
         "funding_dependent": false,
+        "funding_owed": 330111.0,
         "gp_before_funding": -603981.0,
         "incremental_units": 284182.0,
         "lift_gp": -271082.0,
         "lift_pct": 1.30194,
         "mde": 27664.4,
+        "model_error": {
+          "band": 51314.7,
+          "baseline_band": 10843.8,
+          "cannibalisation_spec_shift": 40470.9
+        },
         "net_gp": -273871.0,
+        "net_gp_collected": -303153.0,
         "net_gp_per_event": -648.983,
         "net_incremental_units": 91133.5,
         "outcome": "cut_or_redesign",
+        "outcome_collected": "cut_or_redesign",
+        "outcome_with_model_error": "cut_or_redesign",
         "scan_back": 330111.0,
         "store_clusters": 24
       }
@@ -115,6 +169,10 @@
           25663.6,
           49749.6
         ],
+        "ci90_collected": [
+          -15138.5,
+          20211.4
+        ],
         "ci90_store_bootstrap": [
           26685.7,
           50354.3
@@ -123,21 +181,35 @@
           25663.6,
           49749.6
         ],
+        "ci90_with_model_error": [
+          20031.6,
+          55381.5
+        ],
         "ci_source": "cr1",
         "dip_gp": -46822.9,
         "dip_units": -29319.6,
         "display_fee": 92250.0,
         "events": 98,
+        "funding_collected": 383772.0,
         "funding_dependent": true,
+        "funding_owed": 418942.0,
         "gp_before_funding": -381235.0,
         "incremental_units": 205542.0,
         "lift_gp": -280326.0,
         "lift_pct": 5.11196,
         "mde": 20500.5,
+        "model_error": {
+          "band": 5631.95,
+          "baseline_band": 1998.32,
+          "cannibalisation_spec_shift": 3633.63
+        },
         "net_gp": 37706.6,
+        "net_gp_collected": 2536.44,
         "net_gp_per_event": 384.761,
         "net_incremental_units": 143963.0,
         "outcome": "keep",
+        "outcome_collected": "inconclusive",
+        "outcome_with_model_error": "keep",
         "scan_back": 326692.0,
         "store_clusters": 24
       },
@@ -149,6 +221,10 @@
           -9250.03,
           12140.2
         ],
+        "ci90_collected": [
+          -48703.3,
+          14848.3
+        ],
         "ci90_store_bootstrap": [
           -9250.03,
           12140.2
@@ -157,21 +233,35 @@
           -9055.02,
           10188.1
         ],
+        "ci90_with_model_error": [
+          -30330.7,
+          33220.9
+        ],
         "ci_source": "bootstrap",
         "dip_gp": -31272.2,
         "dip_units": -20150.8,
         "display_fee": 67500.0,
         "events": 136,
+        "funding_collected": 135556.0,
         "funding_dependent": false,
+        "funding_owed": 153928.0,
         "gp_before_funding": -153362.0,
         "incremental_units": 109760.0,
         "lift_gp": -45006.0,
         "lift_pct": 1.31052,
         "mde": 18206.1,
+        "model_error": {
+          "band": 21080.7,
+          "baseline_band": 3709.41,
+          "cannibalisation_spec_shift": 17371.3
+        },
         "net_gp": 566.567,
+        "net_gp_collected": -17806.0,
         "net_gp_per_event": 4.16593,
         "net_incremental_units": 43799.8,
         "outcome": "inconclusive",
+        "outcome_collected": "inconclusive",
+        "outcome_with_model_error": "inconclusive",
         "scan_back": 86428.3,
         "store_clusters": 24
       },
@@ -183,6 +273,10 @@
           -9693.75,
           72598.8
         ],
+        "ci90_collected": [
+          -149439.0,
+          53185.4
+        ],
         "ci90_store_bootstrap": [
           -9693.75,
           72598.8
@@ -191,21 +285,35 @@
           -11241.1,
           68006.1
         ],
+        "ci90_with_model_error": [
+          -69859.6,
+          132765.0
+        ],
         "ci_source": "bootstrap",
         "dip_gp": -122012.0,
         "dip_units": -67798.6,
         "display_fee": 308250.0,
         "events": 535,
+        "funding_collected": 597339.0,
         "funding_dependent": false,
+        "funding_owed": 676918.0,
         "gp_before_funding": -648536.0,
         "incremental_units": 399031.0,
         "lift_gp": -219858.0,
         "lift_pct": 1.51789,
         "mde": 70042.4,
+        "model_error": {
+          "band": 60165.8,
+          "baseline_band": 13519.4,
+          "cannibalisation_spec_shift": 46646.4
+        },
         "net_gp": 28382.5,
+        "net_gp_collected": -51196.7,
         "net_gp_per_event": 53.0514,
         "net_incremental_units": 153830.0,
         "outcome": "inconclusive",
+        "outcome_collected": "inconclusive",
+        "outcome_with_model_error": "inconclusive",
         "scan_back": 368668.0,
         "store_clusters": 24
       }
@@ -219,6 +327,10 @@
           -38248.6,
           -33321.7
         ],
+        "ci90_collected": [
+          -48738.7,
+          -41330.5
+        ],
         "ci90_store_bootstrap": [
           -38248.6,
           -33321.7
@@ -227,21 +339,35 @@
           -37786.1,
           -33565.8
         ],
+        "ci90_with_model_error": [
+          -39489.3,
+          -32081.1
+        ],
         "ci_source": "bootstrap",
         "dip_gp": -18166.6,
         "dip_units": -11996.3,
         "display_fee": 0.0,
         "events": 41,
+        "funding_collected": 93574.9,
         "funding_dependent": false,
+        "funding_owed": 102824.0,
         "gp_before_funding": -138500.0,
         "incremental_units": 68810.9,
         "lift_gp": -95195.0,
         "lift_pct": 4.01836,
         "mde": 4193.48,
+        "model_error": {
+          "band": 1240.66,
+          "baseline_band": 795.372,
+          "cannibalisation_spec_shift": 445.284
+        },
         "net_gp": -35676.0,
+        "net_gp_collected": -44925.4,
         "net_gp_per_event": -870.146,
         "net_incremental_units": 41657.8,
         "outcome": "cut_or_redesign",
+        "outcome_collected": "cut_or_redesign",
+        "outcome_with_model_error": "cut_or_redesign",
         "scan_back": 102824.0,
         "store_clusters": 24
       },
@@ -253,6 +379,10 @@
           62102.3,
           84662.8
         ],
+        "ci90_collected": [
+          31790.3,
+          63133.3
+        ],
         "ci90_store_bootstrap": [
           62969.2,
           84707.5
@@ -261,21 +391,35 @@
           62102.3,
           84662.8
         ],
+        "ci90_with_model_error": [
+          57711.0,
+          89054.1
+        ],
         "ci_source": "cr1",
         "dip_gp": -28656.3,
         "dip_units": -17323.3,
         "display_fee": 92250.0,
         "events": 57,
+        "funding_collected": 290197.0,
         "funding_dependent": true,
+        "funding_owed": 316118.0,
         "gp_before_funding": -242735.0,
         "incremental_units": 136731.0,
         "lift_gp": -185131.0,
         "lift_pct": 5.92321,
         "mde": 19202.1,
+        "model_error": {
+          "band": 4391.3,
+          "baseline_band": 1202.95,
+          "cannibalisation_spec_shift": 3188.35
+        },
         "net_gp": 73382.6,
+        "net_gp_collected": 47461.8,
         "net_gp_per_event": 1287.41,
         "net_incremental_units": 102305.0,
         "outcome": "keep",
+        "outcome_collected": "keep",
+        "outcome_with_model_error": "keep",
         "scan_back": 223868.0,
         "store_clusters": 24
       },
@@ -287,6 +431,10 @@
           -46172.0,
           -38283.4
         ],
+        "ci90_collected": [
+          -70351.6,
+          -30888.4
+        ],
         "ci90_store_bootstrap": [
           -46172.0,
           -38283.4
@@ -295,21 +443,35 @@
           -44861.3,
           -39567.2
         ],
+        "ci90_with_model_error": [
+          -61959.3,
+          -22496.1
+        ],
         "ci_source": "bootstrap",
         "dip_gp": -13291.7,
         "dip_units": -8519.55,
         "display_fee": 0.0,
         "events": 81,
+        "funding_collected": 45542.4,
         "funding_dependent": false,
+        "funding_owed": 53934.8,
         "gp_before_funding": -96149.0,
         "incremental_units": 48722.6,
         "lift_gp": -37350.2,
         "lift_pct": 0.983831,
         "mde": 6714.28,
+        "model_error": {
+          "band": 15787.3,
+          "baseline_band": 2217.09,
+          "cannibalisation_spec_shift": 13570.2
+        },
         "net_gp": -42214.3,
+        "net_gp_collected": -50606.6,
         "net_gp_per_event": -521.164,
         "net_incremental_units": 13069.6,
         "outcome": "cut_or_redesign",
+        "outcome_collected": "cut_or_redesign",
+        "outcome_with_model_error": "cut_or_redesign",
         "scan_back": 53934.8,
         "store_clusters": 24
       },
@@ -321,6 +483,10 @@
           34998.6,
           52037.4
         ],
+        "ci90_collected": [
+          19725.0,
+          47350.5
+        ],
         "ci90_store_bootstrap": [
           34998.6,
           52037.4
@@ -329,21 +495,35 @@
           34489.6,
           51072.1
         ],
+        "ci90_with_model_error": [
+          29705.3,
+          57330.7
+        ],
         "ci_source": "bootstrap",
         "dip_gp": -17980.5,
         "dip_units": -11631.2,
         "display_fee": 67500.0,
         "events": 55,
+        "funding_collected": 90013.4,
         "funding_dependent": true,
+        "funding_owed": 99993.6,
         "gp_before_funding": -57212.8,
         "incremental_units": 61037.4,
         "lift_gp": -7655.82,
         "lift_pct": 1.78317,
         "mde": 14502.3,
+        "model_error": {
+          "band": 5293.35,
+          "baseline_band": 1492.33,
+          "cannibalisation_spec_shift": 3801.02
+        },
         "net_gp": 42780.8,
+        "net_gp_collected": 32800.6,
         "net_gp_per_event": 777.833,
         "net_incremental_units": 30730.2,
         "outcome": "keep",
+        "outcome_collected": "keep",
+        "outcome_with_model_error": "keep",
         "scan_back": 32493.6,
         "store_clusters": 24
       },
@@ -355,6 +535,10 @@
           -208353.0,
           -182957.0
         ],
+        "ci90_collected": [
+          -254280.0,
+          -160311.0
+        ],
         "ci90_store_bootstrap": [
           -208353.0,
           -182957.0
@@ -363,21 +547,35 @@
           -204641.0,
           -187320.0
         ],
+        "ci90_with_model_error": [
+          -242640.0,
+          -148671.0
+        ],
         "ci_source": "bootstrap",
         "dip_gp": -59659.2,
         "dip_units": -31117.1,
         "display_fee": 0.0,
         "events": 300,
+        "funding_collected": 161711.0,
         "funding_dependent": false,
+        "funding_owed": 173352.0,
         "gp_before_funding": -369332.0,
         "incremental_units": 166648.0,
         "lift_gp": -138537.0,
         "lift_pct": 1.09905,
         "mde": 21615.1,
+        "model_error": {
+          "band": 34286.7,
+          "baseline_band": 7831.31,
+          "cannibalisation_spec_shift": 26455.4
+        },
         "net_gp": -195981.0,
+        "net_gp_collected": -207621.0,
         "net_gp_per_event": -653.269,
         "net_incremental_units": 36406.1,
         "outcome": "cut_or_redesign",
+        "outcome_collected": "cut_or_redesign",
+        "outcome_with_model_error": "cut_or_redesign",
         "scan_back": 173352.0,
         "store_clusters": 24
       },
@@ -389,6 +587,10 @@
           193434.0,
           255292.0
         ],
+        "ci90_collected": [
+          99615.9,
+          213233.0
+        ],
         "ci90_store_bootstrap": [
           196046.0,
           257666.0
@@ -397,21 +599,35 @@
           193434.0,
           255292.0
         ],
+        "ci90_with_model_error": [
+          167555.0,
+          281171.0
+        ],
         "ci_source": "cr1",
         "dip_gp": -62353.0,
         "dip_units": -36681.6,
         "display_fee": 308250.0,
         "events": 235,
+        "funding_collected": 435628.0,
         "funding_dependent": true,
+        "funding_owed": 503567.0,
         "gp_before_funding": -279204.0,
         "incremental_units": 232383.0,
         "lift_gp": -81320.4,
         "lift_pct": 2.08871,
         "mde": 52650.1,
+        "model_error": {
+          "band": 25879.1,
+          "baseline_band": 5688.11,
+          "cannibalisation_spec_shift": 20191.0
+        },
         "net_gp": 224363.0,
+        "net_gp_collected": 156424.0,
         "net_gp_per_event": 954.736,
         "net_incremental_units": 117423.0,
         "outcome": "keep",
+        "outcome_collected": "keep",
+        "outcome_with_model_error": "keep",
         "scan_back": 195317.0,
         "store_clusters": 24
       }
@@ -425,6 +641,10 @@
           12831.3,
           23042.4
         ],
+        "ci90_collected": [
+          -7945.39,
+          29805.4
+        ],
         "ci90_store_bootstrap": [
           12831.3,
           23042.4
@@ -433,21 +653,35 @@
           12880.1,
           22410.1
         ],
+        "ci90_with_model_error": [
+          -938.538,
+          36812.2
+        ],
         "ci_source": "bootstrap",
         "dip_gp": -7188.47,
         "dip_units": -7201.35,
         "display_fee": 34250.0,
         "events": 67,
+        "funding_collected": 55777.2,
         "funding_dependent": true,
+        "funding_owed": 62784.1,
         "gp_before_funding": -45139.0,
         "incremental_units": 39440.6,
         "lift_gp": -19400.6,
         "lift_pct": 1.54479,
         "mde": 8691.01,
+        "model_error": {
+          "band": 13769.9,
+          "baseline_band": 730.968,
+          "cannibalisation_spec_shift": -13038.9
+        },
         "net_gp": 17645.1,
+        "net_gp_collected": 10638.2,
         "net_gp_per_event": 263.36,
         "net_incremental_units": 15541.5,
         "outcome": "keep",
+        "outcome_collected": "inconclusive",
+        "outcome_with_model_error": "inconclusive",
         "scan_back": 28534.1,
         "store_clusters": 24
       },
@@ -459,6 +693,10 @@
           28042.2,
           45320.1
         ],
+        "ci90_collected": [
+          -22943.5,
+          39050.8
+        ],
         "ci90_store_bootstrap": [
           28042.2,
           45320.1
@@ -467,21 +705,35 @@
           29236.4,
           43087.8
         ],
+        "ci90_with_model_error": [
+          5684.02,
+          67678.3
+        ],
         "ci_source": "bootstrap",
         "dip_gp": -26982.8,
         "dip_units": -15441.0,
         "display_fee": 76750.0,
         "events": 118,
+        "funding_collected": 161650.0,
         "funding_dependent": true,
+        "funding_owed": 190278.0,
         "gp_before_funding": -154116.0,
         "incremental_units": 92870.0,
         "lift_gp": -74458.5,
         "lift_pct": 1.8365,
         "mde": 14705.9,
+        "model_error": {
+          "band": 22358.2,
+          "baseline_band": 2564.97,
+          "cannibalisation_spec_shift": 19793.2
+        },
         "net_gp": 36162.1,
+        "net_gp_collected": 7534.61,
         "net_gp_per_event": 306.459,
         "net_incremental_units": 46672.1,
         "outcome": "keep",
+        "outcome_collected": "inconclusive",
+        "outcome_with_model_error": "keep",
         "scan_back": 113528.0,
         "store_clusters": 24
       },
@@ -493,6 +745,10 @@
           -44227.6,
           -27791.3
         ],
+        "ci90_collected": [
+          -104390.0,
+          7439.18
+        ],
         "ci90_store_bootstrap": [
           -44227.6,
           -27791.3
@@ -501,21 +757,35 @@
           -42720.7,
           -29952.2
         ],
+        "ci90_with_model_error": [
+          -91924.0,
+          19905.1
+        ],
         "ci_source": "bootstrap",
         "dip_gp": -23916.3,
         "dip_units": -11708.5,
         "display_fee": 43250.0,
         "events": 61,
+        "funding_collected": 88673.2,
         "funding_dependent": false,
+        "funding_owed": 101139.0,
         "gp_before_funding": -137476.0,
         "incremental_units": 42479.2,
         "lift_gp": -73650.4,
         "lift_pct": 2.07228,
         "mde": 13989.6,
+        "model_error": {
+          "band": 47696.4,
+          "baseline_band": 1194.05,
+          "cannibalisation_spec_shift": -46502.4
+        },
         "net_gp": -36336.4,
+        "net_gp_collected": -48802.4,
         "net_gp_per_event": -595.679,
         "net_incremental_units": 12071.4,
         "outcome": "cut_or_redesign",
+        "outcome_collected": "inconclusive",
+        "outcome_with_model_error": "inconclusive",
         "scan_back": 57889.2,
         "store_clusters": 24
       },
@@ -527,6 +797,10 @@
           -2548.06,
           4300.22
         ],
+        "ci90_collected": [
+          -28014.3,
+          2291.16
+        ],
         "ci90_store_bootstrap": [
           -2548.06,
           4300.22
@@ -535,21 +809,35 @@
           -1938.14,
           3515.5
         ],
+        "ci90_with_model_error": [
+          -14276.7,
+          16028.8
+        ],
         "ci_source": "bootstrap",
         "dip_gp": -12806.9,
         "dip_units": -8980.18,
         "display_fee": 24750.0,
         "events": 55,
+        "funding_collected": 38864.8,
         "funding_dependent": false,
+        "funding_owed": 52602.4,
         "gp_before_funding": -51813.8,
         "incremental_units": 36476.6,
         "lift_gp": -21672.7,
         "lift_pct": 1.46249,
         "mde": 5828.85,
+        "model_error": {
+          "band": 11728.6,
+          "baseline_band": 940.223,
+          "cannibalisation_spec_shift": 10788.4
+        },
         "net_gp": 788.683,
+        "net_gp_collected": -12949.0,
         "net_gp_per_event": 14.3397,
         "net_incremental_units": 15019.4,
         "outcome": "inconclusive",
+        "outcome_collected": "inconclusive",
+        "outcome_with_model_error": "inconclusive",
         "scan_back": 27852.5,
         "store_clusters": 24
       },
@@ -561,6 +849,10 @@
           35250.3,
           90177.1
         ],
+        "ci90_collected": [
+          -101178.0,
+          172871.0
+        ],
         "ci90_store_bootstrap": [
           35250.3,
           90177.1
@@ -569,21 +861,35 @@
           43588.2,
           81069.8
         ],
+        "ci90_with_model_error": [
+          -74310.9,
+          199738.0
+        ],
         "ci_source": "bootstrap",
         "dip_gp": -58784.3,
         "dip_units": -30347.9,
         "display_fee": 144750.0,
         "events": 234,
+        "funding_collected": 419216.0,
         "funding_dependent": true,
+        "funding_owed": 446083.0,
         "gp_before_funding": -383754.0,
         "incremental_units": 244093.0,
         "lift_gp": -197217.0,
         "lift_pct": 1.76264,
         "mde": 46750.4,
+        "model_error": {
+          "band": 109561.0,
+          "baseline_band": 8019.2,
+          "cannibalisation_spec_shift": 101542.0
+        },
         "net_gp": 62329.0,
+        "net_gp_collected": 35461.9,
         "net_gp_per_event": 266.363,
         "net_incremental_units": 151413.0,
         "outcome": "keep",
+        "outcome_collected": "inconclusive",
+        "outcome_with_model_error": "inconclusive",
         "scan_back": 301333.0,
         "store_clusters": 24
       },
@@ -595,6 +901,10 @@
           -16182.4,
           -4744.63
         ],
+        "ci90_collected": [
+          -35063.2,
+          1023.76
+        ],
         "ci90_store_bootstrap": [
           -16182.4,
           -4744.63
@@ -603,21 +913,35 @@
           -15759.4,
           -6023.35
         ],
+        "ci90_with_model_error": [
+          -28507.0,
+          7579.96
+        ],
         "ci_source": "bootstrap",
         "dip_gp": -22346.4,
         "dip_units": -16106.4,
         "display_fee": 41750.0,
         "events": 79,
+        "funding_collected": 77888.4,
         "funding_dependent": false,
+        "funding_owed": 84444.6,
         "gp_before_funding": -95336.0,
         "incremental_units": 62291.1,
         "lift_gp": -30130.1,
         "lift_pct": 1.76658,
         "mde": 9735.17,
+        "model_error": {
+          "band": 12324.6,
+          "baseline_band": 1306.98,
+          "cannibalisation_spec_shift": 11017.6
+        },
         "net_gp": -10891.4,
+        "net_gp_collected": -17447.6,
         "net_gp_per_event": -137.866,
         "net_incremental_units": 13618.9,
         "outcome": "cut_or_redesign",
+        "outcome_collected": "inconclusive",
+        "outcome_with_model_error": "inconclusive",
         "scan_back": 42694.6,
         "store_clusters": 24
       },
@@ -629,6 +953,10 @@
           -14112.9,
           20967.3
         ],
+        "ci90_collected": [
+          -68075.3,
+          6787.79
+        ],
         "ci90_store_bootstrap": [
           -14112.9,
           20967.3
@@ -637,21 +965,35 @@
           -11175.0,
           15819.3
         ],
+        "ci90_with_model_error": [
+          -34004.3,
+          40858.7
+        ],
         "ci_source": "bootstrap",
         "dip_gp": -40517.1,
         "dip_units": -24920.7,
         "display_fee": 92000.0,
         "events": 126,
+        "funding_collected": 256948.0,
         "funding_dependent": false,
+        "funding_owed": 291018.0,
         "gp_before_funding": -288696.0,
         "incremental_units": 186698.0,
         "lift_gp": -118682.0,
         "lift_pct": 2.22317,
         "mde": 29858.1,
+        "model_error": {
+          "band": 19891.5,
+          "baseline_band": 3820.97,
+          "cannibalisation_spec_shift": -16070.5
+        },
         "net_gp": 2322.18,
+        "net_gp_collected": -31748.8,
         "net_gp_per_event": 18.43,
         "net_incremental_units": 82710.5,
         "outcome": "inconclusive",
+        "outcome_collected": "inconclusive",
+        "outcome_with_model_error": "inconclusive",
         "scan_back": 199018.0,
         "store_clusters": 24
       },
@@ -663,6 +1005,10 @@
           -8620.08,
           -1930.8
         ],
+        "ci90_collected": [
+          -13181.3,
+          -4948.73
+        ],
         "ci90_store_bootstrap": [
           -8620.08,
           -1930.8
@@ -671,21 +1017,35 @@
           -7323.67,
           -3403.58
         ],
+        "ci90_with_model_error": [
+          -9391.75,
+          -1159.13
+        ],
         "ci_source": "bootstrap",
         "dip_gp": -7564.85,
         "dip_units": -2562.99,
         "display_fee": 10500.0,
         "events": 29,
+        "funding_collected": 17649.4,
         "funding_dependent": false,
+        "funding_owed": 21439.0,
         "gp_before_funding": -26802.6,
         "incremental_units": 9984.66,
         "lift_gp": -9978.34,
         "lift_pct": 1.31631,
         "mde": 5693.51,
+        "model_error": {
+          "band": 771.669,
+          "baseline_band": 649.796,
+          "cannibalisation_spec_shift": 121.872
+        },
         "net_gp": -5363.62,
+        "net_gp_collected": -9153.22,
         "net_gp_per_event": -184.953,
         "net_incremental_units": 4545.8,
         "outcome": "cut_or_redesign",
+        "outcome_collected": "cut_or_redesign",
+        "outcome_with_model_error": "cut_or_redesign",
         "scan_back": 10939.0,
         "store_clusters": 24
       }
@@ -723,6 +1083,40 @@
     "Trail Mix": {
       "per_promoted_sister": -0.097637,
       "se_store_cr1": 0.0169496
+    }
+  },
+  "cannibalisation_alt_spec": {
+    "Cheese Snacks": {
+      "per_promoted_sister": -0.148049,
+      "se_store_cr1": 0.0255546
+    },
+    "Kettle Chips": {
+      "per_promoted_sister": -0.0307538,
+      "se_store_cr1": 0.0135529
+    },
+    "Nuts": {
+      "per_promoted_sister": -0.234295,
+      "se_store_cr1": 0.0298174
+    },
+    "Popcorn": {
+      "per_promoted_sister": -0.0301209,
+      "se_store_cr1": 0.0391658
+    },
+    "Potato Chips": {
+      "per_promoted_sister": -0.00410335,
+      "se_store_cr1": 0.00991556
+    },
+    "Pretzels": {
+      "per_promoted_sister": -0.0885848,
+      "se_store_cr1": 0.0438098
+    },
+    "Tortilla Chips": {
+      "per_promoted_sister": -0.0679174,
+      "se_store_cr1": 0.0150113
+    },
+    "Trail Mix": {
+      "per_promoted_sister": -0.0964233,
+      "se_store_cr1": 0.0645734
     }
   },
   "checks_passed": {
@@ -881,6 +1275,10 @@
           -14420.9,
           47027.3
         ],
+        "ci90_collected": [
+          -122084.0,
+          32372.0
+        ],
         "ci90_store_bootstrap": [
           -14420.9,
           47027.3
@@ -889,21 +1287,35 @@
           -15124.1,
           41965.2
         ],
+        "ci90_with_model_error": [
+          -60925.0,
+          93531.4
+        ],
         "ci_source": "bootstrap",
         "dip_gp": -110918.0,
         "dip_units": -63614.4,
         "display_fee": 232000.0,
         "events": 397,
+        "funding_collected": 613215.0,
         "funding_dependent": false,
+        "funding_owed": 674375.0,
         "gp_before_funding": -660954.0,
         "incremental_units": 391499.0,
         "lift_gp": -313130.0,
         "lift_pct": 1.8932,
         "mde": 52301.0,
+        "model_error": {
+          "band": 46504.1,
+          "baseline_band": 10087.2,
+          "cannibalisation_spec_shift": 36416.9
+        },
         "net_gp": 13420.6,
+        "net_gp_collected": -47738.8,
         "net_gp_per_event": 33.8049,
         "net_incremental_units": 191387.0,
         "outcome": "inconclusive",
+        "outcome_collected": "inconclusive",
+        "outcome_with_model_error": "inconclusive",
         "scan_back": 442375.0,
         "store_clusters": 24
       }
@@ -917,6 +1329,10 @@
           152489.0,
           199302.0
         ],
+        "ci90_collected": [
+          82168.2,
+          166531.0
+        ],
         "ci90_store_bootstrap": [
           154302.0,
           200801.0
@@ -925,21 +1341,35 @@
           152489.0,
           199302.0
         ],
+        "ci90_with_model_error": [
+          133714.0,
+          218077.0
+        ],
         "ci_source": "cr1",
         "dip_gp": -57662.8,
         "dip_units": -33981.2,
         "display_fee": 232000.0,
         "events": 169,
+        "funding_collected": 440885.0,
         "funding_dependent": true,
+        "funding_owed": 492431.0,
         "gp_before_funding": -316535.0,
         "incremental_units": 231645.0,
         "lift_gp": -159200.0,
         "lift_pct": 2.6682,
         "mde": 39844.3,
+        "model_error": {
+          "band": 18774.9,
+          "baseline_band": 4361.32,
+          "cannibalisation_spec_shift": 14413.6
+        },
         "net_gp": 175895.0,
+        "net_gp_collected": 124350.0,
         "net_gp_per_event": 1040.8,
         "net_incremental_units": 140448.0,
         "outcome": "keep",
+        "outcome_collected": "keep",
+        "outcome_with_model_error": "keep",
         "scan_back": 260431.0,
         "store_clusters": 24
       },
@@ -951,6 +1381,10 @@
           -171087.0,
           -153487.0
         ],
+        "ci90_collected": [
+          -208430.0,
+          -135371.0
+        ],
         "ci90_store_bootstrap": [
           -171087.0,
           -153487.0
@@ -959,21 +1393,35 @@
           -167866.0,
           -157083.0
         ],
+        "ci90_with_model_error": [
+          -198817.0,
+          -125758.0
+        ],
         "ci_source": "bootstrap",
         "dip_gp": -53255.0,
         "dip_units": -29633.2,
         "display_fee": 0.0,
         "events": 228,
+        "funding_collected": 172331.0,
         "funding_dependent": false,
+        "funding_owed": 181944.0,
         "gp_before_funding": -344419.0,
         "incremental_units": 159854.0,
         "lift_gp": -153930.0,
         "lift_pct": 1.33239,
         "mde": 14980.4,
+        "model_error": {
+          "band": 27729.2,
+          "baseline_band": 5725.9,
+          "cannibalisation_spec_shift": 22003.3
+        },
         "net_gp": -162475.0,
+        "net_gp_collected": -172088.0,
         "net_gp_per_event": -712.609,
         "net_incremental_units": 50939.4,
         "outcome": "cut_or_redesign",
+        "outcome_collected": "cut_or_redesign",
+        "outcome_with_model_error": "cut_or_redesign",
         "scan_back": 181944.0,
         "store_clusters": 24
       }
@@ -987,6 +1435,10 @@
           9784.44,
           23883.7
         ],
+        "ci90_collected": [
+          -12160.6,
+          10579.6
+        ],
         "ci90_store_bootstrap": [
           10290.2,
           24345.9
@@ -995,21 +1447,35 @@
           9784.44,
           23883.7
         ],
+        "ci90_with_model_error": [
+          5464.0,
+          28204.2
+        ],
         "ci_source": "cr1",
         "dip_gp": -27024.0,
         "dip_units": -16584.1,
         "display_fee": 39500.0,
         "events": 47,
+        "funding_collected": 226037.0,
         "funding_dependent": true,
+        "funding_owed": 243662.0,
         "gp_before_funding": -226828.0,
         "incremental_units": 122442.0,
         "lift_gp": -172902.0,
         "lift_pct": 5.29804,
         "mde": 12000.5,
+        "model_error": {
+          "band": 4320.44,
+          "baseline_band": 1164.25,
+          "cannibalisation_spec_shift": 3156.2
+        },
         "net_gp": 16834.1,
+        "net_gp_collected": -790.507,
         "net_gp_per_event": 358.172,
         "net_incremental_units": 89875.8,
         "outcome": "keep",
+        "outcome_collected": "inconclusive",
+        "outcome_with_model_error": "keep",
         "scan_back": 204162.0,
         "store_clusters": 24
       },
@@ -1021,6 +1487,10 @@
           -16662.6,
           -5070.77
         ],
+        "ci90_collected": [
+          -32688.0,
+          -1653.19
+        ],
         "ci90_store_bootstrap": [
           -16662.6,
           -5070.77
@@ -1029,21 +1499,35 @@
           -16312.6,
           -6334.92
         ],
+        "ci90_with_model_error": [
+          -26384.1,
+          4650.76
+        ],
         "ci_source": "bootstrap",
         "dip_gp": -13826.5,
         "dip_units": -9057.67,
         "display_fee": 32750.0,
         "events": 77,
+        "funding_collected": 60792.1,
         "funding_dependent": false,
+        "funding_owed": 67096.0,
         "gp_before_funding": -78419.8,
         "incremental_units": 48416.8,
         "lift_gp": -20196.2,
         "lift_pct": 1.24846,
         "mde": 9866.23,
+        "model_error": {
+          "band": 9721.53,
+          "baseline_band": 1647.59,
+          "cannibalisation_spec_shift": 8073.94
+        },
         "net_gp": -11323.8,
+        "net_gp_collected": -17627.7,
         "net_gp_per_event": -147.062,
         "net_incremental_units": 13550.8,
         "outcome": "cut_or_redesign",
+        "outcome_collected": "cut_or_redesign",
+        "outcome_with_model_error": "inconclusive",
         "scan_back": 34346.0,
         "store_clusters": 24
       },
@@ -1055,6 +1539,10 @@
           -14294.0,
           34377.4
         ],
+        "ci90_collected": [
+          -83987.0,
+          29608.7
+        ],
         "ci90_store_bootstrap": [
           -14294.0,
           34377.4
@@ -1063,21 +1551,35 @@
           -15081.2,
           30901.7
         ],
+        "ci90_with_model_error": [
+          -46756.2,
+          66839.5
+        ],
         "ci_source": "bootstrap",
         "dip_gp": -70067.3,
         "dip_units": -37972.7,
         "display_fee": 159750.0,
         "events": 273,
+        "funding_collected": 326386.0,
         "funding_dependent": false,
+        "funding_owed": 363617.0,
         "gp_before_funding": -355707.0,
         "incremental_units": 220640.0,
         "lift_gp": -120032.0,
         "lift_pct": 1.5227,
         "mde": 41426.2,
+        "model_error": {
+          "band": 32462.1,
+          "baseline_band": 7275.39,
+          "cannibalisation_spec_shift": 25186.7
+        },
         "net_gp": 7910.23,
+        "net_gp_collected": -29320.6,
         "net_gp_per_event": 28.9752,
         "net_incremental_units": 87960.6,
         "outcome": "inconclusive",
+        "outcome_collected": "inconclusive",
+        "outcome_with_model_error": "inconclusive",
         "scan_back": 203867.0,
         "store_clusters": 24
       }
@@ -1091,6 +1593,10 @@
           -24489.3,
           -21437.3
         ],
+        "ci90_collected": [
+          -27360.4,
+          -21597.2
+        ],
         "ci90_store_bootstrap": [
           -24489.3,
           -21437.3
@@ -1099,21 +1605,35 @@
           -24218.2,
           -21620.8
         ],
+        "ci90_with_model_error": [
+          -25844.9,
+          -20081.7
+        ],
         "ci_source": "bootstrap",
         "dip_gp": -9656.22,
         "dip_units": -6476.37,
         "display_fee": 0.0,
         "events": 21,
+        "funding_collected": 52996.2,
         "funding_dependent": false,
+        "funding_owed": 54511.7,
         "gp_before_funding": -77431.1,
         "incremental_units": 36484.8,
         "lift_gp": -52800.9,
         "lift_pct": 3.82071,
         "mde": 2597.65,
+        "model_error": {
+          "band": 1355.63,
+          "baseline_band": 419.52,
+          "cannibalisation_spec_shift": 936.108
+        },
         "net_gp": -22919.5,
+        "net_gp_collected": -24435.0,
         "net_gp_per_event": -1091.4,
         "net_incremental_units": 21304.8,
         "outcome": "cut_or_redesign",
+        "outcome_collected": "cut_or_redesign",
+        "outcome_with_model_error": "cut_or_redesign",
         "scan_back": 54511.7,
         "store_clusters": 24
       },
@@ -1125,6 +1645,10 @@
           33221.5,
           46285.6
         ],
+        "ci90_collected": [
+          14147.6,
+          33141.3
+        ],
         "ci90_store_bootstrap": [
           33636.8,
           46571.2
@@ -1133,21 +1657,35 @@
           33221.5,
           46285.6
         ],
+        "ci90_with_model_error": [
+          30256.7,
+          49250.4
+        ],
         "ci_source": "cr1",
         "dip_gp": -17367.8,
         "dip_units": -10107.7,
         "display_fee": 39500.0,
         "events": 26,
+        "funding_collected": 173041.0,
         "funding_dependent": true,
+        "funding_owed": 189150.0,
         "gp_before_funding": -149396.0,
         "incremental_units": 85957.4,
         "lift_gp": -120101.0,
         "lift_pct": 6.33828,
         "mde": 11119.4,
+        "model_error": {
+          "band": 2964.82,
+          "baseline_band": 744.725,
+          "cannibalisation_spec_shift": 2220.09
+        },
         "net_gp": 39753.6,
+        "net_gp_collected": 23644.5,
         "net_gp_per_event": 1528.98,
         "net_incremental_units": 68570.9,
         "outcome": "keep",
+        "outcome_collected": "keep",
+        "outcome_with_model_error": "keep",
         "scan_back": 149650.0,
         "store_clusters": 24
       },
@@ -1159,6 +1697,10 @@
           -33162.5,
           -28646.7
         ],
+        "ci90_collected": [
+          -45116.1,
+          -20212.7
+        ],
         "ci90_store_bootstrap": [
           -33162.5,
           -28646.7
@@ -1167,21 +1709,35 @@
           -32028.3,
           -29805.0
         ],
+        "ci90_with_model_error": [
+          -43356.3,
+          -18452.9
+        ],
         "ci_source": "bootstrap",
         "dip_gp": -6891.66,
         "dip_units": -4574.11,
         "display_fee": 0.0,
         "events": 52,
+        "funding_collected": 17700.1,
         "funding_dependent": false,
+        "funding_owed": 19459.9,
         "gp_before_funding": -50376.6,
         "incremental_units": 23215.5,
         "lift_gp": -14416.5,
         "lift_pct": 0.9411,
         "mde": 3843.59,
+        "model_error": {
+          "band": 10193.8,
+          "baseline_band": 1039.9,
+          "cannibalisation_spec_shift": 9153.89
+        },
         "net_gp": -30916.7,
+        "net_gp_collected": -32676.5,
         "net_gp_per_event": -594.551,
         "net_incremental_units": 1778.65,
         "outcome": "cut_or_redesign",
+        "outcome_collected": "cut_or_redesign",
+        "outcome_with_model_error": "cut_or_redesign",
         "scan_back": 19459.9,
         "store_clusters": 24
       },
@@ -1193,6 +1749,10 @@
           15524.4,
           24369.0
         ],
+        "ci90_collected": [
+          9292.59,
+          21512.5
+        ],
         "ci90_store_bootstrap": [
           15524.4,
           24369.0
@@ -1201,21 +1761,35 @@
           15263.2,
           23922.6
         ],
+        "ci90_with_model_error": [
+          13836.7,
+          26056.6
+        ],
         "ci_source": "bootstrap",
         "dip_gp": -6934.79,
         "dip_units": -4483.56,
         "display_fee": 32750.0,
         "events": 25,
+        "funding_collected": 43091.9,
         "funding_dependent": true,
+        "funding_owed": 47636.1,
         "gp_before_funding": -28043.2,
         "incremental_units": 25201.3,
         "lift_gp": -5779.63,
         "lift_pct": 1.78572,
         "mde": 7528.03,
+        "model_error": {
+          "band": 1687.63,
+          "baseline_band": 607.682,
+          "cannibalisation_spec_shift": -1079.95
+        },
         "net_gp": 19592.9,
+        "net_gp_collected": 15048.7,
         "net_gp_per_event": 783.716,
         "net_incremental_units": 11772.2,
         "outcome": "keep",
+        "outcome_collected": "keep",
+        "outcome_with_model_error": "keep",
         "scan_back": 14886.1,
         "store_clusters": 24
       },
@@ -1227,6 +1801,10 @@
           -115504.0,
           -101545.0
         ],
+        "ci90_collected": [
+          -138022.0,
+          -91703.7
+        ],
         "ci90_store_bootstrap": [
           -115504.0,
           -101545.0
@@ -1235,21 +1813,35 @@
           -113838.0,
           -103439.0
         ],
+        "ci90_with_model_error": [
+          -131684.0,
+          -85365.4
+        ],
         "ci_source": "bootstrap",
         "dip_gp": -36707.1,
         "dip_units": -18582.8,
         "display_fee": 0.0,
         "events": 155,
+        "funding_collected": 101634.0,
         "funding_dependent": false,
+        "funding_owed": 107973.0,
         "gp_before_funding": -216611.0,
         "incremental_units": 100154.0,
         "lift_gp": -86712.8,
         "lift_pct": 1.16787,
         "mde": 11881.1,
+        "model_error": {
+          "band": 16179.8,
+          "baseline_band": 4266.47,
+          "cannibalisation_spec_shift": 11913.3
+        },
         "net_gp": -108639.0,
+        "net_gp_collected": -114977.0,
         "net_gp_per_event": -700.894,
         "net_incremental_units": 27855.9,
         "outcome": "cut_or_redesign",
+        "outcome_collected": "cut_or_redesign",
+        "outcome_with_model_error": "cut_or_redesign",
         "scan_back": 107973.0,
         "store_clusters": 24
       },
@@ -1261,6 +1853,10 @@
           100675.0,
           135252.0
         ],
+        "ci90_collected": [
+          53500.5,
+          120642.0
+        ],
         "ci90_store_bootstrap": [
           100675.0,
           135252.0
@@ -1269,21 +1865,35 @@
           99375.0,
           133723.0
         ],
+        "ci90_with_model_error": [
+          84393.0,
+          151535.0
+        ],
         "ci_source": "bootstrap",
         "dip_gp": -33360.2,
         "dip_units": -19389.9,
         "display_fee": 159750.0,
         "events": 118,
+        "funding_collected": 224752.0,
         "funding_dependent": true,
+        "funding_owed": 255644.0,
         "gp_before_funding": -139096.0,
         "incremental_units": 120486.0,
         "lift_gp": -33318.7,
         "lift_pct": 2.03721,
         "mde": 29429.8,
+        "model_error": {
+          "band": 16282.4,
+          "baseline_band": 3008.91,
+          "cannibalisation_spec_shift": 13273.4
+        },
         "net_gp": 116549.0,
+        "net_gp_collected": 85656.3,
         "net_gp_per_event": 987.702,
         "net_incremental_units": 60104.7,
         "outcome": "keep",
+        "outcome_collected": "keep",
+        "outcome_with_model_error": "keep",
         "scan_back": 95894.4,
         "store_clusters": 24
       }
@@ -1297,6 +1907,10 @@
           1366.86,
           9824.96
         ],
+        "ci90_collected": [
+          -8207.59,
+          14627.6
+        ],
         "ci90_store_bootstrap": [
           1877.59,
           10297.1
@@ -1305,21 +1919,35 @@
           1366.86,
           9824.96
         ],
+        "ci90_with_model_error": [
+          -5821.69,
+          17013.5
+        ],
         "ci_source": "cr1",
         "dip_gp": -4541.76,
         "dip_units": -4739.52,
         "display_fee": 15250.0,
         "events": 33,
+        "funding_collected": 29188.0,
         "funding_dependent": true,
+        "funding_owed": 31573.9,
         "gp_before_funding": -25978.0,
         "incremental_units": 21743.3,
         "lift_gp": -11768.7,
         "lift_pct": 1.52544,
         "mde": 7199.02,
+        "model_error": {
+          "band": 7188.55,
+          "baseline_band": 399.853,
+          "cannibalisation_spec_shift": -6788.69
+        },
         "net_gp": 5595.91,
+        "net_gp_collected": 3210.01,
         "net_gp_per_event": 169.573,
         "net_incremental_units": 8413.15,
         "outcome": "keep",
+        "outcome_collected": "inconclusive",
+        "outcome_with_model_error": "inconclusive",
         "scan_back": 16323.9,
         "store_clusters": 24
       },
@@ -1331,6 +1959,10 @@
           -1324.2,
           8143.23
         ],
+        "ci90_collected": [
+          -28619.1,
+          5417.09
+        ],
         "ci90_store_bootstrap": [
           -1324.2,
           8143.23
@@ -1339,21 +1971,35 @@
           -594.595,
           6820.55
         ],
+        "ci90_with_model_error": [
+          -13608.6,
+          20427.6
+        ],
         "ci_source": "bootstrap",
         "dip_gp": -11905.3,
         "dip_units": -6513.11,
         "display_fee": 24750.0,
         "events": 61,
+        "funding_collected": 61249.6,
         "funding_dependent": false,
+        "funding_owed": 76260.1,
         "gp_before_funding": -73147.1,
         "incremental_units": 41377.4,
         "lift_gp": -32207.5,
         "lift_pct": 1.57991,
         "mde": 8058.1,
+        "model_error": {
+          "band": 12284.4,
+          "baseline_band": 1405.33,
+          "cannibalisation_spec_shift": 10879.0
+        },
         "net_gp": 3112.98,
+        "net_gp_collected": -11897.5,
         "net_gp_per_event": 51.0324,
         "net_incremental_units": 18480.5,
         "outcome": "inconclusive",
+        "outcome_collected": "inconclusive",
+        "outcome_with_model_error": "inconclusive",
         "scan_back": 51510.1,
         "store_clusters": 24
       },
@@ -1365,6 +2011,10 @@
           -28452.6,
           -17563.5
         ],
+        "ci90_collected": [
+          -57732.3,
+          2298.6
+        ],
         "ci90_store_bootstrap": [
           -28452.6,
           -17563.5
@@ -1373,21 +2023,35 @@
           -28257.2,
           -18459.8
         ],
+        "ci90_with_model_error": [
+          -53023.5,
+          7007.4
+        ],
         "ci_source": "bootstrap",
         "dip_gp": -13866.1,
         "dip_units": -6816.2,
         "display_fee": 22000.0,
         "events": 32,
+        "funding_collected": 48852.9,
         "funding_dependent": false,
+        "funding_owed": 53561.7,
         "gp_before_funding": -76920.2,
         "incremental_units": 22464.9,
         "lift_gp": -42528.1,
         "lift_pct": 2.10976,
         "mde": 9268.2,
+        "model_error": {
+          "band": 24570.9,
+          "baseline_band": 612.592,
+          "cannibalisation_spec_shift": -23958.3
+        },
         "net_gp": -23358.5,
+        "net_gp_collected": -28067.3,
         "net_gp_per_event": -729.954,
         "net_incremental_units": 5908.8,
         "outcome": "cut_or_redesign",
+        "outcome_collected": "inconclusive",
+        "outcome_with_model_error": "inconclusive",
         "scan_back": 31561.7,
         "store_clusters": 24
       },
@@ -1399,6 +2063,10 @@
           -1880.3,
           1343.12
         ],
+        "ci90_collected": [
+          -9633.16,
+          4718.67
+        ],
         "ci90_store_bootstrap": [
           -1880.3,
           1343.12
@@ -1407,21 +2075,35 @@
           -1589.21,
           984.937
         ],
+        "ci90_with_model_error": [
+          -7444.51,
+          6907.32
+        ],
         "ci_source": "bootstrap",
         "dip_gp": -6911.77,
         "dip_units": -4797.66,
         "display_fee": 11750.0,
         "events": 26,
+        "funding_collected": 23047.9,
         "funding_dependent": false,
+        "funding_owed": 25236.6,
         "gp_before_funding": -25538.7,
         "incremental_units": 18597.3,
         "lift_gp": -10463.7,
         "lift_pct": 1.3774,
         "mde": 2743.58,
+        "model_error": {
+          "band": 5564.21,
+          "baseline_band": 494.304,
+          "cannibalisation_spec_shift": 5069.9
+        },
         "net_gp": -302.134,
+        "net_gp_collected": -2490.78,
         "net_gp_per_event": -11.6205,
         "net_incremental_units": 7879.78,
         "outcome": "inconclusive",
+        "outcome_collected": "inconclusive",
+        "outcome_with_model_error": "inconclusive",
         "scan_back": 13486.6,
         "store_clusters": 24
       },
@@ -1433,6 +2115,10 @@
           15788.7,
           47024.3
         ],
+        "ci90_collected": [
+          -55310.4,
+          93164.0
+        ],
         "ci90_store_bootstrap": [
           15788.7,
           47024.3
@@ -1441,21 +2127,35 @@
           19698.4,
           42314.1
         ],
+        "ci90_with_model_error": [
+          -42830.7,
+          105644.0
+        ],
         "ci_source": "bootstrap",
         "dip_gp": -39368.9,
         "dip_units": -19800.4,
         "display_fee": 82750.0,
         "events": 122,
+        "funding_collected": 248717.0,
         "funding_dependent": true,
+        "funding_owed": 261196.0,
         "gp_before_funding": -230190.0,
         "incremental_units": 138075.0,
         "lift_gp": -122282.0,
         "lift_pct": 1.79089,
         "mde": 26585.9,
+        "model_error": {
+          "band": 58619.4,
+          "baseline_band": 4115.44,
+          "cannibalisation_spec_shift": 54503.9
+        },
         "net_gp": 31006.3,
+        "net_gp_collected": 18526.6,
         "net_gp_per_event": 254.15,
         "net_incremental_units": 84597.1,
         "outcome": "keep",
+        "outcome_collected": "inconclusive",
+        "outcome_with_model_error": "inconclusive",
         "scan_back": 178446.0,
         "store_clusters": 24
       },
@@ -1467,6 +2167,10 @@
           -12024.1,
           -6429.16
         ],
+        "ci90_collected": [
+          -21568.9,
+          -3185.3
+        ],
         "ci90_store_bootstrap": [
           -12024.1,
           -6429.16
@@ -1475,21 +2179,35 @@
           -11724.7,
           -7112.37
         ],
+        "ci90_with_model_error": [
+          -18418.5,
+          -34.8461
+        ],
         "ci_source": "bootstrap",
         "dip_gp": -11884.6,
         "dip_units": -8167.82,
         "display_fee": 19250.0,
         "events": 41,
+        "funding_collected": 38500.3,
         "funding_dependent": false,
+        "funding_owed": 41650.8,
         "gp_before_funding": -51069.3,
         "incremental_units": 28963.8,
         "lift_gp": -16844.7,
         "lift_pct": 1.73277,
         "mde": 4762.11,
+        "model_error": {
+          "band": 6394.32,
+          "baseline_band": 656.269,
+          "cannibalisation_spec_shift": 5738.05
+        },
         "net_gp": -9418.53,
+        "net_gp_collected": -12569.0,
         "net_gp_per_event": -229.72,
         "net_incremental_units": 4404.77,
         "outcome": "cut_or_redesign",
+        "outcome_collected": "cut_or_redesign",
+        "outcome_with_model_error": "cut_or_redesign",
         "scan_back": 22400.8,
         "store_clusters": 24
       },
@@ -1501,6 +2219,10 @@
           -651.478,
           19127.4
         ],
+        "ci90_collected": [
+          -30768.3,
+          11221.6
+        ],
         "ci90_store_bootstrap": [
           -651.478,
           19127.4
@@ -1509,21 +2231,35 @@
           1299.92,
           16057.6
         ],
+        "ci90_with_model_error": [
+          -11757.0,
+          30232.9
+        ],
         "ci_source": "bootstrap",
         "dip_gp": -17527.3,
         "dip_units": -10987.0,
         "display_fee": 49000.0,
         "events": 66,
+        "funding_collected": 150055.0,
         "funding_dependent": false,
+        "funding_owed": 169067.0,
         "gp_before_funding": -160388.0,
         "incremental_units": 112905.0,
         "lift_gp": -69778.3,
         "lift_pct": 2.59054,
         "mde": 16834.6,
+        "model_error": {
+          "band": 11105.5,
+          "baseline_band": 2005.19,
+          "cannibalisation_spec_shift": -9100.33
+        },
         "net_gp": 8678.78,
+        "net_gp_collected": -10332.6,
         "net_gp_per_event": 131.497,
         "net_incremental_units": 57871.1,
         "outcome": "inconclusive",
+        "outcome_collected": "inconclusive",
+        "outcome_with_model_error": "inconclusive",
         "scan_back": 120067.0,
         "store_clusters": 24
       },
@@ -1535,6 +2271,10 @@
           -3987.93,
           266.814
         ],
+        "ci90_collected": [
+          -6683.48,
+          -1485.74
+        ],
         "ci90_store_bootstrap": [
           -3987.93,
           266.814
@@ -1543,26 +2283,41 @@
           -3239.77,
           -548.579
         ],
+        "ci90_with_model_error": [
+          -4459.43,
+          738.315
+        ],
         "ci_source": "bootstrap",
         "dip_gp": -4912.25,
         "dip_units": -1792.7,
         "display_fee": 7250.0,
         "events": 16,
+        "funding_collected": 13604.7,
         "funding_dependent": false,
+        "funding_owed": 15828.8,
         "gp_before_funding": -17722.9,
         "incremental_units": 7373.39,
         "lift_gp": -7257.04,
         "lift_pct": 1.53529,
         "mde": 3621.38,
+        "model_error": {
+          "band": 471.501,
+          "baseline_band": 398.239,
+          "cannibalisation_spec_shift": 73.2621
+        },
         "net_gp": -1894.17,
+        "net_gp_collected": -4118.22,
         "net_gp_per_event": -118.386,
         "net_incremental_units": 3831.9,
         "outcome": "inconclusive",
+        "outcome_collected": "cut_or_redesign",
+        "outcome_with_model_error": "inconclusive",
         "scan_back": 8578.75,
         "store_clusters": 24
       }
     }
   },
+  "model_error_baseline_pct": 0.011316,
   "placebo": {
     "error_ci90_store_bootstrap": [
       -0.00816298,

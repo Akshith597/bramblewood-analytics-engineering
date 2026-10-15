@@ -7,7 +7,7 @@ Method and decision rules were [committed before any outcome was computed](../an
 | Question | Answer | Dollar figure (90% range) | Recommendation |
 |---|---|---|---|
 | 1. Delisting test | **Inconclusive** — the test cannot detect a GP change smaller than {d_mde} | {d_dollar} per year if rolled out to the other large stores ({d_dollar_ci}) | Do not roll out on this evidence; rerun as a randomized, full-year test |
-| 2. Promotions | **Roughly break-even, and only because of vendor money** — {q2_pos_before} of FY2025 events made gross profit before funding | {q2_net} net in FY2025 ({q2_ci}); {q2_before} before funding | Cut or redesign promotions without a display; keep display events only where display execution is verified and the fee collected |
+| 2. Promotions | **Break-even on vendor money owed; below zero on money actually collected** (both ranges span zero) — {q2_pos_before} of FY2025 events made gross profit before funding | {q2_net} net in FY2025 on funding owed ({q2_ci_model}); {q2_net_coll} on funding collected ({q2_coll_ci}); {q2_before} before funding | Cut or redesign promotions without a display; keep display events only where display execution is verified and the fee collected |
 | 3. Price increases | **Not identified** from the data; break-even analysis favours Golden Ridge, tortilla is a coin flip | Golden Ridge {p_gr_gp} ({p_gr_gp_ci}); tortilla {p_bs_gp} ({p_bs_gp_ci}) — scenarios, not estimates | Keep Golden Ridge; test the tortilla price in a randomized subset of stores |
 | 4. Forecast and in-stock | **Forecast over-forecasts by {f_bias}** ({f_bias_ci}); stock-outs cost an estimated {o_gp} of GP (exploratory, likely understated) | {f_cost} of planned inventory against demand that did not occur in FY2025; stock-outs {o_ci} | Apply per-subcategory bias correction now; it cut FY2025 bias to {f_bias_after} out of sample. In-stock is a lower priority |
 | 5. Vendor funding | **Under-billed** on approved promotions | {v_low} to {v_high} | Bill the scan-back shortfall now; verify display execution before billing displays |
@@ -35,8 +35,8 @@ that week without the promotion, from a model fitted only on weeks with no promo
 promotion fell {q2_dip1} and {q2_dip2} below baseline, and same-subcategory sister SKUs lost {q2_cann_units} units
 (each promoted sister cuts a sister's sales by {q2_cann_range}, depending on subcategory).
 
-| Mechanic | Events | Unit lift | GP before funding | Vendor funding | Net GP (90% range) | Decision rule |
-|---|---|---|---|---|---|---|
+| Mechanic | Events | Unit lift | GP before funding | Vendor funding owed | Net GP, funding owed (90% range with model error) | Net GP, funding collected | Decision rule |
+|---|---|---|---|---|---|---|---|
 {q2_cells}
 
 Before funding, the promotions' net GP was **{q2_before}**: only {q2_pos_before} of events made money on their own. Vendor
@@ -44,6 +44,16 @@ funding owed under the deal terms ({q2_funding}, of which {q2_display_fees} disp
 **{q2_net}** ({q2_ci}), with {q2_pos_net} of events net positive. Every display cell clears zero only because of
 its display fee, and display execution cannot be verified from these extracts (question 5). By subcategory:
 {q2_subcats}. FY2024 and FY2025 together: {q2_all_years} ({q2_all_years_ci}).
+
+**On cash actually collected,** vendors paid {q2_collected} of the {q2_funding} owed for these events, so FY2025
+promotions net **{q2_net_coll}** ({q2_coll_ci}); FY2024 and FY2025 together, {q2_all_years_coll}
+({q2_all_years_coll_ci}). Whether promotions pay at all depends on collecting what the deals promise.
+
+**Model error.** The ranges in the paragraph above reflect store-to-store sampling only. The table's ranges, and
+the collected-funding ranges, also add two model errors: the baseline could be off by up to {q2_base_err} (the widest held-out bound below), and
+estimating cannibalisation only from stores that differ within the same week moves net GP by {q2_spec_shift} in
+total. Together they widen the FY2025 total to {q2_ci_model}. Every keep or cut decision in the table holds under
+the wider ranges and on collected funding.
 
 Checks: in the two weeks before each promotion, held out of the fit, sales were {q2_pre} from the baseline;
 fake promotions placed eight weeks earlier were {q2_placebo} from it; a planted cannibalisation slope of
@@ -106,5 +116,7 @@ collected.
   cost were specified in a later plan addendum, written after unit-level aggregates (not dollars) had been seen;
   the addendum lists what was seen; (5) the out-of-stock estimator was switched to censored demand after the
   planned one came out negative, so that answer is exploratory, and a realistic planted check was added
-  post-hoc. Data fix: one promotion with swapped start and end dates in the source was corrected, confirmed by
+  post-hoc; (6) after review of the promotions result, net GP on funding collected and a model-error band
+  (held-out baseline error plus an alternative cannibalisation specification) were added; the pre-registered
+  ranges and decisions are still reported and did not change. Data fix: one promotion with swapped start and end dates in the source was corrected, confirmed by
   POS discounts.
