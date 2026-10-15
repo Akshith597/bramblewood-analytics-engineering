@@ -7,9 +7,9 @@ Method and decision rules were [committed before any outcome was computed](../an
 | Question | Answer | Dollar figure (90% range) | Recommendation |
 |---|---|---|---|
 | 1. Delisting test | **Inconclusive** — the test cannot detect a GP change smaller than {d_mde} | {d_dollar} per year if rolled out to the other large stores ({d_dollar_ci}) | Do not roll out on this evidence; rerun as a randomized, full-year test |
-| 2. Promotions | **Not yet answered** | — | See below |
+| 2. Promotions | **Roughly break-even, and only because of vendor money** — {q2_pos_before} of FY2025 events made gross profit before funding | {q2_net} net in FY2025 ({q2_ci}); {q2_before} before funding | Cut or redesign promotions without a display; keep display events only where display execution is verified and the fee collected |
 | 3. Price increases | **Not identified** from the data; break-even analysis favours Golden Ridge, tortilla is a coin flip | Golden Ridge {p_gr_gp} ({p_gr_gp_ci}); tortilla {p_bs_gp} ({p_bs_gp_ci}) — scenarios, not estimates | Keep Golden Ridge; test the tortilla price in a randomized subset of stores |
-| 4. Forecast and in-stock | **Forecast over-forecasts by {f_bias}** ({f_bias_ci}); out-of-stock cost not yet answered | {f_cost} of planned inventory against demand that did not occur in FY2025 | Apply per-subcategory bias correction now; it cut FY2025 bias to {f_bias_after} out of sample |
+| 4. Forecast and in-stock | **Forecast over-forecasts by {f_bias}** ({f_bias_ci}); stock-outs cost an estimated {o_gp} of GP (exploratory, likely understated) | {f_cost} of planned inventory against demand that did not occur in FY2025; stock-outs {o_ci} | Apply per-subcategory bias correction now; it cut FY2025 bias to {f_bias_after} out of sample. In-stock is a lower priority |
 | 5. Vendor funding | **Under-billed** on approved promotions | {v_low} to {v_high} | Bill the scan-back shortfall now; verify display execution before billing displays |
 
 ## 1. Delisting test (stores 102, 106, 113, 116 from FY2025 W27)
@@ -27,11 +27,29 @@ and large-store-only comparisons agree in direction but not magnitude ({d_sc}; {
 **Next:** randomize the planogram across matched large-store pairs and run it for a full year so seasonality
 differences cancel.
 
-## 2. Promotions — not yet answered
+## 2. Promotions (FY2025 events)
 
-Deferred to protect depth on questions 1 and 3. Planned method: lift against a non-promoted store-SKU baseline,
-net of cannibalisation (same subcategory) and a two-week post-promotion dip, with a per-event P&L including
-vendor funding.
+Each promoted store-SKU-week is compared with an imputed baseline: what that SKU would have sold in that store
+that week without the promotion, from a model fitted only on weeks with no promotion nearby. Promotions sold
+{q2_lift} more units than baseline ({q2_incr_units} extra units across {q2_events} events), but the weeks after a
+promotion fell {q2_dip1} and {q2_dip2} below baseline, and same-subcategory sister SKUs lost {q2_cann_units} units
+(each promoted sister cuts a sister's sales by {q2_cann_range}, depending on subcategory).
+
+| Mechanic | Events | Unit lift | GP before funding | Vendor funding | Net GP (90% range) | Decision rule |
+|---|---|---|---|---|---|---|
+{q2_cells}
+
+Before funding, the promotions' net GP was **{q2_before}**: only {q2_pos_before} of events made money on their own. Vendor
+funding owed under the deal terms ({q2_funding}, of which {q2_display_fees} display fees) turns that into
+**{q2_net}** ({q2_ci}), with {q2_pos_net} of events net positive. Every display cell clears zero only because of
+its display fee, and display execution cannot be verified from these extracts (question 5). By subcategory:
+{q2_subcats}. FY2024 and FY2025 together: {q2_all_years} ({q2_all_years_ci}).
+
+Checks: in the two weeks before each promotion, held out of the fit, sales were {q2_pre} from the baseline;
+fake promotions placed eight weeks earlier were {q2_placebo} from it; a planted cannibalisation slope of
+{q2_planted} was recovered exactly. **Next:** stop non-display TPR, BOGO and multi-buy events or renegotiate their
+funding; audit display execution before relying on display fees; run any promotion you keep with a randomised
+holdout of stores.
 
 ## 3. Spring 2025 regular-price increases
 
@@ -56,8 +74,18 @@ FY2025 forecast bias is **{f_bias}** (SKU-bootstrap {f_bias_ci}); WAPE {f_wape}.
 promoted weeks versus {f_bias_nonpromo} otherwise. The forecast still beats naive benchmarks (MASE {f_mase_lag2}
 vs the lag-2 actual; {f_mase_seasonal} vs last year), so it should be corrected, not replaced: per-subcategory
 factors learned on FY2024 cut FY2025 bias from {f_bias} to {f_bias_after} and WAPE from {f_wape} to
-{f_wape_after}. **Out-of-stock cost — not yet answered:** a weekly on-hand snapshot cannot date a stock-out;
-the planned lower-bound method is in the analysis plan.
+{f_wape_after}.
+
+**Out-of-stock cost (exploratory).** On the {o_weeks} non-promoted FY2025 weeks that ended with zero stock, the
+store sold everything it had, so demand was at least what it sold. Using the promotion baseline model and the
+spread of its in-stock errors, the expected demand above that floor is {o_units} units, or **{o_gp}** of gross
+profit ({o_ci}; {o_share} of category GP), plus {o_promo_gp} in promoted weeks. That is below the {o_threshold}
+threshold for prioritising replenishment work. Treat it as a floor, not a measurement: the planned
+adjacent-week method gives {o_prereg_gp} (stock-outs happen in demand spikes, so neighbouring weeks understate
+demand); the model predicts {o_calib_pred} stock-outs against {o_calib_obs} observed, so its demand tail is too
+thin; and a planted test recovered {o_planted} of known losses when the floor was tied to the week's own sales,
+but {o_posthoc} under realistic censoring (post-hoc). **Next:** capture a daily stock-out flag or time of
+stock-out; the weekly snapshot cannot measure this well.
 
 ## 5. Vendor funding
 
@@ -75,4 +103,8 @@ collected.
 - **Deviations from plan:** (1) delist GP indexed to each store's pre-period mean, because one comparison
   store-week had negative GP (log version: {d_log}); (2) the cross-zone price design and (3) the year-over-year
   delist adjustment were added after diagnostics and are labelled exploratory; (4) promotions and out-of-stock
-  cost deferred.
+  cost were specified in a later plan addendum, written after unit-level aggregates (not dollars) had been seen;
+  the addendum lists what was seen; (5) the out-of-stock estimator was switched to censored demand after the
+  planned one came out negative, so that answer is exploratory, and a realistic planted check was added
+  post-hoc. Data fix: one promotion with swapped start and end dates in the source was corrected, confirmed by
+  POS discounts.

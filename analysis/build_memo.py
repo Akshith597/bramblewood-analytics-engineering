@@ -46,6 +46,8 @@ def figures(r):
     pr, dec, pooled = p['preregistered'], p['decisions'], p['pooled']
     gr, bs = dec['golden_ridge_kettle'], dec['bramble_select_tortilla']
     subs = pooled['by_subcategory']
+    pr2, o = r['promotions'], r['stockouts']
+    q2 = pr2['fy2025']
     out = {
         'd_effect': pct(d['gp']['beta']), 'd_ci': rng(*d['gp']['ci90_wild'], pct),
         'd_p': pval(d['gp']['p_wild']), 'd_ri_p': pval(d['gp']['randomization']['p_value']),
@@ -93,6 +95,45 @@ def figures(r):
         'v_events': f"{v['by_status']['Approved']['events']:,}",
         'v_noclaim': f"{v['by_status']['Approved']['events_without_claim']:,}",
         'v_cancelled': money(v['cancelled_billed_not_collected']).lstrip('+'),
+        'q2_net': money(q2['all']['all']['net_gp']), 'q2_ci': rng(*q2['all']['all']['ci90'], money),
+        'q2_events': str(q2['all']['all']['events']),
+        'q2_before': money(q2['all']['all']['gp_before_funding']),
+        'q2_funding': money(q2['all']['all']['scan_back'] + q2['all']['all']['display_fee']).lstrip('+'),
+        'q2_display_fees': money(q2['all']['all']['display_fee']).lstrip('+'),
+        'q2_pos_before': pct(pr2['events_fy2025']['share_positive_before_funding'], 0, signed=False),
+        'q2_pos_net': pct(pr2['events_fy2025']['share_net_positive'], 0, signed=False),
+        'q2_lift': pct(q2['all']['all']['lift_pct'], 0, signed=False),
+        'q2_dip1': pct(abs(pr2['post_dip_by_week']['1']), 0, signed=False),
+        'q2_dip2': pct(abs(pr2['post_dip_by_week']['2']), 0, signed=False),
+        'q2_cann_units': f"{abs(q2['all']['all']['cannibalised_units']):,.0f}",
+        'q2_incr_units': f"{q2['all']['all']['incremental_units']:,.0f}",
+        'q2_cann_range': rng(min(abs(c['per_promoted_sister']) for c in pr2['cannibalisation'].values()),
+                             max(abs(c['per_promoted_sister']) for c in pr2['cannibalisation'].values()),
+                             lambda x: pct(x, 0, signed=False)),
+        'q2_pre': pct(pr2['pre_period']['error_pct']), 'q2_placebo': pct(pr2['placebo']['error_pct']),
+        'q2_planted': num(next(iter(pr2['planted_cannibalisation_recovered'].values()))),
+        'q2_cells': '\n'.join(
+            f"| {label} | {c['events']} | {pct(c['lift_pct'], 0)} | {money(c['gp_before_funding'])} | "
+            f"{money(c['scan_back'] + c['display_fee'])} | **{money(c['net_gp'])}** ({rng(*c['ci90'], money)}) | "
+            f"{ {'keep': 'Keep', 'cut_or_redesign': 'Cut or redesign', 'inconclusive': 'Inconclusive'}[c['outcome']]}"
+            f"{' (funding-dependent)' if c['funding_dependent'] else ''} |"
+            for label, c in q2['mechanic_display'].items()),
+        'q2_subcats': '; '.join(f"{s} {money(c['net_gp'])}" for s, c in
+                                sorted(q2['subcategory'].items(), key=lambda kv: -kv[1]['net_gp'])),
+        'q2_all_years': money(pr2['all_years']['all']['all']['net_gp']),
+        'q2_all_years_ci': rng(*pr2['all_years']['all']['all']['ci90'], money),
+        'o_gp': money(o['fy2025_non_promoted']['lost_gp']).lstrip('+'),
+        'o_ci': rng(*o['fy2025_non_promoted']['ci90'], lambda x: money(x).lstrip('+')),
+        'o_share': pct(o['fy2025_non_promoted']['share_of_category_gp'], signed=False),
+        'o_weeks': f"{o['fy2025_non_promoted']['zero_stock_weeks']:,}",
+        'o_units': f"{o['fy2025_non_promoted']['lost_units']:,.0f}",
+        'o_promo_gp': money(o['fy2025_promoted_secondary']['lost_gp']).lstrip('+'),
+        'o_prereg_gp': money(o['preregistered_adjacent_weeks']['lost_gp']),
+        'o_calib_pred': f"{o['calibration']['predicted_stockouts']:,.0f}",
+        'o_calib_obs': f"{o['calibration']['observed_stockouts']:,}",
+        'o_planted': pct(o['planted_censoring']['recovered_share'], 0, signed=False),
+        'o_posthoc': pct(o['planted_censoring_posthoc']['recovered_share'], 0, signed=False),
+        'o_threshold': pct(o['decision']['threshold_share_of_category_gp'], 0, signed=False),
         'x_checks': str(len(r['crosscheck_python']['checks'])),
         'x_status': 'all agree' if r['crosscheck_python']['status'] == 'pass' else 'DISAGREEMENT',
     }
@@ -130,6 +171,26 @@ CLAIMS = {
     'Q4 promoted weeks more biased': lambda r: r['forecast']['by_promoted']['True']['bias'] > r['forecast']['by_promoted']['False']['bias'],
     'Q5 scan-back under-billed': lambda r: r['funding']['approved_gap_range']['lower_scan_only'] > 0,
     'Q5 approved fully collected': lambda r: abs(r['funding']['approved_billed_not_collected']) < 0.005,
+    'Q2 checks passed': lambda r: r['promotions']['credible'],
+    'Q2 overall FY2025 net GP inconclusive': lambda r: r['promotions']['fy2025']['all']['all']['outcome'] == 'inconclusive',
+    'Q2 every non-display cell is cut, every display cell kept on funding': lambda r: all(
+        (c['outcome'] == 'keep' and c['funding_dependent']) if 'display' in label else c['outcome'] == 'cut_or_redesign'
+        for label, c in r['promotions']['fy2025']['mechanic_display'].items()),
+    'Q2 almost no event profitable before funding': lambda r: (
+        r['promotions']['events_fy2025']['share_positive_before_funding'] < 0.05),
+    'Q2 display fees exceed overall net GP': lambda r: (
+        r['promotions']['fy2025']['all']['all']['display_fee'] > r['promotions']['fy2025']['all']['all']['ci90'][1]),
+    'Q2 post-promotion dip and cannibalisation negative': lambda r: (
+        all(v < 0 for v in r['promotions']['post_dip_by_week'].values())
+        and all(c['per_promoted_sister'] < 0 for c in r['promotions']['cannibalisation'].values())),
+    'Q4 OOS planned estimator uninformative': lambda r: not r['stockouts']['preregistered_adjacent_weeks']['informative'],
+    'Q4 OOS calibration and planted checks failed': lambda r: not r['stockouts']['credible'] and not any(
+        r['stockouts']['checks_passed'].values()),
+    'Q4 OOS model under-predicts stock-outs': lambda r: r['stockouts']['calibration']['ratio'] < 1,
+    'Q4 OOS post-hoc planted check is conservative': lambda r: (
+        r['stockouts']['planted_censoring_posthoc']['recovered_share'] < 1),
+    'Q4 OOS below the priority threshold': lambda r: (
+        r['stockouts']['decision']['outcome'] == 'lower_priority_than_forecast_bias'),
     'Planted effects recovered': lambda r: all(
         abs(x['recovered_shift'] - float(k)) < 1e-6 for k, x in r['delist']['gp_planted_effect'].items()) and all(
         abs(r['pricing'][d][e]['planted_elasticity_recovered'] + 1.5) < 1e-5
