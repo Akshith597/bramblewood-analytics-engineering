@@ -2,8 +2,9 @@
 
 Dependency-free SVG keeps the figures reproducible in CI and readable on GitHub.
 Outputs:
-  docs/assets/insights/*.svg   committed figures embedded in the README
-  target/insights.html         dashboard page published next to the dbt catalog
+  docs/assets/insights/*.svg          committed figures embedded in the README
+  evidence/insights_figures.json      the headline numbers behind the figures, read by analysis/build_public.py
+  target/insights.html                dashboard page published next to the dbt catalog
 """
 from pathlib import Path
 from html import escape
@@ -338,6 +339,22 @@ extracts and are not real outcomes, recovered funds or causal effects.</p>
 '''
 
 
+def headline_figures(data):
+    """Numbers the README quotes about the charts, so its prose is rendered rather than typed."""
+    weekly = data['weekly_sales']
+    totals = {y: sum(float(r['net_sales']) for r in weekly if r['fiscal_year'] == y) for y in (2024, 2025)}
+    subs = {r['subcategory']: {'growth': float(r['sales_fy25']) / float(r['sales_fy24']) - 1,
+                               'margin_change_pp': (float(r['margin_fy25']) - float(r['margin_fy24'])) * 100,
+                               'sales_fy25': float(r['sales_fy25'])} for r in data['subcategory']}
+    fy25 = [r for r in data['forecast'] if r['fiscal_year'] == 2025]
+    return {'comparable_stores': weekly[0]['stores'], 'comparable_growth': totals[2025] / totals[2024] - 1,
+            'subcategories': subs, 'subcategories_shrinking': sum(v['growth'] < 0 for v in subs.values()),
+            'largest_subcategory': max(subs, key=lambda s: subs[s]['sales_fy25']),
+            'forecast_periods_fy2025': len(fy25),
+            'forecast_periods_over_fy2025': sum(float(r['bias']) > 0 for r in fy25),
+            'stores': data['kpis'][0]['stores'], 'skus': data['kpis'][0]['skus']}
+
+
 def main():
     with duckdb.connect(str(ROOT / 'warehouse/bramblewood.duckdb'), read_only=True) as con:
         data = {}
@@ -372,6 +389,9 @@ def main():
     kpis = data['kpis'][0]
     (ROOT / 'target/insights.html').write_text(
         page_html(kpis, [(fig.svg(), table) for fig, table in built.values()]), encoding='utf-8', newline='\n')
+    (ROOT / 'evidence/insights_figures.json').write_text(
+        json.dumps(headline_figures(data), indent=2, sort_keys=True, default=float) + '\n', encoding='utf-8',
+        newline='\n')
     print(json.dumps({'figures': sorted(built), 'page': 'target/insights.html'}))
 
 
