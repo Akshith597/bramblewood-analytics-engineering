@@ -78,6 +78,101 @@ Planned method: incremental lift vs a store-SKU baseline from non-promoted weeks
 (sister SKUs, same subcategory) and a post-promotion dip (2 weeks), plus a per-event P&L including vendor
 funding. Deferred behind Q1 and Q3; marked not yet answered if not completed.
 
+## Addendum (2026-10-15) — Q2 and Q4 out-of-stock, registered before the decision quantities were computed
+
+The two deferred questions are specified here in full. The original planned-method paragraphs above are left as
+written. Code: `analysis/promotions.py`, `analysis/stockouts.py`.
+
+### Seen before registration
+
+Honest timing: while building the shared baseline model, the following were printed and seen before this
+addendum was written. Everything else below (all dollar P&L, per-mechanic/display/subcategory results, the
+pre-period check, MDEs, ranges and every decision) had not been computed.
+
+- **Data facts:** 771 approved events, all 1–2 whole fiscal weeks, no overlapping events on one SKU; one event
+  (PR-25-0432) has start and end dates swapped in the source, confirmed by POS discounts; promoted store-weeks
+  sell several times the units of other weeks; 2,498 zero-stock snapshot weeks (454 in a promotion or the two
+  weeks after one), concentrated in holiday weeks (Super Bowl, July 4th); on zero-stock weeks sales equal the
+  available units (prior on-hand + receipts).
+- **Q2 aggregates from the baseline model:** promoted store-SKU-weeks sold about 2.9× their imputed baseline
+  units; post-promotion weeks about 20% below baseline; held-out placebo weeks within 0.2% of baseline; the eight
+  cannibalisation slopes (all negative); retransformation factors.
+- **Q4 out-of-stock:** non-promoted zero-stock weeks sell about 1.8× the adjacent-week baseline and about 1.4×
+  the model baseline, so the originally planned estimator (baseline − actual) is negative, i.e. uninformative.
+  A log-normal censored-demand model over-predicted the number of stock-outs about threefold; a version with
+  empirical residuals by demand decile predicted 1,676 against 1,857 observed and implied about 20K lost units
+  over two years (units only; no GP computed).
+
+Consequence: the Q2 GP decisions below are confirmatory in the sense that none of their dollar inputs had been
+seen, but the model was finalised with the unit aggregates in view. **The Q4 out-of-stock estimator and its
+decision threshold were chosen after the lost-unit total was seen, so that answer is labelled exploratory.**
+
+### Shared baseline model (both questions)
+
+- **Unit:** store × SKU × fiscal week with positive units (`int_sales_enriched`), all 24 stores, FY2024–FY2025.
+  Missing rows (zero sales) and returns-only rows are not modelled.
+- **Roles (first match wins):** *promo* = an approved event covers the SKU in that store's zone that week;
+  *post* = one of the two weeks after an event ends; *stockout* = zero on-hand snapshot (`fct_inventory`);
+  *pre* = one of the two weeks before an event starts (held out, for the pre-period check);
+  *placebo* = the event's weeks shifted 8 weeks earlier (held out); *clean* = everything else.
+- **Model (clean rows only):** log units = Σ_s γ_s · (number of other same-subcategory SKUs on promotion in that
+  store-week, for subcategory s) + store×SKU FE + store×week FE + subcategory×fiscal-period FE, where each
+  holiday week is its own period so subcategory-specific holiday demand is absorbed. FE levels are recovered and
+  the baseline is imputed for every held-out row (imputation estimator; no promoted week informs its own
+  baseline). Units = exp(prediction) × a per-subcategory retransformation factor that makes clean-week baseline
+  units equal actual units.
+- **Inference:** CR1 standard errors clustered by store for γ; wild cluster bootstrap by store (Webb weights)
+  for γ draws; store cluster bootstrap (resample the 24 stores, 1,999 draws, fixed seed) for every total. Totals
+  use a ratio estimator (net / baseline GP, rescaled) so store size does not masquerade as noise. The reported
+  90% range is the wider of the bootstrap and the CR1 linearisation.
+
+### Q2 — Promotion profitability
+
+- **Estimand:** net incremental gross profit per event and in total, FY2025 events (start date in FY2025) for the
+  decision; FY2024–FY2025 shown for context.
+- **Components:** (1) lift = promo-week GP − baseline units × regular unit margin; (2) post-promotion dip = GP
+  − baseline GP over the two following weeks; (3) cannibalisation = sister units × (exp(−γ_s·n) − 1) at their
+  margin, with each sister-week's loss split equally over its n concurrent events (promoted sisters: applied to
+  their baseline); (4) vendor funding owed under the deal terms: scan-back × promoted units, plus the display
+  fee for display events (from `stg_promotions`; the collection gap is Q5's subject, not netted here).
+- **Summaries:** all events; mechanic (TPR, BOGO, Multi-buy); display vs not; mechanic × display; subcategory of
+  the promoted SKU. Also the share of events with positive net GP, before and after funding.
+- **Checks:** (a) *pre-period*: actual vs imputed in the two held-out weeks before each event (anticipation or
+  pre-trend; must be within ±3%); (b) *placebo dates*: events shifted 8 weeks earlier, held out; baseline error
+  must be within ±2% and, applied to each cell's baseline GP, must not flip the sign of any cell the decision rule
+  calls profitable or loss-making; (c) *planted effect*: adding −0.05 × n to clean log units must move every γ_s
+  by exactly −0.05; (d) *power*: MDE per cell = 2.8 × (range half-width / 1.645).
+- **Decision rule (per mechanic × display cell, FY2025):** **keep** if the 90% range of net GP (with funding) is
+  entirely above 0; **cut or redesign** if entirely below 0; otherwise **inconclusive — keep only with a
+  randomised holdout of stores**. A kept cell whose GP before funding is negative is flagged **funding-dependent**
+  (only profitable if Q5's collection gap is closed). **Dollar figure:** FY2025 net incremental GP of all
+  approved promotions, with range, and per mechanic.
+
+### Q4 — Out-of-stock cost (exploratory; see "Seen before registration")
+
+- **Estimand:** FY2025 gross profit on SKU demand censored by stock-outs on zero-stock snapshot weeks, before any
+  substitution to other SKUs.
+- **Pre-registered estimator (reported as-is):** baseline from the two nearest in-stock, non-promoted weeks on
+  each side within 6 weeks, minus actual, on non-promoted zero-stock weeks.
+- **Primary (censored demand, deviation):** on a zero-stock week sales S equal available stock and demand ≥ S.
+  Lost units = baseline × E[e^ε | ε ≥ ln S − ln baseline] − S, with ε drawn from the empirical clean-week
+  residuals of the baseline model in the same decile of predicted demand. Post-weeks use the baseline shifted by
+  the average post-week dip; promoted weeks (secondary line) use the baseline shifted by the mechanic × display
+  average log lift of uncensored promoted weeks and the residuals of those weeks. Lost GP = lost units × regular
+  unit margin (promoted weeks: realised GP per unit + scan-back).
+- **Why a lower bound:** the snapshot misses stock-outs replenished within the week, and residuals come from
+  in-stock weeks whose upper tail is truncated, so the tail is too thin.
+- **Checks:** *calibration*: predicted P(demand ≥ available) summed over non-promoted weeks must be within ±25%
+  of the observed count of zero-stock weeks; *planted*: held-out placebo weeks are censored at 70% of their actual
+  units and the recovered lost units are reported against the known truth (and must be below it, consistent with
+  a lower bound); *power*: not applicable to a descriptive total, the range is reported instead.
+- **Range:** store cluster bootstrap (ratio to the number of zero-stock weeks), widened to cover the point
+  estimates from 5 and 20 residual bins.
+- **Decision rule:** prioritise replenishment work (order-up-to levels for the holiday weeks and SKUs driving the
+  loss) if the lower end of the FY2025 lost-GP range exceeds 1% of FY2025 category GP; otherwise in-stock is a
+  lower priority than the forecast bias correction. Substitution-adjusted category loss (× (1 − the delist test's
+  transfer rate)) is shown as context only.
+
 ## Q5 — Vendor funding
 
 Owed vs billed vs collected from the promotion calendar and claims. Range: lower bound = scan-back on observed
