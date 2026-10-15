@@ -4,7 +4,7 @@
 Analytics engineering portfolio · dbt / DuckDB / SQL / Python  
 Synthetic data · FY2024–FY2025 · 24 stores · 151 master SKUs
 
-[Live insights dashboard](https://akshith597.github.io/bramblewood-analytics-engineering/insights.html) · [dbt catalog](https://akshith597.github.io/bramblewood-analytics-engineering/) · [Repository](https://github.com/Akshith597/bramblewood-analytics-engineering)
+[Decision memo](decision_memo.md) · [Live insights dashboard](https://akshith597.github.io/bramblewood-analytics-engineering/insights.html) · [dbt catalog](https://akshith597.github.io/bramblewood-analytics-engineering/) · [Repository](https://github.com/Akshith597/bramblewood-analytics-engineering)
 
 ## Business context
 
@@ -48,4 +48,4 @@ The implemented policy lets the later effective start supersede the old cost. Th
 
 The project shows SQL transformation, dimensional modeling, effective-dated joins, reconciliation, automated testing, lineage, metric governance and operational tradeoffs. Its strongest feature is that **ambiguous source data stays visible even after the warehouse builds successfully**.
 
-No real retailer outcome, production deployment, causal uplift or realized recovery is claimed. The original analyst brief's full pricing, promotion and delisting studies remain future downstream work; this project delivers their engineering foundation.
+No real retailer outcome, production deployment, causal uplift or realized recovery is claimed. The brief's delisting, pricing, forecast and funding questions are answered in the [decision memo](decision_memo.md) using a pre-registered [analysis plan](../analysis/PLAN.md); promotion profitability and out-of-stock cost remain open.

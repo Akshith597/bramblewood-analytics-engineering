@@ -25,20 +25,31 @@ SERIES_1 = '#2a78d6'   # current year / primary measure
 SERIES_2 = '#eb6834'   # secondary measure / funding gap
 FONT = "system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif"
 
+# Comparable stores: selling in all 104 weeks with no remodel, so year-over-year changes are like-for-like.
+COMPARABLE = """comparable as (
+        select store_id from fct_sales join dim_store using (store_id)
+        where remodel_start is null group by 1 having count(distinct week_key) = 104)"""
+
 QUERIES = {
-    'weekly_sales': """select fiscal_year, fiscal_week, sum(net_sales) as net_sales,
-        max(reporting_stores) as stores
-        from mart_category_weekly group by all order by 1, 2""",
+    'weekly_sales': f"""with {COMPARABLE}
+        select w.fiscal_year, w.fiscal_week, sum(s.net_sales) as net_sales,
+            count(distinct s.store_id) as stores
+        from fct_sales as s join dim_week as w using (week_key)
+        where s.store_id in (select store_id from comparable)
+        group by all order by 1, 2""",
     'holidays': """select fiscal_year, fiscal_week, holiday_event from dim_week
         where holiday_event is not null order by 1, 2""",
-    'subcategory': """select subcategory,
-        sum(net_sales) filter (where fiscal_year = 2024) as sales_fy24,
-        sum(net_sales) filter (where fiscal_year = 2025) as sales_fy25,
-        sum(gross_profit_before_funding) filter (where fiscal_year = 2024)
-            / sum(net_sales) filter (where fiscal_year = 2024) as margin_fy24,
-        sum(gross_profit_before_funding) filter (where fiscal_year = 2025)
-            / sum(net_sales) filter (where fiscal_year = 2025) as margin_fy25
-        from mart_category_weekly group by 1 order by sales_fy25 desc""",
+    'subcategory': f"""with {COMPARABLE}
+        select i.subcategory,
+            sum(s.net_sales) filter (where s.fiscal_year = 2024) as sales_fy24,
+            sum(s.net_sales) filter (where s.fiscal_year = 2025) as sales_fy25,
+            sum(s.gross_profit_before_funding) filter (where s.fiscal_year = 2024)
+                / sum(s.net_sales) filter (where s.fiscal_year = 2024) as margin_fy24,
+            sum(s.gross_profit_before_funding) filter (where s.fiscal_year = 2025)
+                / sum(s.net_sales) filter (where s.fiscal_year = 2025) as margin_fy25
+        from fct_sales as s join dim_item as i using (sku_id)
+        where s.store_id in (select store_id from comparable)
+        group by 1 order by sales_fy25 desc""",
     'forecast': """select w.fiscal_year, w.fiscal_period,
         sum(f.absolute_error_units) / sum(abs(f.actual_units)) as wape,
         sum(f.error_units) / sum(abs(f.actual_units)) as bias
@@ -126,10 +137,16 @@ def line_path(points):
 
 
 def weekly_sales_figure(rows, holidays):
-    fig = Figure(960, 400, 'Weekly chain net sales, FY2024 vs FY2025',
-                 'Holiday weeks drive the peaks; FY2025 runs ahead of FY2024 in most weeks.',
-                 'Source: mart_category_weekly · accepted POS only, returns netted · chain totals include a 24th '
-                 'store from FY2025 (not same-store growth) · synthetic data')
+    totals = {y: sum(float(r['net_sales']) for r in rows if r['fiscal_year'] == y) for y in (2024, 2025)}
+    ahead = sum(1 for a, b in zip((r for r in rows if r['fiscal_year'] == 2025),
+                                  (r for r in rows if r['fiscal_year'] == 2024))
+                if float(a['net_sales']) > float(b['net_sales']))
+    stores = rows[0]['stores']
+    fig = Figure(960, 400, f'Weekly net sales, {stores} comparable stores, FY2024 vs FY2025',
+                 f'Comparable-store sales {pct(totals[2025] / totals[2024] - 1, signed=True)} year over year; '
+                 f'FY2025 is ahead in {ahead} of 52 weeks. Dashed lines mark holiday weeks.',
+                 'Source: fct_sales · stores selling all 104 weeks with no remodel (excludes #112 remodel, '
+                 '#124 opened FY2025) · accepted POS, returns netted · descriptive, not causal · synthetic data')
     left, right, top, bottom = 76, 880, 118, 342
     values = [float(r['net_sales']) for r in rows]
     ticks = nice_ticks(0, max(values))
@@ -172,12 +189,12 @@ def subcategory_figure(rows):
     margin = {r['subcategory']: (float(r['margin_fy25']) - float(r['margin_fy24'])) * 100 for r in rows}
     fastest = sorted(growth, key=growth.get, reverse=True)[:2]
     weakest = min(margin, key=margin.get)
-    fig = Figure(960, top + row_h * len(rows) + 52, 'Net sales and gross margin by subcategory',
+    fig = Figure(960, top + row_h * len(rows) + 52, 'Net sales and gross margin by subcategory, comparable stores',
                  f'{fastest[0]} ({pct(growth[fastest[0]], 0, True)}) and {fastest[1]} '
                  f'({pct(growth[fastest[1]], 0, True)}) grew fastest; {weakest} gave up the most margin '
                  f'({margin[weakest]:+.1f} pp).',
-                 'Source: mart_category_weekly · gross margin before vendor funding · chain totals, '
-                 'not same-store or causal effects · synthetic data')
+                 'Source: fct_sales · comparable stores only · gross margin before vendor funding · '
+                 'descriptive changes, not causal effects · synthetic data')
     left, right = 178, 640
     peak = max(float(r['sales_fy25']) for r in rows)
     scale = lambda value: float(value) / peak * (right - left)
@@ -350,11 +367,11 @@ def main():
 
     FIGURES.mkdir(parents=True, exist_ok=True)
     for name, (figure, _) in built.items():
-        (FIGURES / f'{name}.svg').write_text(figure.svg(), encoding='utf-8')
+        (FIGURES / f'{name}.svg').write_text(figure.svg(), encoding='utf-8', newline='\n')
     (ROOT / 'target').mkdir(exist_ok=True)
     kpis = data['kpis'][0]
     (ROOT / 'target/insights.html').write_text(
-        page_html(kpis, [(fig.svg(), table) for fig, table in built.values()]), encoding='utf-8')
+        page_html(kpis, [(fig.svg(), table) for fig, table in built.values()]), encoding='utf-8', newline='\n')
     print(json.dumps({'figures': sorted(built), 'page': 'target/insights.html'}))
 
 

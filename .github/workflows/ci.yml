@@ -16,6 +16,17 @@ jobs:
           cache: pip
       - run: python -m pip install -r requirements-dev.txt
       - run: python scripts/run_all.py
+      - name: Decision analyses (Q1–Q5) and memo
+        run: python -m analysis.run
+      - name: Memo and results must match the committed versions
+        run: git diff --exit-code -- analysis/results docs/decision_memo.md
+      - uses: r-lib/actions/setup-r@v2
+        with:
+          use-public-rspm: true
+      - name: Independent R fixest cross-check
+        run: |
+          Rscript -e 'install.packages(c("fixest", "jsonlite"))'
+          Rscript analysis/crosscheck.R
       - run: python scripts/verify_repeatability.py
       - run: python -m unittest discover -s tests_python -v
       - run: python scripts/lint_sql.py
@@ -29,5 +40,8 @@ jobs:
             target/run_results.json
             target/catalog.json
             target/insights.html
+            target/crosscheck_fixest.json
+            analysis/results/
+            docs/decision_memo.md
             docs/assets/insights/
             evidence/
