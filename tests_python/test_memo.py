@@ -6,7 +6,8 @@ from analysis.build_memo import MEMO, TEMPLATE, render
 
 # Numbers allowed as literal text: design constants fixed in analysis/PLAN.md, not results.
 DESIGN_CONSTANTS = {'2024', '2025', '2026', 'FY2024', 'FY2025', 'FY2026', 'W27', '102', '106', '113', '116',
-                    '1', '2', '3', '4', '5', '13', '80%', '90%', '2%', '1.5'}
+                    '1', '2', '3', '4', '5', '13', '80%', '90%', '2%', '1.5',
+                    '6', '7', '8', '9', '10'}  # last line: deviation-list enumerators
 
 
 class MemoTest(unittest.TestCase):
