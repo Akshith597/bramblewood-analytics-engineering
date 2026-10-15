@@ -114,7 +114,8 @@ def figures(r):
         'q2_planted': num(next(iter(pr2['planted_cannibalisation_recovered'].values()))),
         'q2_cells': '\n'.join(
             f"| {label} | {c['events']} | {pct(c['lift_pct'], 0)} | {money(c['gp_before_funding'])} | "
-            f"{money(c['scan_back'] + c['display_fee'])} | **{money(c['net_gp'])}** ({rng(*c['ci90'], money)}) | "
+            f"{money(c['funding_owed'])} | **{money(c['net_gp'])}** ({rng(*c['ci90_with_model_error'], money)}) | "
+            f"{money(c['net_gp_collected'])} ({rng(*c['ci90_collected'], money)}) | "
             f"{ {'keep': 'Keep', 'cut_or_redesign': 'Cut or redesign', 'inconclusive': 'Inconclusive'}[c['outcome']]}"
             f"{' (funding-dependent)' if c['funding_dependent'] else ''} |"
             for label, c in q2['mechanic_display'].items()),
@@ -122,6 +123,14 @@ def figures(r):
                                 sorted(q2['subcategory'].items(), key=lambda kv: -kv[1]['net_gp'])),
         'q2_all_years': money(pr2['all_years']['all']['all']['net_gp']),
         'q2_all_years_ci': rng(*pr2['all_years']['all']['all']['ci90'], money),
+        'q2_ci_model': rng(*q2['all']['all']['ci90_with_model_error'], money),
+        'q2_collected': money(q2['all']['all']['funding_collected']).lstrip('+'),
+        'q2_net_coll': money(q2['all']['all']['net_gp_collected']),
+        'q2_coll_ci': rng(*q2['all']['all']['ci90_collected'], money),
+        'q2_all_years_coll': money(pr2['all_years']['all']['all']['net_gp_collected']),
+        'q2_all_years_coll_ci': rng(*pr2['all_years']['all']['all']['ci90_collected'], money),
+        'q2_base_err': pct(pr2['model_error_baseline_pct'], signed=False),
+        'q2_spec_shift': money(q2['all']['all']['model_error']['cannibalisation_spec_shift']),
         'o_gp': money(o['fy2025_non_promoted']['lost_gp']).lstrip('+'),
         'o_ci': rng(*o['fy2025_non_promoted']['ci90'], lambda x: money(x).lstrip('+')),
         'o_share': pct(o['fy2025_non_promoted']['share_of_category_gp'], signed=False),
@@ -176,6 +185,14 @@ CLAIMS = {
     'Q2 every non-display cell is cut, every display cell kept on funding': lambda r: all(
         (c['outcome'] == 'keep' and c['funding_dependent']) if 'display' in label else c['outcome'] == 'cut_or_redesign'
         for label, c in r['promotions']['fy2025']['mechanic_display'].items()),
+    'Q2 collected funding below owed, net on collected negative but range spans 0': lambda r: (
+        r['promotions']['fy2025']['all']['all']['funding_collected']
+        < r['promotions']['fy2025']['all']['all']['funding_owed']
+        and r['promotions']['fy2025']['all']['all']['net_gp_collected'] < 0
+        and r['promotions']['fy2025']['all']['all']['outcome_collected'] == 'inconclusive'),
+    'Q2 every cell decision holds with model error and on collected funding': lambda r: all(
+        c['outcome'] == c['outcome_with_model_error'] == c['outcome_collected']
+        for c in r['promotions']['fy2025']['mechanic_display'].values()),
     'Q2 almost no event profitable before funding': lambda r: (
         r['promotions']['events_fy2025']['share_positive_before_funding'] < 0.05),
     'Q2 display fees exceed overall net GP': lambda r: (
