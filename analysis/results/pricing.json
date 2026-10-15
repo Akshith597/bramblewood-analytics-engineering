@@ -1,0 +1,576 @@
+{
+  "decisions": {
+    "bramble_select_tortilla": {
+      "breakeven_elasticity": -2.18085,
+      "conditional_annual_gp_change": -1230.82,
+      "conditional_annual_gp_range": [
+        -11368.2,
+        8334.26
+      ],
+      "conditional_note": "Scenario at the pooled elasticity; endpoints add the CI bounds of each term, which is conservative. Not validated at the event level.",
+      "credible_designs": [],
+      "margin_before": 0.433184,
+      "outcome": "not_identified",
+      "pooled_elasticity_range": [
+        -3.05214,
+        -1.8364
+      ],
+      "pooled_elasticity_used": -2.44427,
+      "post_price": 4.16094,
+      "pre_price": 3.78766,
+      "price_increase": 0.098552,
+      "unit_cost": 2.14691
+    },
+    "golden_ridge_kettle": {
+      "breakeven_elasticity": -2.78165,
+      "conditional_annual_gp_change": 52889.4,
+      "conditional_annual_gp_range": [
+        49431.5,
+        56285.3
+      ],
+      "conditional_note": "Scenario at the pooled elasticity; endpoints add the CI bounds of each term, which is conservative. Not validated at the event level.",
+      "credible_designs": [],
+      "margin_before": 0.334405,
+      "outcome": "not_identified",
+      "pooled_elasticity_range": [
+        -0.727686,
+        -0.304103
+      ],
+      "pooled_elasticity_used": -0.515894,
+      "post_price": 5.55862,
+      "pre_price": 5.13511,
+      "price_increase": 0.0824729,
+      "unit_cost": 3.4179
+    }
+  },
+  "pooled": {
+    "by_subcategory": {
+      "Cheese Snacks": {
+        "ci90": [
+          -2.29269,
+          -1.61907
+        ],
+        "elasticity": -1.95588,
+        "identified": true,
+        "regular_price_changes": 28,
+        "se_store_cr1": 0.204765
+      },
+      "Kettle Chips": {
+        "ci90": [
+          -0.727686,
+          -0.304103
+        ],
+        "elasticity": -0.515894,
+        "identified": true,
+        "regular_price_changes": 50,
+        "se_store_cr1": 0.12876
+      },
+      "Nuts": {
+        "ci90": [
+          -1.38561,
+          -0.826937
+        ],
+        "elasticity": -1.10627,
+        "identified": true,
+        "regular_price_changes": 38,
+        "se_store_cr1": 0.169825
+      },
+      "Popcorn": {
+        "ci90": [
+          -1.74868,
+          -0.570829
+        ],
+        "elasticity": -1.15976,
+        "identified": false,
+        "regular_price_changes": 5,
+        "se_store_cr1": 0.358042
+      },
+      "Potato Chips": {
+        "ci90": [
+          -2.28468,
+          -1.82526
+        ],
+        "elasticity": -2.05497,
+        "identified": true,
+        "regular_price_changes": 57,
+        "se_store_cr1": 0.139656
+      },
+      "Pretzels": {
+        "ci90": [
+          -1.63409,
+          -1.10695
+        ],
+        "elasticity": -1.37052,
+        "identified": true,
+        "regular_price_changes": 32,
+        "se_store_cr1": 0.160241
+      },
+      "Tortilla Chips": {
+        "ci90": [
+          -1.58715,
+          -1.00066
+        ],
+        "elasticity": -1.29391,
+        "identified": true,
+        "regular_price_changes": 40,
+        "se_store_cr1": 0.178281
+      },
+      "Trail Mix": {
+        "ci90": [
+          -1.26839,
+          -0.393873
+        ],
+        "elasticity": -0.831133,
+        "identified": true,
+        "regular_price_changes": 18,
+        "se_store_cr1": 0.265835
+      }
+    },
+    "fe_iterations": 10,
+    "n": 206724,
+    "private_label_shift": {
+      "ci90": [
+        -1.46499,
+        -0.835733
+      ],
+      "elasticity_shift": -1.15036,
+      "note": "identified only from Bramble Select tortilla and trail-mix changes"
+    }
+  },
+  "preregistered": {
+    "backtest": {
+      "covered": false,
+      "crispwell_kettle_2024": {
+        "elasticity": -1.31401,
+        "rows": 20797,
+        "se_store_cr1": 0.261789,
+        "share_realized_price_equals_regular": 1.0,
+        "skus_by_role": {
+          "control": 16,
+          "sister": 15,
+          "treated": 28
+        }
+      },
+      "observed_golden_ridge_elasticity": -0.17966,
+      "predicted_golden_ridge_elasticity": -1.31401,
+      "prediction_interval90": [
+        -1.87665,
+        -0.751368
+      ]
+    },
+    "bramble_select_tortilla": {
+      "annual_gp_change": {
+        "ci90": [
+          -12610.8,
+          21768.8
+        ],
+        "ci90_sku_wild": [
+          -12610.8,
+          21768.8
+        ],
+        "ci90_store_cr1": [
+          -6908.0,
+          16321.3
+        ],
+        "point": 4850.84
+      },
+      "checks_passed": {
+        "backtest": false,
+        "fake_date": false,
+        "pre_trend": false
+      },
+      "credible": false,
+      "decision": "inconclusive",
+      "event_date": "2025-05-04",
+      "event_study": {
+        "pre_bins_tested": 3,
+        "pre_trend_p": 1.94101e-37,
+        "treated_bins": {
+          "treated_b0": -0.258382,
+          "treated_b1": -0.314573,
+          "treated_b2": -0.374657,
+          "treated_b3": -0.431577,
+          "treated_bm2": -0.0470412,
+          "treated_bm3": -0.307441,
+          "treated_bm4": 0.343274
+        },
+        "wald_stat": 173.783
+      },
+      "fake_date": {
+        "ci90_store_cr1": [
+          -1.79997,
+          -1.10699
+        ],
+        "cross": -1.46172,
+        "cross_ci90_store_cr1": [
+          -1.78389,
+          -1.13955
+        ],
+        "elasticity": -1.45348
+      },
+      "n": 32185,
+      "planted_elasticity_recovered": -1.5,
+      "rows": 32185,
+      "share_realized_price_equals_regular": 1.0,
+      "skus_by_role": {
+        "control": 59,
+        "sister": 19,
+        "treated": 6
+      },
+      "x_cross": {
+        "ci90_sku_wild": [
+          -0.0274443,
+          0.513565
+        ],
+        "ci90_store_cr1": [
+          0.0258391,
+          0.460282
+        ],
+        "elasticity": 0.243061,
+        "reported_ci90": [
+          -0.0274443,
+          0.513565
+        ],
+        "reported_ci_source": "sku_wild",
+        "se_store_cr1": 0.132061,
+        "sku_clusters": 84,
+        "store_clusters": 22
+      },
+      "x_own": {
+        "ci90_sku_wild": [
+          -3.19673,
+          -2.34204
+        ],
+        "ci90_store_cr1": [
+          -3.09208,
+          -2.4467
+        ],
+        "elasticity": -2.76939,
+        "reported_ci90": [
+          -3.19673,
+          -2.34204
+        ],
+        "reported_ci_source": "sku_wild",
+        "se_store_cr1": 0.19618,
+        "sku_clusters": 84,
+        "store_clusters": 22
+      }
+    },
+    "golden_ridge_kettle": {
+      "annual_gp_change": {
+        "ci90": [
+          55547.7,
+          70075.4
+        ],
+        "ci90_sku_wild": [
+          55547.7,
+          70075.4
+        ],
+        "ci90_store_cr1": [
+          57177.0,
+          68735.7
+        ],
+        "point": 62970.0
+      },
+      "checks_passed": {
+        "backtest": false,
+        "fake_date": false,
+        "pre_trend": false
+      },
+      "credible": false,
+      "decision": "good_decision",
+      "event_date": "2025-04-06",
+      "event_study": {
+        "pre_bins_tested": 3,
+        "pre_trend_p": 4.84346e-22,
+        "treated_bins": {
+          "treated_b0": 0.090366,
+          "treated_b1": 0.0768248,
+          "treated_b2": 0.149433,
+          "treated_b3": -0.192571,
+          "treated_bm2": 0.198523,
+          "treated_bm3": 0.0745028,
+          "treated_bm4": 0.117915
+        },
+        "wald_stat": 102.355
+      },
+      "fake_date": {
+        "ci90_store_cr1": [
+          -1.45276,
+          -0.887965
+        ],
+        "cross": -2.07412,
+        "cross_ci90_store_cr1": [
+          -2.61078,
+          -1.53747
+        ],
+        "elasticity": -1.17036
+      },
+      "n": 27077,
+      "planted_elasticity_recovered": -1.5,
+      "rows": 27077,
+      "share_realized_price_equals_regular": 1.0,
+      "skus_by_role": {
+        "control": 59,
+        "sister": 7,
+        "treated": 10
+      },
+      "x_cross": {
+        "ci90_sku_wild": [
+          0.333854,
+          1.56823
+        ],
+        "ci90_store_cr1": [
+          0.545546,
+          1.35654
+        ],
+        "elasticity": 0.951043,
+        "reported_ci90": [
+          0.333854,
+          1.56823
+        ],
+        "reported_ci_source": "sku_wild",
+        "se_store_cr1": 0.246525,
+        "sku_clusters": 76,
+        "store_clusters": 22
+      },
+      "x_own": {
+        "ci90_sku_wild": [
+          -0.528773,
+          0.169452
+        ],
+        "ci90_store_cr1": [
+          -0.541803,
+          0.182482
+        ],
+        "elasticity": -0.17966,
+        "reported_ci90": [
+          -0.541803,
+          0.182482
+        ],
+        "reported_ci_source": "store_cr1",
+        "se_store_cr1": 0.220167,
+        "sku_clusters": 76,
+        "store_clusters": 22
+      }
+    }
+  },
+  "zone_dose": {
+    "backtest": {
+      "covered": false,
+      "crispwell_kettle_2024": {
+        "elasticity": 0.273853,
+        "rows": 20797,
+        "se_store_cr1": 0.994758,
+        "share_realized_price_equals_regular": 1.0,
+        "skus_by_role": {
+          "control": 16,
+          "sister": 15,
+          "treated": 28
+        }
+      },
+      "observed_golden_ridge_elasticity": -4.39962,
+      "predicted_golden_ridge_elasticity": 0.273853,
+      "prediction_interval90": [
+        -2.50887,
+        3.05657
+      ]
+    },
+    "bramble_select_tortilla": {
+      "annual_gp_change": {
+        "ci90": [
+          -648187.0,
+          -32665.2
+        ],
+        "ci90_sku_wild": [
+          -648187.0,
+          -32665.2
+        ],
+        "ci90_store_cr1": [
+          -478946.0,
+          -133181.0
+        ],
+        "point": -282918.0
+      },
+      "checks_passed": {
+        "backtest": false,
+        "fake_date": true,
+        "pre_trend": false
+      },
+      "credible": false,
+      "decision": "bad_decision",
+      "event_date": "2025-05-04",
+      "event_study": {
+        "pre_bins_tested": 3,
+        "pre_trend_p": 0.00464166,
+        "treated_bins": {
+          "treated_b0": -3.50834,
+          "treated_b1": -4.00244,
+          "treated_b2": -1.01889,
+          "treated_b3": 0.266693,
+          "treated_bm2": -0.92116,
+          "treated_bm3": 6.4329,
+          "treated_bm4": 5.56055
+        },
+        "wald_stat": 12.9977
+      },
+      "fake_date": {
+        "ci90_store_cr1": [
+          -2.34811,
+          4.59664
+        ],
+        "cross": -1.59958,
+        "cross_ci90_store_cr1": [
+          -6.68163,
+          3.48247
+        ],
+        "elasticity": 1.12426
+      },
+      "n": 32185,
+      "planted_elasticity_recovered": -1.5,
+      "rows": 32185,
+      "share_realized_price_equals_regular": 1.0,
+      "skus_by_role": {
+        "control": 59,
+        "sister": 19,
+        "treated": 6
+      },
+      "x_cross": {
+        "ci90_sku_wild": [
+          -8.28899,
+          -0.133486
+        ],
+        "ci90_store_cr1": [
+          -6.70276,
+          -1.71972
+        ],
+        "elasticity": -4.21124,
+        "reported_ci90": [
+          -8.28899,
+          -0.133486
+        ],
+        "reported_ci_source": "sku_wild",
+        "se_store_cr1": 1.51474,
+        "sku_clusters": 84,
+        "store_clusters": 22
+      },
+      "x_own": {
+        "ci90_sku_wild": [
+          -6.85108,
+          -2.00108
+        ],
+        "ci90_store_cr1": [
+          -7.61538,
+          -1.23678
+        ],
+        "elasticity": -4.42608,
+        "reported_ci90": [
+          -7.61538,
+          -1.23678
+        ],
+        "reported_ci_source": "store_cr1",
+        "se_store_cr1": 1.93896,
+        "sku_clusters": 84,
+        "store_clusters": 22
+      }
+    },
+    "golden_ridge_kettle": {
+      "annual_gp_change": {
+        "ci90": [
+          -103506.0,
+          29428.0
+        ],
+        "ci90_sku_wild": [
+          -103506.0,
+          29428.0
+        ],
+        "ci90_store_cr1": [
+          -86493.3,
+          20432.8
+        ],
+        "point": -28906.2
+      },
+      "checks_passed": {
+        "backtest": false,
+        "fake_date": true,
+        "pre_trend": true
+      },
+      "credible": false,
+      "decision": "inconclusive",
+      "event_date": "2025-04-06",
+      "event_study": {
+        "pre_bins_tested": 3,
+        "pre_trend_p": 0.365795,
+        "treated_bins": {
+          "treated_b0": -1.46426,
+          "treated_b1": -2.14086,
+          "treated_b2": -5.87284,
+          "treated_b3": 2.24635,
+          "treated_bm2": 1.79555,
+          "treated_bm3": 3.80035,
+          "treated_bm4": -7.32999
+        },
+        "wald_stat": 3.17244
+      },
+      "fake_date": {
+        "ci90_store_cr1": [
+          -0.478397,
+          4.92975
+        ],
+        "cross": 1.7003,
+        "cross_ci90_store_cr1": [
+          -3.08963,
+          6.49024
+        ],
+        "elasticity": 2.22568
+      },
+      "n": 27077,
+      "planted_elasticity_recovered": -1.5,
+      "rows": 27077,
+      "share_realized_price_equals_regular": 1.0,
+      "skus_by_role": {
+        "control": 59,
+        "sister": 7,
+        "treated": 10
+      },
+      "x_cross": {
+        "ci90_sku_wild": [
+          -6.62231,
+          3.90834
+        ],
+        "ci90_store_cr1": [
+          -3.93511,
+          1.22115
+        ],
+        "elasticity": -1.35698,
+        "reported_ci90": [
+          -6.62231,
+          3.90834
+        ],
+        "reported_ci_source": "sku_wild",
+        "se_store_cr1": 1.56739,
+        "sku_clusters": 76,
+        "store_clusters": 22
+      },
+      "x_own": {
+        "ci90_sku_wild": [
+          -6.75598,
+          -2.04326
+        ],
+        "ci90_store_cr1": [
+          -6.65046,
+          -2.14878
+        ],
+        "elasticity": -4.39962,
+        "reported_ci90": [
+          -6.75598,
+          -2.04326
+        ],
+        "reported_ci_source": "sku_wild",
+        "se_store_cr1": 1.36841,
+        "sku_clusters": 76,
+        "store_clusters": 22
+      }
+    }
+  }
+}

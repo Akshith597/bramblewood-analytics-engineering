@@ -11,7 +11,7 @@
 ![Python 3.12](https://img.shields.io/badge/Python-3.12-3776AB?logo=python&logoColor=white)
 [![Code license: MIT](https://img.shields.io/badge/code%20license-MIT-lightgrey.svg)](LICENSE)
 
-**[📊 Live insights dashboard](https://akshith597.github.io/bramblewood-analytics-engineering/insights.html)** · **[🧭 Interactive dbt catalog & lineage](https://akshith597.github.io/bramblewood-analytics-engineering/)** · **[📄 Two-minute case study](docs/case_study.md)**
+**[🧾 Decision memo](docs/decision_memo.md)** · **[📊 Live insights dashboard](https://akshith597.github.io/bramblewood-analytics-engineering/insights.html)** · **[🧭 Interactive dbt catalog & lineage](https://akshith597.github.io/bramblewood-analytics-engineering/)** · **[📄 Case study](docs/case_study.md)**
 
 > **Synthetic portfolio project.** All companies and transactions are fictional. Figures describe the supplied dataset; they are not real client outcomes, recovered funds or realized savings.
 
@@ -23,27 +23,41 @@
 | **Warehouse** | 35 dbt models across staging → intermediate → marts, 13 enforced contracts, 370 typed and documented columns |
 | **Quality gates** | 96 data tests + 4 unit tests, independent Python reconciliation, full-rebuild repeatability, SQLFluff, CI |
 | **Trust result** | 273,376 POS rows → 273,262 accepted, every exclusion classified; **$21,886,423.88** net sales reconciled for all 2,427 store-weeks |
-| **Business output** | Category, forecast-accuracy, availability, assortment and vendor-funding marts, plus a dashboard rebuilt on every push |
+| **Business output** | A [decision memo](docs/decision_memo.md) answering the VP's five questions with pre-registered causal designs, plus marts and a dashboard rebuilt on every push |
+
+## The decisions
+
+The source brief asks five questions for the FY2026 line review. The [decision memo](docs/decision_memo.md) answers them with a dollar figure, a 90% range and a recommendation — or says plainly when the data cannot answer. The [analysis plan](analysis/PLAN.md) fixed every metric, comparison group and decision rule in its own commit before any outcome was computed.
+
+| Question | What the evidence supports |
+|---|---|
+| Delist slow sellers? | **Inconclusive.** The 4-store test cannot detect a gross-profit change under ~4%, and a fake test date a year earlier shows a same-sized "effect", so the design is confounded by large-store seasonality. Units fell, dollars held: shoppers switched to retained items. Rerun as a randomized, full-year test. |
+| Promotions | Not yet answered — deferred to keep depth on the delist and pricing questions. |
+| Spring 2025 price increases | **Not identified** by either event design — both failed their own pre-trend, fake-date or backtest checks. Break-even arithmetic still decides Golden Ridge (shoppers would need to be ~5× more price-sensitive than kettle appears for it to lose money); private-label tortilla sits at break-even and needs a store-randomized test. |
+| Forecast | Over-forecasts by ~13% (more in promoted weeks) while still beating naive benchmarks. A correction learned on FY2024 removed the FY2025 bias **out of sample**. Out-of-stock cost not yet answered. |
+| Vendor funding | Scan-back under-billed on approved events; a range, because display execution is not observable. |
+
+**How it is checked.** Estimators recover planted effects in simulated and real data; every headline coefficient and clustered SE is re-estimated by an independent pure-Python solver and by R `fixest` in CI; and CI fails if the memo or any result drifts from what the queries produce. The dataset's answer key is not public, so it was not used.
 
 ## What the data says
 
-Every chart below is rendered by [`scripts/build_insights.py`](scripts/build_insights.py) directly from the tested marts on each build — no hand-edited numbers.
+Charts are rendered by [`scripts/build_insights.py`](scripts/build_insights.py) from the tested marts on each build. Sales comparisons use the 22 comparable stores open all 104 weeks without a remodel.
 
-![Weekly chain net sales, FY2024 vs FY2025](docs/assets/insights/weekly_net_sales.svg)
+![Weekly net sales, comparable stores, FY2024 vs FY2025](docs/assets/insights/weekly_net_sales.svg)
 
-Holiday weeks (Super Bowl, July 4th, Labor Day, Christmas) create the demand spikes. FY2025 net sales are **$11.30M vs $10.59M**, but the chain added a 24th store, so this is not same-store growth.
+Comparable-store sales grew **+2.6%** — well below the +6.7% chain total, which is inflated by the store that opened in FY2025.
 
 ![Net sales and gross margin by subcategory](docs/assets/insights/subcategory_performance.svg)
 
-Growth concentrated in **Trail Mix (+32%)** and **Kettle Chips (+14%)**, while **Nuts lost 3.0 pp of margin** and Potato Chips — the largest subcategory — lost 1.9 pp. Margins are before vendor funding.
+Like-for-like, five of eight subcategories shrank. **Trail Mix (+26%)** and **Kettle Chips (+9%)** grew; **Nuts** lost 3.1% of sales and 3.2 pp of margin; Potato Chips, the largest subcategory, slipped 0.9% and lost 1.9 pp. Margins are before vendor funding; these are descriptive changes, not causal effects.
 
 ![Forecast accuracy by fiscal period](docs/assets/insights/forecast_accuracy.svg)
 
-The chain forecast **over-forecasts in every period** (FY2025 bias +13.4%, WAPE 22.5%). The chart keeps two-week-lead forecasts only, so FY2024's startup horizons don't distort the trend; actuals may be stock-constrained.
+The forecast **over-forecasts in every period** (FY2025 bias +13.4%, WAPE 22.5%), using two-week-lead forecasts only; actuals may be stock-constrained.
 
 ![Estimated vendor funding owed but not billed](docs/assets/insights/funding_gap_by_vendor.svg)
 
-Approved promotions imply **$1.25M of contractual funding versus $1.12M billed** — a **$132,975 review queue**, led by Crispwell Foods. This assumes approved events executed as planned; it is not recovered cash. [Waterfall](evidence/funding_waterfall.csv) · [Sensitivity](evidence/funding_assumption_sensitivity.csv) · [Exception queue](evidence/funding_exception_queue.csv)
+The upper bound of the funding gap, by vendor: it assumes every approved event and planned display ran. Scan-back on observed units alone accounts for about half. [Waterfall](evidence/funding_waterfall.csv) · [Sensitivity](evidence/funding_assumption_sensitivity.csv) · [Exception queue](evidence/funding_exception_queue.csv)
 
 ## The problem
 
@@ -107,6 +121,7 @@ python -m venv .venv
 # Windows: .venv\Scripts\Activate.ps1   macOS/Linux: source .venv/bin/activate
 python -m pip install -r requirements-dev.txt
 python scripts/run_all.py               # ingest → dbt build → reconcile → docs → evidence → charts
+python -m analysis.run                  # decision analyses → analysis/results → docs/decision_memo.md
 python scripts/verify_repeatability.py
 python -m unittest discover -s tests_python -v
 python scripts/lint_sql.py
@@ -125,6 +140,7 @@ tests/                Singular SQL assertions: temporal, arithmetic, reconciliat
 tests_python/         Macro, evidence-reference and chart-helper guards
 macros/               UPC normalization and a generic period-overlap test
 scripts/              Ingest, build, verification, evidence export and charts
+analysis/             Pre-registered plan, causal estimators, results JSON and memo builder
 docs/                 Case study, architecture ADRs, data contracts, runbook, figures
 evidence/             Executed results and machine-readable validation receipts
 .github/workflows/    CI quality gate and GitHub Pages deployment

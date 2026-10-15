@@ -10,7 +10,7 @@ repos:
         files: ^(models|tests|analyses)/.*\.sql$
       - id: python-syntax
         name: Python syntax
-        entry: python -m compileall -q scripts tests_python
+        entry: python -m compileall -q scripts tests_python analysis
         language: system
         pass_filenames: false
         types: [python]

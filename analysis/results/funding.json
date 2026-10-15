@@ -1,0 +1,34 @@
+{
+  "approved_billed_not_collected": 0.0,
+  "approved_gap_range": {
+    "display_component": 67500.0,
+    "lower_scan_only": 65475.5,
+    "note": "Lower bound uses only scan-back on observed scoped units. The upper bound also assumes every planned display ran; display execution is not observable in these extracts.",
+    "upper_scan_plus_planned_display": 132975.0
+  },
+  "by_status": {
+    "Approved": {
+      "ambiguous_rows": 0,
+      "billed": 1119170.0,
+      "collected": 1119170.0,
+      "display_billed": 403000.0,
+      "display_owed": 470500.0,
+      "events": 771,
+      "events_without_claim": 150,
+      "scan_billed": 716167.0,
+      "scan_owed": 781642.0
+    },
+    "Cancelled": {
+      "ambiguous_rows": 0,
+      "billed": 974.65,
+      "collected": 0.0,
+      "display_billed": 0.0,
+      "display_owed": 7500.0,
+      "events": 8,
+      "events_without_claim": 6,
+      "scan_billed": 974.65,
+      "scan_owed": 0.0
+    }
+  },
+  "cancelled_billed_not_collected": 974.65
+}
