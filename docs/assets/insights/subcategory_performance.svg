@@ -1,9 +1,9 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="960" height="484" viewBox="0 0 960 484" role="img" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif">
-<title>Net sales and gross margin by subcategory</title><desc>Trail Mix (+32%) and Kettle Chips (+14%) grew fastest; Nuts gave up the most margin (-3.0 pp).</desc>
+<title>Net sales and gross margin by subcategory, comparable stores</title><desc>Trail Mix (+26%) and Kettle Chips (+9%) grew fastest; Nuts gave up the most margin (-3.2 pp).</desc>
 <rect width="960" height="484" rx="12" fill="#fcfcfb" stroke="#e6e5e0"/>
-<text x="28.0" y="40.0" font-size="19" fill="#0b0b0b" font-weight="650" text-anchor="start">Net sales and gross margin by subcategory</text>
-<text x="28.0" y="64.0" font-size="13.5" fill="#52514e" font-weight="400" text-anchor="start">Trail Mix (+32%) and Kettle Chips (+14%) grew fastest; Nuts gave up the most margin (-3.0 pp).</text>
-<text x="28.0" y="466.0" font-size="11.5" fill="#8a8984" font-weight="400" text-anchor="start">Source: mart_category_weekly · gross margin before vendor funding · chain totals, not same-store or causal effects · synthetic data</text>
+<text x="28.0" y="40.0" font-size="19" fill="#0b0b0b" font-weight="650" text-anchor="start">Net sales and gross margin by subcategory, comparable stores</text>
+<text x="28.0" y="64.0" font-size="13.5" fill="#52514e" font-weight="400" text-anchor="start">Trail Mix (+26%) and Kettle Chips (+9%) grew fastest; Nuts gave up the most margin (-3.2 pp).</text>
+<text x="28.0" y="466.0" font-size="11.5" fill="#8a8984" font-weight="400" text-anchor="start">Source: fct_sales · comparable stores only · gross margin before vendor funding · descriptive changes, not causal effects · synthetic data</text>
 <rect x="178" y="82" width="10" height="10" rx="2" fill="#b4b2aa"/>
 <text x="194.0" y="91.0" font-size="12" fill="#52514e" font-weight="400" text-anchor="start">FY2024</text>
 <rect x="258" y="82" width="10" height="10" rx="2" fill="#2a78d6"/>
@@ -11,51 +11,51 @@
 <text x="700.0" y="91.0" font-size="12" fill="#52514e" font-weight="600" text-anchor="start">Sales YoY</text>
 <text x="800.0" y="91.0" font-size="12" fill="#52514e" font-weight="600" text-anchor="start">FY2025 margin (pp change)</text>
 <text x="166.0" y="131.0" font-size="12.5" fill="#0b0b0b" font-weight="400" text-anchor="end">Potato Chips</text>
-<rect class="hit" x="178" y="116" width="448.6" height="10" rx="2" fill="#b4b2aa"><title>Potato Chips FY2024: $4.06M</title></rect>
-<rect class="hit" x="178" y="128" width="462.0" height="10" rx="2" fill="#2a78d6"><title>Potato Chips FY2025: $4.18M</title></rect>
-<text x="648.0" y="137.0" font-size="11" fill="#52514e" font-weight="400" text-anchor="start">$4.18M</text>
-<text x="700.0" y="134.0" font-size="12.5" fill="#0b0b0b" font-weight="600" text-anchor="start">+3.0%</text>
-<text x="800.0" y="134.0" font-size="12.5" fill="#0b0b0b" font-weight="600" text-anchor="start">27.1%  (-1.9 pp)</text>
+<rect class="hit" x="178" y="116" width="466.3" height="10" rx="2" fill="#b4b2aa"><title>Potato Chips FY2024: $3.79M</title></rect>
+<rect class="hit" x="178" y="128" width="462.0" height="10" rx="2" fill="#2a78d6"><title>Potato Chips FY2025: $3.75M</title></rect>
+<text x="648.0" y="137.0" font-size="11" fill="#52514e" font-weight="400" text-anchor="start">$3.75M</text>
+<text x="700.0" y="134.0" font-size="12.5" fill="#0b0b0b" font-weight="600" text-anchor="start">-0.9%</text>
+<text x="800.0" y="134.0" font-size="12.5" fill="#0b0b0b" font-weight="600" text-anchor="start">26.9%  (-1.9 pp)</text>
 <text x="166.0" y="171.0" font-size="12.5" fill="#0b0b0b" font-weight="400" text-anchor="end">Tortilla Chips</text>
-<rect class="hit" x="178" y="156" width="241.8" height="10" rx="2" fill="#b4b2aa"><title>Tortilla Chips FY2024: $2.19M</title></rect>
-<rect class="hit" x="178" y="168" width="266.0" height="10" rx="2" fill="#2a78d6"><title>Tortilla Chips FY2025: $2.41M</title></rect>
-<text x="452.0" y="177.0" font-size="11" fill="#52514e" font-weight="400" text-anchor="start">$2.41M</text>
-<text x="700.0" y="174.0" font-size="12.5" fill="#0b0b0b" font-weight="600" text-anchor="start">+10.0%</text>
-<text x="800.0" y="174.0" font-size="12.5" fill="#0b0b0b" font-weight="600" text-anchor="start">27.8%  (-1.8 pp)</text>
+<rect class="hit" x="178" y="156" width="251.0" height="10" rx="2" fill="#b4b2aa"><title>Tortilla Chips FY2024: $2.04M</title></rect>
+<rect class="hit" x="178" y="168" width="266.4" height="10" rx="2" fill="#2a78d6"><title>Tortilla Chips FY2025: $2.16M</title></rect>
+<text x="452.4" y="177.0" font-size="11" fill="#52514e" font-weight="400" text-anchor="start">$2.16M</text>
+<text x="700.0" y="174.0" font-size="12.5" fill="#0b0b0b" font-weight="600" text-anchor="start">+6.1%</text>
+<text x="800.0" y="174.0" font-size="12.5" fill="#0b0b0b" font-weight="600" text-anchor="start">27.7%  (-1.7 pp)</text>
 <text x="166.0" y="211.0" font-size="12.5" fill="#0b0b0b" font-weight="400" text-anchor="end">Kettle Chips</text>
-<rect class="hit" x="178" y="196" width="136.6" height="10" rx="2" fill="#b4b2aa"><title>Kettle Chips FY2024: $1.24M</title></rect>
-<rect class="hit" x="178" y="208" width="155.2" height="10" rx="2" fill="#2a78d6"><title>Kettle Chips FY2025: $1.41M</title></rect>
-<text x="341.2" y="217.0" font-size="11" fill="#52514e" font-weight="400" text-anchor="start">$1.41M</text>
-<text x="700.0" y="214.0" font-size="12.5" fill="#0b0b0b" font-weight="600" text-anchor="start">+13.6%</text>
-<text x="800.0" y="214.0" font-size="12.5" fill="#52514e" font-weight="400" text-anchor="start">31.6%  (+3.2 pp)</text>
+<rect class="hit" x="178" y="196" width="140.9" height="10" rx="2" fill="#b4b2aa"><title>Kettle Chips FY2024: $1.14M</title></rect>
+<rect class="hit" x="178" y="208" width="154.3" height="10" rx="2" fill="#2a78d6"><title>Kettle Chips FY2025: $1.25M</title></rect>
+<text x="340.3" y="217.0" font-size="11" fill="#52514e" font-weight="400" text-anchor="start">$1.25M</text>
+<text x="700.0" y="214.0" font-size="12.5" fill="#0b0b0b" font-weight="600" text-anchor="start">+9.5%</text>
+<text x="800.0" y="214.0" font-size="12.5" fill="#52514e" font-weight="400" text-anchor="start">31.3%  (+3.2 pp)</text>
 <text x="166.0" y="251.0" font-size="12.5" fill="#0b0b0b" font-weight="400" text-anchor="end">Nuts</text>
-<rect class="hit" x="178" y="236" width="106.8" height="10" rx="2" fill="#b4b2aa"><title>Nuts FY2024: $967.59K</title></rect>
-<rect class="hit" x="178" y="248" width="108.1" height="10" rx="2" fill="#2a78d6"><title>Nuts FY2025: $979.25K</title></rect>
-<text x="294.1" y="257.0" font-size="11" fill="#52514e" font-weight="400" text-anchor="start">$979.25K</text>
-<text x="700.0" y="254.0" font-size="12.5" fill="#0b0b0b" font-weight="600" text-anchor="start">+1.2%</text>
-<text x="800.0" y="254.0" font-size="12.5" fill="#0b0b0b" font-weight="600" text-anchor="start">23.0%  (-3.0 pp)</text>
+<rect class="hit" x="178" y="236" width="109.9" height="10" rx="2" fill="#b4b2aa"><title>Nuts FY2024: $892.32K</title></rect>
+<rect class="hit" x="178" y="248" width="106.4" height="10" rx="2" fill="#2a78d6"><title>Nuts FY2025: $864.45K</title></rect>
+<text x="292.4" y="257.0" font-size="11" fill="#52514e" font-weight="400" text-anchor="start">$864.45K</text>
+<text x="700.0" y="254.0" font-size="12.5" fill="#0b0b0b" font-weight="600" text-anchor="start">-3.1%</text>
+<text x="800.0" y="254.0" font-size="12.5" fill="#0b0b0b" font-weight="600" text-anchor="start">22.5%  (-3.2 pp)</text>
 <text x="166.0" y="291.0" font-size="12.5" fill="#0b0b0b" font-weight="400" text-anchor="end">Pretzels</text>
-<rect class="hit" x="178" y="276" width="71.7" height="10" rx="2" fill="#b4b2aa"><title>Pretzels FY2024: $649.41K</title></rect>
-<rect class="hit" x="178" y="288" width="73.6" height="10" rx="2" fill="#2a78d6"><title>Pretzels FY2025: $666.24K</title></rect>
-<text x="259.6" y="297.0" font-size="11" fill="#52514e" font-weight="400" text-anchor="start">$666.24K</text>
-<text x="700.0" y="294.0" font-size="12.5" fill="#0b0b0b" font-weight="600" text-anchor="start">+2.6%</text>
-<text x="800.0" y="294.0" font-size="12.5" fill="#52514e" font-weight="400" text-anchor="start">30.5%  (+1.2 pp)</text>
+<rect class="hit" x="178" y="276" width="74.2" height="10" rx="2" fill="#b4b2aa"><title>Pretzels FY2024: $603.02K</title></rect>
+<rect class="hit" x="178" y="288" width="73.1" height="10" rx="2" fill="#2a78d6"><title>Pretzels FY2025: $593.55K</title></rect>
+<text x="259.1" y="297.0" font-size="11" fill="#52514e" font-weight="400" text-anchor="start">$593.55K</text>
+<text x="700.0" y="294.0" font-size="12.5" fill="#0b0b0b" font-weight="600" text-anchor="start">-1.6%</text>
+<text x="800.0" y="294.0" font-size="12.5" fill="#52514e" font-weight="400" text-anchor="start">30.3%  (+1.3 pp)</text>
 <text x="166.0" y="331.0" font-size="12.5" fill="#0b0b0b" font-weight="400" text-anchor="end">Trail Mix</text>
-<rect class="hit" x="178" y="316" width="51.7" height="10" rx="2" fill="#b4b2aa"><title>Trail Mix FY2024: $468.51K</title></rect>
-<rect class="hit" x="178" y="328" width="68.2" height="10" rx="2" fill="#2a78d6"><title>Trail Mix FY2025: $618.07K</title></rect>
-<text x="254.2" y="337.0" font-size="11" fill="#52514e" font-weight="400" text-anchor="start">$618.07K</text>
-<text x="700.0" y="334.0" font-size="12.5" fill="#0b0b0b" font-weight="600" text-anchor="start">+31.9%</text>
-<text x="800.0" y="334.0" font-size="12.5" fill="#0b0b0b" font-weight="600" text-anchor="start">33.7%  (-1.6 pp)</text>
+<rect class="hit" x="178" y="316" width="52.9" height="10" rx="2" fill="#b4b2aa"><title>Trail Mix FY2024: $429.82K</title></rect>
+<rect class="hit" x="178" y="328" width="66.7" height="10" rx="2" fill="#2a78d6"><title>Trail Mix FY2025: $541.83K</title></rect>
+<text x="252.7" y="337.0" font-size="11" fill="#52514e" font-weight="400" text-anchor="start">$541.83K</text>
+<text x="700.0" y="334.0" font-size="12.5" fill="#0b0b0b" font-weight="600" text-anchor="start">+26.1%</text>
+<text x="800.0" y="334.0" font-size="12.5" fill="#0b0b0b" font-weight="600" text-anchor="start">33.4%  (-1.6 pp)</text>
 <text x="166.0" y="371.0" font-size="12.5" fill="#0b0b0b" font-weight="400" text-anchor="end">Popcorn</text>
-<rect class="hit" x="178" y="356" width="63.6" height="10" rx="2" fill="#b4b2aa"><title>Popcorn FY2024: $576.21K</title></rect>
-<rect class="hit" x="178" y="368" width="65.8" height="10" rx="2" fill="#2a78d6"><title>Popcorn FY2025: $595.69K</title></rect>
-<text x="251.8" y="377.0" font-size="11" fill="#52514e" font-weight="400" text-anchor="start">$595.69K</text>
-<text x="700.0" y="374.0" font-size="12.5" fill="#0b0b0b" font-weight="600" text-anchor="start">+3.4%</text>
-<text x="800.0" y="374.0" font-size="12.5" fill="#52514e" font-weight="400" text-anchor="start">31.8%  (+0.1 pp)</text>
+<rect class="hit" x="178" y="356" width="65.7" height="10" rx="2" fill="#b4b2aa"><title>Popcorn FY2024: $533.81K</title></rect>
+<rect class="hit" x="178" y="368" width="64.9" height="10" rx="2" fill="#2a78d6"><title>Popcorn FY2025: $526.81K</title></rect>
+<text x="250.9" y="377.0" font-size="11" fill="#52514e" font-weight="400" text-anchor="start">$526.81K</text>
+<text x="700.0" y="374.0" font-size="12.5" fill="#0b0b0b" font-weight="600" text-anchor="start">-1.3%</text>
+<text x="800.0" y="374.0" font-size="12.5" fill="#52514e" font-weight="400" text-anchor="start">31.5%  (+0.2 pp)</text>
 <text x="166.0" y="411.0" font-size="12.5" fill="#0b0b0b" font-weight="400" text-anchor="end">Cheese Snacks</text>
-<rect class="hit" x="178" y="396" width="48.2" height="10" rx="2" fill="#b4b2aa"><title>Cheese Snacks FY2024: $436.16K</title></rect>
-<rect class="hit" x="178" y="408" width="48.8" height="10" rx="2" fill="#2a78d6"><title>Cheese Snacks FY2025: $441.61K</title></rect>
-<text x="234.8" y="417.0" font-size="11" fill="#52514e" font-weight="400" text-anchor="start">$441.61K</text>
-<text x="700.0" y="414.0" font-size="12.5" fill="#0b0b0b" font-weight="600" text-anchor="start">+1.2%</text>
-<text x="800.0" y="414.0" font-size="12.5" fill="#52514e" font-weight="400" text-anchor="start">29.9%  (-0.9 pp)</text>
+<rect class="hit" x="178" y="396" width="49.8" height="10" rx="2" fill="#b4b2aa"><title>Cheese Snacks FY2024: $404.23K</title></rect>
+<rect class="hit" x="178" y="408" width="48.5" height="10" rx="2" fill="#2a78d6"><title>Cheese Snacks FY2025: $393.62K</title></rect>
+<text x="234.5" y="417.0" font-size="11" fill="#52514e" font-weight="400" text-anchor="start">$393.62K</text>
+<text x="700.0" y="414.0" font-size="12.5" fill="#0b0b0b" font-weight="600" text-anchor="start">-2.6%</text>
+<text x="800.0" y="414.0" font-size="12.5" fill="#0b0b0b" font-weight="600" text-anchor="start">29.6%  (-1.0 pp)</text>
 </svg>
