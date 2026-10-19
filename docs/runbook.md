@@ -62,8 +62,42 @@ Then visit `http://localhost:8080`. The generated catalog has model lineage and 
 
 Every model builds, every data and unit test passes, every source store-week ties out independently, and repeated loads reproduce the same model fingerprints. Review the cost exception and metric limitations even when checks pass. Historical source coverage is not a live freshness SLA.
 
+## Validated batch publication
+
+For a newly delivered batch, record the source owner's actual extraction timestamp and hashes. If files were extracted at different times, edit their individual `extracted_at_utc` values in the manifest to match their provenance. Never replace an old extraction time with today's date just to pass the gate. The committed synthetic historical extracts are a fixture, so this example is a workflow demonstration, not evidence of a live feed.
+
+```powershell
+# Replace this timestamp with the actual extraction time supplied with the batch.
+python scripts/publish_warehouse.py manifest --extracted-at "2026-10-18T12:00:00Z" --output source_batch.json
+python scripts/publish_warehouse.py publish --source-manifest source_batch.json --max-source-age-hours 24
+python scripts/publish_warehouse.py check --max-source-age-hours 24
+```
+
+The default destination is `warehouse/published/`; use `--destination` on both publish and check to override it. Source manifests can be stored outside the repository. The age gate is a configurable delivery SLA, not the age of business transactions inside the batch. Future timestamps, missing offsets, hash mismatches, and expired batches fail. The publish command runs `run_all.py` and `verify_repeatability.py` in an isolated copy; it publishes warehouse data and evidence, not a regenerated business recommendation.
+
+Every corrected source delivery gets a new manifest, even when filenames stay the same. All historical data rebuilds, then contracts, tests, reconciliation and repeatability gate publication. Schema changes that violate those checks fail rather than silently advancing the release. Compatible upstream schema extensions are not automatically prohibited; the dbt contracts define the consumer boundary. Numeric business conclusions and frozen estimates still require their separate analytical review.
+
+Read the pointer once per consumer session, and retain that database path for the session:
+
+```python
+import json
+from pathlib import Path
+import duckdb
+
+published = Path('warehouse/published')
+release = json.loads((published / 'current.json').read_text(encoding='utf-8'))
+con = duckdb.connect(str(published / release['database']), read_only=True)
+```
+
+Schedule the `check` command using your operating-system scheduler or monitoring service. It emits JSON and exits nonzero on stale sources, missing publication, or missing database; route that exit status to your alert service. No scheduler or external alert is installed by this change. Keep the original extraction timestamps when retrying a failed build. Old release files remain available to existing readers and are never overwritten by the publisher.
+
+If a build fails, the last published pointer stays unchanged; inspect the command's failure output, correct the batch or model and retry. A crash can leave `.publisher.lock` in the destination. Confirm no publisher is active before manually removing that empty directory. Unreferenced releases can remain after a failed pointer swap; inspect them before any manual retention cleanup. Do not delete a release while readers may still be using it.
+
+Run `python -m unittest discover -s tests_python -p test_publication.py -v` for filesystem-fixture checks covering corrected batches, stale inputs, failed builds, concurrent publication and failed atomic pointer replacement. These tests verify the publication boundary; the actual warehouse build must still pass with the full dataset and installed dependencies.
+
 ## Publication
 
 The source README describes the data as fictional and publishable as-is; the original attribution is retained. No original author or explicit dataset license is supplied. This package does not invent one. The repository can be reviewed locally now; before redistributing it under a license, obtain or record the dataset's license separately from your code license.
 
 The publication guide describes repository and Pages setup. Refer to the GitHub Actions run and the release evidence for actual hosted validation status.
+

@@ -79,14 +79,19 @@ def plan_figures(r):
     """README lines for the FY2026 plan and the work beyond the five questions (empty until those results exist)."""
     p, lev, ph, sc = r['plan'], r['plan']['by_lever'], r['physical'], r['scorecard']
     pos = lambda v: money(v).lstrip('+')
-    plan = (f"The [one-page FY2026 plan](docs/fy2026_plan.md) combines every answer into one number: **{money(p['total']['mean'])} "
-            f"gross profit a year** after vendor funding (90% range {rng(*p['total']['ci90'], money)}, from a Monte Carlo "
+    plan = (f"The [one-page FY2026 plan](docs/fy2026_plan.md) models a **scenario-estimated annual GP opportunity of {money(p['total']['mean'])} "
+            f"after vendor funding** (90% simulated range {rng(*p['total']['ci90'], money)}, from a Monte Carlo "
             f"over each lever's uncertainty and their overlap). Drop promotions without a display "
             f"({money(lev['promo_calendar']['mean'])}), treat vendor funding as a budget to re-negotiate and bill in full "
             f"({money(lev['vendor_terms']['mean'])}), cut {r['assortment']['chain']['distinct_skus_cut']} SKUs on GP per "
             f"facing and measured demand transfer ({money(lev['assortment']['mean'])}), keep Golden Ridge's price "
             f"({money(lev['prices']['mean'])} with the tortilla call), and leave store replenishment alone. None of the "
-            f"proposed randomized tests is worth its cost.")
+            f"proposed randomized tests has positive modeled net value under the assumed costs. "
+            f"The range is conditional on the vendor negotiation and billing-recovery distributions, "
+            f"elasticity and transfer estimates, and dependence assumptions. Promo-cell estimation errors "
+            f"are drawn together; other levers are drawn independently. Unmodeled basket effects, vendor "
+            f"responses and implementation costs can change the outcome. This is a scenario estimate, "
+            f"not realized savings or a validated prediction interval for business results.")
     ph_line = (f"That over-forecast never reached store shelves: receipts follow sales, and the "
                f"{pos(ph['restated']['memo_over_forecast_cost'])} of over-forecast units at cost became "
                f"{pos(ph['restated']['excess_store_stock_cost'])} of extra store stock; an inventory replay finds no saving from "
@@ -112,3 +117,4 @@ def main():
 
 if __name__ == '__main__':
     main()
+
