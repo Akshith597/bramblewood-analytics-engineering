@@ -14,7 +14,7 @@ SWITCH_WEEK = 'FY2025-W27'
 DRAWS = 9999
 SEED = 20261014
 
-PANEL_SQL = f"""
+PANEL_SQL = """
 with delisted as (
     select sku_id from stg_planograms where planogram_id = 'PG-SS-L-2024'
     except
@@ -31,21 +31,21 @@ select s.store_id, s.week_key, w.week_index,
     coalesce(sum(s.net_sales) filter (where s.sku_id not in (select sku_id from delisted)), 0)::double as retained_sales
 from int_sales_enriched as s
 join weeks as w using (week_key)
-where s.store_id not in {EXCLUDED}
+where not list_contains($excluded, s.store_id)
 group by all
 order by s.store_id, w.week_index
 """
 
 
 def load(con):
-    rows = con.execute(PANEL_SQL).fetchall()
+    rows = con.execute(PANEL_SQL, {'excluded': list(EXCLUDED)}).fetchall()
     cols = [d[0] for d in con.description]
     panel = {}
     for row in rows:
         r = dict(zip(cols, row))
         panel.setdefault(r['store_id'], []).append(r)
-    switch = con.execute(f"select count(*) + 1 from stg_fiscal_calendar where week_start < "
-                         f"(select week_start from stg_fiscal_calendar where week_key = '{SWITCH_WEEK}')").fetchone()[0]
+    switch = con.execute("select count(*) + 1 from stg_fiscal_calendar where week_start < "
+                         "(select week_start from stg_fiscal_calendar where week_key = ?)", [SWITCH_WEEK]).fetchone()[0]
     lengths = {len(v) for v in panel.values()}
     if lengths != {104}:
         raise AssertionError(f'Delist panel must be balanced at 104 weeks, got {lengths}')
@@ -268,11 +268,12 @@ def main():
                           'transfer_rate_ci90': [v / lost for v in gained_fit['ci90_wild']]}
 
     # Dollar figure: annual GP of the large-format stores that a rollout would add.
-    weekly = con.execute(f"""
+    weekly = con.execute("""
         select store_id, avg(gp) from (
             select store_id, week_key, sum(gross_profit_before_funding)::double as gp
             from int_sales_enriched where fiscal_year = 2025 and not remodel_week
-              and store_id in {ROLLOUT_STORES} group by all) group by 1""").fetchall()
+              and list_contains($stores, store_id) group by all) group by 1""",
+                         {'stores': list(ROLLOUT_STORES)}).fetchall()
     annual_gp = sum(v for _, v in weekly) * 52
     effect = primary['beta']               # indexed scale: already a proportion of pre-period GP
     ci = list(primary['ci90_wild'])

@@ -1,4 +1,5 @@
 """Q3 — spring-2025 regular-price increases. Implements analysis/PLAN.md §Q3."""
+import datetime
 import math
 import random
 
@@ -18,8 +19,7 @@ BACKTEST = {'crispwell_kettle_2024': {'date': '2024-08-25', 'subcategory': 'Kett
 
 def build_panel(con, name, date, subcategory, shift_days=0, export=True):
     """SKU-store-week panel for one event. `shift_days` moves the window for the fake-date test only."""
-    centre = f"(date '{date}' + {shift_days})"
-    con.execute(f"""
+    con.execute("""
     create or replace temp table event_panel as
     with changes as (   -- every regular-price change after launch pricing
         select sku_id, price_zone, effective_start,
@@ -27,22 +27,22 @@ def build_panel(con, name, date, subcategory, shift_days=0, export=True):
         from stg_reg_price
     ),
     treated as (
-        select sku_id, price_zone, dlogp from changes where effective_start = date '{date}'
+        select sku_id, price_zone, dlogp from changes where effective_start = $date::date
     ),
     changed_in_window as (
         select distinct c.sku_id, i.subcategory from changes c join stg_items i using (sku_id)
         where c.dlogp is not null
-          and c.effective_start between {centre} - {HALF_WINDOW_DAYS} and {centre} + {HALF_WINDOW_DAYS}
+          and c.effective_start between $centre - $half_window and $centre + $half_window
     ),
     groups as (
         select i.sku_id, i.subcategory, i.brand_type,
             case when i.sku_id in (select sku_id from treated) then 'treated'
-                 when i.subcategory = '{subcategory}' then 'sister'
+                 when i.subcategory = $subcategory then 'sister'
                  else 'control' end as role
         from stg_items i
         where i.sku_id in (select sku_id from treated)
            or (i.sku_id not in (select sku_id from changed_in_window)
-               and (i.subcategory = '{subcategory}'
+               and (i.subcategory = $subcategory
                     or i.subcategory not in (select subcategory from changed_in_window)))
     ),
     promo_weeks as (
@@ -50,7 +50,7 @@ def build_panel(con, name, date, subcategory, shift_days=0, export=True):
         from stg_promotions p
         join stg_stores st on p.store_scope = 'ALL' or p.store_scope = 'ZONE:' || st.price_zone
         join stg_fiscal_calendar cal
-          on cal.week_start <= p.end_date + {POST_PROMO_DAYS} and cal.week_ending >= p.start_date
+          on cal.week_start <= p.end_date + $post_promo_days and cal.week_ending >= p.start_date
     ),
     zone_dose as (
         select price_zone, avg(dlogp) as dose from treated group by 1
@@ -58,7 +58,7 @@ def build_panel(con, name, date, subcategory, shift_days=0, export=True):
     select s.sku_id || '|' || s.store_id as fe_a, s.store_id || '|' || s.week_key as fe_b,
         s.sku_id || '|' || s.week_key as fe_c,
         s.sku_id, s.store_id, s.week_key, g.role, g.subcategory,
-        cal.week_start, cal.week_start >= {centre} as post,
+        cal.week_start, cal.week_start >= $centre as post,
         ln(s.units)::double as log_units, s.units, s.net_sales::double as net_sales,
         s.unit_cost::double as unit_cost, s.regular_unit_price::double as reg_price,
         s.gross_sales::double / s.units as realized_price,
@@ -69,10 +69,12 @@ def build_panel(con, name, date, subcategory, shift_days=0, export=True):
     left join treated t on t.sku_id = s.sku_id and t.price_zone = s.price_zone
     left join zone_dose z on z.price_zone = s.price_zone
     where s.units > 0
-      and s.store_id not in {EXCLUDED_STORES}
-      and cal.week_start between {centre} - {HALF_WINDOW_DAYS} and {centre} + {HALF_WINDOW_DAYS - 1}
+      and not list_contains($excluded, s.store_id)
+      and cal.week_start between $centre - $half_window and $centre + $half_window - 1
       and (s.sku_id, s.store_id, s.week_key) not in (select sku_id, store_id, week_key from promo_weeks)
-    """)
+    """, {'date': date, 'centre': datetime.date.fromisoformat(date) + datetime.timedelta(days=shift_days),
+          'subcategory': subcategory, 'half_window': HALF_WINDOW_DAYS, 'post_promo_days': POST_PROMO_DAYS,
+          'excluded': list(EXCLUDED_STORES)})
     con.execute("""create or replace temp table event_panel as select *,
         case when role = 'treated' and post then own_dose else 0 end::double as x_own,
         case when role = 'sister' and post then zone_dose else 0 end::double as x_cross
@@ -129,7 +131,7 @@ def gp_change(con, own_draws, cross_draws, annualize=52 / 13):
     Sisters: actual GP minus counterfactual GP with volume exp(-eps_cross*dose) different. All post-window
     units in all eligible stores (promoted weeks included, since the increase also moved promoted volume).
     """
-    rows = con.execute(f"""
+    rows = con.execute("""
         select g.role, coalesce(t.own_dose, 0), coalesce(z.zone_dose, 0),
                sum(s.units)::double, sum(s.net_sales)::double, sum(s.estimated_cogs)::double
         from int_sales_enriched s
@@ -138,10 +140,10 @@ def gp_change(con, own_draws, cross_draws, annualize=52 / 13):
         left join (select distinct sku_id, store_id, own_dose from event_panel where role = 'treated') t
                on t.sku_id = s.sku_id and t.store_id = s.store_id
         left join (select distinct store_id, zone_dose from event_panel) z on z.store_id = s.store_id
-        where s.store_id not in {EXCLUDED_STORES}
+        where not list_contains(?, s.store_id)
           and cal.week_start >= (select min(week_start) from event_panel where post)
           and cal.week_start <= (select max(week_start) from event_panel)
-        group by all""").fetchall()
+        group by all""", [list(EXCLUDED_STORES)]).fetchall()
     out = []
     for e_own, e_cross in zip(own_draws, cross_draws):
         delta = 0.0
@@ -220,7 +222,7 @@ def breakeven(con, spec):
     the 13 weeks before the event): GP-neutral when (p1 - c) q1 = (p0 - c) q0, i.e.
     eps* = ln((p0 - c) / (p1 - c)) / ln(p1 / p0). No causal assumption is involved.
     """
-    p0, p1, c, units = con.execute(f"""
+    p0, p1, c, units = con.execute("""
         with t as (
             select sku_id, price_zone, reg_retail as p1,
                    lag(reg_retail) over (partition by sku_id, price_zone order by effective_start) as p0,
@@ -230,9 +232,9 @@ def breakeven(con, spec):
                sum(s.unit_cost * s.units) / sum(s.units), sum(s.units)
         from int_sales_enriched s
         join stg_fiscal_calendar cal using (week_key)
-        join t on t.sku_id = s.sku_id and t.price_zone = s.price_zone and t.effective_start = date '{spec['date']}'
-        where cal.week_start between date '{spec['date']}' - {HALF_WINDOW_DAYS} and date '{spec['date']}' - 1
-    """).fetchone()
+        join t on t.sku_id = s.sku_id and t.price_zone = s.price_zone and t.effective_start = $date::date
+        where cal.week_start between $date::date - $half_window and $date::date - 1
+    """, {'date': spec['date'], 'half_window': HALF_WINDOW_DAYS}).fetchone()
     p0, p1, c = float(p0), float(p1), float(c)
     return {'pre_price': p0, 'post_price': p1, 'unit_cost': c, 'price_increase': p1 / p0 - 1,
             'margin_before': (p0 - c) / p0, 'breakeven_elasticity': math.log((p0 - c) / (p1 - c)) / math.log(p1 / p0)}
@@ -240,32 +242,34 @@ def breakeven(con, spec):
 
 def pooled_elasticities(con):
     """All non-promoted regular-price variation, by subcategory, plus a private-label slope shift."""
-    con.execute(f"""
-    create or replace temp view est as
+    con.execute("""
+    create or replace temp table est_pooled as
     with promo_weeks as (
         select distinct p.sku_id, st.store_id, cal.week_key
         from stg_promotions p
         join stg_stores st on p.store_scope = 'ALL' or p.store_scope = 'ZONE:' || st.price_zone
         join stg_fiscal_calendar cal
-          on cal.week_start <= p.end_date + {POST_PROMO_DAYS} and cal.week_ending >= p.start_date
+          on cal.week_start <= p.end_date + $post_promo_days and cal.week_ending >= p.start_date
     )
     select s.sku_id || '|' || s.store_id as fe_a, s.store_id || '|' || s.week_key as fe_b,
         i.subcategory || '|' || cal.fiscal_year || '|' || cal.fiscal_period as fe_c,
         s.store_id::varchar as cluster_id, ln(s.units)::double as log_units,
         ln(s.regular_unit_price)::double as lp, i.subcategory, i.brand_type
     from int_sales_enriched s join stg_items i using (sku_id) join stg_fiscal_calendar cal using (week_key)
-    where s.units > 0 and s.store_id not in {EXCLUDED_STORES}
+    where s.units > 0 and not list_contains($excluded, s.store_id)
       and (s.sku_id, s.store_id, s.week_key) not in (select sku_id, store_id, week_key from promo_weeks)
-    """)
-    subcats = [r[0] for r in con.execute('select distinct subcategory from est order by 1').fetchall()]
+    """, {'post_promo_days': POST_PROMO_DAYS, 'excluded': list(EXCLUDED_STORES)})
+    subcats = [r[0] for r in con.execute('select distinct subcategory from est_pooled order by 1').fetchall()]
     names = {s: 'lp_' + s.lower().replace(' ', '_') for s in subcats}
     changes = dict(con.execute("""select i.subcategory, count(*) from stg_reg_price p join stg_items i using (sku_id)
         where p.effective_start > (select min(effective_start) from stg_reg_price) group by 1""").fetchall())
-    cols = ', '.join(f"case when subcategory = '{s}' then lp else 0 end as {n}" for s, n in names.items())
-    con.execute(f"create or replace temp view est2 as select *, {cols}, "
-                f"case when brand_type = 'Private Label' then lp else 0 end as lp_private_label from est")
+    # Subcategory names come from the data, so they are bound; only the generated column names are composed.
+    cols = ', '.join(f"case when subcategory = $s{i} then lp else 0 end as {n}" for i, n in enumerate(names.values()))
+    con.execute(f"create or replace temp table est_pooled_by_subcat as select *, {cols}, "
+                "case when brand_type = 'Private Label' then lp else 0 end as lp_private_label from est_pooled",
+                {f's{i}': s for i, s in enumerate(names)})
     xs = list(names.values()) + ['lp_private_label']
-    f = feols(con, 'est2', 'log_units', xs, ['fe_a', 'fe_b', 'fe_c'], cluster_label='store_id')
+    f = feols(con, 'est_pooled_by_subcat', 'log_units', xs, ['fe_a', 'fe_b', 'fe_c'], cluster_label='store_id')
     out = {}
     for s, n in names.items():
         se = f['se'][n]
