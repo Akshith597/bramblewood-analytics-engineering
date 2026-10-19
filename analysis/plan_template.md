@@ -17,6 +17,9 @@ no figure is typed by hand. Synthetic data. Evidence: [decision memo](decision_m
 | **Replenishment** | No change to store ordering; use the bias-corrected forecast for budgets only | {fc_gp} | Correction saves nothing at equal service ({sim_saving}); receipts already follow sales |
 | **Total** | | **{plan_gp} ({plan_ci})** | Monte Carlo over every lever's uncertainty and their overlap |
 
+Each lever figure is the average of the simulation, so it can differ slightly from the
+[decision memo](decision_memo.md)'s single point estimate for the same action.
+
 Most of the range is the promo lever ({promo_var} of the variance), and most of that is how much vendor money is
 re-won at the table. **Negotiation rule:** drop display events too only if vendors commit at least
 {display_breakeven} of their display funding in other terms; that would take the plan to {alt_gp} ({alt_ci}).

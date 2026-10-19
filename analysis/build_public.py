@@ -94,7 +94,9 @@ def plan_figures(r):
     score = (f"Every estimate and interval is frozen (tag `estimates-frozen-v1`) for the [answer-key scorecard](docs/scorecard.md); "
              + ('the key is scored there.' if sc['key_received'] else "a request to the dataset's author is drafted and the "
                                                                 'key is not yet scored.'))
-    return {'plan_readme': plan, 'ph_readme': ph_line, 'scorecard_readme': score}
+    return {'plan_readme': plan, 'ph_readme': ph_line, 'scorecard_readme': score,
+            'plan_total': money(p['total']['mean']), 'plan_range': rng(*p['total']['ci90'], money),
+            'a_plan': money(lev['assortment']['mean'])}
 
 
 def render(results=None, ev=None):
