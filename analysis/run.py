@@ -3,7 +3,9 @@ import importlib
 import time
 
 STEPS = ['analysis.delist', 'analysis.pricing', 'analysis.forecast', 'analysis.funding', 'analysis.promotions',
-         'analysis.stockouts', 'analysis.crosscheck', 'analysis.build_memo']
+         'analysis.stockouts', 'analysis.physical', 'analysis.assortment', 'analysis.inventory_sim', 'analysis.plan',
+         'analysis.evoi', 'analysis.crosscheck', 'analysis.scorecard', 'analysis.build_memo', 'analysis.build_plan',
+         'analysis.build_public']
 
 
 def main():
