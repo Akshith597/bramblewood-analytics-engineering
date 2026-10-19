@@ -3,7 +3,7 @@
     python -m analysis.scorecard freeze    # write analysis/scorecard/frozen_estimates.json (once, before the key)
     python -m analysis.scorecard           # score frozen estimates against analysis/scorecard/answer_key.json
 
-Rules fixed before the key is opened (commit tagged `estimates-frozen-v1`):
+Rules fixed before the key is opened (re-frozen once as `estimates-frozen-v2`, still before the key: deviation 12):
 
 - Scored values are the frozen file, never a re-run. tests_python/test_scorecard.py fails if any current result
   differs from its frozen value, so an estimator cannot be re-tuned after the key without the test (and the
@@ -99,11 +99,11 @@ def collect():
                          'share of actual', x['bias'], x['ci90'], 'physical.bias_refit.in_stock_by_subcategory',
                          primary=False))
     out.append(entry('delist.gp_effect', 'delist', 'Delist test: category GP effect in test stores',
-                     'share of GP', d['gp']['beta'], d['gp']['ci90_wild'], 'delist.gp'))
+                     'share of GP', d['gp']['beta'], d['gp']['ci90'], 'delist.gp'))
     out.append(entry('delist.units_effect', 'delist', 'Delist test: category units effect', 'log points',
-                     d['units']['beta'], d['units']['ci90_wild'], 'delist.units'))
+                     d['units']['beta'], d['units']['ci90'], 'delist.units'))
     out.append(entry('delist.sales_effect', 'delist', 'Delist test: category net sales effect', 'log points',
-                     d['sales']['beta'], d['sales']['ci90_wild'], 'delist.sales'))
+                     d['sales']['beta'], d['sales']['ci90'], 'delist.sales'))
     out.append(entry('delist.transfer_rate', 'delist', 'Delist test: retained-SKU sales gained per $ of delisted '
                      'sales lost', 'ratio', d['transfer']['transfer_rate'], d['transfer']['transfer_rate_ci90'],
                      'delist.transfer'))
@@ -112,7 +112,7 @@ def collect():
 
 def freeze():
     DIR.mkdir(parents=True, exist_ok=True)
-    payload = {'frozen_before_answer_key': True, 'tag': 'estimates-frozen-v1', 'parameters': collect()}
+    payload = {'frozen_before_answer_key': True, 'tag': 'estimates-frozen-v2', 'parameters': collect()}
     FROZEN.write_text(json.dumps(payload, indent=2) + '\n', encoding='utf-8', newline='\n')
     print(f'Froze {len(payload["parameters"])} parameters to {FROZEN.relative_to(ROOT)}')
 

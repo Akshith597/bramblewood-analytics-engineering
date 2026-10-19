@@ -19,7 +19,7 @@ Your README says the generator and answer key are distributed separately. Could 
   by mechanic and display, cannibalisation, pantry-loading, forecast bias, and the effect of the FY2025 W27 delist
   test (including any demand-transfer parameter).
 
-I have already frozen every estimate and 90% interval in a tagged commit (`estimates-frozen-v1`) so the key can't
+I have already frozen every estimate and 90% interval in a tagged commit (`estimates-frozen-v2`) so the key can't
 be used to tune them. I'll publish a scorecard comparing estimates to truth, crediting the dataset. If you'd rather
 the key itself stay private, I'll publish only the per-parameter comparison, or nothing at all. Your call.
 

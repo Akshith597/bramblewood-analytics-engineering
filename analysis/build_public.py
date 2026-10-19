@@ -79,29 +79,27 @@ def plan_figures(r):
     """README lines for the FY2026 plan and the work beyond the five questions (empty until those results exist)."""
     p, lev, ph, sc = r['plan'], r['plan']['by_lever'], r['physical'], r['scorecard']
     pos = lambda v: money(v).lstrip('+')
-    plan = (f"The [one-page FY2026 plan](docs/fy2026_plan.md) models a **scenario-estimated annual GP opportunity of {money(p['total']['mean'])} "
-            f"after vendor funding** (90% simulated range {rng(*p['total']['ci90'], money)}, from a Monte Carlo "
-            f"over each lever's uncertainty and their overlap). Drop promotions without a display "
-            f"({money(lev['promo_calendar']['mean'])}), treat vendor funding as a budget to re-negotiate and bill in full "
-            f"({money(lev['vendor_terms']['mean'])}), cut {r['assortment']['chain']['distinct_skus_cut']} SKUs on GP per "
-            f"facing and measured demand transfer ({money(lev['assortment']['mean'])}), keep Golden Ridge's price "
-            f"({money(lev['prices']['mean'])} with the tortilla call), and leave store replenishment alone. None of the "
-            f"proposed randomized tests has positive modeled net value under the assumed costs. "
-            f"The range is conditional on the vendor negotiation and billing-recovery distributions, "
-            f"elasticity and transfer estimates, and dependence assumptions. Promo-cell estimation errors "
-            f"are drawn together; other levers are drawn independently. Unmodeled basket effects, vendor "
+    plan = (f"The [one-page FY2026 plan](docs/fy2026_plan.md) models a **scenario-estimated annual GP opportunity of {money(p['total']['base'])} "
+            f"after vendor funding** (low to high case {rng(*p['total']['range'], money)}). Drop promotions without a display "
+            f"({money(lev['promo_calendar']['base'])}), treat vendor funding as a budget to re-negotiate and bill in full "
+            f"({money(lev['vendor_terms']['base'])}), cut {r['assortment']['chain']['distinct_skus_cut']} SKUs on GP per "
+            f"facing and measured demand transfer ({money(lev['assortment']['base'])}), keep Golden Ridge's price "
+            f"({money(lev['prices']['base'])} with the tortilla call), and leave store replenishment alone. "
+            f"The low and high cases set every uncertain input to the pessimistic or optimistic end of its range at once: "
+            f"the 90% intervals of the transfer rate, elasticities and promotion results, plus stated assumptions about "
+            f"how much vendor funding is re-won and how much under-billing is recovered. Unmodeled basket effects, vendor "
             f"responses and implementation costs can change the outcome. This is a scenario estimate, "
-            f"not realized savings or a validated prediction interval for business results.")
+            f"not realized savings or a forecast.")
     ph_line = (f"That over-forecast never reached store shelves: receipts follow sales, and the "
                f"{pos(ph['restated']['memo_over_forecast_cost'])} of over-forecast units at cost became "
                f"{pos(ph['restated']['excess_store_stock_cost'])} of extra store stock; an inventory replay finds no saving from "
                f"the correction at equal service ({money(r['inventory_sim']['verdict']['policy_cost_saving_at_best_z'])}).")
-    score = (f"Every estimate and interval is frozen (tag `estimates-frozen-v1`) for the [answer-key scorecard](docs/scorecard.md); "
+    score = (f"Every estimate and interval is frozen for the [answer-key scorecard](docs/scorecard.md); "
              + ('the key is scored there.' if sc['key_received'] else "a request to the dataset's author is drafted and the "
                                                                 'key is not yet scored.'))
     return {'plan_readme': plan, 'ph_readme': ph_line, 'scorecard_readme': score,
-            'plan_total': money(p['total']['mean']), 'plan_range': rng(*p['total']['ci90'], money),
-            'a_plan': money(lev['assortment']['mean'])}
+            'plan_total': money(p['total']['base']), 'plan_range': rng(*p['total']['range'], money),
+            'a_plan': money(lev['assortment']['base'])}
 
 
 def render(results=None, ev=None):
