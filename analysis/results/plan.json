@@ -1,0 +1,219 @@
+{
+  "by_lever": {
+    "assortment": {
+      "ci90": [
+        15059.9,
+        83360.7
+      ],
+      "mean": 49380.6,
+      "median": 49450.2,
+      "p_positive": 0.99025,
+      "sd": 20843.6,
+      "variance_share_removed_if_known": 0.237867
+    },
+    "forecast": {
+      "ci90": [
+        0.0,
+        0.0
+      ],
+      "mean": 0.0,
+      "median": 0.0,
+      "p_positive": 0.0,
+      "sd": 0.0,
+      "variance_share_removed_if_known": 0.0
+    },
+    "prices": {
+      "ci90": [
+        7737.25,
+        12318.8
+      ],
+      "mean": 10061.6,
+      "median": 10075.8,
+      "p_positive": 1.0,
+      "sd": 1397.5,
+      "variance_share_removed_if_known": 0.000474262
+    },
+    "promo_calendar": {
+      "ci90": [
+        171474.0,
+        292459.0
+      ],
+      "mean": 232194.0,
+      "median": 232376.0,
+      "p_positive": 1.0,
+      "sd": 37313.3,
+      "variance_share_removed_if_known": 0.7595
+    },
+    "vendor_terms": {
+      "ci90": [
+        10085.9,
+        18718.9
+      ],
+      "mean": 14398.3,
+      "median": 14396.1,
+      "p_positive": 1.0,
+      "sd": 2760.24,
+      "variance_share_removed_if_known": 0.00412921
+    }
+  },
+  "design": {
+    "billing_recovery_prior": "Uniform(0.5,1)",
+    "draws": 20000,
+    "drop_cells": [
+      "BOGO",
+      "Multi-buy",
+      "TPR"
+    ],
+    "keep_cells": [
+      "BOGO + display",
+      "Multi-buy + display",
+      "TPR + display"
+    ],
+    "rho_prior": "Beta(2,2) \u2014 assumption, negotiation outcome",
+    "seed": 20261015
+  },
+  "display_events": {
+    "breakeven_rho_to_drop": 0.364881,
+    "funding": 445611.0,
+    "gp_before_funding": -283016.0,
+    "note": "Dropping display events pays only if vendors keep more than this share of their display funding in other forms."
+  },
+  "if_display_also_dropped": {
+    "ci90": [
+      124307.0,
+      578053.0
+    ],
+    "mean": 351478.0,
+    "median": 352381.0,
+    "note": "Not the plan: shown to size the negotiation. Positive only if vendors keep more than the break-even share of display funding.",
+    "p_positive": 0.9999,
+    "sd": 139766.0
+  },
+  "inputs": {
+    "assortment": {
+      "a": -50186.3,
+      "b": 80474.5,
+      "skus_cut": 11,
+      "tau": 1.23511,
+      "tau_sd": 0.259983
+    },
+    "forecast": {
+      "adopted": false,
+      "policy_cost_saving": -941.32
+    },
+    "price": {
+      "bramble_select_tortilla": {
+        "annual_gp_change_at_eps": -1230.82,
+        "breakeven_elasticity": -2.18085,
+        "c": 2.14691,
+        "eps": -2.44427,
+        "eps_sd": 0.369559,
+        "p0": 3.78766,
+        "p1": 4.16094,
+        "q0": 30673.9,
+        "weeks_uncovered": 13.0,
+        "x": 0.098552
+      },
+      "golden_ridge_kettle": {
+        "annual_gp_change_at_eps": 52889.4,
+        "breakeven_elasticity": -2.78165,
+        "c": 3.4179,
+        "eps": -0.515894,
+        "eps_sd": 0.12876,
+        "p0": 5.13511,
+        "p1": 5.55862,
+        "q0": 156591.0,
+        "weeks_uncovered": 9.0,
+        "x": 0.0824729
+      }
+    },
+    "price_overlap_with_cuts": {
+      "bramble_select_tortilla": [],
+      "golden_ridge_kettle": []
+    },
+    "promo": {
+      "BOGO": {
+        "cut_sku_event_share": 0.162698,
+        "display_fee": 0.0,
+        "events": 21,
+        "gp_before_funding": -77431.1,
+        "scan_back": 54511.7,
+        "sd": 927.742
+      },
+      "BOGO + display": {
+        "cut_sku_event_share": 0.173077,
+        "display_fee": 39500.0,
+        "events": 26,
+        "gp_before_funding": -149396.0,
+        "scan_back": 149650.0,
+        "sd": 3971.2
+      },
+      "Multi-buy": {
+        "cut_sku_event_share": 0.0432692,
+        "display_fee": 0.0,
+        "events": 52,
+        "gp_before_funding": -50376.6,
+        "scan_back": 19459.9,
+        "sd": 1372.71
+      },
+      "Multi-buy + display": {
+        "cut_sku_event_share": 0.0,
+        "display_fee": 32750.0,
+        "events": 25,
+        "gp_before_funding": -28043.2,
+        "scan_back": 14886.1,
+        "sd": 2688.57
+      },
+      "TPR": {
+        "cut_sku_event_share": 0.0688172,
+        "display_fee": 0.0,
+        "events": 155,
+        "gp_before_funding": -216611.0,
+        "scan_back": 107973.0,
+        "sd": 4243.23
+      },
+      "TPR + display": {
+        "cut_sku_event_share": 0.0550847,
+        "display_fee": 159750.0,
+        "events": 118,
+        "gp_before_funding": -139096.0,
+        "scan_back": 95894.4,
+        "sd": 10510.7
+      }
+    },
+    "tortilla_action": "roll_back",
+    "vendor": {
+      "one_off_backbill": {
+        "display_component": 67500.0,
+        "lower_scan_only": 65475.5,
+        "note": "Lower bound uses only scan-back on observed scoped units. The upper bound also assumes every planned display ran; display execution is not observable in these extracts.",
+        "upper_scan_plus_planned_display": 132975.0
+      },
+      "scan_billed": 716167.0,
+      "scan_owed": 781642.0,
+      "underbilled_share": 0.083766
+    }
+  },
+  "one_off_backbill": {
+    "display_component": 67500.0,
+    "lower_scan_only": 65475.5,
+    "note": "Lower bound uses only scan-back on observed scoped units. The upper bound also assumes every planned display ran; display execution is not observable in these extracts.",
+    "upper_scan_plus_planned_display": 132975.0
+  },
+  "promo_funding_sensitivity": {
+    "rho_0": 149931.0,
+    "rho_0.5": 232333.0,
+    "rho_1": 314734.0
+  },
+  "tortilla_action": "roll_back",
+  "total": {
+    "ci90": [
+      235866.0,
+      375810.0
+    ],
+    "mean": 306035.0,
+    "median": 306226.0,
+    "p_positive": 1.0,
+    "sd": 42894.4
+  }
+}

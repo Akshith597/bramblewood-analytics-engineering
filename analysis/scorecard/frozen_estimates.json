@@ -1,0 +1,566 @@
+{
+  "frozen_before_answer_key": true,
+  "tag": "estimates-frozen-v1",
+  "parameters": [
+    {
+      "id": "elasticity.Cheese Snacks",
+      "family": "elasticity",
+      "parameter": "Own-price elasticity, Cheese Snacks (national/regional brands)",
+      "unit": "elasticity",
+      "estimate": -1.95588,
+      "ci90": [
+        -2.29269,
+        -1.61907
+      ],
+      "source": "pricing.pooled.by_subcategory",
+      "primary": true
+    },
+    {
+      "id": "elasticity.Kettle Chips",
+      "family": "elasticity",
+      "parameter": "Own-price elasticity, Kettle Chips (national/regional brands)",
+      "unit": "elasticity",
+      "estimate": -0.515894,
+      "ci90": [
+        -0.727686,
+        -0.304103
+      ],
+      "source": "pricing.pooled.by_subcategory",
+      "primary": true
+    },
+    {
+      "id": "elasticity.Nuts",
+      "family": "elasticity",
+      "parameter": "Own-price elasticity, Nuts (national/regional brands)",
+      "unit": "elasticity",
+      "estimate": -1.10627,
+      "ci90": [
+        -1.38561,
+        -0.826937
+      ],
+      "source": "pricing.pooled.by_subcategory",
+      "primary": true
+    },
+    {
+      "id": "elasticity.Popcorn",
+      "family": "elasticity",
+      "parameter": "Own-price elasticity, Popcorn (national/regional brands)",
+      "unit": "elasticity",
+      "estimate": -1.15976,
+      "ci90": [
+        -1.74868,
+        -0.570829
+      ],
+      "source": "pricing.pooled.by_subcategory",
+      "primary": true,
+      "note": "flagged not identified before the key"
+    },
+    {
+      "id": "elasticity.Potato Chips",
+      "family": "elasticity",
+      "parameter": "Own-price elasticity, Potato Chips (national/regional brands)",
+      "unit": "elasticity",
+      "estimate": -2.05497,
+      "ci90": [
+        -2.28468,
+        -1.82526
+      ],
+      "source": "pricing.pooled.by_subcategory",
+      "primary": true
+    },
+    {
+      "id": "elasticity.Pretzels",
+      "family": "elasticity",
+      "parameter": "Own-price elasticity, Pretzels (national/regional brands)",
+      "unit": "elasticity",
+      "estimate": -1.37052,
+      "ci90": [
+        -1.63409,
+        -1.10695
+      ],
+      "source": "pricing.pooled.by_subcategory",
+      "primary": true
+    },
+    {
+      "id": "elasticity.Tortilla Chips",
+      "family": "elasticity",
+      "parameter": "Own-price elasticity, Tortilla Chips (national/regional brands)",
+      "unit": "elasticity",
+      "estimate": -1.29391,
+      "ci90": [
+        -1.58715,
+        -1.00066
+      ],
+      "source": "pricing.pooled.by_subcategory",
+      "primary": true
+    },
+    {
+      "id": "elasticity.Trail Mix",
+      "family": "elasticity",
+      "parameter": "Own-price elasticity, Trail Mix (national/regional brands)",
+      "unit": "elasticity",
+      "estimate": -0.831133,
+      "ci90": [
+        -1.26839,
+        -0.393873
+      ],
+      "source": "pricing.pooled.by_subcategory",
+      "primary": true
+    },
+    {
+      "id": "elasticity.private_label_shift",
+      "family": "elasticity",
+      "parameter": "Private-label shift in own-price elasticity",
+      "unit": "elasticity points",
+      "estimate": -1.15036,
+      "ci90": [
+        -1.46499,
+        -0.835733
+      ],
+      "source": "pricing.pooled.private_label_shift",
+      "primary": true
+    },
+    {
+      "id": "elasticity.golden_ridge_kettle",
+      "family": "elasticity",
+      "parameter": "Own-price elasticity, Golden Ridge kettle",
+      "unit": "elasticity",
+      "estimate": -0.515894,
+      "ci90": [
+        -0.727686,
+        -0.304103
+      ],
+      "source": "pricing.decisions.golden_ridge_kettle",
+      "primary": true
+    },
+    {
+      "id": "elasticity.bramble_select_tortilla",
+      "family": "elasticity",
+      "parameter": "Own-price elasticity, Bramble Select (private label) tortilla",
+      "unit": "elasticity",
+      "estimate": -2.44427,
+      "ci90": [
+        -3.05214,
+        -1.8364
+      ],
+      "source": "pricing.decisions.bramble_select_tortilla",
+      "primary": true
+    },
+    {
+      "id": "promo_lift.BOGO",
+      "family": "promo_lift",
+      "parameter": "Unit lift in promoted weeks, BOGO (FY2025)",
+      "unit": "share over baseline",
+      "estimate": 3.82071,
+      "ci90": [
+        3.75356,
+        3.89586
+      ],
+      "source": "promotions.fy2025.mechanic_display",
+      "primary": true
+    },
+    {
+      "id": "promo_lift.BOGO + display",
+      "family": "promo_lift",
+      "parameter": "Unit lift in promoted weeks, BOGO + display (FY2025)",
+      "unit": "share over baseline",
+      "estimate": 6.33828,
+      "ci90": [
+        6.09721,
+        6.58329
+      ],
+      "source": "promotions.fy2025.mechanic_display",
+      "primary": true
+    },
+    {
+      "id": "promo_lift.Multi-buy",
+      "family": "promo_lift",
+      "parameter": "Unit lift in promoted weeks, Multi-buy (FY2025)",
+      "unit": "share over baseline",
+      "estimate": 0.9411,
+      "ci90": [
+        0.888347,
+        0.993198
+      ],
+      "source": "promotions.fy2025.mechanic_display",
+      "primary": true
+    },
+    {
+      "id": "promo_lift.Multi-buy + display",
+      "family": "promo_lift",
+      "parameter": "Unit lift in promoted weeks, Multi-buy + display (FY2025)",
+      "unit": "share over baseline",
+      "estimate": 1.78572,
+      "ci90": [
+        1.70738,
+        1.87039
+      ],
+      "source": "promotions.fy2025.mechanic_display",
+      "primary": true
+    },
+    {
+      "id": "promo_lift.TPR",
+      "family": "promo_lift",
+      "parameter": "Unit lift in promoted weeks, TPR (FY2025)",
+      "unit": "share over baseline",
+      "estimate": 1.16787,
+      "ci90": [
+        1.11809,
+        1.22312
+      ],
+      "source": "promotions.fy2025.mechanic_display",
+      "primary": true
+    },
+    {
+      "id": "promo_lift.TPR + display",
+      "family": "promo_lift",
+      "parameter": "Unit lift in promoted weeks, TPR + display (FY2025)",
+      "unit": "share over baseline",
+      "estimate": 2.03721,
+      "ci90": [
+        1.94674,
+        2.1342
+      ],
+      "source": "promotions.fy2025.mechanic_display",
+      "primary": true
+    },
+    {
+      "id": "promo_lift.all",
+      "family": "promo_lift",
+      "parameter": "Unit lift in promoted weeks, all events (FY2025)",
+      "unit": "share over baseline",
+      "estimate": 1.8932,
+      "ci90": [
+        1.8316,
+        1.96287
+      ],
+      "source": "promotions.fy2025.all",
+      "primary": true
+    },
+    {
+      "id": "cannibalisation.Cheese Snacks",
+      "family": "cannibalisation",
+      "parameter": "Log change in a sister SKU's units per promoted same-subcategory SKU, Cheese Snacks",
+      "unit": "log points",
+      "estimate": -0.0911365,
+      "ci90": [
+        -0.100407,
+        -0.0818665
+      ],
+      "source": "promotions.cannibalisation",
+      "primary": true
+    },
+    {
+      "id": "cannibalisation.Kettle Chips",
+      "family": "cannibalisation",
+      "parameter": "Log change in a sister SKU's units per promoted same-subcategory SKU, Kettle Chips",
+      "unit": "log points",
+      "estimate": -0.0482926,
+      "ci90": [
+        -0.0528987,
+        -0.0436865
+      ],
+      "source": "promotions.cannibalisation",
+      "primary": true
+    },
+    {
+      "id": "cannibalisation.Nuts",
+      "family": "cannibalisation",
+      "parameter": "Log change in a sister SKU's units per promoted same-subcategory SKU, Nuts",
+      "unit": "log points",
+      "estimate": -0.119364,
+      "ci90": [
+        -0.134178,
+        -0.10455
+      ],
+      "source": "promotions.cannibalisation",
+      "primary": true
+    },
+    {
+      "id": "cannibalisation.Popcorn",
+      "family": "cannibalisation",
+      "parameter": "Log change in a sister SKU's units per promoted same-subcategory SKU, Popcorn",
+      "unit": "log points",
+      "estimate": -0.0768288,
+      "ci90": [
+        -0.0854023,
+        -0.0682553
+      ],
+      "source": "promotions.cannibalisation",
+      "primary": true
+    },
+    {
+      "id": "cannibalisation.Potato Chips",
+      "family": "cannibalisation",
+      "parameter": "Log change in a sister SKU's units per promoted same-subcategory SKU, Potato Chips",
+      "unit": "log points",
+      "estimate": -0.0194146,
+      "ci90": [
+        -0.022526,
+        -0.0163032
+      ],
+      "source": "promotions.cannibalisation",
+      "primary": true
+    },
+    {
+      "id": "cannibalisation.Pretzels",
+      "family": "cannibalisation",
+      "parameter": "Log change in a sister SKU's units per promoted same-subcategory SKU, Pretzels",
+      "unit": "log points",
+      "estimate": -0.116261,
+      "ci90": [
+        -0.123924,
+        -0.108598
+      ],
+      "source": "promotions.cannibalisation",
+      "primary": true
+    },
+    {
+      "id": "cannibalisation.Tortilla Chips",
+      "family": "cannibalisation",
+      "parameter": "Log change in a sister SKU's units per promoted same-subcategory SKU, Tortilla Chips",
+      "unit": "log points",
+      "estimate": -0.0609288,
+      "ci90": [
+        -0.0661579,
+        -0.0556997
+      ],
+      "source": "promotions.cannibalisation",
+      "primary": true
+    },
+    {
+      "id": "cannibalisation.Trail Mix",
+      "family": "cannibalisation",
+      "parameter": "Log change in a sister SKU's units per promoted same-subcategory SKU, Trail Mix",
+      "unit": "log points",
+      "estimate": -0.097637,
+      "ci90": [
+        -0.125517,
+        -0.0697574
+      ],
+      "source": "promotions.cannibalisation",
+      "primary": true
+    },
+    {
+      "id": "pantry_loading.week1",
+      "family": "pantry_loading",
+      "parameter": "Units vs baseline in post-promotion week 1 (pantry-loading dip)",
+      "unit": "share vs baseline",
+      "estimate": -0.27487,
+      "ci90": [
+        -0.284212,
+        -0.265565
+      ],
+      "source": "promotions.post_dip_by_week",
+      "primary": true
+    },
+    {
+      "id": "pantry_loading.week2",
+      "family": "pantry_loading",
+      "parameter": "Units vs baseline in post-promotion week 2 (pantry-loading dip)",
+      "unit": "share vs baseline",
+      "estimate": -0.130738,
+      "ci90": [
+        -0.1376,
+        -0.12317
+      ],
+      "source": "promotions.post_dip_by_week",
+      "primary": true
+    },
+    {
+      "id": "forecast_bias.fy2025_restored_demand",
+      "family": "forecast_bias",
+      "parameter": "Forecast bias FY2025, censored demand restored (primary)",
+      "unit": "share of demand",
+      "estimate": 0.12459,
+      "ci90": [
+        0.107653,
+        0.140803
+      ],
+      "source": "physical.bias_refit",
+      "primary": true
+    },
+    {
+      "id": "forecast_bias.fy2025_in_stock_weeks",
+      "family": "forecast_bias",
+      "parameter": "Forecast bias FY2025, weeks with no stock-out (requested refit; selected on low demand)",
+      "unit": "share of actual",
+      "estimate": 0.192856,
+      "ci90": [
+        0.174255,
+        0.211159
+      ],
+      "source": "physical.bias_refit",
+      "primary": false
+    },
+    {
+      "id": "forecast_bias.fy2025_all_weeks",
+      "family": "forecast_bias",
+      "parameter": "Forecast bias FY2025, all weeks (memo)",
+      "unit": "share of actual",
+      "estimate": 0.133996,
+      "ci90": [
+        0.11806,
+        0.149738
+      ],
+      "source": "forecast.fy2025",
+      "primary": false
+    },
+    {
+      "id": "forecast_bias.in_stock.Cheese Snacks",
+      "family": "forecast_bias",
+      "parameter": "Forecast bias FY2025 in-stock weeks, Cheese Snacks",
+      "unit": "share of actual",
+      "estimate": 0.218823,
+      "ci90": [
+        0.166607,
+        0.252816
+      ],
+      "source": "physical.bias_refit.in_stock_by_subcategory",
+      "primary": false
+    },
+    {
+      "id": "forecast_bias.in_stock.Kettle Chips",
+      "family": "forecast_bias",
+      "parameter": "Forecast bias FY2025 in-stock weeks, Kettle Chips",
+      "unit": "share of actual",
+      "estimate": 0.13317,
+      "ci90": [
+        0.105915,
+        0.15059
+      ],
+      "source": "physical.bias_refit.in_stock_by_subcategory",
+      "primary": false
+    },
+    {
+      "id": "forecast_bias.in_stock.Nuts",
+      "family": "forecast_bias",
+      "parameter": "Forecast bias FY2025 in-stock weeks, Nuts",
+      "unit": "share of actual",
+      "estimate": 0.22906,
+      "ci90": [
+        0.168965,
+        0.271046
+      ],
+      "source": "physical.bias_refit.in_stock_by_subcategory",
+      "primary": false
+    },
+    {
+      "id": "forecast_bias.in_stock.Popcorn",
+      "family": "forecast_bias",
+      "parameter": "Forecast bias FY2025 in-stock weeks, Popcorn",
+      "unit": "share of actual",
+      "estimate": 0.112912,
+      "ci90": [
+        0.0918271,
+        0.143221
+      ],
+      "source": "physical.bias_refit.in_stock_by_subcategory",
+      "primary": false
+    },
+    {
+      "id": "forecast_bias.in_stock.Potato Chips",
+      "family": "forecast_bias",
+      "parameter": "Forecast bias FY2025 in-stock weeks, Potato Chips",
+      "unit": "share of actual",
+      "estimate": 0.206237,
+      "ci90": [
+        0.174139,
+        0.233593
+      ],
+      "source": "physical.bias_refit.in_stock_by_subcategory",
+      "primary": false
+    },
+    {
+      "id": "forecast_bias.in_stock.Pretzels",
+      "family": "forecast_bias",
+      "parameter": "Forecast bias FY2025 in-stock weeks, Pretzels",
+      "unit": "share of actual",
+      "estimate": 0.191028,
+      "ci90": [
+        0.140994,
+        0.231999
+      ],
+      "source": "physical.bias_refit.in_stock_by_subcategory",
+      "primary": false
+    },
+    {
+      "id": "forecast_bias.in_stock.Tortilla Chips",
+      "family": "forecast_bias",
+      "parameter": "Forecast bias FY2025 in-stock weeks, Tortilla Chips",
+      "unit": "share of actual",
+      "estimate": 0.228144,
+      "ci90": [
+        0.1793,
+        0.261824
+      ],
+      "source": "physical.bias_refit.in_stock_by_subcategory",
+      "primary": false
+    },
+    {
+      "id": "forecast_bias.in_stock.Trail Mix",
+      "family": "forecast_bias",
+      "parameter": "Forecast bias FY2025 in-stock weeks, Trail Mix",
+      "unit": "share of actual",
+      "estimate": 0.11446,
+      "ci90": [
+        0.0866145,
+        0.140321
+      ],
+      "source": "physical.bias_refit.in_stock_by_subcategory",
+      "primary": false
+    },
+    {
+      "id": "delist.gp_effect",
+      "family": "delist",
+      "parameter": "Delist test: category GP effect in test stores",
+      "unit": "share of GP",
+      "estimate": 0.0193463,
+      "ci90": [
+        -0.0248531,
+        0.0635456
+      ],
+      "source": "delist.gp",
+      "primary": true
+    },
+    {
+      "id": "delist.units_effect",
+      "family": "delist",
+      "parameter": "Delist test: category units effect",
+      "unit": "log points",
+      "estimate": -0.0136425,
+      "ci90": [
+        -0.020458,
+        -0.00682693
+      ],
+      "source": "delist.units",
+      "primary": true
+    },
+    {
+      "id": "delist.sales_effect",
+      "family": "delist",
+      "parameter": "Delist test: category net sales effect",
+      "unit": "log points",
+      "estimate": -0.00654503,
+      "ci90": [
+        -0.0211647,
+        0.00807463
+      ],
+      "source": "delist.sales",
+      "primary": true
+    },
+    {
+      "id": "delist.transfer_rate",
+      "family": "delist",
+      "parameter": "Delist test: retained-SKU sales gained per $ of delisted sales lost",
+      "unit": "ratio",
+      "estimate": 1.23511,
+      "ci90": [
+        0.807473,
+        1.66274
+      ],
+      "source": "delist.transfer",
+      "primary": true
+    }
+  ]
+}

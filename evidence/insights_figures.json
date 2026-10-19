@@ -1,0 +1,52 @@
+{
+  "comparable_growth": 0.025918338909124428,
+  "comparable_stores": 22,
+  "forecast_periods_fy2025": 12,
+  "forecast_periods_over_fy2025": 12,
+  "largest_subcategory": "Potato Chips",
+  "skus": 151,
+  "stores": 24,
+  "subcategories": {
+    "Cheese Snacks": {
+      "growth": -0.026236039452963156,
+      "margin_change_pp": -1.016829526065488,
+      "sales_fy25": 393624.82
+    },
+    "Kettle Chips": {
+      "growth": 0.09454551264559785,
+      "margin_change_pp": 3.187306636889442,
+      "sales_fy25": 1252961.23
+    },
+    "Nuts": {
+      "growth": -0.031238126117444254,
+      "margin_change_pp": -3.185917865715557,
+      "sales_fy25": 864446.38
+    },
+    "Popcorn": {
+      "growth": -0.013108137445928092,
+      "margin_change_pp": 0.1643024024504558,
+      "sales_fy25": 526812.38
+    },
+    "Potato Chips": {
+      "growth": -0.00928249948201465,
+      "margin_change_pp": -1.8723474592920453,
+      "sales_fy25": 3752400.51
+    },
+    "Pretzels": {
+      "growth": -0.015691217704031146,
+      "margin_change_pp": 1.3161861865076285,
+      "sales_fy25": 593553.61
+    },
+    "Tortilla Chips": {
+      "growth": 0.061183517562570566,
+      "margin_change_pp": -1.7453470100294743,
+      "sales_fy25": 2163532.88
+    },
+    "Trail Mix": {
+      "growth": 0.26061231387376504,
+      "margin_change_pp": -1.6228810036624852,
+      "sales_fy25": 541831.96
+    }
+  },
+  "subcategories_shrinking": 5
+}
