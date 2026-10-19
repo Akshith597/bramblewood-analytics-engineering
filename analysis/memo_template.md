@@ -2,14 +2,15 @@
 
 *To: VP Merchandising · Data: Bramblewood POS, inventory and merchandising extracts, FY2024–FY2025 (synthetic) ·
 Generated from code by `analysis/build_memo.py`; every figure is a named query result in `analysis/results/`.
-Method and decision rules were [committed before any outcome was computed](../analysis/PLAN.md).*
+Method and decision rules were [committed before any outcome was computed](../analysis/PLAN.md).
+The combined FY2026 plan built on these answers is [one page](fy2026_plan.md); estimates are frozen for the [answer-key scorecard](scorecard.md).*
 
 | Question | Answer | Dollar figure (90% range) | Recommendation |
 |---|---|---|---|
-| 1. Delisting test | **Inconclusive** — the test cannot detect a GP change smaller than {d_mde} | {d_dollar} per year if rolled out to the other large stores ({d_dollar_ci}) | Do not roll out on this evidence; rerun as a randomized, full-year test |
+| 1. Delisting test | **Inconclusive** — the test cannot detect a GP change smaller than {d_mde}; but its transfer rate passes its placebo checks and prices a cut list | Test planogram: {d_dollar} per year if rolled out ({d_dollar_ci}). Cut list of {a_cuts} SKUs: {a_gp} per year ({a_gp_ci}) | Do not roll out the test planogram; cut the {a_cuts} SKUs that lose least GP per facing, planogram by planogram |
 | 2. Promotions | **Roughly break-even, and only because of vendor money** — {q2_pos_before} of FY2025 events made gross profit before funding | {q2_net} net in FY2025 ({q2_ci}); {q2_before} before funding | Cut or redesign promotions without a display; keep display events only where display execution is verified and the fee collected |
-| 3. Price increases | **Not identified** from the data; break-even analysis favours Golden Ridge, tortilla is a coin flip | Golden Ridge {p_gr_gp} ({p_gr_gp_ci}); tortilla {p_bs_gp} ({p_bs_gp_ci}) — scenarios, not estimates | Keep Golden Ridge; test the tortilla price in a randomized subset of stores |
-| 4. Forecast and in-stock | **Forecast over-forecasts by {f_bias}** ({f_bias_ci}); stock-outs cost an estimated {o_gp} of GP (exploratory, likely understated) | {f_cost} of planned inventory against demand that did not occur in FY2025; stock-outs {o_ci} | Apply per-subcategory bias correction now; it cut FY2025 bias to {f_bias_after} out of sample. In-stock is a lower priority |
+| 3. Price increases | **Not identified** from the data; break-even analysis favours Golden Ridge, tortilla is a coin flip | Golden Ridge {p_gr_gp} ({p_gr_gp_ci}); tortilla {p_bs_gp} ({p_bs_gp_ci}) — scenarios, not estimates | Keep Golden Ridge; tortilla: {e_tortilla_action} — a randomized test is worth less than it costs |
+| 4. Forecast and in-stock | **Forecast over-forecasts by {f_bias}** ({f_bias_ci}); {ph_bias_restored} with censored demand restored. The over-forecast never reached store shelves | {f_cost} of planned units at cost, of which {ph_excess} became extra store stock; stock-outs {o_gp} ({o_ci}) | Correct the planning number for budgets, but do not re-tune store replenishment around it: at equal service it saves nothing ({s_saving}) |
 | 5. Vendor funding | **Under-billed** on approved promotions | {v_low} to {v_high} | Bill the scan-back shortfall now; verify display execution before billing displays |
 
 ## 1. Delisting test (stores 102, 106, 113, 116 from FY2025 W27)
@@ -25,7 +26,15 @@ power against a real 2% loss is only {d_power2}. A fake treatment date one year 
 does not remove; a year-over-year adjustment would put the effect near {d_yoy} (exploratory). Synthetic-control
 and large-store-only comparisons agree in direction but not magnitude ({d_sc}; {d_large}).
 **Next:** randomize the planogram across matched large-store pairs and run it for a full year so seasonality
-differences cancel.
+differences cancel. *Update:* the inventory and value-of-information work below finds that test not worth its cost.
+
+**Which SKUs earn their space.** The test did measure one thing cleanly: retained SKUs gained {d_transfer} of the
+dollars the delisted SKUs lost, a rate that, unlike the GP effect, passes both fake-date checks ({a_tau_fake}) and
+holds year over year ({a_tau_yoy}). Cutting SKU *i* therefore changes GP by −GP<sub>i</sub> + τ · sales<sub>i</sub> · margin of its
+subcategory's retained SKUs. Ranked by GP per facing, within each planogram's fixed facings, among SKUs no bigger
+than the ones the test cut, and cut only if the change is positive at the low end of τ's range: {a_cuts} SKUs
+({a_by_pg}), {a_gp} a year ({a_gp_ci}). {a_overlap} of the test's {a_test_n} delisted SKUs fall in the large planogram's
+bottom {a_test_n} by GP per facing. Full list: [FY2026 plan](fy2026_plan.md).
 
 ## 2. Promotions (FY2025 events)
 
@@ -60,13 +69,14 @@ holdout of stores.
 | Pooled subcategory elasticity (unvalidated) | {p_gr_pooled} ({p_gr_pooled_ci}) | {p_bs_pooled} ({p_bs_pooled_ci}) |
 
 An increase loses gross profit only if shoppers are more price-sensitive than the break-even elasticity — pure
-arithmetic on price and cost. Neither event-level design passed its own checks: the pre-registered comparison
+arithmetic on price and cost. Neither event-level design passed its own checks: the planned comparison
 failed pre-trend (p {p_gr_pretrend}), fake-date and backtest checks, and an exploratory within-SKU cross-zone
 design failed the backtest (Golden Ridge) or pre-trends (tortilla). The pooled model across all
 {p_pooled_n} non-promoted SKU-store-weeks suggests kettle is inelastic ({p_gr_pooled}) — far from
 {p_gr_be}, so Golden Ridge very likely paid off — while private-label tortilla sits near its break-even.
 By subcategory: {p_subcats}. Private label is more price-sensitive by {p_pl_shift} elasticity points (shift {p_pl_shift_ci}), identified
-only from Bramble Select changes. **Next:** test the tortilla price in randomly chosen stores for 13 weeks.
+only from Bramble Select changes. **Next:** the tortilla decision is worth {e_tortilla_evpi} even with perfect
+information, less than a 13-week store test costs; take the action with the higher expected GP ({e_tortilla_action}).
 
 ## 4. Forecast and in-stock
 
@@ -75,6 +85,25 @@ promoted weeks versus {f_bias_nonpromo} otherwise. The forecast still beats naiv
 vs the lag-2 actual; {f_mase_seasonal} vs last year), so it should be corrected, not replaced: per-subcategory
 factors learned on FY2024 cut FY2025 bias from {f_bias} to {f_bias_after} and WAPE from {f_wape} to
 {f_wape_after}.
+
+**Did the over-forecast become stock? No.** Receipts and on-hand obey the stock-flow identity on {ph_exact} of
+store-SKU-weeks (shrink {ph_shrink} of receipts). In FY2025 stores received {ph_receipts_over} more units than they
+sold while the forecast was {f_bias} over: receipts follow sales, not the forecast — weekly receipts move
+{ph_coef_same} units per unit sold the same week and {ph_coef_prev} per unit sold the week before, the signature of
+direct-store delivery. Average store stock at cost in comparable stores rose {ph_excess}, {ph_excess_share} of the
+{f_cost} the memo first quoted, and year-end stock fell {ph_yearend}. Distribution-centre stock is not in the
+extracts, so excess held upstream cannot be measured. Refit on weeks with no stock-out, bias is {ph_bias_instock}
+({ph_bias_instock_ci}) — higher, not lower, because stock-outs happen in demand spikes the forecast under-calls
+({ph_bias_stockout} on those weeks); with their censored demand restored instead, bias is {ph_bias_restored}
+({ph_bias_restored_ci}).
+
+**Is the correction worth it? Judged on stock, not WAPE: no.** Replaying FY2025 store by store with
+forecast-driven, case-pack orders and a safety stock sized on each forecast's own errors, each forecast at its
+best safety factor costs about the same (lost GP + carrying cost at {s_carry}: raw {s_raw_cost}, corrected
+{s_corr_cost}); to reach {s_fill_target} fill the corrected forecast needs {s_stock_corr} of stock against
+{s_stock_raw}. The bias was acting as safety stock; removing it only moves that stock into the buffer. Both
+forecast-driven policies need far more stock ({s_raw_stock} at best) than stores actually held ({s_actual_stock}
+at {s_actual_fill} fill), so the current delivery process should not be replaced by forecast-driven ordering.
 
 **Out-of-stock cost (exploratory).** On the {o_weeks} non-promoted FY2025 weeks that ended with zero stock, the
 store sold everything it had, so demand was at least what it sold. Using the promotion baseline model and the
@@ -96,7 +125,9 @@ collected.
 
 ## How the results were checked
 
-- **Ground truth:** the dataset's answer key is distributed separately and is not public, so it was not used.
+- **Ground truth:** the answer key is distributed separately; a [request to the dataset's author](answer_key_request.md) is drafted.
+  Every estimate and interval was frozen in the tagged commit `estimates-frozen-v1` before the key was opened;
+  the [scorecard](scorecard.md) compares them to it without re-tuning.
 - **Second implementation:** {x_checks} headline coefficients and clustered SEs re-estimated by an independent
   pure-Python solver ({x_status}); CI repeats them in R `fixest`.
 - **Planted effects:** known effects added to the real data were recovered exactly (delist ±2%, elasticity −1.5).
@@ -107,4 +138,10 @@ collected.
   the addendum lists what was seen; (5) the out-of-stock estimator was switched to censored demand after the
   planned one came out negative, so that answer is exploratory, and a realistic planted check was added
   post-hoc. Data fix: one promotion with swapped start and end dates in the source was corrected, confirmed by
-  POS discounts.
+  POS discounts. Added in the FY2026 round, after the results above were known: (6) the cut list restricts
+  candidates to SKUs no bigger than those the test cut, after a first unrestricted ranking put best-sellers at the
+  top; (7) fake-date and same-season checks on τ; (8) the inventory simulation's safety stock was changed from a
+  fixed percentage of forecast to a multiple of each forecast's own error, after the first version could not match
+  the observed stock-out rate; (9) store-bootstrap ranges for promotion lift and the post-promotion dip, for the
+  scorecard; (10) restored-demand bias was made primary after the requested in-stock refit was seen to select on
+  low demand. All are logged in [the deviation log](../analysis/scorecard/DEVIATIONS.md).

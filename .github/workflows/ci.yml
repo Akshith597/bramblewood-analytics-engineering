@@ -16,10 +16,10 @@ jobs:
           cache: pip
       - run: python -m pip install -r requirements-dev.txt
       - run: python scripts/run_all.py
-      - name: Decision analyses (Q1–Q5) and memo
+      - name: Decision analyses, FY2026 plan, scorecard and public documents
         run: python -m analysis.run
-      - name: Memo and results must match the committed versions
-        run: git diff --exit-code -- analysis/results docs/decision_memo.md
+      - name: No stale public claim — results, memo, plan, scorecard, README and chart figures must match the committed versions
+        run: git diff --exit-code -- analysis/results docs README.md evidence/insights_figures.json docs/assets/insights
       - uses: r-lib/actions/setup-r@v2
         with:
           use-public-rspm: true
@@ -43,5 +43,8 @@ jobs:
             target/crosscheck_fixest.json
             analysis/results/
             docs/decision_memo.md
+            docs/fy2026_plan.md
+            docs/scorecard.md
+            README.md
             docs/assets/insights/
             evidence/
