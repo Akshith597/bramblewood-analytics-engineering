@@ -37,6 +37,10 @@
         "incremental_units": 714333.0,
         "lift_gp": -545190.0,
         "lift_pct": 1.84655,
+        "lift_pct_ci90_store_bootstrap": [
+          1.78127,
+          1.91955
+        ],
         "mde": 97032.7,
         "model_error": {
           "band": 86878.4,
@@ -91,6 +95,10 @@
         "incremental_units": 430151.0,
         "lift_gp": -274107.0,
         "lift_pct": 2.55176,
+        "lift_pct_ci90_store_bootstrap": [
+          2.46734,
+          2.64702
+        ],
         "mde": 78485.7,
         "model_error": {
           "band": 35563.8,
@@ -143,6 +151,10 @@
         "incremental_units": 284182.0,
         "lift_gp": -271082.0,
         "lift_pct": 1.30194,
+        "lift_pct_ci90_store_bootstrap": [
+          1.25193,
+          1.35517
+        ],
         "mde": 27664.4,
         "model_error": {
           "band": 51314.7,
@@ -197,6 +209,10 @@
         "incremental_units": 205542.0,
         "lift_gp": -280326.0,
         "lift_pct": 5.11196,
+        "lift_pct_ci90_store_bootstrap": [
+          5.00639,
+          5.22034
+        ],
         "mde": 20500.5,
         "model_error": {
           "band": 5631.95,
@@ -249,6 +265,10 @@
         "incremental_units": 109760.0,
         "lift_gp": -45006.0,
         "lift_pct": 1.31052,
+        "lift_pct_ci90_store_bootstrap": [
+          1.23793,
+          1.38798
+        ],
         "mde": 18206.1,
         "model_error": {
           "band": 21080.7,
@@ -301,6 +321,10 @@
         "incremental_units": 399031.0,
         "lift_gp": -219858.0,
         "lift_pct": 1.51789,
+        "lift_pct_ci90_store_bootstrap": [
+          1.45215,
+          1.59191
+        ],
         "mde": 70042.4,
         "model_error": {
           "band": 60165.8,
@@ -355,6 +379,10 @@
         "incremental_units": 68810.9,
         "lift_gp": -95195.0,
         "lift_pct": 4.01836,
+        "lift_pct_ci90_store_bootstrap": [
+          3.95076,
+          4.09453
+        ],
         "mde": 4193.48,
         "model_error": {
           "band": 1240.66,
@@ -407,6 +435,10 @@
         "incremental_units": 136731.0,
         "lift_gp": -185131.0,
         "lift_pct": 5.92321,
+        "lift_pct_ci90_store_bootstrap": [
+          5.76749,
+          6.08565
+        ],
         "mde": 19202.1,
         "model_error": {
           "band": 4391.3,
@@ -459,6 +491,10 @@
         "incremental_units": 48722.6,
         "lift_gp": -37350.2,
         "lift_pct": 0.983831,
+        "lift_pct_ci90_store_bootstrap": [
+          0.920604,
+          1.04996
+        ],
         "mde": 6714.28,
         "model_error": {
           "band": 15787.3,
@@ -511,6 +547,10 @@
         "incremental_units": 61037.4,
         "lift_gp": -7655.82,
         "lift_pct": 1.78317,
+        "lift_pct_ci90_store_bootstrap": [
+          1.69636,
+          1.87722
+        ],
         "mde": 14502.3,
         "model_error": {
           "band": 5293.35,
@@ -563,6 +603,10 @@
         "incremental_units": 166648.0,
         "lift_gp": -138537.0,
         "lift_pct": 1.09905,
+        "lift_pct_ci90_store_bootstrap": [
+          1.05169,
+          1.1507
+        ],
         "mde": 21615.1,
         "model_error": {
           "band": 34286.7,
@@ -615,6 +659,10 @@
         "incremental_units": 232383.0,
         "lift_gp": -81320.4,
         "lift_pct": 2.08871,
+        "lift_pct_ci90_store_bootstrap": [
+          1.99513,
+          2.19019
+        ],
         "mde": 52650.1,
         "model_error": {
           "band": 25879.1,
@@ -669,6 +717,10 @@
         "incremental_units": 39440.6,
         "lift_gp": -19400.6,
         "lift_pct": 1.54479,
+        "lift_pct_ci90_store_bootstrap": [
+          1.47186,
+          1.60979
+        ],
         "mde": 8691.01,
         "model_error": {
           "band": 13769.9,
@@ -721,6 +773,10 @@
         "incremental_units": 92870.0,
         "lift_gp": -74458.5,
         "lift_pct": 1.8365,
+        "lift_pct_ci90_store_bootstrap": [
+          1.76995,
+          1.90778
+        ],
         "mde": 14705.9,
         "model_error": {
           "band": 22358.2,
@@ -773,6 +829,10 @@
         "incremental_units": 42479.2,
         "lift_gp": -73650.4,
         "lift_pct": 2.07228,
+        "lift_pct_ci90_store_bootstrap": [
+          1.98534,
+          2.16618
+        ],
         "mde": 13989.6,
         "model_error": {
           "band": 47696.4,
@@ -825,6 +885,10 @@
         "incremental_units": 36476.6,
         "lift_gp": -21672.7,
         "lift_pct": 1.46249,
+        "lift_pct_ci90_store_bootstrap": [
+          1.40765,
+          1.52004
+        ],
         "mde": 5828.85,
         "model_error": {
           "band": 11728.6,
@@ -877,6 +941,10 @@
         "incremental_units": 244093.0,
         "lift_gp": -197217.0,
         "lift_pct": 1.76264,
+        "lift_pct_ci90_store_bootstrap": [
+          1.68421,
+          1.84977
+        ],
         "mde": 46750.4,
         "model_error": {
           "band": 109561.0,
@@ -929,6 +997,10 @@
         "incremental_units": 62291.1,
         "lift_gp": -30130.1,
         "lift_pct": 1.76658,
+        "lift_pct_ci90_store_bootstrap": [
+          1.70083,
+          1.8368
+        ],
         "mde": 9735.17,
         "model_error": {
           "band": 12324.6,
@@ -981,6 +1053,10 @@
         "incremental_units": 186698.0,
         "lift_gp": -118682.0,
         "lift_pct": 2.22317,
+        "lift_pct_ci90_store_bootstrap": [
+          2.12191,
+          2.33651
+        ],
         "mde": 29858.1,
         "model_error": {
           "band": 19891.5,
@@ -1033,6 +1109,10 @@
         "incremental_units": 9984.66,
         "lift_gp": -9978.34,
         "lift_pct": 1.31631,
+        "lift_pct_ci90_store_bootstrap": [
+          1.22718,
+          1.40629
+        ],
         "mde": 5693.51,
         "model_error": {
           "band": 771.669,
@@ -1303,6 +1383,10 @@
         "incremental_units": 391499.0,
         "lift_gp": -313130.0,
         "lift_pct": 1.8932,
+        "lift_pct_ci90_store_bootstrap": [
+          1.8316,
+          1.96287
+        ],
         "mde": 52301.0,
         "model_error": {
           "band": 46504.1,
@@ -1357,6 +1441,10 @@
         "incremental_units": 231645.0,
         "lift_gp": -159200.0,
         "lift_pct": 2.6682,
+        "lift_pct_ci90_store_bootstrap": [
+          2.57695,
+          2.76623
+        ],
         "mde": 39844.3,
         "model_error": {
           "band": 18774.9,
@@ -1409,6 +1497,10 @@
         "incremental_units": 159854.0,
         "lift_gp": -153930.0,
         "lift_pct": 1.33239,
+        "lift_pct_ci90_store_bootstrap": [
+          1.28431,
+          1.38511
+        ],
         "mde": 14980.4,
         "model_error": {
           "band": 27729.2,
@@ -1463,6 +1555,10 @@
         "incremental_units": 122442.0,
         "lift_gp": -172902.0,
         "lift_pct": 5.29804,
+        "lift_pct_ci90_store_bootstrap": [
+          5.14392,
+          5.45491
+        ],
         "mde": 12000.5,
         "model_error": {
           "band": 4320.44,
@@ -1515,6 +1611,10 @@
         "incremental_units": 48416.8,
         "lift_gp": -20196.2,
         "lift_pct": 1.24846,
+        "lift_pct_ci90_store_bootstrap": [
+          1.19379,
+          1.30599
+        ],
         "mde": 9866.23,
         "model_error": {
           "band": 9721.53,
@@ -1567,6 +1667,10 @@
         "incremental_units": 220640.0,
         "lift_gp": -120032.0,
         "lift_pct": 1.5227,
+        "lift_pct_ci90_store_bootstrap": [
+          1.46009,
+          1.59163
+        ],
         "mde": 41426.2,
         "model_error": {
           "band": 32462.1,
@@ -1621,6 +1725,10 @@
         "incremental_units": 36484.8,
         "lift_gp": -52800.9,
         "lift_pct": 3.82071,
+        "lift_pct_ci90_store_bootstrap": [
+          3.75356,
+          3.89586
+        ],
         "mde": 2597.65,
         "model_error": {
           "band": 1355.63,
@@ -1673,6 +1781,10 @@
         "incremental_units": 85957.4,
         "lift_gp": -120101.0,
         "lift_pct": 6.33828,
+        "lift_pct_ci90_store_bootstrap": [
+          6.09721,
+          6.58329
+        ],
         "mde": 11119.4,
         "model_error": {
           "band": 2964.82,
@@ -1725,6 +1837,10 @@
         "incremental_units": 23215.5,
         "lift_gp": -14416.5,
         "lift_pct": 0.9411,
+        "lift_pct_ci90_store_bootstrap": [
+          0.888347,
+          0.993198
+        ],
         "mde": 3843.59,
         "model_error": {
           "band": 10193.8,
@@ -1777,6 +1893,10 @@
         "incremental_units": 25201.3,
         "lift_gp": -5779.63,
         "lift_pct": 1.78572,
+        "lift_pct_ci90_store_bootstrap": [
+          1.70738,
+          1.87039
+        ],
         "mde": 7528.03,
         "model_error": {
           "band": 1687.63,
@@ -1829,6 +1949,10 @@
         "incremental_units": 100154.0,
         "lift_gp": -86712.8,
         "lift_pct": 1.16787,
+        "lift_pct_ci90_store_bootstrap": [
+          1.11809,
+          1.22312
+        ],
         "mde": 11881.1,
         "model_error": {
           "band": 16179.8,
@@ -1881,6 +2005,10 @@
         "incremental_units": 120486.0,
         "lift_gp": -33318.7,
         "lift_pct": 2.03721,
+        "lift_pct_ci90_store_bootstrap": [
+          1.94674,
+          2.1342
+        ],
         "mde": 29429.8,
         "model_error": {
           "band": 16282.4,
@@ -1935,6 +2063,10 @@
         "incremental_units": 21743.3,
         "lift_gp": -11768.7,
         "lift_pct": 1.52544,
+        "lift_pct_ci90_store_bootstrap": [
+          1.4238,
+          1.61736
+        ],
         "mde": 7199.02,
         "model_error": {
           "band": 7188.55,
@@ -1987,6 +2119,10 @@
         "incremental_units": 41377.4,
         "lift_gp": -32207.5,
         "lift_pct": 1.57991,
+        "lift_pct_ci90_store_bootstrap": [
+          1.49684,
+          1.66403
+        ],
         "mde": 8058.1,
         "model_error": {
           "band": 12284.4,
@@ -2039,6 +2175,10 @@
         "incremental_units": 22464.9,
         "lift_gp": -42528.1,
         "lift_pct": 2.10976,
+        "lift_pct_ci90_store_bootstrap": [
+          2.0116,
+          2.22133
+        ],
         "mde": 9268.2,
         "model_error": {
           "band": 24570.9,
@@ -2091,6 +2231,10 @@
         "incremental_units": 18597.3,
         "lift_gp": -10463.7,
         "lift_pct": 1.3774,
+        "lift_pct_ci90_store_bootstrap": [
+          1.30756,
+          1.45125
+        ],
         "mde": 2743.58,
         "model_error": {
           "band": 5564.21,
@@ -2143,6 +2287,10 @@
         "incremental_units": 138075.0,
         "lift_gp": -122282.0,
         "lift_pct": 1.79089,
+        "lift_pct_ci90_store_bootstrap": [
+          1.70911,
+          1.8829
+        ],
         "mde": 26585.9,
         "model_error": {
           "band": 58619.4,
@@ -2195,6 +2343,10 @@
         "incremental_units": 28963.8,
         "lift_gp": -16844.7,
         "lift_pct": 1.73277,
+        "lift_pct_ci90_store_bootstrap": [
+          1.66413,
+          1.80423
+        ],
         "mde": 4762.11,
         "model_error": {
           "band": 6394.32,
@@ -2247,6 +2399,10 @@
         "incremental_units": 112905.0,
         "lift_gp": -69778.3,
         "lift_pct": 2.59054,
+        "lift_pct_ci90_store_bootstrap": [
+          2.46408,
+          2.71653
+        ],
         "mde": 16834.6,
         "model_error": {
           "band": 11105.5,
@@ -2299,6 +2455,10 @@
         "incremental_units": 7373.39,
         "lift_gp": -7257.04,
         "lift_pct": 1.53529,
+        "lift_pct_ci90_store_bootstrap": [
+          1.42103,
+          1.65127
+        ],
         "mde": 3621.38,
         "model_error": {
           "band": 471.501,
@@ -2340,6 +2500,16 @@
   "post_dip_by_week": {
     "1": -0.27487,
     "2": -0.130738
+  },
+  "post_dip_ci90_store_bootstrap": {
+    "1": [
+      -0.284212,
+      -0.265565
+    ],
+    "2": [
+      -0.1376,
+      -0.12317
+    ]
   },
   "pre_period": {
     "error_ci90_store_bootstrap": [

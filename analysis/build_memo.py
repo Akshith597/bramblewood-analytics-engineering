@@ -143,10 +143,55 @@ def figures(r):
         'o_planted': pct(o['planted_censoring']['recovered_share'], 0, signed=False),
         'o_posthoc': pct(o['planted_censoring_posthoc']['recovered_share'], 0, signed=False),
         'o_threshold': pct(o['decision']['threshold_share_of_category_gp'], 0, signed=False),
+        **extension_figures(r),
         'x_checks': str(len(r['crosscheck_python']['checks'])),
         'x_status': 'all agree' if r['crosscheck_python']['status'] == 'pass' else 'DISAGREEMENT',
     }
     return out
+
+
+def extension_figures(r):
+    """FY2026-round figures: cut list, physical records, inventory simulation, value of information."""
+    a, ph, s, e = r['assortment'], r['physical'], r['inventory_sim'], r['evoi']
+    pos = lambda v: money(v).lstrip('+')
+    names = {'PG-SS-L-2024': 'large', 'PG-SS-M-2024': 'medium', 'PG-SS-S-2024': 'small'}
+    tc = a['tau_checks']
+    fill = '0.98'
+    bias = ph['bias_refit']
+    return {
+        'a_cuts': str(a['chain']['distinct_skus_cut']), 'a_gp': money(a['chain']['gp_change']),
+        'a_gp_ci': rng(*a['chain']['gp_change_tau_range'], money),
+        'a_by_pg': ', '.join(f"{v['cuts']} in the {names[k]} planogram" for k, v in sorted(a['by_planogram'].items())),
+        'a_overlap': str(a['test_overlap']['in_model_top_n_large']), 'a_test_n': str(a['test_overlap']['test_delisted']),
+        'a_tau_fake': ', '.join(num(tc[k]['implied_tau']) for k in ('fake_FY2024-W27', 'fake_FY2025-W01'))
+        + ' at the fake dates',
+        'a_tau_yoy': num(tc['same_season_yoy']['implied_tau']) + ', ' + rng(*tc['same_season_yoy']['implied_tau_ci90'], num),
+        'e_tortilla_action': {'hold': 'keep the price', 'roll_back': 'roll the price back'}[r['plan']['tortilla_action']],
+        'e_tortilla_evpi': pos(e['tests']['tortilla_price']['evpi']),
+        'ph_exact': pct(ph['flow_identity']['2025']['exact_share'], 0, signed=False),
+        'ph_shrink': pct(ph['flow_identity']['2025']['shrink_share_of_receipts'], signed=False),
+        'ph_receipts_over': pct(ph['receipts_vs_forecast_fy2025']['receipts_over_actual'], signed=False),
+        'ph_coef_same': num(s['observed_replenishment']['coef_sales_same_week']),
+        'ph_coef_prev': num(s['observed_replenishment']['coef_sales_prev_week']),
+        'ph_excess': pos(ph['restated']['excess_store_stock_cost']),
+        'ph_excess_share': pct(ph['restated']['excess_share_of_memo_figure'], signed=False),
+        'ph_yearend': pos(-ph['store_stock_comparable']['change']),
+        'ph_bias_instock': pct(bias['in_stock_weeks']['bias']),
+        'ph_bias_instock_ci': rng(*bias['in_stock_weeks']['ci90'], pct),
+        'ph_bias_stockout': pct(bias['stocked_out_weeks']['bias']),
+        'ph_bias_restored': pct(bias['restored_demand_all_weeks']['bias']),
+        'ph_bias_restored_ci': rng(*bias['restored_demand_all_weeks']['ci90'], pct),
+        's_carry': pct(s['design']['carry_rate'], 0, signed=False) + ' a year',
+        's_raw_cost': pos(s['min_cost']['raw']['policy_cost']),
+        's_corr_cost': pos(s['min_cost']['corrected']['policy_cost']),
+        's_saving': money(s['verdict']['policy_cost_saving_at_best_z']),
+        's_fill_target': pct(float(fill), 0, signed=False),
+        's_stock_raw': pos(s['stock_at_fill_rate'][fill]['raw']),
+        's_stock_corr': pos(s['stock_at_fill_rate'][fill]['corrected']),
+        's_raw_stock': pos(s['min_cost']['raw']['avg_stock_cost']),
+        's_actual_stock': pos(s['actual_fy2025']['avg_stock_cost']),
+        's_actual_fill': pct(s['actual_fy2025']['fill_rate'], signed=False),
+    }
 
 
 CLAIMS = {
@@ -175,6 +220,22 @@ CLAIMS = {
     'Q4 over-forecast is significant': lambda r: r['forecast']['fy2025']['bias_ci90_sku_bootstrap'][0] > 0,
     'Q4 forecast beats naive benchmarks': lambda r: max(r['forecast']['mase']['vs_lag2_naive'],
                                                          r['forecast']['mase']['vs_seasonal_naive']) < 1,
+    'Q1 cut list positive at the low end of tau': lambda r: r['assortment']['chain']['gp_change_tau_range'][0] > 0,
+    'Q1 transfer rate passes its fake-date checks': lambda r: r['assortment']['tau_checks']['passed'],
+    'Q3 tortilla test worth less than it costs': lambda r: r['evoi']['tests']['tortilla_price']['net_value'] < 0,
+    'Q4 over-forecast did not reach store shelves': lambda r: not r['physical']['restated']['reached_stores'],
+    'Q4 receipts follow same-week sales': lambda r: (
+        r['inventory_sim']['observed_replenishment']['coef_sales_same_week']
+        > 5 * abs(r['inventory_sim']['observed_replenishment']['coef_sales_prev_week'])),
+    'Q4 in-stock refit raises the bias (selection on low demand)': lambda r: (
+        r['physical']['bias_refit']['in_stock_weeks']['bias'] > r['physical']['bias_refit']['all_weeks']['bias']
+        > r['physical']['bias_refit']['stocked_out_weeks']['bias']),
+    'Q4 correction not worth adopting on inventory': lambda r: not r['inventory_sim']['verdict']['adopt'],
+    'Q4 corrected forecast needs at least as much stock at equal fill': lambda r: (
+        r['inventory_sim']['stock_at_fill_rate']['0.98']['corrected']
+        >= r['inventory_sim']['stock_at_fill_rate']['0.98']['raw']),
+    'Q4 forecast-driven ordering needs more stock than stores held': lambda r: (
+        r['inventory_sim']['min_cost']['raw']['avg_stock_cost'] > r['inventory_sim']['actual_fy2025']['avg_stock_cost']),
     'Q4 out-of-sample correction helps': lambda r: (
         r['forecast']['bias_correction_backtest']['wape_after'] < r['forecast']['bias_correction_backtest']['wape_before']),
     'Q4 promoted weeks more biased': lambda r: r['forecast']['by_promoted']['True']['bias'] > r['forecast']['by_promoted']['False']['bias'],
