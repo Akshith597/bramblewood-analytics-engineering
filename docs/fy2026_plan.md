@@ -4,11 +4,17 @@
 no figure is typed by hand. Synthetic data. Evidence: [decision memo](decision_memo.md) ·
 [answer-key scorecard](scorecard.md).*
 
-> **Do this: +$306.0K gross profit a year** against the FY2025 run-rate, after vendor funding
-> (90% range **+$235.9K to +$375.8K**; 100% of 20,000 simulated outcomes positive). Plus $65.5K to $133.0K of one-off
-> FY2025 scan-back to bill now, kept out of the run-rate figure.
+> **Scenario-estimated annual GP opportunity: +$306.0K** against the FY2025 run-rate, after vendor funding
+> (90% simulated range **+$235.9K to +$375.8K**; 100% of 20,000 simulated outcomes positive under the model).
+> Separately, $65.5K to $133.0K of potential one-off FY2025 scan-back is subject to validation and collection.
 
-| Lever | Action | FY2026 GP (90% range) | Rests on |
+**Interpretation:** the range is conditional on assumed vendor negotiation and billing-recovery distributions,
+elasticity and transfer estimates, and dependence assumptions. Promo-cell estimation errors move together;
+other levers are drawn independently. The simulation does not establish a real-world probability of success
+or include every source of uncertainty. These are modeled opportunities, not realized savings. Unmodeled
+basket effects, vendor responses and implementation costs can change the outcome.
+
+| Lever | Action | Scenario FY2026 GP (90% simulated range) | Rests on |
 |---|---|---|---|
 | **Promo calendar** | Drop the 228 FY2025-style events without a display (TPR, BOGO, multi-buy alone). Keep the 169 display events, each with a photo-verified display | +$232.2K (+$171.5K to +$292.5K) | Before funding these events lost −$344.4K; positive even if vendors keep none of their funding (+$149.9K) |
 | **Vendor terms** | Treat vendor money as a budget: move the dropped events' scan-back ($181.9K) into allowances on kept events; bill scan-back on every kept event | +$14.4K (+$10.1K to +$18.7K) | FY2025 scan-back was under-billed by 8.4% of what was owed |

@@ -4,11 +4,17 @@
 no figure is typed by hand. Synthetic data. Evidence: [decision memo](decision_memo.md) ·
 [answer-key scorecard](scorecard.md).*
 
-> **Do this: {plan_gp} gross profit a year** against the FY2025 run-rate, after vendor funding
-> (90% range **{plan_ci}**; {plan_p_pos} of {plan_draws} simulated outcomes positive). Plus {backbill} of one-off
-> FY2025 scan-back to bill now, kept out of the run-rate figure.
+> **Scenario-estimated annual GP opportunity: {plan_gp}** against the FY2025 run-rate, after vendor funding
+> (90% simulated range **{plan_ci}**; {plan_p_pos} of {plan_draws} simulated outcomes positive under the model).
+> Separately, {backbill} of potential one-off FY2025 scan-back is subject to validation and collection.
 
-| Lever | Action | FY2026 GP (90% range) | Rests on |
+**Interpretation:** the range is conditional on assumed vendor negotiation and billing-recovery distributions,
+elasticity and transfer estimates, and dependence assumptions. Promo-cell estimation errors move together;
+other levers are drawn independently. The simulation does not establish a real-world probability of success
+or include every source of uncertainty. These are modeled opportunities, not realized savings. Unmodeled
+basket effects, vendor responses and implementation costs can change the outcome.
+
+| Lever | Action | Scenario FY2026 GP (90% simulated range) | Rests on |
 |---|---|---|---|
 | **Promo calendar** | Drop the {drop_events} FY2025-style events without a display (TPR, BOGO, multi-buy alone). Keep the {keep_events} display events, each with a photo-verified display | {promo_gp} ({promo_ci}) | Before funding these events lost {drop_gpbf}; positive even if vendors keep none of their funding ({promo_rho0}) |
 | **Vendor terms** | Treat vendor money as a budget: move the dropped events' scan-back ({drop_funding}) into allowances on kept events; bill scan-back on every kept event | {vendor_gp} ({vendor_ci}) | FY2025 scan-back was under-billed by {underbilled} of what was owed |

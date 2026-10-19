@@ -8,3 +8,4 @@ dbt_packages/
 public_site/
 .pytest_cache/
 .ruff_cache/
+source_batch.json
