@@ -61,8 +61,13 @@ flowchart LR
 
 ## Failure and publication boundary
 
-`scripts/run_all.py` exits nonzero on a failed ingestion, dbt build or independent reconciliation. Evidence exports occur only after those gates pass. dbt's local builds are not transactionally published as an entire DAG: a failed build may leave some refreshed tables. Consumers must treat failed builds as unpublished; a production implementation should build in an isolated schema/database, validate it, then switch the consumer alias atomically.
+`scripts/run_all.py` exits nonzero on a failed ingestion, dbt build or independent reconciliation. Direct development builds may leave partially refreshed tables. The optional `scripts/publish_warehouse.py` workflow copies a batch and project into a temporary workspace, verifies source hashes and extraction age, runs the warehouse gates plus repeatability, then copies the database and evidence into a new release directory. Only after those steps succeed does `os.replace` atomically switch `current.json` on the same filesystem. Readers resolve the pointer once and open that release read-only; existing readers retain their previous release. Failed builds do not modify the published pointer.
+
+Each delivery has a source manifest with hashes and actual extraction timestamps. Corrected historical files receive a new manifest and a full rebuild, avoiding date-watermark omissions. Missing, extra or changed source files reject the snapshot. A batch that expires during its build is rejected before publication. A `check` command evaluates the published extraction age without rebuilding and returns a nonzero exit status on failure, suitable for a scheduler to monitor. File modification time and successful ingestion do not establish source freshness.
+
+This is a local publication demonstration, with a single-publisher lock and immutable-by-convention release files. It does not provide distributed locking, access controls, scheduled execution, alert routing, automatic retention or power-loss durability guarantees. Failed pointer swaps may leave an unreferenced release for inspection. A process crash may leave a lock; operators must verify no publisher is running before removing it. Consumers must use the pointer; directly querying the development database bypasses this publication boundary. See the [runbook](runbook.md#validated-batch-publication).
 
 `scripts/verify_project.py` rejects raw-source reads outside staging, intermediate dependencies on marts, missing staging coverage, undocumented columns and unenforced mart contracts. The reusable overlap test, UPC macro and pinned dbt_utils package are checked alongside the dbt build.
 
 The GitHub Actions workflow runs the complete build, independent reconciliation, repeatability, macro guards, SQLFluff and pre-commit. Deployment remains gated behind the warehouse build. Remote execution status is recorded separately in the repository and delivery evidence.
+
