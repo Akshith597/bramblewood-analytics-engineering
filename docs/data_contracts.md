@@ -30,6 +30,8 @@ This project models a **synthetic historical extract**, not a live retailer. Sal
 
 Dimensions are Type 1 views of the supplied master data, materialized as tables. This is **not** a reconstructed Type 2 history of item or store attributes. Cost, price and planogram tables carry their own effective periods.
 
+`snap_items` and `snap_stores` (dbt snapshots, `check` strategy on attribute columns, hard deletes invalidated) record Type 2 history going forward: each build that sees a changed master row closes the old version and opens a new one. History begins at a warehouse's first build, because the extracts carry no earlier attribute history, and a release built in a fresh workspace by the publication workflow starts its history empty. `tests/snapshot_versions_valid.sql` requires one current version per key and non-overlapping validity windows.
+
 All 14 raw sources have one direct staging projection. Staging owns DATE, INTEGER and DECIMAL casts, UPC normalization, and canonical subcategory labels. Intermediates depend only on staged or intermediate models. Facts and marts use `ref()` exclusively. `scripts/verify_project.py` checks these boundaries against the parsed dbt manifest.
 
 Every one of the 13 mart-layer models has `contract.enforced: true` and explicit types for every output column in `models/marts/schema.yml`. Key/required fact columns also have physical `not_null` constraints and relational data tests. All 370 modeled columns have types and descriptions available in dbt docs; the markdown complements those machine-readable definitions.
