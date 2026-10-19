@@ -11,7 +11,7 @@
 ![Python 3.12](https://img.shields.io/badge/Python-3.12-3776AB?logo=python&logoColor=white)
 [![Code license: MIT](https://img.shields.io/badge/code%20license-MIT-lightgrey.svg)](LICENSE)
 
-**[🗺️ FY2026 plan](docs/fy2026_plan.md)** · **[🎯 Answer-key scorecard](docs/scorecard.md)** · **[🧾 Decision memo](docs/decision_memo.md)** · **[📊 Live insights dashboard](https://akshith597.github.io/bramblewood-analytics-engineering/insights.html)** · **[🧭 Interactive dbt catalog & lineage](https://akshith597.github.io/bramblewood-analytics-engineering/)** · **[📄 Case study](docs/case_study.md)**
+**[🧭 dbt catalog & lineage](https://akshith597.github.io/bramblewood-analytics-engineering/)** · **[📊 Insights dashboard](https://akshith597.github.io/bramblewood-analytics-engineering/insights.html)** · **[📄 Case study](docs/case_study.md)** · **[🏗️ Design decisions](docs/architecture.md)** · **[📐 Data contracts](docs/data_contracts.md)**
 
 > **Synthetic portfolio project.** All companies and transactions are fictional. Figures describe the supplied dataset; they are not real client outcomes, recovered funds or realized savings.
 
@@ -19,7 +19,7 @@
 
 ## The problem
 
-A fictional {stores}-store retailer needs consistent answers about sales, inventory, promotions and vendor funding. Disconnected extracts use different keys, dates and grains; naive joins duplicate revenue and distort decisions.
+A fictional {stores}-store retailer needs consistent answers about sales, inventory, promotions and vendor funding. Its extracts use different keys, dates and grains, so naive joins duplicate revenue and distort decisions. This project builds the warehouse that makes those numbers trustworthy.
 
 ## Architecture
 
@@ -32,9 +32,10 @@ flowchart LR
   end
   A & B & C -->|Python: hashes +<br/>source-row lineage| R[(DuckDB raw)]
   R --> S[Staging<br/>types · dates · UPCs · row audit]
+  S --> H[Snapshots<br/>item · store history]
   S --> I[Intermediate<br/>key resolution · cost intervals ·<br/>promotion eligibility]
   S --> D[Dimensions<br/>item · store · week · vendor]
-  I --> F[Facts<br/>sales · inventory · claims]
+  I --> F[Facts<br/>incremental sales · inventory · claims]
   D --> F
   F --> M[Marts<br/>category · forecast · availability ·<br/>assortment · funding]
   M --> E[Evidence exports]
@@ -42,8 +43,6 @@ flowchart LR
   M --> G[dbt catalog on GitHub Pages]
   T{{{{{data_tests} data tests · {unit_tests} unit tests ·<br/>independent reconciliation}}}} -.gates.-> M
 ```
-
-Design decisions are recorded as ADRs in [docs/architecture.md](docs/architecture.md); grains and metric definitions are in [docs/data_contracts.md](docs/data_contracts.md).
 
 ## Three verified results
 
@@ -59,8 +58,7 @@ Python 3.12; no cloud account or credentials required.
 python -m venv .venv
 # Windows: .venv\Scripts\Activate.ps1   macOS/Linux: source .venv/bin/activate
 python -m pip install -r requirements-dev.txt
-python scripts/run_all.py               # ingest → dbt build → reconcile → docs → evidence → charts
-python -m analysis.run                  # analyses → analysis/results → memo, plan, scorecard, README
+python scripts/run_all.py               # ingest → freshness → dbt build → reconcile → docs → evidence → charts
 python scripts/verify_repeatability.py
 python -m unittest discover -s tests_python -v
 python scripts/lint_sql.py
@@ -82,62 +80,22 @@ Browse lineage and compiled SQL locally with `python scripts/invoke_dbt.py docs 
 
 The most instructive failure: the cost-overlap test initially failed for `SS-1081`, whose old cost ended two weeks *after* the new one began. A direct join would have duplicated sales rows and inflated revenue. The full story is in the [case study](docs/case_study.md#the-most-instructive-failure).
 
+## Production patterns
+
+- **Incremental fact table.** `fct_sales` restates whole fiscal weeks inside a trailing lookback window (`delete+insert` on `week_key`), so rows dropped from a corrected extract disappear too. Backdated cost or master-data corrections go through `--full-refresh`; the repeatability check proves the incremental path matches a full build. [Design decision](docs/architecture.md#adr-02--deterministic-full-rebuild)
+- **Type 2 history.** dbt snapshots track item and store master changes on attribute columns only, with tests for one current version per key and non-overlapping validity windows. [Data contracts](docs/data_contracts.md)
+- **Source freshness.** `dbt source freshness` warns, then fails, when raw tables stop being reloaded. A separate [publication workflow](docs/runbook.md#validated-batch-publication) checks source hashes and extraction age before atomically switching a release pointer.
+- **Portable SQL.** DuckDB-only expressions go through dispatched macros, and an optional Snowflake target compiles the models. It has not run against a live account. [What is ported](docs/architecture.md#running-on-snowflake)
+
 ## Validation
 
 - **{all_checks}/{all_checks} dbt checks pass** — {data_tests} SQL data tests and {unit_tests} unit tests. [Build receipt](evidence/dbt_build_results.json)
 - **Independent reconciliation** — Python `csv` + `Decimal` totals match dbt for every store-week, without reusing the transformation SQL. [Receipt](evidence/independent_reconciliation.json)
 - **Governance enforced in code** — layer boundaries, staged-source coverage, contracts and column documentation are checked against the dbt manifest. [Receipt](evidence/project_quality.json)
-- **Repeatability** — ordered contents of all {models} models are hashed before and after a full reload. [Receipt](evidence/repeatability.json)
+- **Repeatability** — ordered contents of all {models} models are hashed after a full build and again after a reload and incremental rebuild. [Receipt](evidence/repeatability.json)
 - **Code quality** — dbt-aware SQLFluff, pre-commit hooks, macro edge-case tests and chart-helper tests. [Lint receipt](evidence/sqlfluff.json)
 - **No stale public claims** — this README, the memo, the plan and the scorecard are rendered from results; CI regenerates them and fails on any difference, and a test rejects hand-typed numbers in their templates.
-- **CI/CD** — GitHub Actions runs every gate on each push; the docs site and dashboard deploy only after the build and reconciliation pass.
-
-## Scope and limitations
-
-This is a local batch warehouse, not a deployed production platform. It uses deliberate full rebuilds because the extracts lack reliable change timestamps. Item and store dimensions reflect the supplied current master; cost, price and planogram periods are effective-dated. Cost precedence is a documented assumption. A zero-stock snapshot does not establish lost sales, and approved promotion eligibility does not establish realized lift or funding entitlement.
-
-A local [publication workflow](docs/runbook.md#validated-batch-publication) builds each source batch in isolation, checks source hashes and extraction age, then atomically switches a release pointer after validation. Scheduled freshness checks return a nonzero exit code when a published batch expires. Full rebuilds restate corrected historical files. This demonstrates the local publication boundary; source-owner exception resolution, incremental restatement, alert delivery and managed scheduling remain future work. See the [design decisions](docs/architecture.md) for the tradeoffs.
-
-## Repository map
-
-```text
-data/raw/             Synthetic CSV and Excel inputs (see data/SOURCE_README.md)
-models/staging/       Parsing, normalization, row audit and unit fixtures
-models/intermediate/  Key resolution, cost intervals and promotion eligibility
-models/marts/         Dimensions, facts and business marts (contracts enforced)
-tests/                Singular SQL assertions: temporal, arithmetic, reconciliation
-tests_python/         Macro, evidence-reference, chart-helper and public-claim guards
-macros/               UPC normalization and a generic period-overlap test
-scripts/              Ingest, build, verification, evidence export and charts
-analysis/             Fixed analysis plan, estimators, FY2026 plan model, frozen estimates and scorer
-docs/                 Plan, scorecard, memo, case study, architecture ADRs, data contracts, runbook
-evidence/             Executed results and machine-readable validation receipts
-.github/workflows/    CI quality gate and GitHub Pages deployment
-```
-
-The raw extracts in `data/raw/` (about 20 MB) are committed as ordinary Git files on purpose: a plain clone rebuilds everything offline, with no Git LFS setup or download step. The files never change, so they don't grow the history.
-
-## Business analysis and assumptions
-
-The [decision memo](docs/decision_memo.md) and [FY2026 plan](docs/fy2026_plan.md) translate the warehouse into conditional business recommendations. These use synthetic data and modeling assumptions. [Methods in plain English](docs/methods_explained.md).
-
-## The plan
-
-{plan_readme}
-
-## The decisions
-
-The source brief asks five questions for the FY2026 line review. The [decision memo](docs/decision_memo.md) answers them with a dollar figure, a 90% range and a recommendation — or says plainly when the data cannot answer. The [analysis plan](analysis/PLAN.md) fixed every metric, comparison group and decision rule in its own commit before any outcome was computed.
-
-| Question | What the evidence supports |
-|---|---|
-| Delist slow sellers? | **Inconclusive.** The test cannot detect a gross-profit change under {d_mde}, and a fake test date a year earlier shows a {d_fake24} "effect", so the design is confounded by large-store seasonality. Units fell {d_units}, net sales {d_sales}: shoppers switched to retained items (transfer {d_transfer}, {d_transfer_ci}), a rate that passes its placebo checks and prices a cut list of {a_cuts} SKUs ({a_gp} a year at the point estimate; the plan's simulation averages {a_plan}). |
-| Promotions | **Roughly break-even, and only because of vendor money.** FY2025 events net {q2_net} ({q2_ci}) after funding, {q2_before} before it; {q2_pos_before} of events made money on their own. |
-| Spring 2025 price increases | **Not identified** by either event design. Break-even arithmetic still decides Golden Ridge (break-even elasticity {p_gr_be} vs a pooled kettle estimate of {p_gr_pooled}); private-label tortilla sits near break-even ({p_bs_be} vs {p_bs_pooled}); a store-randomized test would cost more than it could reveal, so the plan takes the higher-expected-GP action ({e_tortilla_action}). |
-| Forecast and in-stock | Over-forecasts by {f_bias} ({f_bias_ci}) while beating naive benchmarks; a correction learned on FY2024 cut FY2025 bias to {f_bias_after} out of sample. {ph_readme} Stock-outs cost an estimated {o_gp} of GP ({o_ci}, exploratory floor). |
-| Vendor funding | Scan-back under-billed on approved events by {v_low} to {v_high}; a range, because display execution is not observable. |
-
-**How it is checked.** Estimators recover planted effects in simulated and real data; every headline coefficient and clustered SE is re-estimated by an independent pure-Python solver and by R `fixest` in CI; CI fails if the memo, the plan, this README or any result drifts from what the queries produce. {scorecard_readme}
+- **CI/CD** — GitHub Actions runs static checks in parallel with the warehouse build, then an R cross-check of the analysis; the docs site and dashboard deploy only after the build and reconciliation pass.
 
 ## What the data says
 
@@ -158,6 +116,46 @@ The forecast **over-forecasts in {fc_periods}** (FY2025 bias {fc_bias_fy25}, WAP
 ![Estimated vendor funding owed but not billed](docs/assets/insights/funding_gap_by_vendor.svg)
 
 The upper bound of the funding gap, by vendor: it assumes every approved event and planned display ran. Scan-back on observed units alone accounts for {v_low} of the {v_high}. [Waterfall](evidence/funding_waterfall.csv) · [Sensitivity](evidence/funding_assumption_sensitivity.csv) · [Exception queue](evidence/funding_exception_queue.csv)
+
+## Scope and limitations
+
+This is a local batch warehouse, not a deployed production platform. Item and store dimensions reflect the supplied current master; snapshots record changes only from a warehouse's first build, and cost, price and planogram periods are effective-dated. Cost precedence is a documented assumption. A zero-stock snapshot does not establish lost sales, and approved promotion eligibility does not establish realized lift or funding entitlement. Source-owner exception resolution, alert delivery and managed scheduling remain future work. See the [design decisions](docs/architecture.md) for the tradeoffs.
+
+## Repository map
+
+```text
+data/raw/             Synthetic CSV and Excel inputs (see data/SOURCE_README.md)
+models/staging/       Parsing, normalization, row audit and unit fixtures
+models/intermediate/  Key resolution, cost intervals and promotion eligibility
+models/marts/         Dimensions, facts and business marts (contracts enforced)
+snapshots/            Type 2 history of the item and store masters
+tests/                Singular SQL assertions: temporal, arithmetic, reconciliation, snapshot validity
+tests_python/         Macro, evidence-reference, chart-helper and public-claim guards
+macros/               UPC normalization, cross-database helpers and a generic period-overlap test
+scripts/              Ingest, build, verification, publication, evidence export and charts
+analysis/             Decision-analysis extension: analysis plan, estimators, FY2026 plan model, scorecard
+docs/                 Architecture ADRs, data contracts, runbook, case study, memo, plan, scorecard
+evidence/             Executed results and machine-readable validation receipts
+.github/workflows/    CI quality gate and GitHub Pages deployment
+```
+
+The raw extracts in `data/raw/` (about 20 MB) are committed as ordinary Git files on purpose: a plain clone rebuilds everything offline, with no Git LFS setup or download step. The files never change, so they don't grow the history.
+
+## Extension: from warehouse to decisions
+
+The warehouse exists so a merchandising team can answer questions like these. On top of the tested marts, `analysis/` answers the five questions in the source brief for the FY2026 line review. Run it with `python -m analysis.run` after the build.
+
+| Question | Short answer |
+|---|---|
+| Should slow sellers be delisted? | **Inconclusive.** The store test is too noisy to measure a profit change, but shoppers switched to the items that stayed, and that switching rate prices a cut list of {a_cuts} SKUs. |
+| Do promotions pay? | **Only because of vendor money.** FY2025 events net {q2_net} after vendor funding and {q2_before} before it. |
+| Did the spring 2025 price increases work? | **The data cannot isolate their effect.** Break-even arithmetic still supports keeping Golden Ridge's higher price. |
+| Is the forecast biased, and what do stock-outs cost? | It over-forecasts by {f_bias}, but that over-forecast never reached store shelves. Stock-outs cost an estimated {o_gp} of gross profit (exploratory). |
+| Is vendor funding billed correctly? | Scan-back was under-billed by an estimated {v_low} to {v_high}. |
+
+The [FY2026 plan](docs/fy2026_plan.md) turns these into a scenario estimate of **{plan_total}** a year in gross profit after vendor funding (90% simulated range {plan_range}). It depends on stated assumptions and is not realized savings.
+
+Details: [decision memo](docs/decision_memo.md) · [analysis plan, fixed before any result was computed](analysis/PLAN.md) · [methods in plain English](docs/methods_explained.md) · [answer-key scorecard](docs/scorecard.md). Headline estimates are re-checked by an independent pure-Python solver and by R `fixest` in CI. {scorecard_readme}
 
 ## Author
 
