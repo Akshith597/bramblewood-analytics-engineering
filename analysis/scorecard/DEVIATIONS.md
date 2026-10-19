@@ -5,7 +5,8 @@ key was requested or opened and are frozen with the estimates (tag `estimates-fr
 what the key taught; they never change a frozen estimate, interval or the plan.
 
 Deviations 1–5 (delist GP indexing, cross-zone price design, year-over-year delist adjustment, the Q2/Q4 addendum,
-the censored-demand stock-out estimator) are in the [decision memo](../../docs/decision_memo.md#how-the-results-were-checked).
+the censored-demand stock-out estimator) are in the [decision memo](../../docs/decision_memo.md#how-the-results-were-checked). Estimates were first frozen as
+`estimates-frozen-v1` and re-frozen once as `estimates-frozen-v2` (deviation 12), still before the key was requested.
 
 ## Before the key (FY2026 round)
 
@@ -30,6 +31,18 @@ the censored-demand stock-out estimator) are in the [decision memo](../../docs/d
 11. **Elasticity labels.** The pooled model's subcategory elasticities are frozen as the brands' own-price
     elasticity, with private label as a separate shift. If the key defines elasticity per SKU, at a different
     level, or as a cross-price term, the conversion rule is written here before any converted number is compared.
+12. **Methods simplified, estimates re-frozen.** After the v1 freeze, and before the key was requested, four
+    methods were replaced so every method in the project can be explained in a sentence: the wild cluster
+    bootstrap (Webb weights) became store-clustered standard errors with a t critical value — for the delist test
+    with test stores − 1 = 3 degrees of freedom, so that four treated stores are not treated as 22 — plus the
+    existing permutation test; synthetic control (a robustness check that changed no decision) was removed; the
+    plan's 20,000-draw Monte Carlo became low/base/high scenarios; the value-of-information test ranking was
+    removed. Promotion ranges keep the plain store bootstrap with cannibalisation slopes held at their estimates;
+    price-event dollar ranges are the GP change at the ends of the elasticity range. Effects on published numbers:
+    the delist GP range narrows from −2.5%…+6.4% to −2.3%…+6.1%; the transfer rate range from 81%…166% to
+    83%…164%, which grows the cut list from 11 to 14 SKUs; the plan's base case is +$308.6K (simulation mean was
+    +$306.0K) and its range is now a low-to-high envelope rather than a simulated 90% range. All point estimates
+    are unchanged; only intervals moved, and they were re-frozen as `estimates-frozen-v2` before the key.
 
 ---
 

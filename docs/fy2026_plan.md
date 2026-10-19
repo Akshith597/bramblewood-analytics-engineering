@@ -4,62 +4,57 @@
 no figure is typed by hand. Synthetic data. Evidence: [decision memo](decision_memo.md) ·
 [answer-key scorecard](scorecard.md).*
 
-> **Scenario-estimated annual GP opportunity: +$306.0K** against the FY2025 run-rate, after vendor funding
-> (90% simulated range **+$235.9K to +$375.8K**; 100% of 20,000 simulated outcomes positive under the model).
+> **Scenario-estimated annual GP opportunity: +$308.6K** against the FY2025 run-rate, after vendor funding
+> (low to high case **+$174.6K to +$442.5K**; positive even in the low case).
 > Separately, $65.5K to $133.0K of potential one-off FY2025 scan-back is subject to validation and collection.
 
-**Interpretation:** the range is conditional on assumed vendor negotiation and billing-recovery distributions,
-elasticity and transfer estimates, and dependence assumptions. Promo-cell estimation errors move together;
-other levers are drawn independently. The simulation does not establish a real-world probability of success
-or include every source of uncertainty. These are modeled opportunities, not realized savings. Unmodeled
-basket effects, vendor responses and implementation costs can change the outcome.
+**How the range is built:** every uncertain input is set three ways — its pessimistic end, its base value and its
+optimistic end. Estimated inputs (transfer rate, elasticities, promotion results) use the ends of their 90%
+intervals; the two negotiation inputs are stated assumptions: vendors re-win none, half or all of the dropped
+events' funding, and 50%, 75% or 100% of the under-billing is recovered. The low case puts every input at its bad
+end at the same time, so it is a deliberately cautious floor, not a probability. These are modeled opportunities,
+not realized savings; unmodeled basket effects, vendor responses and implementation costs can change the outcome.
 
-| Lever | Action | Scenario FY2026 GP (90% simulated range) | Rests on |
+| Lever | Action | Scenario FY2026 GP (low to high) | Rests on |
 |---|---|---|---|
-| **Promo calendar** | Drop the 228 FY2025-style events without a display (TPR, BOGO, multi-buy alone). Keep the 169 display events, each with a photo-verified display | +$232.2K (+$171.5K to +$292.5K) | Before funding these events lost −$344.4K; positive even if vendors keep none of their funding (+$149.9K) |
-| **Vendor terms** | Treat vendor money as a budget: move the dropped events' scan-back ($181.9K) into allowances on kept events; bill scan-back on every kept event | +$14.4K (+$10.1K to +$18.7K) | FY2025 scan-back was under-billed by 8.4% of what was owed |
-| **Assortment** | Cut the 11 SKUs below, planogram by planogram; give their facings to same-subcategory SKUs with the most units per facing; total facings unchanged | +$49.4K (+$15.1K to +$83.4K) | Delist test transfer rate 124% (81% to 166%); positive at its low end |
-| **Prices** | Keep Golden Ridge; roll back private-label tortilla | +$10.1K (+$7.7K to +$12.3K) | Break-even arithmetic; tortilla near break-even, so the higher-expected-GP action |
+| **Promo calendar** | Drop the 228 FY2025-style events without a display (TPR, BOGO, multi-buy alone). Keep the 169 display events, each with a photo-verified display | +$229.2K (+$141.0K to +$317.3K) | Before funding these events lost −$344.4K; positive even if vendors keep none of their funding (+$147.9K) |
+| **Vendor terms** | Treat vendor money as a budget: move the dropped events' scan-back ($181.9K) into allowances on kept events; bill scan-back on every kept event | +$14.2K (+$9.5K to +$18.9K) | FY2025 scan-back was under-billed by 8.4% of what was owed |
+| **Assortment** | Cut the 14 SKUs below, planogram by planogram; give their facings to same-subcategory SKUs with the most units per facing; total facings unchanged | +$55.1K (+$17.1K to +$93.1K) | Delist test transfer rate 124% (83% to 164%); positive at its low end |
+| **Prices** | Keep Golden Ridge; roll back private-label tortilla | +$10.1K (+$7.0K to +$13.1K) | Break-even arithmetic; tortilla near break-even, so the action with the higher GP at the estimate |
 | **Replenishment** | No change to store ordering; use the bias-corrected forecast for budgets only | $0 | Correction saves nothing at equal service (−$941.32); receipts already follow sales |
-| **Total** | | **+$306.0K (+$235.9K to +$375.8K)** | Monte Carlo over every lever's uncertainty and their overlap |
+| **Total** | | **+$308.6K (+$174.6K to +$442.5K)** | Sum of the levers; overlaps between levers removed |
 
-Each lever figure is the average of the simulation, so it can differ slightly from the
-[decision memo](decision_memo.md)'s single point estimate for the same action.
+Each lever figure is its base case, so it can differ slightly from the [decision memo](decision_memo.md)'s single
+point estimate for the same action.
 
-Most of the range is the promo lever (76% of the variance), and most of that is how much vendor money is
-re-won at the table. **Negotiation rule:** drop display events too only if vendors commit at least
-36% of their display funding in other terms; that would take the plan to +$351.5K (+$124.3K to +$578.1K).
+Most of the range is the promo lever (66% of the width of the total range), and most of that is how much
+vendor money is re-won at the table. **Negotiation rule:** drop display events too only if vendors commit at least
+37% of their display funding in other terms; that would take the plan to +$353.6K (−$21.7K to +$728.8K).
 
 **Cut list** — GP per facing, lowest first; change in chain GP a year at the test's transfer rate (at its low end).
 
 | SKU | Item | Subcategory | Planograms | Facings freed | GP per facing | GP change (low τ) |
 |---|---|---|---|---|---|---|
-| SS-1139 | Sunnyfield Honey Roasted Peanuts 16 oz | Nuts | M, S | 4 | $62.70–$135.52 | +$4.6K (+$1.8K) |
-| SS-1086 | Twistwell Mini Twists 16 oz | Pretzels | L, M, S | 6 | $77.19–$237.67 | +$8.7K (+$3.1K) |
-| SS-1109 | Sunnyfield Sea Salt 3 ct Microwave | Popcorn | L, M, S | 7 | $79.72–$146.17 | +$9.6K (+$3.8K) |
-| SS-1120 | Sunnyfield Jalapeño Crunchy 8 oz | Cheese Snacks | L, M | 4 | $84.03–$127.98 | +$2.8K (+$541.05) |
-| SS-1034 | Sunnyfield Jalapeño 8 oz | Potato Chips | L, M | 4 | $88.12–$110.50 | +$3.0K (+$719.63) |
-| SS-1122 | Sunnyfield Spicy Crunchy 8 oz | Cheese Snacks | L, M, S | 7 | $100.54–$171.38 | +$6.7K (+$1.4K) |
-| SS-1096 | Hartwell's Thins Original 16 oz | Pretzels | L, M | 4 | $107.62–$125.64 | +$5.4K (+$2.1K) |
-| SS-1020 | Hartwell's Baked Original 8 oz | Potato Chips | M, S | 4 | $111.12–$180.17 | +$3.3K (+$415.80) |
-| SS-1021 | Hartwell's Chile Limón 8 oz | Potato Chips | S | 2 | $128.79 | +$1.4K (+$381.58) |
-| SS-1082 | Twistwell Everything Seasoned 10 oz | Pretzels | S | 2 | $173.76 | +$1.6K (+$345.15) |
-| SS-1123 | Orchard & Oak Deluxe Mixed Nuts 16 oz | Nuts | L | 2 | $215.17 | +$2.1K (+$188.06) |
+| SS-1139 | Sunnyfield Honey Roasted Peanuts 16 oz | Nuts | M, S | 4 | $62.70–$135.52 | +$4.6K (+$2.0K) |
+| SS-1086 | Twistwell Mini Twists 16 oz | Pretzels | L, M, S | 6 | $77.19–$237.67 | +$8.7K (+$3.5K) |
+| SS-1109 | Sunnyfield Sea Salt 3 ct Microwave | Popcorn | L, M, S | 7 | $79.72–$146.17 | +$9.6K (+$4.2K) |
+| SS-1120 | Sunnyfield Jalapeño Crunchy 8 oz | Cheese Snacks | L, M | 4 | $84.03–$127.98 | +$2.8K (+$683.22) |
+| SS-1034 | Sunnyfield Jalapeño 8 oz | Potato Chips | L, M | 4 | $88.12–$110.50 | +$3.0K (+$861.14) |
+| SS-1122 | Sunnyfield Spicy Crunchy 8 oz | Cheese Snacks | L, M, S | 7 | $100.54–$171.38 | +$6.7K (+$1.7K) |
+| SS-1096 | Hartwell's Thins Original 16 oz | Pretzels | L, M | 4 | $107.62–$125.64 | +$5.4K (+$2.3K) |
+| SS-1020 | Hartwell's Baked Original 8 oz | Potato Chips | M, S | 4 | $111.12–$180.17 | +$3.3K (+$594.04) |
+| SS-1021 | Hartwell's Chile Limón 8 oz | Potato Chips | S | 2 | $128.79 | +$1.4K (+$445.75) |
+| SS-1082 | Twistwell Everything Seasoned 10 oz | Pretzels | S | 2 | $173.76 | +$1.6K (+$426.07) |
+| SS-1123 | Orchard & Oak Deluxe Mixed Nuts 16 oz | Nuts | L | 2 | $215.17 | +$2.1K (+$308.96) |
+| SS-1079 | Sunnyfield Cantina Thin 13 oz | Tortilla Chips | S | 2 | $228.10 | +$1.4K (+$57.65) |
+| SS-1063 | Rojo Mesa Restaurant Style 11 oz | Tortilla Chips | S | 2 | $254.54 | +$1.5K (+$32.73) |
+| SS-1046 | Crispwell Kettle Backyard Barbecue 8 oz | Kettle Chips | M | 2 | $302.12 | +$3.0K (+$67.11) |
 
-**Randomized tests, ranked by value of information against cost** (two-year horizon; execution cost assumed
-$5.0K each):
+**Tests not in the plan:** each decision is either settled by the evidence (promotions, Golden Ridge, the cut
+list) or too small in dollars to justify a store test (tortilla). The uncertainty that matters most is the vendor
+funding share, and that is settled by negotiation, not by a test.
 
-| Test | Decision it informs | Value of information | Cost | Net | Verdict |
-|---|---|---|---|---|---|
-| Tortilla price, random half of stores, 13 weeks | Keep or roll back the private-label price | $493.19 | $5.1K | −$4.7K | Do not run |
-| Display events withheld in a random quarter of stores, half a year | Keep or drop display events | $0.00 | $12.5K | −$12.5K | Do not run |
-| Cut list in random large-store pairs, full year | Cut the list chain-wide or not | $14.95 | $14.6K | −$14.6K | Do not run |
-
-None pays for itself: each decision is already settled by the evidence, or too small to be worth a test.
-The uncertainty that matters is the vendor funding share (worth $36.1K to know), and it is settled by
-negotiation, not by a test.
-
-**Changed since the memo:** the $1.05M over-forecast is restated to $19.4K of extra store stock (receipts follow sales); the "apply the bias correction now" advice is withdrawn for store ordering (no saving at equal service: −$941.32); the tortilla and delist tests are not worth running; forecast bias on weeks without a stock-out is +19.3%, not lower, because stock-outs are demand spikes.
+**Changed since the memo:** the $1.05M over-forecast is restated to $19.4K of extra store stock (receipts follow sales); the "apply the bias correction now" advice is withdrawn for store ordering (no saving at equal service: −$941.32); the year-long delist test is not run; forecast bias on weeks without a stock-out is +19.3%, not lower, because stock-outs are demand spikes.
 
 **Not measured, so not in the number:** store-traffic and basket effects of promotions outside the category;
 vendor reactions beyond the funding share; distribution-centre stock; transfer rates in medium and small stores
