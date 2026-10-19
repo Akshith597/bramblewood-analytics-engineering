@@ -5,6 +5,12 @@ VP's five questions *before* looking at results, so the answer cannot drift towa
 definitions below come only from structural tables (planograms, regular prices, store master), not from sales.
 Any later deviation is logged in the memo's "Deviations from plan" section with a reason.
 
+> **Note (deviation 12, before the answer key):** the wild cluster bootstrap, synthetic control, plan Monte Carlo
+> and value-of-information ranking specified or added below were later replaced with clustered standard errors
+> (t with test stores − 1 degrees of freedom for the delist test), permutation tests, a plain store bootstrap and
+> low/base/high scenarios. The text below is kept as originally committed; see
+> [DEVIATIONS.md](scorecard/DEVIATIONS.md).
+
 Inputs: dbt staging/intermediate models built from the raw extracts (`stg_*`, `int_sales_enriched`), never the
 marts or `evidence/` files. Weeks are fiscal weeks (Sunday–Saturday). All bootstraps use fixed seeds.
 
