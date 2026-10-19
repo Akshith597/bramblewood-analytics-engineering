@@ -48,4 +48,4 @@ The implemented policy lets the later effective start supersede the old cost. Th
 
 The project shows SQL transformation, dimensional modeling, effective-dated joins, reconciliation, automated testing, lineage, metric governance and operational tradeoffs. Its strongest feature is that **ambiguous source data stays visible even after the warehouse builds successfully**.
 
-No real retailer outcome, production deployment, causal uplift or realized recovery is claimed. The brief's delisting, pricing, forecast and funding questions are answered in the [decision memo](decision_memo.md) using a pre-registered [analysis plan](../analysis/PLAN.md); promotion profitability and out-of-stock cost remain open.
+No real retailer outcome, production deployment, causal uplift or realized recovery is claimed. The brief's delisting, pricing, forecast and funding questions are answered in the [decision memo](decision_memo.md) using an [analysis plan](../analysis/PLAN.md) fixed before any result was computed; promotion profitability and out-of-stock cost were added to the plan later, and the plan's addendum lists what had already been seen when they were.
