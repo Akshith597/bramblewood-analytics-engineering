@@ -8,7 +8,7 @@ from pathlib import Path
 
 import duckdb
 
-from analysis.fe import chi2_sf, clustered_ci, fe_levels, feols, wild_percentile_ci
+from analysis.fe import chi2_sf, clustered_ci, fe_levels, feols, t_crit, t_sf2
 from analysis.fe_reference import feols_reference
 
 
@@ -57,11 +57,10 @@ class FixedEffectsTest(unittest.TestCase):
             self.assertAlmostEqual(self.fit['se'][name], ref['se'][name], places=6)
         self.assertEqual(self.fit['n'], ref['n'])
 
-    def test_wild_bootstrap_interval_is_sane(self):
-        lo, hi = wild_percentile_ci(self.fit, 'x1', 0.90, draws=999)
-        self.assertLess(lo, self.fit['beta']['x1'])
-        self.assertGreater(hi, self.fit['beta']['x1'])
-        self.assertTrue(0.3 < (hi - lo) / (2 * 1.645 * self.fit['se']['x1']) < 3)
+    def test_t_distribution_matches_reference_values(self):
+        for df, expected in ((5, 2.015048), (21, 1.720743), (1000, 1.646379)):
+            self.assertAlmostEqual(t_crit(df, 0.90), expected, places=5)
+        self.assertAlmostEqual(t_sf2(2.0, 10), 0.0733880, places=6)
 
     def test_chi_square_tail_matches_reference_values(self):
         for stat, df, expected in ((3.841459, 1, 0.05), (5.991465, 2, 0.05), (18.30704, 10, 0.05), (2.0, 4, 0.7357589)):

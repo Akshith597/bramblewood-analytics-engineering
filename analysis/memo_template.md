@@ -16,17 +16,19 @@ The combined FY2026 plan built on these answers is [one page](fy2026_plan.md); e
 ## 1. Delisting test (stores 102, 106, 113, 116 from FY2025 W27)
 
 Category gross profit in the test stores moved **{d_effect}** relative to {d_donors} comparison stores (90% CI
-{d_ci}; wild cluster bootstrap p = {d_p}; randomization p = {d_ri_p}). Units fell **{d_units}** ({d_units_ci},
+{d_ci}, from store-clustered standard errors; t-test p = {d_p}; permutation p = {d_ri_p}, from re-running the
+comparison with every possible set of four comparison stores as fake test stores). Units fell **{d_units}** ({d_units_ci},
 p = {d_units_p}) while net sales were flat ({d_sales}), consistent with shoppers switching to retained items:
 retained SKUs gained **{d_transfer}** of the dollars the delisted SKUs lost ({d_transfer_ci}).
 
 Why this is not a rollout: with four test stores the smallest GP change detectable 80% of the time is {d_mde};
 power against a real 2% loss is only {d_power2}. A fake treatment date one year earlier (FY2024 W27) shows a
 {d_fake24} "effect" (p = {d_fake24_p}), so large stores have their own second-half seasonality that this design
-does not remove; a year-over-year adjustment would put the effect near {d_yoy} (exploratory). Synthetic-control
-and large-store-only comparisons agree in direction but not magnitude ({d_sc}; {d_large}).
+does not remove; a year-over-year adjustment would put the effect near {d_yoy} (exploratory). Comparing against
+the large-format control stores only agrees in direction but not magnitude ({d_large}).
 **Next:** randomize the planogram across matched large-store pairs and run it for a full year so seasonality
-differences cancel. *Update:* the inventory and value-of-information work below finds that test not worth its cost.
+differences cancel. *Update:* rather than wait a year for that test, the FY2026 plan acts on the one thing this
+test did measure cleanly (below).
 
 **Which SKUs earn their space.** The test did measure one thing cleanly: retained SKUs gained {d_transfer} of the
 dollars the delisted SKUs lost, a rate that, unlike the GP effect, passes both fake-date checks ({a_tau_fake}) and
@@ -75,8 +77,8 @@ design failed the backtest (Golden Ridge) or pre-trends (tortilla). The pooled m
 {p_pooled_n} non-promoted SKU-store-weeks suggests kettle is inelastic ({p_gr_pooled}) — far from
 {p_gr_be}, so Golden Ridge very likely paid off — while private-label tortilla sits near its break-even.
 By subcategory: {p_subcats}. Private label is more price-sensitive by {p_pl_shift} elasticity points (shift {p_pl_shift_ci}), identified
-only from Bramble Select changes. **Next:** the tortilla decision is worth {e_tortilla_evpi} even with perfect
-information, less than a 13-week store test costs; take the action with the higher expected GP ({e_tortilla_action}).
+only from Bramble Select changes. **Next:** the tortilla range spans break-even and the dollars are small either
+way, so take the action with the higher GP at the pooled estimate ({e_tortilla_action}).
 
 ## 4. Forecast and in-stock
 
@@ -126,7 +128,8 @@ collected.
 ## How the results were checked
 
 - **Ground truth:** the answer key is distributed separately; a [request to the dataset's author](answer_key_request.md) is drafted.
-  Every estimate and interval was frozen in the tagged commit `estimates-frozen-v1` before the key was opened;
+  Every estimate and interval was frozen before the key was opened (re-frozen once, still before the key, when the
+  methods were simplified: deviation 12);
   the [scorecard](scorecard.md) compares them to it without re-tuning.
 - **Second implementation:** {x_checks} headline coefficients and clustered SEs re-estimated by an independent
   pure-Python solver ({x_status}); CI repeats them in R `fixest`.
@@ -144,4 +147,7 @@ collected.
   fixed percentage of forecast to a multiple of each forecast's own error, after the first version could not match
   the observed stock-out rate; (9) store-bootstrap ranges for promotion lift and the post-promotion dip, for the
   scorecard; (10) restored-demand bias was made primary after the requested in-stock refit was seen to select on
-  low demand. All are logged in [the deviation log](../analysis/scorecard/DEVIATIONS.md).
+  low demand; (11) elasticity labels fixed for the scorecard; (12) the wild cluster bootstrap, synthetic control,
+  plan simulation and value-of-information ranking were replaced with clustered standard errors, permutation
+  tests, a plain store bootstrap and low/base/high scenarios, so that every method can be explained in a sentence.
+  All are logged in [the deviation log](../analysis/scorecard/DEVIATIONS.md).

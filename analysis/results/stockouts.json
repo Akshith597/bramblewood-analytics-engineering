@@ -85,8 +85,8 @@
   },
   "substitution_context": {
     "category_loss_range": [
-      -17528.7,
-      5092.12
+      -16817.5,
+      4380.96
     ],
     "delist_transfer_rate": 1.23511,
     "note": "Lost SKU GP x (1 - transfer rate from the delist test); permanent delisting is not a temporary stock-out, so context only."

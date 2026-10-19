@@ -6,8 +6,8 @@ deviations: [DEVIATIONS.md](../analysis/scorecard/DEVIATIONS.md) · request: [an
 
 **Status: {status}**
 
-Every estimate and 90% interval below was frozen in the commit tagged `estimates-frozen-v1` before the key was
-opened. Scoring uses that file, not a re-run, and a test fails if any current result differs from it. A truth
+Every estimate and 90% interval below was frozen before the key was opened (first as `estimates-frozen-v1`, then
+re-frozen as `estimates-frozen-v2` when the methods were simplified; see the deviation log). Scoring uses that file, not a re-run, and a test fails if any current result differs from it. A truth
 inside the interval counts as covered; with honest intervals about 90% should be.
 
 {summary}

@@ -1,101 +1,118 @@
 {
   "by_lever": {
     "assortment": {
-      "ci90": [
-        15059.9,
-        83360.7
+      "base": 55125.7,
+      "range": [
+        17116.0,
+        93134.6
       ],
-      "mean": 49380.6,
-      "median": 49450.2,
-      "p_positive": 0.99025,
-      "sd": 20843.6,
-      "variance_share_removed_if_known": 0.237867
+      "share_of_range_width": 0.283789
     },
     "forecast": {
-      "ci90": [
+      "base": 0.0,
+      "range": [
         0.0,
         0.0
       ],
-      "mean": 0.0,
-      "median": 0.0,
-      "p_positive": 0.0,
-      "sd": 0.0,
-      "variance_share_removed_if_known": 0.0
+      "share_of_range_width": 0.0
     },
     "prices": {
-      "ci90": [
-        7737.25,
-        12318.8
+      "base": 10077.0,
+      "range": [
+        6984.91,
+        13064.6
       ],
-      "mean": 10061.6,
-      "median": 10075.8,
-      "p_positive": 1.0,
-      "sd": 1397.5,
-      "variance_share_removed_if_known": 0.000474262
+      "share_of_range_width": 0.0226966
     },
     "promo_calendar": {
-      "ci90": [
-        171474.0,
-        292459.0
+      "base": 229179.0,
+      "range": [
+        141030.0,
+        317329.0
       ],
-      "mean": 232194.0,
-      "median": 232376.0,
-      "p_positive": 1.0,
-      "sd": 37313.3,
-      "variance_share_removed_if_known": 0.7595
+      "share_of_range_width": 0.658153
     },
     "vendor_terms": {
-      "ci90": [
-        10085.9,
-        18718.9
+      "base": 14208.3,
+      "range": [
+        9472.19,
+        18944.4
       ],
-      "mean": 14398.3,
-      "median": 14396.1,
-      "p_positive": 1.0,
-      "sd": 2760.24,
-      "variance_share_removed_if_known": 0.00412921
+      "share_of_range_width": 0.0353611
     }
   },
   "design": {
-    "billing_recovery_prior": "Uniform(0.5,1)",
-    "draws": 20000,
+    "billing_recovery_note": "assumption: share of the under-billing recovered on kept events",
     "drop_cells": [
       "BOGO",
       "Multi-buy",
       "TPR"
     ],
+    "inputs_low_base_high": {
+      "eps:bramble_select_tortilla": [
+        -3.05214,
+        -2.44427,
+        -1.8364
+      ],
+      "eps:golden_ridge_kettle": [
+        -0.727686,
+        -0.515894,
+        -0.304103
+      ],
+      "rho": [
+        0.0,
+        0.5,
+        1.0
+      ],
+      "tau": [
+        0.834361,
+        1.23511,
+        1.63585
+      ],
+      "u": [
+        0.5,
+        0.75,
+        1.0
+      ],
+      "z_promo": [
+        -1.64485,
+        0.0,
+        1.64485
+      ]
+    },
     "keep_cells": [
       "BOGO + display",
       "Multi-buy + display",
       "TPR + display"
     ],
-    "rho_prior": "Beta(2,2) \u2014 assumption, negotiation outcome",
-    "seed": 20261015
+    "method": "low / base / high scenarios over the ends of each input range",
+    "rho_note": "assumption: share of dropped-event vendor funding re-won in negotiation"
   },
   "display_events": {
-    "breakeven_rho_to_drop": 0.364881,
-    "funding": 445611.0,
-    "gp_before_funding": -283016.0,
+    "breakeven_rho_to_drop": 0.365596,
+    "funding": 440659.0,
+    "gp_before_funding": -279556.0,
     "note": "Dropping display events pays only if vendors keep more than this share of their display funding in other forms."
   },
   "if_display_also_dropped": {
-    "ci90": [
-      124307.0,
-      578053.0
-    ],
-    "mean": 351478.0,
-    "median": 352381.0,
+    "base": 353608.0,
     "note": "Not the plan: shown to size the negotiation. Positive only if vendors keep more than the break-even share of display funding.",
-    "p_positive": 0.9999,
-    "sd": 139766.0
+    "positive_in_low_case": false,
+    "range": [
+      -21710.5,
+      728822.0
+    ]
   },
   "inputs": {
     "assortment": {
-      "a": -50186.3,
-      "b": 80474.5,
-      "skus_cut": 11,
+      "a": -62020.4,
+      "b": 94846.7,
+      "skus_cut": 14,
       "tau": 1.23511,
-      "tau_sd": 0.259983
+      "tau_range": [
+        0.834361,
+        1.63585
+      ]
     },
     "forecast": {
       "adopted": false,
@@ -107,7 +124,10 @@
         "breakeven_elasticity": -2.18085,
         "c": 2.14691,
         "eps": -2.44427,
-        "eps_sd": 0.369559,
+        "eps_range": [
+          -3.05214,
+          -1.8364
+        ],
         "p0": 3.78766,
         "p1": 4.16094,
         "q0": 30673.9,
@@ -119,7 +139,10 @@
         "breakeven_elasticity": -2.78165,
         "c": 3.4179,
         "eps": -0.515894,
-        "eps_sd": 0.12876,
+        "eps_range": [
+          -0.727686,
+          -0.304103
+        ],
         "p0": 5.13511,
         "p1": 5.55862,
         "q0": 156591.0,
@@ -133,15 +156,15 @@
     },
     "promo": {
       "BOGO": {
-        "cut_sku_event_share": 0.162698,
+        "cut_sku_event_share": 0.174603,
         "display_fee": 0.0,
         "events": 21,
         "gp_before_funding": -77431.1,
         "scan_back": 54511.7,
-        "sd": 927.742
+        "sd": 789.554
       },
       "BOGO + display": {
-        "cut_sku_event_share": 0.173077,
+        "cut_sku_event_share": 0.189103,
         "display_fee": 39500.0,
         "events": 26,
         "gp_before_funding": -149396.0,
@@ -149,36 +172,36 @@
         "sd": 3971.2
       },
       "Multi-buy": {
-        "cut_sku_event_share": 0.0432692,
+        "cut_sku_event_share": 0.0480769,
         "display_fee": 0.0,
         "events": 52,
         "gp_before_funding": -50376.6,
         "scan_back": 19459.9,
-        "sd": 1372.71
+        "sd": 680.182
       },
       "Multi-buy + display": {
-        "cut_sku_event_share": 0.0,
+        "cut_sku_event_share": 0.01,
         "display_fee": 32750.0,
         "events": 25,
         "gp_before_funding": -28043.2,
         "scan_back": 14886.1,
-        "sd": 2688.57
+        "sd": 2646.71
       },
       "TPR": {
-        "cut_sku_event_share": 0.0688172,
+        "cut_sku_event_share": 0.0833333,
         "display_fee": 0.0,
         "events": 155,
         "gp_before_funding": -216611.0,
         "scan_back": 107973.0,
-        "sd": 4243.23
+        "sd": 3161.07
       },
       "TPR + display": {
-        "cut_sku_event_share": 0.0550847,
+        "cut_sku_event_share": 0.0607345,
         "display_fee": 159750.0,
         "events": 118,
         "gp_before_funding": -139096.0,
         "scan_back": 95894.4,
-        "sd": 10510.7
+        "sd": 10441.1
       }
     },
     "tortilla_action": "roll_back",
@@ -201,19 +224,17 @@
     "upper_scan_plus_planned_display": 132975.0
   },
   "promo_funding_sensitivity": {
-    "rho_0": 149931.0,
-    "rho_0.5": 232333.0,
-    "rho_1": 314734.0
+    "rho_0": 147933.0,
+    "rho_0.5": 229179.0,
+    "rho_1": 310426.0
   },
   "tortilla_action": "roll_back",
   "total": {
-    "ci90": [
-      235866.0,
-      375810.0
-    ],
-    "mean": 306035.0,
-    "median": 306226.0,
-    "p_positive": 1.0,
-    "sd": 42894.4
+    "base": 308590.0,
+    "positive_in_low_case": true,
+    "range": [
+      174603.0,
+      442473.0
+    ]
   }
 }

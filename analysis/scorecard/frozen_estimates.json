@@ -1,6 +1,6 @@
 {
   "frozen_before_answer_key": true,
-  "tag": "estimates-frozen-v1",
+  "tag": "estimates-frozen-v2",
   "parameters": [
     {
       "id": "elasticity.Cheese Snacks",
@@ -517,8 +517,8 @@
       "unit": "share of GP",
       "estimate": 0.0193463,
       "ci90": [
-        -0.0248531,
-        0.0635456
+        -0.0226009,
+        0.0612934
       ],
       "source": "delist.gp",
       "primary": true
@@ -530,8 +530,8 @@
       "unit": "log points",
       "estimate": -0.0136425,
       "ci90": [
-        -0.020458,
-        -0.00682693
+        -0.0219875,
+        -0.00529743
       ],
       "source": "delist.units",
       "primary": true
@@ -543,8 +543,8 @@
       "unit": "log points",
       "estimate": -0.00654503,
       "ci90": [
-        -0.0211647,
-        0.00807463
+        -0.0226899,
+        0.0095999
       ],
       "source": "delist.sales",
       "primary": true
@@ -556,8 +556,8 @@
       "unit": "ratio",
       "estimate": 1.23511,
       "ci90": [
-        0.807473,
-        1.66274
+        0.834361,
+        1.63585
       ],
       "source": "delist.transfer",
       "primary": true

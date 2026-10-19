@@ -5,29 +5,30 @@ no figure is typed by hand. Synthetic data. Evidence: [decision memo](decision_m
 [answer-key scorecard](scorecard.md).*
 
 > **Scenario-estimated annual GP opportunity: {plan_gp}** against the FY2025 run-rate, after vendor funding
-> (90% simulated range **{plan_ci}**; {plan_p_pos} of {plan_draws} simulated outcomes positive under the model).
+> (low to high case **{plan_ci}**; {plan_low_note}).
 > Separately, {backbill} of potential one-off FY2025 scan-back is subject to validation and collection.
 
-**Interpretation:** the range is conditional on assumed vendor negotiation and billing-recovery distributions,
-elasticity and transfer estimates, and dependence assumptions. Promo-cell estimation errors move together;
-other levers are drawn independently. The simulation does not establish a real-world probability of success
-or include every source of uncertainty. These are modeled opportunities, not realized savings. Unmodeled
-basket effects, vendor responses and implementation costs can change the outcome.
+**How the range is built:** every uncertain input is set three ways — its pessimistic end, its base value and its
+optimistic end. Estimated inputs (transfer rate, elasticities, promotion results) use the ends of their 90%
+intervals; the two negotiation inputs are stated assumptions: vendors re-win none, half or all of the dropped
+events' funding, and {u_vals} of the under-billing is recovered. The low case puts every input at its bad
+end at the same time, so it is a deliberately cautious floor, not a probability. These are modeled opportunities,
+not realized savings; unmodeled basket effects, vendor responses and implementation costs can change the outcome.
 
-| Lever | Action | Scenario FY2026 GP (90% simulated range) | Rests on |
+| Lever | Action | Scenario FY2026 GP (low to high) | Rests on |
 |---|---|---|---|
 | **Promo calendar** | Drop the {drop_events} FY2025-style events without a display (TPR, BOGO, multi-buy alone). Keep the {keep_events} display events, each with a photo-verified display | {promo_gp} ({promo_ci}) | Before funding these events lost {drop_gpbf}; positive even if vendors keep none of their funding ({promo_rho0}) |
 | **Vendor terms** | Treat vendor money as a budget: move the dropped events' scan-back ({drop_funding}) into allowances on kept events; bill scan-back on every kept event | {vendor_gp} ({vendor_ci}) | FY2025 scan-back was under-billed by {underbilled} of what was owed |
 | **Assortment** | Cut the {cut_n} SKUs below, planogram by planogram; give their facings to same-subcategory SKUs with the most units per facing; total facings unchanged | {cut_gp} ({cut_ci}) | Delist test transfer rate {tau} ({tau_ci}); positive at its low end |
-| **Prices** | Keep Golden Ridge; {tortilla_action} private-label tortilla | {price_gp} ({price_ci}) | Break-even arithmetic; tortilla near break-even, so the higher-expected-GP action |
+| **Prices** | Keep Golden Ridge; {tortilla_action} private-label tortilla | {price_gp} ({price_ci}) | Break-even arithmetic; tortilla near break-even, so the action with the higher GP at the estimate |
 | **Replenishment** | No change to store ordering; use the bias-corrected forecast for budgets only | {fc_gp} | Correction saves nothing at equal service ({sim_saving}); receipts already follow sales |
-| **Total** | | **{plan_gp} ({plan_ci})** | Monte Carlo over every lever's uncertainty and their overlap |
+| **Total** | | **{plan_gp} ({plan_ci})** | Sum of the levers; overlaps between levers removed |
 
-Each lever figure is the average of the simulation, so it can differ slightly from the
-[decision memo](decision_memo.md)'s single point estimate for the same action.
+Each lever figure is its base case, so it can differ slightly from the [decision memo](decision_memo.md)'s single
+point estimate for the same action.
 
-Most of the range is the promo lever ({promo_var} of the variance), and most of that is how much vendor money is
-re-won at the table. **Negotiation rule:** drop display events too only if vendors commit at least
+Most of the range is the promo lever ({promo_share} of the width of the total range), and most of that is how much
+vendor money is re-won at the table. **Negotiation rule:** drop display events too only if vendors commit at least
 {display_breakeven} of their display funding in other terms; that would take the plan to {alt_gp} ({alt_ci}).
 
 **Cut list** — GP per facing, lowest first; change in chain GP a year at the test's transfer rate (at its low end).
@@ -36,16 +37,9 @@ re-won at the table. **Negotiation rule:** drop display events too only if vendo
 |---|---|---|---|---|---|---|
 {cut_rows}
 
-**Randomized tests, ranked by value of information against cost** (two-year horizon; execution cost assumed
-{exec_cost} each):
-
-| Test | Decision it informs | Value of information | Cost | Net | Verdict |
-|---|---|---|---|---|---|
-{test_rows}
-
-None pays for itself: each decision is already settled by the evidence, or too small to be worth a test.
-The uncertainty that matters is the vendor funding share (worth {rho_evpi} to know), and it is settled by
-negotiation, not by a test.
+**Tests not in the plan:** each decision is either settled by the evidence (promotions, Golden Ridge, the cut
+list) or too small in dollars to justify a store test (tortilla). The uncertainty that matters most is the vendor
+funding share, and that is settled by negotiation, not by a test.
 
 **Changed since the memo:** {changed}
 
