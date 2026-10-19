@@ -74,7 +74,7 @@ holdout of stores.
 | Pooled subcategory elasticity (unvalidated) | −0.52 (−0.73 to −0.30) | −2.44 (−3.05 to −1.84) |
 
 An increase loses gross profit only if shoppers are more price-sensitive than the break-even elasticity — pure
-arithmetic on price and cost. Neither event-level design passed its own checks: the pre-registered comparison
+arithmetic on price and cost. Neither event-level design passed its own checks: the planned comparison
 failed pre-trend (p < 0.001), fake-date and backtest checks, and an exploratory within-SKU cross-zone
 design failed the backtest (Golden Ridge) or pre-trends (tortilla). The pooled model across all
 206,724 non-promoted SKU-store-weeks suggests kettle is inelastic (−0.52) — far from
