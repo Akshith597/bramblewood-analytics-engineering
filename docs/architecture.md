@@ -37,6 +37,8 @@ flowchart LR
 
 **Tradeoff:** Work scales with historical volume. For larger sources, add file manifests plus batch IDs, source-updated timestamps, merge keys, affected-partition recomputation, and atomic promotion of a validated warehouse. Do not use the maximum sales date as a universal watermark.
 
+**Revision — incremental `fct_sales`:** The largest fact is now incremental for the case the watermark concern does not cover: late or corrected POS rows in recent weeks. Each incremental run restates every fiscal week ending within `sales_restatement_lookback_days` (default 28) of the latest loaded week, using `delete+insert` on `week_key`, so rows that vanish from a corrected extract are removed rather than left behind. Backdated cost, price or master-data corrections still change weeks outside that window, so they require `dbt build --full-refresh`. The publication workflow always builds in a fresh workspace, so every published release is a full build. `verify_repeatability.py` runs the second build incrementally and requires every model to hash identically to the full build.
+
 ## ADR 03 — Keep grain explicit
 
 **Decision:** Chain forecasts join chain SKU-week actuals. Claims aggregate to promotion before joining promotions. Inventory retains its own grain. Planograms and price/cost tables use tested temporal joins.

@@ -17,7 +17,7 @@ This project models a **synthetic historical extract**, not a live retailer. Sal
 | `dim_vendor` | Vendor / `vendor_id` | Current vendor attributes and payment terms. |
 | `int_sales_keys` | Accepted POS row | Left joins to staged masters resolve SKU and fiscal week without hiding unmatched records. |
 | `int_sales_enriched` | Store × SKU × fiscal week | Reusable effective-cost/price enrichment upstream of all marts. |
-| `fct_sales` | Store × SKU × fiscal week / `sales_key` | One source row with one effective cost and one zone price. Stable MD5 key is an identifier, not a security control. |
+| `fct_sales` | Store × SKU × fiscal week / `sales_key` | One source row with one effective cost and one zone price. Stable MD5 key is an identifier, not a security control. Incremental: restates whole fiscal weeks inside a 28-day lookback; older corrections need a full refresh. |
 | `fct_inventory` | Store × SKU × fiscal week / `inventory_key` | Observed receipts and Saturday stock, including explicit zero-stock flags. |
 | `fct_vendor_claims` | Claim / `claim_id` | Billed and collected amounts; multiple claims per promotion remain possible. |
 | `int_promotion_sales` | Promotion × sales key | Approved event eligibility by SKU, inclusive dates and store zone. Explicit ambiguity count. |
