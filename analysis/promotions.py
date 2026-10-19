@@ -10,7 +10,7 @@ import math
 import random
 
 from analysis.common import connect, export_panel, round_floats, write_result
-from analysis.fe import fe_levels, feols, quantile, wild_draws
+from analysis.fe import fe_levels, feols, quantile
 
 SEED = 20261014
 POST_WEEKS = 2                  # post-promotion dip window
@@ -202,9 +202,10 @@ def outcome(ci):
     return 'keep' if ci[0] > 0 else ('cut_or_redesign' if ci[1] < 0 else 'inconclusive')
 
 
-def summarise(rows, cann_rows, gamma_hat, gamma_draws, stores, year=None):
-    """Totals and 90% ranges for every grouping. Ranges: store cluster bootstrap of the ratio to baseline GP (with
-    gamma redrawn from the wild cluster bootstrap) and CR1 linearisation over stores; the wider is reported."""
+def summarise(rows, cann_rows, gamma_hat, stores, year=None):
+    """Totals and 90% ranges for every grouping. Ranges: a store bootstrap (resample stores with replacement,
+    recompute the ratio to baseline GP, take the 5th and 95th percentiles) and CR1 linearisation over stores; the
+    wider is reported. Both hold the cannibalisation slopes at their estimates."""
     rows = [r for r in rows if year is None or r['fiscal_year'] == year]
     meta = {r['promo_id']: r for r in rows}
     cann_rows = [r for r in cann_rows if r['promo_id'] in meta]
@@ -238,16 +239,15 @@ def summarise(rows, cann_rows, gamma_hat, gamma_draws, stores, year=None):
             ci_cr1 = [total_net - Z90 * se, total_net + Z90 * se]
             rng = random.Random(SEED)
             boot = []
-            for gamma in gamma_draws:
+            for _ in range(DRAWS):
                 draw = [g for g in (rng.choice(stores) for _ in stores) if g in per]
                 b_ = sum(base[g] for g in draw)
-                boot.append(sum(fixed[g] + cann_loss(per[g]['cm'], gamma) for g in draw) / b_ * total_base
-                            if b_ else 0.0)
+                boot.append(sum(net[g] for g in draw) / b_ * total_base if b_ else 0.0)
             ci_boot = [quantile(boot, 0.05), quantile(boot, 0.95)]
             # Unit lift range (added for the answer-key scorecard): store cluster bootstrap of units / baseline.
             rng_l = random.Random(SEED)
             lift_boot = []
-            for _ in range(len(gamma_draws)):
+            for _ in range(DRAWS):
                 draw = [g for g in (rng_l.choice(stores) for _ in stores) if g in per]
                 bu = sum(per[g]['base_units'] for g in draw)
                 lift_boot.append(sum(per[g]['units'] for g in draw) / bu - 1 if bu else 0.0)
@@ -344,7 +344,6 @@ def main():
     cann_rows = fetch(con, 'select * from cann order by promo_id, store_id, subcategory, k')
     stores = [r[0] for r in con.execute('select distinct store_id from contrib order by 1').fetchall()]
     gamma_hat = fit['beta']
-    gamma_draws = wild_draws(fit, DRAWS, SEED)
     events = event_pnl(rows, cann_rows, gamma_hat)
 
     result = {
@@ -365,8 +364,8 @@ def main():
         'post_dip_by_week': {str(k): v for k, v in con.execute("""select post_k, sum(units) / sum(base_units) - 1
             from promo_panel where role = 'post' and log_base is not null group by 1 order by 1""").fetchall()},
         'post_dip_ci90_store_bootstrap': post_dip_ci(con),
-        'all_years': summarise(rows, cann_rows, gamma_hat, gamma_draws, stores),
-        'fy2025': summarise(rows, cann_rows, gamma_hat, gamma_draws, stores, year=DECISION_YEAR),
+        'all_years': summarise(rows, cann_rows, gamma_hat, stores),
+        'fy2025': summarise(rows, cann_rows, gamma_hat, stores, year=DECISION_YEAR),
     }
     fy = [e for e in events.values() if e['fiscal_year'] == DECISION_YEAR]
     ranked = sorted(({'promo_id': k, **{x: v[x] for x in ('mechanic', 'display', 'subcategory', 'net_gp')}}
