@@ -17,7 +17,7 @@ import tempfile
 import uuid
 
 ROOT = Path(__file__).resolve().parents[1]
-COPY_DIRS = ('data', 'models', 'macros', 'tests', 'scripts', 'analyses', 'analysis', 'docs', 'evidence')
+COPY_DIRS = ('data', 'models', 'snapshots', 'macros', 'tests', 'scripts', 'analyses', 'analysis', 'docs', 'evidence')
 
 
 def utcnow():
