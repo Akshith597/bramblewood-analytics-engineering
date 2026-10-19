@@ -161,17 +161,10 @@
     "bramble_select_tortilla": {
       "annual_gp_change": {
         "ci90": [
-          -12610.8,
-          21768.8
+          -2524.64,
+          11927.6
         ],
-        "ci90_sku_wild": [
-          -12610.8,
-          21768.8
-        ],
-        "ci90_store_cr1": [
-          -6908.0,
-          16321.3
-        ],
+        "method": "GP change evaluated at the ends of the elasticity range",
         "point": 4850.84
       },
       "checks_passed": {
@@ -218,9 +211,9 @@
         "treated": 6
       },
       "x_cross": {
-        "ci90_sku_wild": [
-          -0.0274443,
-          0.513565
+        "ci90_sku_cr1": [
+          -0.0278978,
+          0.514019
         ],
         "ci90_store_cr1": [
           0.0258391,
@@ -228,18 +221,19 @@
         ],
         "elasticity": 0.243061,
         "reported_ci90": [
-          -0.0274443,
-          0.513565
+          -0.0278978,
+          0.514019
         ],
-        "reported_ci_source": "sku_wild",
+        "reported_ci_source": "sku_cr1",
+        "se_sku_cr1": 0.164731,
         "se_store_cr1": 0.132061,
         "sku_clusters": 84,
         "store_clusters": 22
       },
       "x_own": {
-        "ci90_sku_wild": [
-          -3.19673,
-          -2.34204
+        "ci90_sku_cr1": [
+          -3.20175,
+          -2.33703
         ],
         "ci90_store_cr1": [
           -3.09208,
@@ -247,10 +241,11 @@
         ],
         "elasticity": -2.76939,
         "reported_ci90": [
-          -3.19673,
-          -2.34204
+          -3.20175,
+          -2.33703
         ],
-        "reported_ci_source": "sku_wild",
+        "reported_ci_source": "sku_cr1",
+        "se_sku_cr1": 0.262858,
         "se_store_cr1": 0.19618,
         "sku_clusters": 84,
         "store_clusters": 22
@@ -259,17 +254,10 @@
     "golden_ridge_kettle": {
       "annual_gp_change": {
         "ci90": [
-          55547.7,
-          70075.4
+          57187.6,
+          68576.2
         ],
-        "ci90_sku_wild": [
-          55547.7,
-          70075.4
-        ],
-        "ci90_store_cr1": [
-          57177.0,
-          68735.7
-        ],
+        "method": "GP change evaluated at the ends of the elasticity range",
         "point": 62970.0
       },
       "checks_passed": {
@@ -316,9 +304,9 @@
         "treated": 10
       },
       "x_cross": {
-        "ci90_sku_wild": [
-          0.333854,
-          1.56823
+        "ci90_sku_cr1": [
+          0.325313,
+          1.57677
         ],
         "ci90_store_cr1": [
           0.545546,
@@ -326,18 +314,19 @@
         ],
         "elasticity": 0.951043,
         "reported_ci90": [
-          0.333854,
-          1.56823
+          0.325313,
+          1.57677
         ],
-        "reported_ci_source": "sku_wild",
+        "reported_ci_source": "sku_cr1",
+        "se_sku_cr1": 0.380417,
         "se_store_cr1": 0.246525,
         "sku_clusters": 76,
         "store_clusters": 22
       },
       "x_own": {
-        "ci90_sku_wild": [
-          -0.528773,
-          0.169452
+        "ci90_sku_cr1": [
+          -0.534847,
+          0.175526
         ],
         "ci90_store_cr1": [
           -0.541803,
@@ -349,6 +338,7 @@
           0.182482
         ],
         "reported_ci_source": "store_cr1",
+        "se_sku_cr1": 0.215938,
         "se_store_cr1": 0.220167,
         "sku_clusters": 76,
         "store_clusters": 22
@@ -379,17 +369,10 @@
     "bramble_select_tortilla": {
       "annual_gp_change": {
         "ci90": [
-          -648187.0,
-          -32665.2
+          -355966.0,
+          -229102.0
         ],
-        "ci90_sku_wild": [
-          -648187.0,
-          -32665.2
-        ],
-        "ci90_store_cr1": [
-          -478946.0,
-          -133181.0
-        ],
+        "method": "GP change evaluated at the ends of the elasticity range",
         "point": -282918.0
       },
       "checks_passed": {
@@ -436,9 +419,9 @@
         "treated": 6
       },
       "x_cross": {
-        "ci90_sku_wild": [
-          -8.28899,
-          -0.133486
+        "ci90_sku_cr1": [
+          -8.31292,
+          -0.109561
         ],
         "ci90_store_cr1": [
           -6.70276,
@@ -446,18 +429,19 @@
         ],
         "elasticity": -4.21124,
         "reported_ci90": [
-          -8.28899,
-          -0.133486
+          -8.31292,
+          -0.109561
         ],
-        "reported_ci_source": "sku_wild",
+        "reported_ci_source": "sku_cr1",
+        "se_sku_cr1": 2.49364,
         "se_store_cr1": 1.51474,
         "sku_clusters": 84,
         "store_clusters": 22
       },
       "x_own": {
-        "ci90_sku_wild": [
-          -6.85108,
-          -2.00108
+        "ci90_sku_cr1": [
+          -6.85265,
+          -1.99951
         ],
         "ci90_store_cr1": [
           -7.61538,
@@ -469,6 +453,7 @@
           -1.23678
         ],
         "reported_ci_source": "store_cr1",
+        "se_sku_cr1": 1.47525,
         "se_store_cr1": 1.93896,
         "sku_clusters": 84,
         "store_clusters": 22
@@ -477,17 +462,10 @@
     "golden_ridge_kettle": {
       "annual_gp_change": {
         "ci90": [
-          -103506.0,
-          29428.0
+          -87619.5,
+          19150.1
         ],
-        "ci90_sku_wild": [
-          -103506.0,
-          29428.0
-        ],
-        "ci90_store_cr1": [
-          -86493.3,
-          20432.8
-        ],
+        "method": "GP change evaluated at the ends of the elasticity range",
         "point": -28906.2
       },
       "checks_passed": {
@@ -534,9 +512,9 @@
         "treated": 10
       },
       "x_cross": {
-        "ci90_sku_wild": [
-          -6.62231,
-          3.90834
+        "ci90_sku_cr1": [
+          -6.56184,
+          3.84788
         ],
         "ci90_store_cr1": [
           -3.93511,
@@ -544,18 +522,19 @@
         ],
         "elasticity": -1.35698,
         "reported_ci90": [
-          -6.62231,
-          3.90834
+          -6.56184,
+          3.84788
         ],
-        "reported_ci_source": "sku_wild",
+        "reported_ci_source": "sku_cr1",
+        "se_sku_cr1": 3.16433,
         "se_store_cr1": 1.56739,
         "sku_clusters": 76,
         "store_clusters": 22
       },
       "x_own": {
-        "ci90_sku_wild": [
-          -6.75598,
-          -2.04326
+        "ci90_sku_cr1": [
+          -6.75376,
+          -2.04548
         ],
         "ci90_store_cr1": [
           -6.65046,
@@ -563,10 +542,11 @@
         ],
         "elasticity": -4.39962,
         "reported_ci90": [
-          -6.75598,
-          -2.04326
+          -6.75376,
+          -2.04548
         ],
-        "reported_ci_source": "sku_wild",
+        "reported_ci_source": "sku_cr1",
+        "se_sku_cr1": 1.43122,
         "se_store_cr1": 1.36841,
         "sku_clusters": 76,
         "store_clusters": 22

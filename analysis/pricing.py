@@ -1,14 +1,12 @@
 """Q3 — spring-2025 regular-price increases. Implements analysis/PLAN.md §Q3."""
 import math
-import random
 
 from analysis.common import connect, export_panel, round_floats, write_result
-from analysis.fe import clustered_ci, feols, quantile, wald_pvalue, wild_draws
+from analysis.fe import clustered_ci, feols, wald_pvalue
 
 EXCLUDED_STORES = (112, 124)
 HALF_WINDOW_DAYS = 91          # 13 weeks either side
 POST_PROMO_DAYS = 14           # post-promotion dip exclusion
-SEED = 20261014
 EVENTS = {
     'golden_ridge_kettle': {'date': '2025-04-06', 'subcategory': 'Kettle Chips'},
     'bramble_select_tortilla': {'date': '2025-05-04', 'subcategory': 'Tortilla Chips'},
@@ -122,8 +120,8 @@ def event_study(con, design='preregistered'):
             'pre_bins_tested': len(pre), 'wald_stat': stat, 'pre_trend_p': p}
 
 
-def gp_change(con, own_draws, cross_draws, annualize=52 / 13):
-    """13-week gross-profit change vs the no-increase counterfactual, for each elasticity draw.
+def gp_change(con, own_values, cross_values, annualize=52 / 13):
+    """13-week gross-profit change vs the no-increase counterfactual, for each elasticity value.
 
     Treated SKUs: actual GP minus counterfactual GP at the old price with volume exp(-eps*dose) higher.
     Sisters: actual GP minus counterfactual GP with volume exp(-eps_cross*dose) different. All post-window
@@ -143,7 +141,7 @@ def gp_change(con, own_draws, cross_draws, annualize=52 / 13):
           and cal.week_start <= (select max(week_start) from event_panel)
         group by all""").fetchall()
     out = []
-    for e_own, e_cross in zip(own_draws, cross_draws):
+    for e_own, e_cross in zip(own_values, cross_values):
         delta = 0.0
         for role, dose, zdose, units, sales, cogs in rows:
             if role == 'treated':
@@ -158,34 +156,20 @@ def gp_change(con, own_draws, cross_draws, annualize=52 / 13):
     return out
 
 
-def mvn_draws(fit_, names, n, seed):
-    """Normal draws using the CR1 covariance (2x2 Cholesky)."""
-    idx = [list(fit_['beta']).index(x) for x in names]
-    v = [[fit_['_vcov'][i][j] for j in idx] for i in idx]
-    l11 = math.sqrt(v[0][0]); l21 = v[1][0] / l11; l22 = math.sqrt(max(v[1][1] - l21 ** 2, 0))
-    rng = random.Random(seed)
-    draws = []
-    for _ in range(n):
-        z1, z2 = rng.gauss(0, 1), rng.gauss(0, 1)
-        draws.append({names[0]: fit_['beta'][names[0]] + l11 * z1,
-                      names[1]: fit_['beta'][names[1]] + l21 * z1 + l22 * z2})
-    return draws
-
-
-def analyse_event(con, name, spec, design, draws=4999):
+def analyse_event(con, name, spec, design):
     info = build_panel(con, f'{name}_{design}', spec['date'], spec['subcategory'])
     store_fit, sku_fit = fit(con, 'store_id', design), fit(con, 'sku_id', design)
-    sku_samples = wild_draws(sku_fit, draws, SEED)
     result = {'event_date': spec['date'], **info}
+    # Two ways to cluster the standard errors (by store, by SKU); report whichever gives the wider range.
     for x in ('x_own', 'x_cross'):
-        store_ci, sku_ci = clustered_ci(store_fit, x), [
-            store_fit['beta'][x] - quantile([abs(s[x] - store_fit['beta'][x]) for s in sku_samples], 0.90),
-            store_fit['beta'][x] + quantile([abs(s[x] - store_fit['beta'][x]) for s in sku_samples], 0.90)]
-        wider = 'sku_wild' if sku_ci[1] - sku_ci[0] > store_ci[1] - store_ci[0] else 'store_cr1'
+        store_ci = clustered_ci(store_fit, x)
+        sku_ci = [store_fit['beta'][x] - 1.6448536269514722 * sku_fit['se'][x],
+                  store_fit['beta'][x] + 1.6448536269514722 * sku_fit['se'][x]]
+        wider = 'sku_cr1' if sku_ci[1] - sku_ci[0] > store_ci[1] - store_ci[0] else 'store_cr1'
         result[x] = {'elasticity': store_fit['beta'][x], 'se_store_cr1': store_fit['se'][x],
-                     'ci90_store_cr1': store_ci, 'ci90_sku_wild': sku_ci, 'sku_clusters': sku_fit['clusters'],
-                     'store_clusters': store_fit['clusters'], 'reported_ci90': max(store_ci, sku_ci,
-                     key=lambda c: c[1] - c[0]), 'reported_ci_source': wider}
+                     'se_sku_cr1': sku_fit['se'][x], 'ci90_store_cr1': store_ci, 'ci90_sku_cr1': sku_ci,
+                     'sku_clusters': sku_fit['clusters'], 'store_clusters': store_fit['clusters'],
+                     'reported_ci90': store_ci if wider == 'store_cr1' else sku_ci, 'reported_ci_source': wider}
     result['n'] = store_fit['n']
     result['event_study'] = event_study(con, design)
     # Planted elasticity: add -1.5 x dose to treated post log units; the estimate must move by exactly -1.5.
@@ -194,16 +178,14 @@ def analyse_event(con, name, spec, design, draws=4999):
     planted = fit(con, 'store_id', design)['beta']['x_own'] - store_fit['beta']['x_own']
     con.execute('create or replace temp table event_panel as select * from _orig')
     result['planted_elasticity_recovered'] = planted
-    # Dollar impact: draws from the more conservative of the two inference schemes.
-    names = ['x_own', 'x_cross']
-    normal = mvn_draws(store_fit, names, draws, SEED)
-    gp_sku = gp_change(con, [s['x_own'] for s in sku_samples], [s['x_cross'] for s in sku_samples])
-    gp_store = gp_change(con, [s['x_own'] for s in normal], [s['x_cross'] for s in normal])
-    point = gp_change(con, [store_fit['beta']['x_own']], [store_fit['beta']['x_cross']])[0]
-    ci_sku = [quantile(gp_sku, 0.05), quantile(gp_sku, 0.95)]
-    ci_store = [quantile(gp_store, 0.05), quantile(gp_store, 0.95)]
-    ci = max(ci_sku, ci_store, key=lambda c: c[1] - c[0])
-    result['annual_gp_change'] = {'point': point, 'ci90': ci, 'ci90_store_cr1': ci_store, 'ci90_sku_wild': ci_sku}
+    # Dollar impact: GP change at the point estimate and at each end of the reported own-price elasticity range
+    # (cross-price effect held at its estimate).
+    own, cross = store_fit['beta']['x_own'], store_fit['beta']['x_cross']
+    lo, hi = result['x_own']['reported_ci90']
+    point, at_lo, at_hi = gp_change(con, [own, lo, hi], [cross, cross, cross])
+    ci = sorted([at_lo, at_hi])
+    result['annual_gp_change'] = {'point': point, 'ci90': ci,
+                                  'method': 'GP change evaluated at the ends of the elasticity range'}
     result['decision'] = 'good_decision' if ci[0] > 0 else ('bad_decision' if ci[1] < 0 else 'inconclusive')
     # Fake date 26 weeks earlier with the same groups and rules.
     build_panel(con, f'{name}_{design}_fake', spec['date'], spec['subcategory'], shift_days=-182)

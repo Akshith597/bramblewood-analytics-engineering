@@ -21,21 +21,22 @@ fixed effects** (each week has its own chain-wide shock). What is left is the ef
 - *Main assumption:* without the switch, test and comparison stores would have moved in parallel. The fake-date
   check below tests this assumption, and here it **failed**, which is why the memo calls the result inconclusive.
 
-## Why errors are "clustered by store", and the wild bootstrap
+## Why errors are "clustered by store", and why only four test stores matters
 
 Weeks from the same store aren't independent. A store that has a good week tends to have a good next week. If
 every store-week were treated as a separate data point, the model would think it had far more information than it
 does and would report ranges that are too narrow. **Clustering by store** treats each store as one block of
 evidence, so the uncertainty is measured across stores, which is the level where the treatment was assigned.
 
-The catch is that clustered errors are unreliable with few clusters, and the delist test has only 4 treated
-stores. So the plan uses two methods that hold up with few clusters:
+The catch: only 4 stores got the new planogram. Clustered errors behave as if there are 22 independent pieces of
+evidence, but the treated side has just 4, so the usual ranges come out too narrow. Two simple fixes are used:
 
-- **Wild cluster bootstrap:** re-run the analysis thousands of times, randomly flipping and rescaling each store's
-  residuals as a block (Webb weights, which suit small numbers of clusters), and see how much the estimate moves.
-- **Randomization inference:** pretend that each possible group of 4 comparison stores had been the test group
+- **A wider t critical value.** The 90% range is the estimate ± *t* × the clustered standard error, where *t*
+  comes from Student's t distribution with **3 degrees of freedom** (4 test stores − 1). That gives *t* = 2.35
+  instead of 1.645, so the range is about 40% wider. Rule of thumb: the smaller group sets the sample size.
+- **Permutation test:** pretend that each possible group of 4 comparison stores had been the test group
   (3,060 combinations) and see how often a "fake" effect is as big as the real one. If it often is, the real one
-  isn't convincing.
+  isn't convincing. For the delist profit result this happens 22% of the time (p = 0.22).
 
 ## Placebo and fake-date checks
 
@@ -55,7 +56,7 @@ means "the test was too small to tell", not "no effect".
 
 When products are delisted, some shoppers buy a different product instead of leaving. The **transfer rate** is the
 dollars gained by the remaining products per dollar lost on the delisted ones. The test measured about 124%
-(90% range 81% to 166%). That means remaining products more than made up the lost sales, partly because they took
+(90% range 83% to 164%). That means remaining products more than made up the lost sales, partly because they took
 over the freed shelf space. The cut list uses this rate to estimate the profit change from cutting each product,
 and only cuts a product if the change is positive even at the low end of the range.
 
@@ -92,24 +93,31 @@ approach was chosen after seeing some results (the plan's addendum says exactly 
 
 ## Bootstrap ranges
 
-Most 90% ranges come from a **store bootstrap**: resample the 24 stores with replacement thousands of times, redo
+Most other 90% ranges (promotions, stock-outs, forecast bias) come from a **store bootstrap**: resample the 24 stores with replacement thousands of times, redo
 the calculation each time, and take the middle 90% of the results. It answers "how different would this be with a
 different mix of stores?"
 
-## Monte Carlo for the FY2026 plan
+## Low / base / high scenarios for the FY2026 plan
 
 The plan has five levers, each with its own uncertainty, and some of them overlap (a delisted product's
-promotions can't also be counted in the promotion lever). The **Monte Carlo** draws each uncertain input from its
-range 20,000 times, adds up the levers for each draw, and reports the average and the middle 90%. This is why a
-lever's figure in the plan can differ slightly from the memo's single point estimate for the same action.
+promotions can't also be counted in the promotion lever). Each uncertain input is set three ways:
 
-## Value of information (should we run a test?)
+- **Estimated inputs** (transfer rate, price elasticities, promotion results): the low end of the 90% range, the
+  estimate, and the high end.
+- **Negotiation inputs**, which have no data behind them: vendors re-win none, half or all of the dropped events'
+  funding; 50%, 75% or 100% of the under-billing is recovered.
 
-A test is worth running only if what it could teach is worth more than it costs. **Expected value of perfect
-information (EVPI)** is the most a perfect answer could be worth: how much better the decision would be on average
-if the true value were known. **Expected value of sample information (EVSI)** does the same for a real test with
-its own noise. Cost is the profit given up by running the worse option in the test stores. Every proposed test
-came out worth less than its cost, so the plan acts on today's evidence.
+The **base case** uses the middle values. The **low case** puts every input at its bad end at the same time, and
+the **high case** at its good end. Because everything going wrong at once is unlikely, the low case is a cautious
+floor rather than a probability. The plan's headline is that it stays positive even in the low case.
+
+## Why no test is proposed
+
+Each decision is either already settled by the evidence (promotions without a display lose money before vendor
+funding; Golden Ridge's price is far from break-even; the cut list is positive at the low end of the transfer
+rate) or small in dollars (the tortilla price, a few thousand dollars either way). A store test costs more than
+that in lost profit and staff time. The biggest uncertainty, how much vendor money is re-won, is settled at the
+negotiating table, not by a test.
 
 ## Checking the numbers twice
 
@@ -131,8 +139,8 @@ it shows discipline rather than proving independence.
   mistaken for the effect. The comparison stores remove those.
 - **"Why cluster by store?"** Weeks within a store are correlated, and stores are what was assigned to the test.
   Treating every week as independent would make the ranges too narrow.
-- **"Four stores isn't enough, is it?"** No. That is why the wild bootstrap and randomization inference are
-  used, why the MDE is reported, and why the answer is "inconclusive".
+- **"Four stores isn't enough, is it?"** No. That is why the range uses 3 degrees of freedom (test stores − 1),
+  why the permutation test is reported, why the MDE is reported, and why the answer is "inconclusive".
 - **"If the delist profit result failed, why trust the transfer rate?"** It passed the same fake-date checks the
   profit result failed, and it holds when comparing the same season year over year.
 - **"How do you know the promotion baseline is right?"** It predicts held-out non-promotion weeks within ±2%, and
