@@ -23,7 +23,7 @@ QUERIES = {
         from mart_forecast_accuracy f join dim_week w using(week_key) group by 1 order by 1""",
     "funding_by_vendor": """select v.vendor_name, count(*) as claims, sum(c.total_billed) as billed,
         sum(c.amount_collected) as collected, sum(c.uncollected_billed_amount) as uncollected
-        from fct_vendor_claims c join dim_vendor v using(vendor_id) group by 1 order by uncollected desc""",
+        from fct_vendor_claims c join dim_vendor v using(vendor_id) group by 1 order by uncollected desc, vendor_name""",
     "promotion_review": """select status, count(*) as events,
         count(*) filter (where approved_without_claim) as approved_without_claim,
         sum(coalesce(ambiguous_sales_rows,0)) as ambiguous_event_sales_rows
