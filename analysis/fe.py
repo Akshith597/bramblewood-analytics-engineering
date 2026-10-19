@@ -1,4 +1,4 @@
-"""Fixed-effects OLS on DuckDB, with cluster-robust and wild-bootstrap inference.
+"""Fixed-effects OLS on DuckDB, with cluster-robust (clustered standard error) inference.
 
 Absorbed fixed effects are removed by alternating projections (method of alternating projections /
 Guimarães–Portugal), executed as DuckDB window queries so panels never leave the database. The small
@@ -6,9 +6,6 @@ k×k algebra is done in plain Python. Small-sample convention: CR1 with c = G/(G
 `fixest::feols(..., ssc = ssc(adj = FALSE, cluster.adj = TRUE))`.
 """
 import math
-import random
-
-WEBB = (-math.sqrt(1.5), -1.0, -math.sqrt(0.5), math.sqrt(0.5), 1.0, math.sqrt(1.5))
 
 
 def invert(matrix):
@@ -85,25 +82,6 @@ def feols(con, source, y, xs, fes, cluster_label='cluster'):
             '_vcov': vcov, '_bread': bread, '_scores': [list(s[1:]) for s in scores]}
 
 
-def wild_draws(fit, draws=9999, seed=20261014):
-    """Unrestricted wild cluster bootstrap (Webb weights) coefficient vectors.
-
-    beta* - beta = (X'X)^-1 sum_g w_g s_g, where s_g are the cluster score vectors, so no refitting is needed.
-    """
-    names = list(fit['beta'])
-    base = [fit['beta'][x] for x in names]
-    rng = random.Random(seed)
-    out = []
-    for _ in range(draws):
-        shock = [0.0] * len(names)
-        for score in fit['_scores']:
-            w = rng.choice(WEBB)
-            for i, v in enumerate(score):
-                shock[i] += w * v
-        out.append(dict(zip(names, (b + d for b, d in zip(base, matvec(fit['_bread'], shock))))))
-    return out
-
-
 def wald_pvalue(fit, names):
     """Joint test that `names` are all zero using the CR1 covariance; chi-square reference."""
     idx = [list(fit['beta']).index(x) for x in names]
@@ -146,12 +124,50 @@ def chi2_sf(x, k):
     return math.exp(-z + a * math.log(z) - math.lgamma(a)) * h
 
 
-def wild_percentile_ci(fit, x, level=0.90, draws=9999, seed=20261014, samples=None):
-    """Symmetric percentile CI for one coefficient from unrestricted wild cluster bootstrap draws."""
-    samples = samples or wild_draws(fit, draws, seed)
-    b = fit['beta'][x]
-    half = quantile([abs(s[x] - b) for s in samples], level)
-    return [b - half, b + half]
+def _betacf(a, b, x):
+    """Continued fraction for the regularized incomplete beta function (Numerical Recipes, betacf)."""
+    tiny = 1e-300
+    c, d = 1.0, 1 - (a + b) * x / (a + 1)
+    d = 1 / (tiny if abs(d) < tiny else d)
+    h = d
+    for m in range(1, 300):
+        for num in (m * (b - m) * x / ((a + 2 * m - 1) * (a + 2 * m)),
+                    -(a + m) * (a + b + m) * x / ((a + 2 * m) * (a + 2 * m + 1))):
+            d = 1 + num * d
+            d = 1 / (tiny if abs(d) < tiny else d)
+            c = 1 + num / c
+            c = tiny if abs(c) < tiny else c
+            h *= d * c
+        if abs(d * c - 1) < 1e-15:
+            break
+    return h
+
+
+def t_sf2(t, df):
+    """Two-sided p-value P(|T| >= |t|) for Student's t with `df` degrees of freedom."""
+    x = df / (df + t * t)
+    a, b = df / 2, 0.5
+    front = math.exp(math.lgamma(a + b) - math.lgamma(a) - math.lgamma(b) + a * math.log(x) + b * math.log(1 - x)) \
+        if 0 < x < 1 else 0.0
+    if x <= 0:
+        return 0.0
+    if x >= 1:
+        return 1.0
+    if x < (a + 1) / (a + b + 2):
+        return front * _betacf(a, b, x) / a
+    return 1 - front * _betacf(b, a, 1 - x) / b
+
+
+def t_crit(df, level=0.90):
+    """Two-sided critical value of Student's t (e.g. 1.721 for 21 df at 90%), by bisection on t_sf2."""
+    lo, hi = 0.0, 100.0
+    for _ in range(200):
+        mid = (lo + hi) / 2
+        if t_sf2(mid, df) > 1 - level:
+            lo = mid
+        else:
+            hi = mid
+    return (lo + hi) / 2
 
 
 def clustered_ci(fit, x, level=0.90):

@@ -136,9 +136,9 @@ def tau_checks(con):
     out = {}
     for label, pre, post in (('fake_FY2024-W27', weeks[:26], weeks[26:52]), ('fake_FY2025-W01', weeks[:52], weeks[52:78]),
                              ('same_season_yoy', weeks[26:52], weeks[78:104])):
-        fit = Did(level['retained_sales'], TREATED, donors, pre, post).wild(draws=1999)
-        out[label] = {'retained_change_per_store_week': fit['beta'], 'ci90': fit['ci90_wild'],
-                      'implied_tau': fit['beta'] / lost, 'implied_tau_ci90': [v / lost for v in fit['ci90_wild']]}
+        fit = Did(level['retained_sales'], TREATED, donors, pre, post).infer()
+        out[label] = {'retained_change_per_store_week': fit['beta'], 'ci90': fit['ci90'],
+                      'implied_tau': fit['beta'] / lost, 'implied_tau_ci90': [v / lost for v in fit['ci90']]}
     out['passed'] = all(v['ci90'][0] < 0 < v['ci90'][1] for k, v in out.items() if k.startswith('fake'))
     return out
 
