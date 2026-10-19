@@ -12,10 +12,6 @@ PLAN = ROOT / 'docs/fy2026_plan.md'
 SCORE_TEMPLATE = ROOT / 'analysis/scorecard_template.md'
 SCORECARD = ROOT / 'docs/scorecard.md'
 PG_NAME = {'PG-SS-L-2024': 'L', 'PG-SS-M-2024': 'M', 'PG-SS-S-2024': 'S'}
-TEST_NAME = {'tortilla_price': ('Tortilla price, random half of stores, 13 weeks', 'Keep or roll back the private-label price'),
-             'assortment_cut': ('Cut list in random large-store pairs, full year', 'Cut the list chain-wide or not'),
-             'display_holdout': ('Display events withheld in a random quarter of stores, half a year',
-                                 'Keep or drop display events')}
 
 
 def pos(v):
@@ -40,42 +36,40 @@ def cut_rows(a):
 
 
 def plan_figures(r):
-    p, a, e, s, pr, ph = r['plan'], r['assortment'], r['evoi'], r['inventory_sim'], r['promotions'], r['physical']
+    p, a, s, pr, ph = r['plan'], r['assortment'], r['inventory_sim'], r['promotions'], r['physical']
     lev = p['by_lever']
     cells = pr['fy2025']['mechanic_display']
     inp = p['inputs']['promo']
     drop_gpbf = sum(cells[c]['gp_before_funding'] for c in CUT_CELLS)
-    tests = '\n'.join(
-        f"| {TEST_NAME[k][0]} | {TEST_NAME[k][1]} | {pos(t['evsi'])} | {pos(t['total_cost'])} | {money(t['net_value'])} | "
-        f"{'Run' if t['net_value'] > 0 else 'Do not run'} |" for k in e['ranking'] for t in [e['tests'][k]])
     changed = (f"the {pos(ph['restated']['memo_over_forecast_cost'])} over-forecast is restated to "
                f"{pos(ph['restated']['excess_store_stock_cost'])} of extra store stock (receipts follow sales); the "
                f"\"apply the bias correction now\" advice is withdrawn for store ordering (no saving at equal service: "
-               f"{money(s['verdict']['policy_cost_saving_at_best_z'])}); the tortilla and delist tests "
-               f"are not worth running; forecast bias on weeks without a stock-out is "
+               f"{money(s['verdict']['policy_cost_saving_at_best_z'])}); the year-long delist test is not run; forecast bias on weeks without a stock-out is "
                f"{pct(ph['bias_refit']['in_stock_weeks']['bias'])}, not lower, because stock-outs are demand spikes.")
     return {
-        'plan_gp': money(p['total']['mean']), 'plan_ci': rng(*p['total']['ci90'], money),
-        'plan_p_pos': pct(p['total']['p_positive'], 0, signed=False), 'plan_draws': f"{p['design']['draws']:,}",
+        'plan_gp': money(p['total']['base']), 'plan_ci': rng(*p['total']['range'], money),
+        'plan_low_note': 'positive even in the low case' if p['total']['positive_in_low_case']
+        else 'the low case is negative',
         'backbill': rng(p['one_off_backbill']['lower_scan_only'], p['one_off_backbill']['upper_scan_plus_planned_display'], pos),
         'drop_events': str(sum(cells[c]['events'] for c in CUT_CELLS)),
         'keep_events': str(sum(cells[c]['events'] for c in KEEP_CELLS)),
-        'promo_gp': money(lev['promo_calendar']['mean']), 'promo_ci': rng(*lev['promo_calendar']['ci90'], money),
+        'promo_gp': money(lev['promo_calendar']['base']), 'promo_ci': rng(*lev['promo_calendar']['range'], money),
         'drop_gpbf': money(drop_gpbf), 'promo_rho0': money(p['promo_funding_sensitivity']['rho_0']),
         'drop_funding': pos(sum(inp[c]['scan_back'] + inp[c]['display_fee'] for c in CUT_CELLS)),
-        'vendor_gp': money(lev['vendor_terms']['mean']), 'vendor_ci': rng(*lev['vendor_terms']['ci90'], money),
+        'vendor_gp': money(lev['vendor_terms']['base']), 'vendor_ci': rng(*lev['vendor_terms']['range'], money),
         'underbilled': pct(p['inputs']['vendor']['underbilled_share'], signed=False),
-        'cut_n': str(a['chain']['distinct_skus_cut']), 'cut_gp': money(lev['assortment']['mean']),
-        'cut_ci': rng(*lev['assortment']['ci90'], money),
+        'cut_n': str(a['chain']['distinct_skus_cut']), 'cut_gp': money(lev['assortment']['base']),
+        'cut_ci': rng(*lev['assortment']['range'], money),
         'tau': pct(a['tau']['point'], 0, signed=False), 'tau_ci': rng(*a['tau']['ci90'], lambda x: pct(x, 0, signed=False)),
         'tortilla_action': {'hold': 'keep', 'roll_back': 'roll back'}[p['tortilla_action']],
-        'price_gp': money(lev['prices']['mean']), 'price_ci': rng(*lev['prices']['ci90'], money),
-        'fc_gp': money(lev['forecast']['mean']) if lev['forecast']['mean'] else '$0', 'sim_saving': money(s['verdict']['policy_cost_saving_at_best_z']),
-        'promo_var': pct(lev['promo_calendar']['variance_share_removed_if_known'], 0, signed=False),
+        'price_gp': money(lev['prices']['base']), 'price_ci': rng(*lev['prices']['range'], money),
+        'fc_gp': money(lev['forecast']['base']) if lev['forecast']['base'] else '$0', 'sim_saving': money(s['verdict']['policy_cost_saving_at_best_z']),
+        'promo_share': pct(lev['promo_calendar']['share_of_range_width'], 0, signed=False),
         'display_breakeven': pct(p['display_events']['breakeven_rho_to_drop'], 0, signed=False),
-        'alt_gp': money(p['if_display_also_dropped']['mean']), 'alt_ci': rng(*p['if_display_also_dropped']['ci90'], money),
-        'cut_rows': cut_rows(a), 'exec_cost': pos(e['design']['execution_cost_assumed']), 'test_rows': tests,
-        'rho_evpi': pos(e['tests']['display_holdout']['funding_share_evpi']), 'changed': changed,
+        'alt_gp': money(p['if_display_also_dropped']['base']), 'alt_ci': rng(*p['if_display_also_dropped']['range'], money),
+        'cut_rows': cut_rows(a), 'changed': changed,
+        'u_vals': ', '.join(pct(v, 0, signed=False) for v in p['design']['inputs_low_base_high']['u'][:2])
+        + ' or ' + pct(p['design']['inputs_low_base_high']['u'][2], 0, signed=False),
     }
 
 

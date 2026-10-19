@@ -6,18 +6,18 @@
         "cannibalisation_gp": -437836.0,
         "cannibalised_units": -255472.0,
         "ci90": [
-          15086.6,
-          129090.0
+          12896.6,
+          120415.0
         ],
         "ci90_store_bootstrap": [
-          15086.6,
-          129090.0
+          19635.0,
+          123581.0
         ],
         "ci90_store_cr1": [
           12896.6,
           120415.0
         ],
-        "ci_source": "bootstrap",
+        "ci_source": "cr1",
         "dip_gp": -200107.0,
         "dip_units": -117269.0,
         "display_fee": 468000.0,
@@ -31,7 +31,7 @@
           1.78127,
           1.91955
         ],
-        "mde": 97032.7,
+        "mde": 91512.8,
         "net_gp": 66655.6,
         "net_gp_per_event": 86.6783,
         "net_incremental_units": 341592.0,
@@ -50,8 +50,8 @@
           386633.0
         ],
         "ci90_store_bootstrap": [
-          298660.0,
-          390465.0
+          299682.0,
+          388589.0
         ],
         "ci90_store_cr1": [
           294420.0,
@@ -84,18 +84,18 @@
         "cannibalisation_gp": -241782.0,
         "cannibalised_units": -141415.0,
         "ci90": [
-          -289783.0,
-          -257280.0
+          -283462.0,
+          -264279.0
         ],
         "ci90_store_bootstrap": [
-          -289783.0,
-          -257280.0
+          -282562.0,
+          -263430.0
         ],
         "ci90_store_cr1": [
           -283462.0,
           -264279.0
         ],
-        "ci_source": "bootstrap",
+        "ci_source": "cr1",
         "dip_gp": -91117.5,
         "dip_units": -51632.9,
         "display_fee": 0.0,
@@ -109,7 +109,7 @@
           1.25193,
           1.35517
         ],
-        "mde": 27664.4,
+        "mde": 16327.2,
         "net_gp": -273871.0,
         "net_gp_per_event": -648.983,
         "net_incremental_units": 91133.5,
@@ -128,8 +128,8 @@
           49749.6
         ],
         "ci90_store_bootstrap": [
-          26685.7,
-          50354.3
+          26919.3,
+          50445.6
         ],
         "ci90_store_cr1": [
           25663.6,
@@ -162,18 +162,18 @@
         "cannibalisation_gp": -77083.6,
         "cannibalised_units": -45809.5,
         "ci90": [
-          -9250.03,
-          12140.2
+          -9055.02,
+          10188.1
         ],
         "ci90_store_bootstrap": [
-          -9250.03,
-          12140.2
+          -7981.89,
+          10860.6
         ],
         "ci90_store_cr1": [
           -9055.02,
           10188.1
         ],
-        "ci_source": "bootstrap",
+        "ci_source": "cr1",
         "dip_gp": -31272.2,
         "dip_units": -20150.8,
         "display_fee": 67500.0,
@@ -187,7 +187,7 @@
           1.23793,
           1.38798
         ],
-        "mde": 18206.1,
+        "mde": 16378.6,
         "net_gp": 566.567,
         "net_gp_per_event": 4.16593,
         "net_incremental_units": 43799.8,
@@ -200,18 +200,18 @@
         "cannibalisation_gp": -306666.0,
         "cannibalised_units": -177403.0,
         "ci90": [
-          -9693.75,
-          72598.8
+          -11241.1,
+          68006.1
         ],
         "ci90_store_bootstrap": [
-          -9693.75,
-          72598.8
+          -6014.7,
+          70684.4
         ],
         "ci90_store_cr1": [
           -11241.1,
           68006.1
         ],
-        "ci_source": "bootstrap",
+        "ci_source": "cr1",
         "dip_gp": -122012.0,
         "dip_units": -67798.6,
         "display_fee": 308250.0,
@@ -225,7 +225,7 @@
           1.45215,
           1.59191
         ],
-        "mde": 70042.4,
+        "mde": 67450.4,
         "net_gp": 28382.5,
         "net_gp_per_event": 53.0514,
         "net_incremental_units": 153830.0,
@@ -240,18 +240,18 @@
         "cannibalisation_gp": -25138.6,
         "cannibalised_units": -15156.8,
         "ci90": [
-          -38248.6,
-          -33321.7
+          -37786.1,
+          -33565.8
         ],
         "ci90_store_bootstrap": [
-          -38248.6,
-          -33321.7
+          -37885.4,
+          -33780.2
         ],
         "ci90_store_cr1": [
           -37786.1,
           -33565.8
         ],
-        "ci_source": "bootstrap",
+        "ci_source": "cr1",
         "dip_gp": -18166.6,
         "dip_units": -11996.3,
         "display_fee": 0.0,
@@ -265,7 +265,7 @@
           3.95076,
           4.09453
         ],
-        "mde": 4193.48,
+        "mde": 3592.04,
         "net_gp": -35676.0,
         "net_gp_per_event": -870.146,
         "net_incremental_units": 41657.8,
@@ -282,8 +282,8 @@
           84662.8
         ],
         "ci90_store_bootstrap": [
-          62969.2,
-          84707.5
+          63174.0,
+          84973.0
         ],
         "ci90_store_cr1": [
           62102.3,
@@ -316,18 +316,18 @@
         "cannibalisation_gp": -45507.1,
         "cannibalised_units": -27133.5,
         "ci90": [
-          -46172.0,
-          -38283.4
+          -44861.3,
+          -39567.2
         ],
         "ci90_store_bootstrap": [
-          -46172.0,
-          -38283.4
+          -44741.6,
+          -39489.2
         ],
         "ci90_store_cr1": [
           -44861.3,
           -39567.2
         ],
-        "ci_source": "bootstrap",
+        "ci_source": "cr1",
         "dip_gp": -13291.7,
         "dip_units": -8519.55,
         "display_fee": 0.0,
@@ -341,7 +341,7 @@
           0.920604,
           1.04996
         ],
-        "mde": 6714.28,
+        "mde": 4505.98,
         "net_gp": -42214.3,
         "net_gp_per_event": -521.164,
         "net_incremental_units": 13069.6,
@@ -354,18 +354,18 @@
         "cannibalisation_gp": -31576.5,
         "cannibalised_units": -18676.0,
         "ci90": [
-          34998.6,
-          52037.4
+          34489.6,
+          51072.1
         ],
         "ci90_store_bootstrap": [
-          34998.6,
-          52037.4
+          35341.9,
+          51760.5
         ],
         "ci90_store_cr1": [
           34489.6,
           51072.1
         ],
-        "ci_source": "bootstrap",
+        "ci_source": "cr1",
         "dip_gp": -17980.5,
         "dip_units": -11631.2,
         "display_fee": 67500.0,
@@ -379,7 +379,7 @@
           1.69636,
           1.87722
         ],
-        "mde": 14502.3,
+        "mde": 14114.0,
         "net_gp": 42780.8,
         "net_gp_per_event": 777.833,
         "net_incremental_units": 30730.2,
@@ -392,18 +392,18 @@
         "cannibalisation_gp": -171136.0,
         "cannibalised_units": -99125.0,
         "ci90": [
-          -208353.0,
-          -182957.0
+          -204641.0,
+          -187320.0
         ],
         "ci90_store_bootstrap": [
-          -208353.0,
-          -182957.0
+          -204090.0,
+          -186780.0
         ],
         "ci90_store_cr1": [
           -204641.0,
           -187320.0
         ],
-        "ci_source": "bootstrap",
+        "ci_source": "cr1",
         "dip_gp": -59659.2,
         "dip_units": -31117.1,
         "display_fee": 0.0,
@@ -417,7 +417,7 @@
           1.05169,
           1.1507
         ],
-        "mde": 21615.1,
+        "mde": 14742.7,
         "net_gp": -195981.0,
         "net_gp_per_event": -653.269,
         "net_incremental_units": 36406.1,
@@ -434,8 +434,8 @@
           255292.0
         ],
         "ci90_store_bootstrap": [
-          196046.0,
-          257666.0
+          197224.0,
+          257189.0
         ],
         "ci90_store_cr1": [
           193434.0,
@@ -470,18 +470,18 @@
         "cannibalisation_gp": -18550.0,
         "cannibalised_units": -16697.8,
         "ci90": [
-          12831.3,
-          23042.4
+          12880.1,
+          22410.1
         ],
         "ci90_store_bootstrap": [
-          12831.3,
-          23042.4
+          13271.3,
+          22699.3
         ],
         "ci90_store_cr1": [
           12880.1,
           22410.1
         ],
-        "ci_source": "bootstrap",
+        "ci_source": "cr1",
         "dip_gp": -7188.47,
         "dip_units": -7201.35,
         "display_fee": 34250.0,
@@ -495,7 +495,7 @@
           1.47186,
           1.60979
         ],
-        "mde": 8691.01,
+        "mde": 8111.4,
         "net_gp": 17645.1,
         "net_gp_per_event": 263.36,
         "net_incremental_units": 15541.5,
@@ -508,18 +508,18 @@
         "cannibalisation_gp": -52674.5,
         "cannibalised_units": -30756.9,
         "ci90": [
-          28042.2,
-          45320.1
+          29236.4,
+          43087.8
         ],
         "ci90_store_bootstrap": [
-          28042.2,
-          45320.1
+          29793.0,
+          43419.9
         ],
         "ci90_store_cr1": [
           29236.4,
           43087.8
         ],
-        "ci_source": "bootstrap",
+        "ci_source": "cr1",
         "dip_gp": -26982.8,
         "dip_units": -15441.0,
         "display_fee": 76750.0,
@@ -533,7 +533,7 @@
           1.76995,
           1.90778
         ],
-        "mde": 14705.9,
+        "mde": 11789.4,
         "net_gp": 36162.1,
         "net_gp_per_event": 306.459,
         "net_incremental_units": 46672.1,
@@ -546,18 +546,18 @@
         "cannibalisation_gp": -39908.9,
         "cannibalised_units": -18699.3,
         "ci90": [
-          -44227.6,
-          -27791.3
+          -42720.7,
+          -29952.2
         ],
         "ci90_store_bootstrap": [
-          -44227.6,
-          -27791.3
+          -41977.7,
+          -29454.1
         ],
         "ci90_store_cr1": [
           -42720.7,
           -29952.2
         ],
-        "ci_source": "bootstrap",
+        "ci_source": "cr1",
         "dip_gp": -23916.3,
         "dip_units": -11708.5,
         "display_fee": 43250.0,
@@ -571,7 +571,7 @@
           1.98534,
           2.16618
         ],
-        "mde": 13989.6,
+        "mde": 10867.8,
         "net_gp": -36336.4,
         "net_gp_per_event": -595.679,
         "net_incremental_units": 12071.4,
@@ -584,12 +584,12 @@
         "cannibalisation_gp": -17334.1,
         "cannibalised_units": -12477.1,
         "ci90": [
-          -2548.06,
-          4300.22
+          -1701.58,
+          3787.01
         ],
         "ci90_store_bootstrap": [
-          -2548.06,
-          4300.22
+          -1701.58,
+          3787.01
         ],
         "ci90_store_cr1": [
           -1938.14,
@@ -609,7 +609,7 @@
           1.40765,
           1.52004
         ],
-        "mde": 5828.85,
+        "mde": 4671.56,
         "net_gp": 788.683,
         "net_gp_per_event": 14.3397,
         "net_incremental_units": 15019.4,
@@ -622,18 +622,18 @@
         "cannibalisation_gp": -127753.0,
         "cannibalised_units": -62332.6,
         "ci90": [
-          35250.3,
-          90177.1
+          43588.2,
+          81069.8
         ],
         "ci90_store_bootstrap": [
-          35250.3,
-          90177.1
+          45977.8,
+          81964.0
         ],
         "ci90_store_cr1": [
           43588.2,
           81069.8
         ],
-        "ci_source": "bootstrap",
+        "ci_source": "cr1",
         "dip_gp": -58784.3,
         "dip_units": -30347.9,
         "display_fee": 144750.0,
@@ -647,7 +647,7 @@
           1.68421,
           1.84977
         ],
-        "mde": 46750.4,
+        "mde": 31902.0,
         "net_gp": 62329.0,
         "net_gp_per_event": 266.363,
         "net_incremental_units": 151413.0,
@@ -660,18 +660,18 @@
         "cannibalisation_gp": -42859.4,
         "cannibalised_units": -32565.8,
         "ci90": [
-          -16182.4,
-          -4744.63
+          -15759.4,
+          -6023.35
         ],
         "ci90_store_bootstrap": [
-          -16182.4,
-          -4744.63
+          -15208.4,
+          -5704.12
         ],
         "ci90_store_cr1": [
           -15759.4,
           -6023.35
         ],
-        "ci_source": "bootstrap",
+        "ci_source": "cr1",
         "dip_gp": -22346.4,
         "dip_units": -16106.4,
         "display_fee": 41750.0,
@@ -685,7 +685,7 @@
           1.70083,
           1.8368
         ],
-        "mde": 9735.17,
+        "mde": 8286.75,
         "net_gp": -10891.4,
         "net_gp_per_event": -137.866,
         "net_incremental_units": 13618.9,
@@ -698,18 +698,18 @@
         "cannibalisation_gp": -129497.0,
         "cannibalised_units": -79066.5,
         "ci90": [
-          -14112.9,
-          20967.3
+          -11175.0,
+          15819.3
         ],
         "ci90_store_bootstrap": [
-          -14112.9,
-          20967.3
+          -9805.45,
+          16356.3
         ],
         "ci90_store_cr1": [
           -11175.0,
           15819.3
         ],
-        "ci_source": "bootstrap",
+        "ci_source": "cr1",
         "dip_gp": -40517.1,
         "dip_units": -24920.7,
         "display_fee": 92000.0,
@@ -723,7 +723,7 @@
           2.12191,
           2.33651
         ],
-        "mde": 29858.1,
+        "mde": 22975.9,
         "net_gp": 2322.18,
         "net_gp_per_event": 18.43,
         "net_incremental_units": 82710.5,
@@ -736,18 +736,18 @@
         "cannibalisation_gp": -9259.43,
         "cannibalised_units": -2875.86,
         "ci90": [
-          -8620.08,
-          -1930.8
+          -7323.67,
+          -3403.58
         ],
         "ci90_store_bootstrap": [
-          -8620.08,
-          -1930.8
+          -7086.95,
+          -3200.24
         ],
         "ci90_store_cr1": [
           -7323.67,
           -3403.58
         ],
-        "ci_source": "bootstrap",
+        "ci_source": "cr1",
         "dip_gp": -7564.85,
         "dip_units": -2562.99,
         "display_fee": 10500.0,
@@ -761,7 +761,7 @@
           1.22718,
           1.40629
         ],
-        "mde": 5693.51,
+        "mde": 3336.54,
         "net_gp": -5363.62,
         "net_gp_per_event": -184.953,
         "net_incremental_units": 4545.8,
@@ -958,18 +958,18 @@
         "cannibalisation_gp": -236907.0,
         "cannibalised_units": -136498.0,
         "ci90": [
-          -14420.9,
-          47027.3
+          -15124.1,
+          41965.2
         ],
         "ci90_store_bootstrap": [
-          -14420.9,
-          47027.3
+          -11342.6,
+          44620.7
         ],
         "ci90_store_cr1": [
           -15124.1,
           41965.2
         ],
-        "ci_source": "bootstrap",
+        "ci_source": "cr1",
         "dip_gp": -110918.0,
         "dip_units": -63614.4,
         "display_fee": 232000.0,
@@ -983,7 +983,7 @@
           1.8316,
           1.96287
         ],
-        "mde": 52301.0,
+        "mde": 48591.0,
         "net_gp": 13420.6,
         "net_gp_per_event": 33.8049,
         "net_incremental_units": 191387.0,
@@ -1002,8 +1002,8 @@
           199302.0
         ],
         "ci90_store_bootstrap": [
-          154302.0,
-          200801.0
+          155275.0,
+          200342.0
         ],
         "ci90_store_cr1": [
           152489.0,
@@ -1036,12 +1036,12 @@
         "cannibalisation_gp": -137234.0,
         "cannibalised_units": -79281.7,
         "ci90": [
-          -171087.0,
-          -153487.0
+          -167598.0,
+          -156732.0
         ],
         "ci90_store_bootstrap": [
-          -171087.0,
-          -153487.0
+          -167598.0,
+          -156732.0
         ],
         "ci90_store_cr1": [
           -167866.0,
@@ -1061,7 +1061,7 @@
           1.28431,
           1.38511
         ],
-        "mde": 14980.4,
+        "mde": 9248.6,
         "net_gp": -162475.0,
         "net_gp_per_event": -712.609,
         "net_incremental_units": 50939.4,
@@ -1080,8 +1080,8 @@
           23883.7
         ],
         "ci90_store_bootstrap": [
-          10290.2,
-          24345.9
+          10368.4,
+          24178.4
         ],
         "ci90_store_cr1": [
           9784.44,
@@ -1114,12 +1114,12 @@
         "cannibalisation_gp": -44397.2,
         "cannibalised_units": -25808.3,
         "ci90": [
-          -16662.6,
-          -5070.77
+          -15837.9,
+          -5844.07
         ],
         "ci90_store_bootstrap": [
-          -16662.6,
-          -5070.77
+          -15837.9,
+          -5844.07
         ],
         "ci90_store_cr1": [
           -16312.6,
@@ -1139,7 +1139,7 @@
           1.19379,
           1.30599
         ],
-        "mde": 9866.23,
+        "mde": 8506.17,
         "net_gp": -11323.8,
         "net_gp_per_event": -147.062,
         "net_incremental_units": 13550.8,
@@ -1152,18 +1152,18 @@
         "cannibalisation_gp": -165608.0,
         "cannibalised_units": -94707.0,
         "ci90": [
-          -14294.0,
-          34377.4
+          -15081.2,
+          30901.7
         ],
         "ci90_store_bootstrap": [
-          -14294.0,
-          34377.4
+          -12320.5,
+          33659.5
         ],
         "ci90_store_cr1": [
           -15081.2,
           30901.7
         ],
-        "ci_source": "bootstrap",
+        "ci_source": "cr1",
         "dip_gp": -70067.3,
         "dip_units": -37972.7,
         "display_fee": 159750.0,
@@ -1177,7 +1177,7 @@
           1.46009,
           1.59163
         ],
-        "mde": 41426.2,
+        "mde": 39137.9,
         "net_gp": 7910.23,
         "net_gp_per_event": 28.9752,
         "net_incremental_units": 87960.6,
@@ -1192,18 +1192,18 @@
         "cannibalisation_gp": -14974.0,
         "cannibalised_units": -8703.57,
         "ci90": [
-          -24489.3,
-          -21437.3
+          -24218.2,
+          -21620.8
         ],
         "ci90_store_bootstrap": [
-          -24489.3,
-          -21437.3
+          -24215.8,
+          -21709.8
         ],
         "ci90_store_cr1": [
           -24218.2,
           -21620.8
         ],
-        "ci_source": "bootstrap",
+        "ci_source": "cr1",
         "dip_gp": -9656.22,
         "dip_units": -6476.37,
         "display_fee": 0.0,
@@ -1217,7 +1217,7 @@
           3.75356,
           3.89586
         ],
-        "mde": 2597.65,
+        "mde": 2210.76,
         "net_gp": -22919.5,
         "net_gp_per_event": -1091.4,
         "net_incremental_units": 21304.8,
@@ -1234,8 +1234,8 @@
           46285.6
         ],
         "ci90_store_bootstrap": [
-          33636.8,
-          46571.2
+          33733.8,
+          46578.3
         ],
         "ci90_store_cr1": [
           33221.5,
@@ -1268,12 +1268,12 @@
         "cannibalisation_gp": -29068.4,
         "cannibalised_units": -16862.8,
         "ci90": [
-          -33162.5,
-          -28646.7
+          -31998.0,
+          -29760.4
         ],
         "ci90_store_bootstrap": [
-          -33162.5,
-          -28646.7
+          -31998.0,
+          -29760.4
         ],
         "ci90_store_cr1": [
           -32028.3,
@@ -1293,7 +1293,7 @@
           0.888347,
           0.993198
         ],
-        "mde": 3843.59,
+        "mde": 1904.58,
         "net_gp": -30916.7,
         "net_gp_per_event": -594.551,
         "net_incremental_units": 1778.65,
@@ -1306,12 +1306,12 @@
         "cannibalisation_gp": -15328.8,
         "cannibalised_units": -8945.57,
         "ci90": [
-          15524.4,
-          24369.0
+          15613.4,
+          24320.3
         ],
         "ci90_store_bootstrap": [
-          15524.4,
-          24369.0
+          15613.4,
+          24320.3
         ],
         "ci90_store_cr1": [
           15263.2,
@@ -1331,7 +1331,7 @@
           1.70738,
           1.87039
         ],
-        "mde": 7528.03,
+        "mde": 7410.78,
         "net_gp": 19592.9,
         "net_gp_per_event": 783.716,
         "net_incremental_units": 11772.2,
@@ -1344,18 +1344,18 @@
         "cannibalisation_gp": -93191.5,
         "cannibalised_units": -53715.4,
         "ci90": [
-          -115504.0,
-          -101545.0
+          -113838.0,
+          -103439.0
         ],
         "ci90_store_bootstrap": [
-          -115504.0,
-          -101545.0
+          -113528.0,
+          -103149.0
         ],
         "ci90_store_cr1": [
           -113838.0,
           -103439.0
         ],
-        "ci_source": "bootstrap",
+        "ci_source": "cr1",
         "dip_gp": -36707.1,
         "dip_units": -18582.8,
         "display_fee": 0.0,
@@ -1369,7 +1369,7 @@
           1.11809,
           1.22312
         ],
-        "mde": 11881.1,
+        "mde": 8851.42,
         "net_gp": -108639.0,
         "net_gp_per_event": -700.894,
         "net_incremental_units": 27855.9,
@@ -1382,18 +1382,18 @@
         "cannibalisation_gp": -72416.5,
         "cannibalised_units": -40991.6,
         "ci90": [
-          100675.0,
-          135252.0
+          99375.0,
+          133723.0
         ],
         "ci90_store_bootstrap": [
-          100675.0,
-          135252.0
+          101548.0,
+          135307.0
         ],
         "ci90_store_cr1": [
           99375.0,
           133723.0
         ],
-        "ci_source": "bootstrap",
+        "ci_source": "cr1",
         "dip_gp": -33360.2,
         "dip_units": -19389.9,
         "display_fee": 159750.0,
@@ -1407,7 +1407,7 @@
           1.94674,
           2.1342
         ],
-        "mde": 29429.8,
+        "mde": 29234.8,
         "net_gp": 116549.0,
         "net_gp_per_event": 987.702,
         "net_incremental_units": 60104.7,
@@ -1426,8 +1426,8 @@
           9824.96
         ],
         "ci90_store_bootstrap": [
-          1877.59,
-          10297.1
+          2122.6,
+          10201.8
         ],
         "ci90_store_cr1": [
           1366.86,
@@ -1460,18 +1460,18 @@
         "cannibalisation_gp": -29034.4,
         "cannibalised_units": -16383.7,
         "ci90": [
-          -1324.2,
-          8143.23
+          -594.595,
+          6820.55
         ],
         "ci90_store_bootstrap": [
-          -1324.2,
-          8143.23
+          -379.192,
+          6940.98
         ],
         "ci90_store_cr1": [
           -594.595,
           6820.55
         ],
-        "ci_source": "bootstrap",
+        "ci_source": "cr1",
         "dip_gp": -11905.3,
         "dip_units": -6513.11,
         "display_fee": 24750.0,
@@ -1485,7 +1485,7 @@
           1.49684,
           1.66403
         ],
-        "mde": 8058.1,
+        "mde": 6311.33,
         "net_gp": 3112.98,
         "net_gp_per_event": 51.0324,
         "net_incremental_units": 18480.5,
@@ -1498,18 +1498,18 @@
         "cannibalisation_gp": -20526.1,
         "cannibalised_units": -9739.92,
         "ci90": [
-          -28452.6,
-          -17563.5
+          -28257.2,
+          -18459.8
         ],
         "ci90_store_bootstrap": [
-          -28452.6,
-          -17563.5
+          -27673.6,
+          -18049.7
         ],
         "ci90_store_cr1": [
           -28257.2,
           -18459.8
         ],
-        "ci_source": "bootstrap",
+        "ci_source": "cr1",
         "dip_gp": -13866.1,
         "dip_units": -6816.2,
         "display_fee": 22000.0,
@@ -1523,7 +1523,7 @@
           2.0116,
           2.22133
         ],
-        "mde": 9268.2,
+        "mde": 8338.96,
         "net_gp": -23358.5,
         "net_gp_per_event": -729.954,
         "net_incremental_units": 5908.8,
@@ -1536,18 +1536,18 @@
         "cannibalisation_gp": -8163.19,
         "cannibalised_units": -5919.82,
         "ci90": [
-          -1880.3,
-          1343.12
+          -1589.21,
+          984.937
         ],
         "ci90_store_bootstrap": [
-          -1880.3,
-          1343.12
+          -1483.0,
+          1073.33
         ],
         "ci90_store_cr1": [
           -1589.21,
           984.937
         ],
-        "ci_source": "bootstrap",
+        "ci_source": "cr1",
         "dip_gp": -6911.77,
         "dip_units": -4797.66,
         "display_fee": 11750.0,
@@ -1561,7 +1561,7 @@
           1.30756,
           1.45125
         ],
-        "mde": 2743.58,
+        "mde": 2190.95,
         "net_gp": -302.134,
         "net_gp_per_event": -11.6205,
         "net_incremental_units": 7879.78,
@@ -1574,18 +1574,18 @@
         "cannibalisation_gp": -68539.4,
         "cannibalised_units": -33677.1,
         "ci90": [
-          15788.7,
-          47024.3
+          19698.4,
+          42314.1
         ],
         "ci90_store_bootstrap": [
-          15788.7,
-          47024.3
+          20920.2,
+          43040.6
         ],
         "ci90_store_cr1": [
           19698.4,
           42314.1
         ],
-        "ci_source": "bootstrap",
+        "ci_source": "cr1",
         "dip_gp": -39368.9,
         "dip_units": -19800.4,
         "display_fee": 82750.0,
@@ -1599,7 +1599,7 @@
           1.70911,
           1.8829
         ],
-        "mde": 26585.9,
+        "mde": 19249.2,
         "net_gp": 31006.3,
         "net_gp_per_event": 254.15,
         "net_incremental_units": 84597.1,
@@ -1612,18 +1612,18 @@
         "cannibalisation_gp": -22340.0,
         "cannibalised_units": -16391.2,
         "ci90": [
-          -12024.1,
-          -6429.16
+          -11724.7,
+          -7112.37
         ],
         "ci90_store_bootstrap": [
-          -12024.1,
-          -6429.16
+          -11494.1,
+          -6936.04
         ],
         "ci90_store_cr1": [
           -11724.7,
           -7112.37
         ],
-        "ci_source": "bootstrap",
+        "ci_source": "cr1",
         "dip_gp": -11884.6,
         "dip_units": -8167.82,
         "display_fee": 19250.0,
@@ -1637,7 +1637,7 @@
           1.66413,
           1.80423
         ],
-        "mde": 4762.11,
+        "mde": 3925.73,
         "net_gp": -9418.53,
         "net_gp_per_event": -229.72,
         "net_incremental_units": 4404.77,
@@ -1650,12 +1650,12 @@
         "cannibalisation_gp": -73082.3,
         "cannibalised_units": -44046.5,
         "ci90": [
-          -651.478,
-          19127.4
+          1879.43,
+          16643.3
         ],
         "ci90_store_bootstrap": [
-          -651.478,
-          19127.4
+          1879.43,
+          16643.3
         ],
         "ci90_store_cr1": [
           1299.92,
@@ -1666,7 +1666,7 @@
         "dip_units": -10987.0,
         "display_fee": 49000.0,
         "events": 66,
-        "funding_dependent": false,
+        "funding_dependent": true,
         "gp_before_funding": -160388.0,
         "incremental_units": 112905.0,
         "lift_gp": -69778.3,
@@ -1675,11 +1675,11 @@
           2.46408,
           2.71653
         ],
-        "mde": 16834.6,
+        "mde": 12566.1,
         "net_gp": 8678.78,
         "net_gp_per_event": 131.497,
         "net_incremental_units": 57871.1,
-        "outcome": "inconclusive",
+        "outcome": "keep",
         "scan_back": 120067.0,
         "store_clusters": 24
       },
@@ -1688,18 +1688,18 @@
         "cannibalisation_gp": -5553.63,
         "cannibalised_units": -1748.79,
         "ci90": [
-          -3987.93,
-          266.814
+          -3239.77,
+          -548.579
         ],
         "ci90_store_bootstrap": [
-          -3987.93,
-          266.814
+          -3127.95,
+          -446.915
         ],
         "ci90_store_cr1": [
           -3239.77,
           -548.579
         ],
-        "ci_source": "bootstrap",
+        "ci_source": "cr1",
         "dip_gp": -4912.25,
         "dip_units": -1792.7,
         "display_fee": 7250.0,
@@ -1713,11 +1713,11 @@
           1.42103,
           1.65127
         ],
-        "mde": 3621.38,
+        "mde": 2290.58,
         "net_gp": -1894.17,
         "net_gp_per_event": -118.386,
         "net_incremental_units": 3831.9,
-        "outcome": "inconclusive",
+        "outcome": "cut_or_redesign",
         "scan_back": 8578.75,
         "store_clusters": 24
       }

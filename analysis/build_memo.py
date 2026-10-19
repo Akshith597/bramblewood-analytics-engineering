@@ -49,23 +49,22 @@ def figures(r):
     pr2, o = r['promotions'], r['stockouts']
     q2 = pr2['fy2025']
     out = {
-        'd_effect': pct(d['gp']['beta']), 'd_ci': rng(*d['gp']['ci90_wild'], pct),
-        'd_p': pval(d['gp']['p_wild']), 'd_ri_p': pval(d['gp']['randomization']['p_value']),
+        'd_effect': pct(d['gp']['beta']), 'd_ci': rng(*d['gp']['ci90'], pct),
+        'd_p': pval(d['gp']['p_value']), 'd_ri_p': pval(d['gp']['randomization']['p_value']),
         'd_donors': str(len(d['donor_stores'])),
         'd_mde': pct(abs(d['decision']['mde_pct']), signed=False),
         'd_power2': pct(d['gp']['randomization']['power_against_loss']['2pct'], 0, signed=False),
-        'd_units': pct(abs(d['units']['beta']), signed=False), 'd_units_ci': rng(*d['units']['ci90_wild'], pct),
-        'd_units_p': pval(d['units']['p_wild']), 'd_sales': pct(d['sales']['beta']),
+        'd_units': pct(abs(d['units']['beta']), signed=False), 'd_units_ci': rng(*d['units']['ci90'], pct),
+        'd_units_p': pval(d['units']['p_value']), 'd_sales': pct(d['sales']['beta']),
         'd_transfer': pct(d['transfer']['transfer_rate'], 0, signed=False),
         'd_transfer_ci': rng(*d['transfer']['transfer_rate_ci90'], lambda x: pct(x, 0, signed=False)),
         'd_fake24': pct(d['gp_fake_dates']['FY2024-W27']['beta']),
-        'd_fake24_p': pval(d['gp_fake_dates']['FY2024-W27']['p_wild']),
+        'd_fake24_p': pval(d['gp_fake_dates']['FY2024-W27']['p_value']),
         'd_yoy': pct(d['exploratory_yoy_adjusted_gp']),
-        'd_sc': 'synthetic control ' + pct(d['gp_synthetic_control']['effect_mean']),
         'd_large': 'large-store controls only ' + pct(d['gp_large_controls_only']['beta']),
         'd_dollar': money(d['rollout']['annual_gp_change']),
         'd_dollar_ci': rng(*d['rollout']['annual_gp_change_ci90'], money),
-        'd_log': pct(d['gp_log_sensitivity']['beta']) + ', ' + rng(*d['gp_log_sensitivity']['ci90_wild'], pct),
+        'd_log': pct(d['gp_log_sensitivity']['beta']) + ', ' + rng(*d['gp_log_sensitivity']['ci90'], pct),
         'p_gr_inc': pct(gr['price_increase']), 'p_bs_inc': pct(bs['price_increase']),
         'p_gr_margin': pct(gr['margin_before'], signed=False), 'p_bs_margin': pct(bs['margin_before'], signed=False),
         'p_gr_be': num(gr['breakeven_elasticity']), 'p_bs_be': num(bs['breakeven_elasticity']),
@@ -142,8 +141,8 @@ def figures(r):
 
 
 def extension_figures(r):
-    """FY2026-round figures: cut list, physical records, inventory simulation, value of information."""
-    a, ph, s, e = r['assortment'], r['physical'], r['inventory_sim'], r['evoi']
+    """FY2026-round figures: cut list, physical records, inventory simulation."""
+    a, ph, s = r['assortment'], r['physical'], r['inventory_sim']
     pos = lambda v: money(v).lstrip('+')
     names = {'PG-SS-L-2024': 'large', 'PG-SS-M-2024': 'medium', 'PG-SS-S-2024': 'small'}
     tc = a['tau_checks']
@@ -158,7 +157,6 @@ def extension_figures(r):
         + ' at the fake dates',
         'a_tau_yoy': num(tc['same_season_yoy']['implied_tau']) + ', ' + rng(*tc['same_season_yoy']['implied_tau_ci90'], num),
         'e_tortilla_action': {'hold': 'keep the price', 'roll_back': 'roll the price back'}[r['plan']['tortilla_action']],
-        'e_tortilla_evpi': pos(e['tests']['tortilla_price']['evpi']),
         'ph_exact': pct(ph['flow_identity']['2025']['exact_share'], 0, signed=False),
         'ph_shrink': pct(ph['flow_identity']['2025']['shrink_share_of_receipts'], signed=False),
         'ph_receipts_over': pct(ph['receipts_vs_forecast_fy2025']['receipts_over_actual'], signed=False),
@@ -187,12 +185,11 @@ def extension_figures(r):
 
 CLAIMS = {
     'Q1 outcome is underpowered/inconclusive': lambda r: r['delist']['decision']['outcome'] == 'underpowered',
-    'Q1 fake FY2024 date is significant at 10%': lambda r: r['delist']['gp_fake_dates']['FY2024-W27']['p_wild'] < 0.10,
-    'Q1 robustness estimates share the sign of the main estimate': lambda r: all(
-        x > 0 for x in (r['delist']['gp']['beta'], r['delist']['gp_synthetic_control']['effect_mean'],
-                        r['delist']['gp_large_controls_only']['beta'])),
-    'Q1 units fell significantly': lambda r: r['delist']['units']['ci90_wild'][1] < 0,
-    'Q1 net sales flat (CI spans 0)': lambda r: r['delist']['sales']['ci90_wild'][0] < 0 < r['delist']['sales']['ci90_wild'][1],
+    'Q1 fake FY2024 date is significant at 10%': lambda r: r['delist']['gp_fake_dates']['FY2024-W27']['p_value'] < 0.10,
+    'Q1 large-store-only estimate shares the sign of the main estimate': lambda r: all(
+        x > 0 for x in (r['delist']['gp']['beta'], r['delist']['gp_large_controls_only']['beta'])),
+    'Q1 units fell significantly': lambda r: r['delist']['units']['ci90'][1] < 0,
+    'Q1 net sales flat (CI spans 0)': lambda r: r['delist']['sales']['ci90'][0] < 0 < r['delist']['sales']['ci90'][1],
     'Q3 no design credible for either event': lambda r: all(
         x['outcome'] == 'not_identified' for x in r['pricing']['decisions'].values()),
     'Q3 kettle pooled range is far below break-even': lambda r: (
@@ -213,7 +210,6 @@ CLAIMS = {
                                                          r['forecast']['mase']['vs_seasonal_naive']) < 1,
     'Q1 cut list positive at the low end of tau': lambda r: r['assortment']['chain']['gp_change_tau_range'][0] > 0,
     'Q1 transfer rate passes its fake-date checks': lambda r: r['assortment']['tau_checks']['passed'],
-    'Q3 tortilla test worth less than it costs': lambda r: r['evoi']['tests']['tortilla_price']['net_value'] < 0,
     'Q4 over-forecast did not reach store shelves': lambda r: not r['physical']['restated']['reached_stores'],
     'Q4 receipts follow same-week sales': lambda r: (
         r['inventory_sim']['observed_replenishment']['coef_sales_same_week']

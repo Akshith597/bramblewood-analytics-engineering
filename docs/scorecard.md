@@ -6,8 +6,8 @@ deviations: [DEVIATIONS.md](../analysis/scorecard/DEVIATIONS.md) · request: [an
 
 **Status: answer key not yet received — 43 parameters frozen, none scored. The request to the dataset's author is drafted and has not been sent.**
 
-Every estimate and 90% interval below was frozen in the commit tagged `estimates-frozen-v1` before the key was
-opened. Scoring uses that file, not a re-run, and a test fails if any current result differs from it. A truth
+Every estimate and 90% interval below was frozen before the key was opened (first as `estimates-frozen-v1`, then
+re-frozen as `estimates-frozen-v2` when the methods were simplified; see the deviation log). Scoring uses that file, not a re-run, and a test fails if any current result differs from it. A truth
 inside the interval counts as covered; with honest intervals about 90% should be.
 
 Truth, error and coverage fill in automatically when `analysis/scorecard/answer_key.json` is committed.
@@ -53,10 +53,10 @@ Truth, error and coverage fill in automatically when `analysis/scorecard/answer_
 | Forecast bias FY2025 in-stock weeks, Pretzels *(secondary)* | +19.1% | +14.1% to +23.2% | pending | — | — |
 | Forecast bias FY2025 in-stock weeks, Tortilla Chips *(secondary)* | +22.8% | +17.9% to +26.2% | pending | — | — |
 | Forecast bias FY2025 in-stock weeks, Trail Mix *(secondary)* | +11.4% | +8.7% to +14.0% | pending | — | — |
-| Delist test: category GP effect in test stores | +1.9% | −2.5% to +6.4% | pending | — | — |
-| Delist test: category units effect | −1.4% | −2.0% to −0.7% | pending | — | — |
-| Delist test: category net sales effect | −0.7% | −2.1% to +0.8% | pending | — | — |
-| Delist test: retained-SKU sales gained per $ of delisted sales lost | 124% | 81% to 166% | pending | — | — |
+| Delist test: category GP effect in test stores | +1.9% | −2.3% to +6.1% | pending | — | — |
+| Delist test: category units effect | −1.4% | −2.2% to −0.5% | pending | — | — |
+| Delist test: category net sales effect | −0.7% | −2.3% to +1.0% | pending | — | — |
+| Delist test: retained-SKU sales gained per $ of delisted sales lost | 124% | 83% to 164% | pending | — | — |
 
 ## What the scorecard proved wrong
 
