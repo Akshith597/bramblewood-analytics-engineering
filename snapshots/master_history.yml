@@ -1,0 +1,70 @@
+version: 2
+snapshots:
+- name: snap_items
+  relation: ref('stg_items')
+  description: Type 2 history of the item master. Each row is one version of a SKU's attributes, valid from
+    dbt_valid_from until dbt_valid_to (null while current). History starts at the first build in a warehouse; the
+    extracts carry no earlier attribute history, so dim_item stays Type 1.
+  config:
+    schema: snapshots
+    unique_key: sku_id
+    strategy: check
+    # Attribute columns only: extract row positions change when the master is re-sorted, not when an item changes.
+    check_cols: [upc, description, brand, vendor_id, category, subcategory, brand_type, flavor, size_desc, size_oz,
+      case_pack, launch_date, discontinue_date, replaces_sku, status]
+    hard_deletes: invalidate
+  columns:
+  - name: sku_id
+    description: Item master SKU identifier; one current version per SKU.
+    data_tests:
+    - not_null
+  - name: dbt_scd_id
+    description: dbt-generated identifier of one SKU version.
+    data_tests:
+    - unique
+    - not_null
+  - name: dbt_valid_from
+    description: Snapshot run timestamp at which this version was first observed.
+    data_tests:
+    - not_null
+  - name: dbt_valid_to
+    description: Snapshot run timestamp at which a changed or deleted version was superseded; null while current.
+  data_tests:
+  - dbt_utils.unique_combination_of_columns:
+      arguments:
+        combination_of_columns:
+        - sku_id
+        - dbt_valid_from
+- name: snap_stores
+  relation: ref('stg_stores')
+  description: Type 2 history of the store master, including format, size, price zone and remodel dates. History starts
+    at the first build in a warehouse, so dim_store stays Type 1.
+  config:
+    schema: snapshots
+    unique_key: store_id
+    strategy: check
+    check_cols: [store_name, city, state, format, sqft, price_zone, pos_system, open_date, remodel_start,
+      remodel_end]
+    hard_deletes: invalidate
+  columns:
+  - name: store_id
+    description: Store master identifier; one current version per store.
+    data_tests:
+    - not_null
+  - name: dbt_scd_id
+    description: dbt-generated identifier of one store version.
+    data_tests:
+    - unique
+    - not_null
+  - name: dbt_valid_from
+    description: Snapshot run timestamp at which this version was first observed.
+    data_tests:
+    - not_null
+  - name: dbt_valid_to
+    description: Snapshot run timestamp at which a changed or closed version was superseded; null while current.
+  data_tests:
+  - dbt_utils.unique_combination_of_columns:
+      arguments:
+        combination_of_columns:
+        - store_id
+        - dbt_valid_from
