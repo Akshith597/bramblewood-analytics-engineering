@@ -83,13 +83,6 @@
       "uncollected": 38.0
     },
     {
-      "vendor_name": "Hartwell Snack Co.",
-      "claims": 70,
-      "billed": 74757.85,
-      "collected": 74757.85,
-      "uncollected": 0.0
-    },
-    {
       "vendor_name": "Golden Ridge Kettle Co.",
       "claims": 63,
       "billed": 114471.95,
@@ -97,17 +90,10 @@
       "uncollected": 0.0
     },
     {
-      "vendor_name": "Twistwell Bakery",
-      "claims": 49,
-      "billed": 72728.05,
-      "collected": 72728.05,
-      "uncollected": 0.0
-    },
-    {
-      "vendor_name": "Sunnyfield Brands LLC",
-      "claims": 66,
-      "billed": 69719.8,
-      "collected": 69719.8,
+      "vendor_name": "Hartwell Snack Co.",
+      "claims": 70,
+      "billed": 74757.85,
+      "collected": 74757.85,
       "uncollected": 0.0
     },
     {
@@ -125,10 +111,24 @@
       "uncollected": 0.0
     },
     {
+      "vendor_name": "Sunnyfield Brands LLC",
+      "claims": 66,
+      "billed": 69719.8,
+      "collected": 69719.8,
+      "uncollected": 0.0
+    },
+    {
       "vendor_name": "Trailhead Trading Co.",
       "claims": 18,
       "billed": 16387.0,
       "collected": 16387.0,
+      "uncollected": 0.0
+    },
+    {
+      "vendor_name": "Twistwell Bakery",
+      "claims": 49,
+      "billed": 72728.05,
+      "collected": 72728.05,
       "uncollected": 0.0
     }
   ],
