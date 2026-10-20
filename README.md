@@ -24,7 +24,7 @@
 | **What I built** | An end-to-end analytics engineering project: raw extracts → tested dbt warehouse → reconciled facts → business analysis → executive memo and a one-page plan, all rebuilt by CI |
 | **Stack** | SQL · dbt-core · DuckDB · Python (pandas, NumPy) · R (`fixest`) for cross-checks · GitHub Actions · GitHub Pages |
 | **Data** | 273,376 POS rows, weekly store inventory and a 12-sheet merchandising workbook: 24 stores, 104 weeks, keys and date formats that don't agree |
-| **Warehouse** | 35 dbt models (staging → intermediate → marts), 13 enforced contracts, 100 automated checks; sales reconciled to the cent against an independent Python rebuild |
+| **Warehouse** | 35 dbt models (staging → intermediate → marts), an incremental sales fact, Type 2 snapshots, source freshness checks, 13 enforced contracts, 111 automated checks; sales reconciled to the cent against an independent Python rebuild |
 | **Business result** | A +$308.6K scenario-estimated annual gross-profit opportunity (+$174.6K to +$442.5K) from promotions, vendor funding, assortment and pricing, with a recommendation for each of the brief's five questions |
 
 ## The problem
@@ -42,15 +42,16 @@ flowchart LR
   end
   A & B & C -->|Python: hashes +<br/>source-row lineage| R[(DuckDB raw)]
   R --> S[Staging<br/>types · dates · UPCs · row audit]
+  S --> H[Snapshots<br/>item · store history]
   S --> I[Intermediate<br/>key resolution · cost intervals ·<br/>promotion eligibility]
   S --> D[Dimensions<br/>item · store · week · vendor]
-  I --> F[Facts<br/>sales · inventory · claims]
+  I --> F[Facts<br/>incremental sales · inventory · claims]
   D --> F
   F --> M[Marts<br/>category · forecast · availability ·<br/>assortment · funding]
   M --> E[Evidence exports]
   M --> V[Insights dashboard]
   M --> G[dbt catalog on GitHub Pages]
-  T{{96 data tests · 4 unit tests ·<br/>independent reconciliation}} -.gates.-> M
+  T{{107 data tests · 4 unit tests ·<br/>independent reconciliation}} -.gates.-> M
 ```
 
 Design decisions are recorded as ADRs in [docs/architecture.md](docs/architecture.md); grains and metric definitions are in [docs/data_contracts.md](docs/data_contracts.md).
@@ -59,7 +60,7 @@ Design decisions are recorded as ADRs in [docs/architecture.md](docs/architectur
 
 - **Reconciled sales:** $21,886,423.88 across 2,427 store-weeks, independently checked with Python and decimal arithmetic.
 - **Traceable cleaning:** 273,376 POS rows become 273,262 accepted rows, with every exclusion classified and source lineage retained.
-- **Enforced model quality:** 35 dbt models, 13 enforced mart contracts, and 96 data tests plus 4 unit tests. [Validation receipts](evidence/)
+- **Enforced model quality:** 35 dbt models, 13 enforced mart contracts, and 107 data tests plus 4 unit tests. [Validation receipts](evidence/)
 
 ## Engineering decisions that mattered
 
@@ -74,6 +75,13 @@ Design decisions are recorded as ADRs in [docs/architecture.md](docs/architectur
 | Many claims per promotion | Aggregate claims and eligible units before joining funding terms | Funding gap computed without double counting; cancelled-event claims ($974.65) kept separate |
 
 The most instructive failure: the cost-overlap test initially failed for `SS-1081`, whose old cost ended two weeks *after* the new one began. A direct join would have duplicated sales rows and inflated revenue. The full story is in the [case study](docs/case_study.md#the-most-instructive-failure).
+
+## Production patterns
+
+- **Incremental fact table.** `fct_sales` restates whole fiscal weeks inside a trailing lookback window (`delete+insert` on `week_key`), so rows dropped from a corrected extract disappear too. Backdated cost or master-data corrections go through `--full-refresh`; the repeatability check proves the incremental path matches a full build. [Design decision](docs/architecture.md#adr-02--deterministic-full-rebuild)
+- **Type 2 history.** dbt snapshots track item and store master changes on attribute columns only, with tests for one current version per key and non-overlapping validity windows. [Data contracts](docs/data_contracts.md)
+- **Source freshness.** `dbt source freshness` warns, then fails, when raw tables stop being reloaded. A separate [publication workflow](docs/runbook.md#validated-batch-publication) checks source hashes and extraction age before atomically switching a release pointer.
+- **Portable SQL.** DuckDB-only expressions go through dispatched macros, and an optional Snowflake target compiles the models. It has not run against a live account. [What is ported](docs/architecture.md#running-on-snowflake)
 
 ## What the data says
 
@@ -115,13 +123,13 @@ The [one-page FY2026 plan](docs/fy2026_plan.md) models a **scenario-estimated an
 
 ## Validation
 
-- **100/100 dbt checks pass** — 96 SQL data tests and 4 unit tests. [Build receipt](evidence/dbt_build_results.json)
+- **111/111 dbt checks pass** — 107 SQL data tests and 4 unit tests. [Build receipt](evidence/dbt_build_results.json)
 - **Independent reconciliation** — Python `csv` + `Decimal` totals match dbt for every store-week, without reusing the transformation SQL. [Receipt](evidence/independent_reconciliation.json)
 - **Governance enforced in code** — layer boundaries, staged-source coverage, contracts and column documentation are checked against the dbt manifest. [Receipt](evidence/project_quality.json)
-- **Repeatability** — ordered contents of all 35 models are hashed before and after a full reload. [Receipt](evidence/repeatability.json)
+- **Repeatability** — ordered contents of all 35 models are hashed after a full build and again after a reload and incremental rebuild. [Receipt](evidence/repeatability.json)
 - **Code quality** — dbt-aware SQLFluff, Ruff for Python, pre-commit hooks, macro edge-case tests and chart-helper tests. [Lint receipt](evidence/sqlfluff.json)
 - **No stale public claims** — this README, the memo, the plan and the scorecard are rendered from results; CI regenerates them and fails on any difference, and a test rejects hand-typed numbers in their templates.
-- **CI/CD** — GitHub Actions runs every gate on each push; the docs site and dashboard deploy only after the build and reconciliation pass.
+- **CI/CD** — GitHub Actions runs static checks in parallel with the warehouse build, then an R cross-check of the analysis; the docs site and dashboard deploy only after the build and reconciliation pass.
 
 ## Run it locally
 
@@ -131,7 +139,7 @@ Python 3.12; no cloud account or credentials required.
 python -m venv .venv
 # Windows: .venv\Scripts\Activate.ps1   macOS/Linux: source .venv/bin/activate
 python -m pip install -r requirements-dev.txt
-python scripts/run_all.py               # ingest → dbt build → reconcile → docs → evidence → charts
+python scripts/run_all.py               # ingest → freshness → dbt build → reconcile → docs → evidence → charts
 python -m analysis.run                  # analyses → analysis/results → memo, plan, scorecard, README
 python scripts/verify_repeatability.py
 python -m unittest discover -s tests_python -v
@@ -142,9 +150,7 @@ Browse lineage and compiled SQL locally with `python scripts/invoke_dbt.py docs 
 
 ## Scope and limitations
 
-This is a local batch warehouse, not a deployed production platform. It uses deliberate full rebuilds because the extracts lack reliable change timestamps. Item and store dimensions reflect the supplied current master; cost, price and planogram periods are effective-dated. Cost precedence is a documented assumption. A zero-stock snapshot does not establish lost sales, and approved promotion eligibility does not establish realized lift or funding entitlement.
-
-A local [publication workflow](docs/runbook.md#validated-batch-publication) builds each source batch in isolation, checks source hashes and extraction age, then atomically switches a release pointer after validation. Scheduled freshness checks return a nonzero exit code when a published batch expires. Full rebuilds restate corrected historical files. This demonstrates the local publication boundary; source-owner exception resolution, incremental restatement, alert delivery and managed scheduling remain future work. See the [design decisions](docs/architecture.md) for the tradeoffs.
+This is a local batch warehouse, not a deployed production platform. Item and store dimensions reflect the supplied current master; snapshots record changes only from a warehouse's first build, and cost, price and planogram periods are effective-dated. Cost precedence is a documented assumption. A zero-stock snapshot does not establish lost sales, and approved promotion eligibility does not establish realized lift or funding entitlement. Source-owner exception resolution, alert delivery and managed scheduling remain future work. See the [design decisions](docs/architecture.md) for the tradeoffs.
 
 ## Repository map
 
@@ -153,12 +159,13 @@ data/raw/             Synthetic CSV and Excel inputs (see data/SOURCE_README.md)
 models/staging/       Parsing, normalization, row audit and unit fixtures
 models/intermediate/  Key resolution, cost intervals and promotion eligibility
 models/marts/         Dimensions, facts and business marts (contracts enforced)
-tests/                Singular SQL assertions: temporal, arithmetic, reconciliation
+snapshots/            Type 2 history of the item and store masters
+tests/                Singular SQL assertions: temporal, arithmetic, reconciliation, snapshot validity
 tests_python/         Macro, evidence-reference, chart-helper and public-claim guards
-macros/               UPC normalization and a generic period-overlap test
-scripts/              Ingest, build, verification, evidence export and charts
-analysis/             Fixed analysis plan, estimators, FY2026 plan model, frozen estimates and scorer
-docs/                 Plan, scorecard, memo, case study, architecture ADRs, data contracts, runbook
+macros/               UPC normalization, cross-database helpers and a generic period-overlap test
+scripts/              Ingest, build, verification, publication, evidence export and charts
+analysis/             Analysis plan, estimators, FY2026 plan model, frozen estimates and scorer
+docs/                 Architecture ADRs, data contracts, runbook, case study, memo, plan, scorecard
 evidence/             Executed results and machine-readable validation receipts
 .github/workflows/    CI quality gate and GitHub Pages deployment
 ```

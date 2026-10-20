@@ -12,6 +12,12 @@ PANELS = ROOT / 'target' / 'analysis_panels'
 
 
 def connect():
+    """Read-only warehouse connection for the analyses.
+
+    Query convention: values that come from data, configuration or a function argument are bound as parameters
+    (`?` or `$name`); SQL text composes only identifiers, generated expressions and numeric literals. DuckDB cannot
+    bind parameters inside a view, so value-filtered intermediates are temp tables.
+    """
     con = duckdb.connect(str(ROOT / 'warehouse/bramblewood.duckdb'), read_only=True)
     con.execute('set threads = 1')  # deterministic floating-point summation order
     return con
