@@ -9,7 +9,7 @@
 <rect x="258" y="82" width="10" height="10" rx="2" fill="#2a78d6"/>
 <text x="274.0" y="91.0" font-size="12" fill="#52514e" font-weight="400" text-anchor="start">FY2025</text>
 <text x="700.0" y="91.0" font-size="12" fill="#52514e" font-weight="600" text-anchor="start">Sales YoY</text>
-<text x="800.0" y="91.0" font-size="12" fill="#52514e" font-weight="600" text-anchor="start">FY2025 margin (pp change)</text>
+<text x="800.0" y="91.0" font-size="12" fill="#52514e" font-weight="600" text-anchor="start">FY2025 margin (Δ pp)</text>
 <text x="166.0" y="131.0" font-size="12.5" fill="#0b0b0b" font-weight="400" text-anchor="end">Potato Chips</text>
 <rect class="hit" x="178" y="116" width="466.3" height="10" rx="2" fill="#b4b2aa"><title>Potato Chips FY2024: $3.79M</title></rect>
 <rect class="hit" x="178" y="128" width="462.0" height="10" rx="2" fill="#2a78d6"><title>Potato Chips FY2025: $3.75M</title></rect>
