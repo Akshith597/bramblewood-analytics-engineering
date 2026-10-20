@@ -1,7 +1,9 @@
 """Export small, reviewable SQL result sets and the actual dbt validation receipt."""
+
 from pathlib import Path
 from collections import Counter
-import json, shutil
+import json
+import shutil
 import duckdb
 import sqlglot
 from sqlglot import exp
@@ -73,6 +75,7 @@ QUERIES = {
         group by 1 order by 1""",
 }
 
+
 def referenced_models(query):
     """Parse relation names without binding against a possibly stale warehouse."""
     statement = sqlglot.parse_one(query, read='duckdb')
@@ -81,29 +84,38 @@ def referenced_models(query):
 
 
 def main():
-    evidence=ROOT/'evidence'; evidence.mkdir(exist_ok=True)
-    result={}
-    manifest=json.loads((ROOT/'target/manifest.json').read_text(encoding='utf-8'))
-    model_names={n['name'] for n in manifest['nodes'].values()
-                 if n['resource_type']=='model' and n['package_name']=='bramblewood'}
-    with duckdb.connect(str(ROOT/'warehouse/bramblewood.duckdb'),read_only=True) as con:
-        for name,query in QUERIES.items():
-            unexpected=referenced_models(query)-model_names
+    evidence = ROOT / 'evidence'
+    evidence.mkdir(exist_ok=True)
+    result = {}
+    manifest = json.loads((ROOT / 'target/manifest.json').read_text(encoding='utf-8'))
+    model_names = {
+        n['name']
+        for n in manifest['nodes'].values()
+        if n['resource_type'] == 'model' and n['package_name'] == 'bramblewood'
+    }
+    with duckdb.connect(str(ROOT / 'warehouse/bramblewood.duckdb'), read_only=True) as con:
+        for name, query in QUERIES.items():
+            unexpected = referenced_models(query) - model_names
             if unexpected:
                 raise RuntimeError(f'{name} references non-project or removed models: {sorted(unexpected)}')
-            frame=con.execute(query).df()
-            frame.to_csv(evidence/f'{name}.csv',index=False)
-            result[name]=json.loads(frame.to_json(orient='records',date_format='iso'))
-    runs=json.loads((ROOT/'evidence/dbt_build_results.json').read_text(encoding='utf-8'))
-    tests=[r for r in runs['results'] if r['unique_id'].startswith(('test.','unit_test.'))]
-    result['validation']={'dbt_version':runs['metadata']['dbt_version'],
-        'generated_at':runs['metadata']['generated_at'],
-        'models':len([n for n in manifest['nodes'].values() if n['resource_type']=='model']),
-        'tests':len(tests),'test_statuses':dict(Counter(r['status'] for r in tests)),
-        'all_statuses':dict(Counter(r['status'] for r in runs['results']))}
-    (evidence/'summary.json').write_text(json.dumps(result,indent=2),encoding='utf-8')
-    (evidence/'queries.json').write_text(json.dumps(QUERIES,indent=2),encoding='utf-8')
-    shutil.copyfile(ROOT/'warehouse/load_manifest.json',evidence/'load_manifest.json')
-    print(json.dumps(result['validation'],indent=2))
+            frame = con.execute(query).df()
+            frame.to_csv(evidence / f'{name}.csv', index=False)
+            result[name] = json.loads(frame.to_json(orient='records', date_format='iso'))
+    runs = json.loads((ROOT / 'evidence/dbt_build_results.json').read_text(encoding='utf-8'))
+    tests = [r for r in runs['results'] if r['unique_id'].startswith(('test.', 'unit_test.'))]
+    result['validation'] = {
+        'dbt_version': runs['metadata']['dbt_version'],
+        'generated_at': runs['metadata']['generated_at'],
+        'models': len([n for n in manifest['nodes'].values() if n['resource_type'] == 'model']),
+        'tests': len(tests),
+        'test_statuses': dict(Counter(r['status'] for r in tests)),
+        'all_statuses': dict(Counter(r['status'] for r in runs['results'])),
+    }
+    (evidence / 'summary.json').write_text(json.dumps(result, indent=2), encoding='utf-8')
+    (evidence / 'queries.json').write_text(json.dumps(QUERIES, indent=2), encoding='utf-8')
+    shutil.copyfile(ROOT / 'warehouse/load_manifest.json', evidence / 'load_manifest.json')
+    print(json.dumps(result['validation'], indent=2))
 
-if __name__=='__main__': main()
+
+if __name__ == '__main__':
+    main()

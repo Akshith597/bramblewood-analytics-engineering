@@ -1,4 +1,5 @@
 """Stage the dbt Core v1 documentation files after a successful validated build."""
+
 from pathlib import Path
 import json
 import shutil
@@ -9,8 +10,9 @@ ROOT = Path(__file__).resolve().parents[1]
 def main():
     receipt = json.loads((ROOT / 'evidence/dbt_build_results.json').read_text(encoding='utf-8'))
     results = receipt.get('results', [])
-    if not results or any(row['status'] not in ('success', 'pass') for row in results
-                          if not row['unique_id'].startswith('exposure.')):
+    if not results or any(
+        row['status'] not in ('success', 'pass') for row in results if not row['unique_id'].startswith('exposure.')
+    ):
         raise RuntimeError('Documentation publication requires a successful dbt build')
     reconciliation = json.loads((ROOT / 'evidence/independent_reconciliation.json').read_text(encoding='utf-8'))
     if reconciliation.get('status') != 'pass':
