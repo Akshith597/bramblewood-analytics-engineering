@@ -14,10 +14,10 @@ typed as (
         *,
         try_cast(store_nbr as integer) as store_id,
         {{ normalize_upc('upc') }} as normalized_upc,
-        cast(coalesce(
-            try_strptime(week_ending, '%Y-%m-%d'),
-            try_strptime(week_ending, '%m/%d/%Y')
-        ) as date) as parsed_week_ending,
+        coalesce(
+            {{ try_parse_date('week_ending', '%Y-%m-%d') }},
+            {{ try_parse_date('week_ending', '%m/%d/%Y') }}
+        ) as parsed_week_ending,
         try_cast(units as integer) as parsed_units,
         try_cast(gross_sales as decimal(18, 2)) as parsed_gross_sales,
         try_cast(promo_discount as decimal(18, 2)) as parsed_promo_discount,
@@ -33,7 +33,7 @@ select
         when
             store_id is null or parsed_week_ending is null or parsed_units is null
             or parsed_gross_sales is null or parsed_promo_discount is null or parsed_net_sales is null
-            or not regexp_full_match(trim(upc), '[0-9]{11,12}') then 'invalid_record'
+            or not {{ regex_full_match('trim(upc)', '[0-9]{11,12}') }} then 'invalid_record'
         else 'accepted'
     end as disposition
 from typed

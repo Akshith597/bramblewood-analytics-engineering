@@ -9,6 +9,7 @@ ROOT = Path(__file__).resolve().parents[1]
 for args in [
     ("scripts/invoke_dbt.py", "deps"),
     ("scripts/ingest.py",),
+    ("scripts/invoke_dbt.py", "source", "freshness"),
     ("scripts/invoke_dbt.py", "build"),
     ("scripts/verify_project.py",),
     ("scripts/independent_reconcile.py",),

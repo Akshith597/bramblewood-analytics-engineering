@@ -3,6 +3,13 @@ sources:
   - name: raw
     schema: raw
     description: "Immutable synthetic retail extracts. Business period ends 2026-01-31; claims include later submissions. No ingestion timestamp exists in the source."
+    config:
+      # Pipeline liveness: age of the last raw reload, from the load log ingest.py writes. Source extraction age is
+      # a different question, checked against the batch manifest by scripts/publish_warehouse.py.
+      loaded_at_query: "select max(loaded_at_utc) from raw._load_log where table_name = '{{ this.identifier }}'"
+      freshness:
+        warn_after: {count: 24, period: hour}
+        error_after: {count: 72, period: hour}
     tables:
       - name: pos_weekly_sales
       - name: store_inventory_weekly
