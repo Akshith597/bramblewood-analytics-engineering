@@ -94,10 +94,14 @@ def plan_figures(r):
                f"{pos(ph['restated']['memo_over_forecast_cost'])} of over-forecast units at cost became "
                f"{pos(ph['restated']['excess_store_stock_cost'])} of extra store stock; an inventory replay finds no saving from "
                f"the correction at equal service ({money(r['inventory_sim']['verdict']['policy_cost_saving_at_best_z'])}).")
-    score = (f"Every estimate and interval is frozen for the [answer-key scorecard](docs/scorecard.md); "
-             + ('the key is scored there.' if sc['key_received'] else "a request to the dataset's author is drafted and the "
-                                                                'key is not yet scored.'))
-    return {'plan_readme': plan, 'ph_readme': ph_line, 'scorecard_readme': score,
+    score = ("Every estimate and interval is frozen for the [answer-key scorecard](docs/scorecard.md); "
+             + ('the key is scored there.' if sc['key_received'] else "they will be scored against the dataset's "
+                                                                'answer key when it becomes available.'))
+    # The cut list's value at the point estimate and in the plan's base case usually agree; say it once if so.
+    a_point, a_base = money(r['assortment']['chain']['gp_change']), money(lev['assortment']['base'])
+    a_value = (f'{a_point} a year' if a_point == a_base
+               else f"{a_point} a year at the point estimate; {a_base} in the plan's base case")
+    return {'plan_readme': plan, 'ph_readme': ph_line, 'scorecard_readme': score, 'a_value': a_value,
             'plan_total': money(p['total']['base']), 'plan_range': rng(*p['total']['range'], money),
             'a_plan': money(lev['assortment']['base'])}
 
