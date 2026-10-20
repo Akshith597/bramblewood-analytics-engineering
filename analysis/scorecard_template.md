@@ -6,8 +6,8 @@ deviations: [DEVIATIONS.md](../analysis/scorecard/DEVIATIONS.md).*
 
 **Status: {status}**
 
-Every estimate and 90% interval below was frozen before the key was opened (first as `estimates-frozen-v1` in commit [`ca771a4`](https://github.com/Akshith597/bramblewood-analytics-engineering/commit/ca771a463ae154bb8f32b6aed4edf2aa5422510f), then
-re-frozen as `estimates-frozen-v2` in commit [`4e8e453`](https://github.com/Akshith597/bramblewood-analytics-engineering/commit/4e8e4531b86d05134ba2b1fa7d9d888d52acad6a) when the methods were simplified; see the deviation log). Scoring uses that file, not a re-run, and a test fails if any current result differs from it. A truth
+Every estimate and 90% interval below was frozen before the key was opened (first as `estimates-frozen-v1` in commit [`52f856e`](https://github.com/Akshith597/bramblewood-analytics-engineering/commit/52f856ef95bea644fe6d9a72227a966af36c8f65), then
+re-frozen as `estimates-frozen-v2` in commit [`515cb99`](https://github.com/Akshith597/bramblewood-analytics-engineering/commit/515cb99366cc295692149941945a64aad9831de9) when the methods were simplified; see the deviation log). Scoring uses that file, not a re-run, and a test fails if any current result differs from it. A truth
 inside the interval counts as covered; with honest intervals about 90% should be.
 
 {summary}
