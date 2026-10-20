@@ -8,9 +8,15 @@ repos:
         require_serial: true
         types: [sql]
         files: ^(models|tests|analyses)/.*\.sql$
-      - id: python-syntax
-        name: Python syntax
-        entry: python -m compileall -q scripts tests_python analysis
+      - id: ruff-check
+        name: Ruff lint (Python)
+        entry: python -m ruff check scripts analysis tests_python
+        language: system
+        pass_filenames: false
+        types: [python]
+      - id: ruff-format
+        name: Ruff format (scripts)
+        entry: python -m ruff format --check scripts
         language: system
         pass_filenames: false
         types: [python]

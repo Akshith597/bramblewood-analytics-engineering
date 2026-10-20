@@ -148,7 +148,7 @@ def main():
     delist = json.loads((RESULTS / 'delist.json').read_text(encoding='utf-8'))
     tau = delist['transfer']['transfer_rate']
     tau_low, tau_high = delist['transfer']['transfer_rate_ci90']
-    test_cut = delist_test = {r[0] for r in con.execute(TEST_DELISTED_SQL).fetchall()}
+    delist_test = {r[0] for r in con.execute(TEST_DELISTED_SQL).fetchall()}
     cols = ['sku_id', 'description', 'brand', 'brand_type', 'subcategory', 'status', 'launch_date']
     items = {r[0]: dict(zip(cols, r)) for r in con.execute(ITEMS_SQL).fetchall()}
     current = {}

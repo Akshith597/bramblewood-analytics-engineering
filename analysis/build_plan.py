@@ -1,11 +1,9 @@
 """Render docs/fy2026_plan.md and docs/scorecard.md from analysis/results/*.json (same rules as the memo:
 named placeholders only, no hand-typed figures; CI regenerates both and fails on any difference)."""
-import json
 
 from analysis.build_memo import load, money, num, pct, rng
 from analysis.common import ROOT
 from analysis.plan import CUT_CELLS, KEEP_CELLS
-from analysis.scorecard import FROZEN
 
 PLAN_TEMPLATE = ROOT / 'analysis/plan_template.md'
 PLAN = ROOT / 'docs/fy2026_plan.md'
@@ -86,7 +84,6 @@ def fmt_value(v, unit):
 
 def score_figures(r):
     sc = r['scorecard']
-    frozen = json.loads(FROZEN.read_text(encoding='utf-8'))['parameters']
     rows = '\n'.join(
         f"| {x['parameter']}{'' if x['primary'] else ' *(secondary)*'} | {fmt_value(x['estimate'], x['unit'])} | "
         f"{rng(*x['ci90'], lambda v: fmt_value(v, x['unit'])) if x['ci90'] else '—'} | "

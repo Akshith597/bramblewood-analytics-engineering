@@ -3,6 +3,7 @@
 Consumers read current.json once, then open that release's database read-only.
 Only the pointer changes; an existing published database is never overwritten.
 """
+
 import argparse
 from datetime import datetime, timezone
 import hashlib
@@ -59,8 +60,7 @@ def atomic_json(path, value):
 def make_manifest(root, extracted_at):
     """Call only when a source owner delivers a batch; never infer age from mtime."""
     extracted = timestamp(extracted_at).isoformat()
-    return {'files': {name: {'sha256': sha, 'extracted_at_utc': extracted}
-                      for name, sha in sources(root).items()}}
+    return {'files': {name: {'sha256': sha, 'extracted_at_utc': extracted} for name, sha in sources(root).items()}}
 
 
 def validate_freshness(manifest, max_age_hours, now=None):
@@ -107,8 +107,9 @@ def publish(root, destination, manifest, max_age_hours=24, builder=None):
             candidate = Path(temporary)
             for name in COPY_DIRS:
                 if (root / name).exists():
-                    shutil.copytree(root / name, candidate / name,
-                                    ignore=shutil.ignore_patterns('__pycache__', '*.pyc'))
+                    shutil.copytree(
+                        root / name, candidate / name, ignore=shutil.ignore_patterns('__pycache__', '*.pyc')
+                    )
             for source in root.iterdir():
                 if source.is_file() and source.suffix in ('.yml', '.yaml', '.txt'):
                     shutil.copy2(source, candidate / source.name)
@@ -125,9 +126,15 @@ def publish(root, destination, manifest, max_age_hours=24, builder=None):
             shutil.copy2(database, release / 'bramblewood.duckdb')
             shutil.copytree(candidate / 'evidence', release / 'evidence')
             batch_id = hashlib.sha256(json.dumps(manifest['files'], sort_keys=True).encode()).hexdigest()
-            receipt = {'release_id': run_id, 'batch_id': batch_id, 'published_at_utc': utcnow().isoformat(),
-                       'database': f'releases/{run_id}/bramblewood.duckdb', 'source_manifest': manifest,
-                       'source_age_hours_at_publish': ages, 'database_sha256': digest(release / 'bramblewood.duckdb')}
+            receipt = {
+                'release_id': run_id,
+                'batch_id': batch_id,
+                'published_at_utc': utcnow().isoformat(),
+                'database': f'releases/{run_id}/bramblewood.duckdb',
+                'source_manifest': manifest,
+                'source_age_hours_at_publish': ages,
+                'database_sha256': digest(release / 'bramblewood.duckdb'),
+            }
             atomic_json(release / 'release.json', receipt)
             atomic_json(destination / 'current.json', receipt)
             return receipt

@@ -2,7 +2,7 @@
 from itertools import combinations
 import math
 
-from analysis.common import connect, export_panel, pct_effect, round_floats, write_result
+from analysis.common import connect, export_panel, round_floats, write_result
 from analysis.fe import quantile, t_crit, t_sf2
 
 TREATED = (102, 106, 113, 116)
