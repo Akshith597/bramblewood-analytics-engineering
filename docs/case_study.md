@@ -33,7 +33,7 @@ The implemented policy lets the later effective start supersede the old cost. Th
 | $21,886,423.88 accepted net sales | Independent comparison across 2,427 store-weeks |
 | 30,985 UPCs and 83,351 legacy dates normalized | [Quality observations](../evidence/quality_observations.csv) |
 | 160 return records preserved | Negative net sales were not treated as invalid data |
-| 35 dbt models; 96 data tests; 4 unit tests; 13 enforced contracts | [Build results](../evidence/dbt_build_results.json) |
+| 35 dbt models; 2 snapshots; 107 data tests; 4 unit tests; 13 enforced contracts | [Build results](../evidence/dbt_build_results.json) |
 | 1,888 inventory-only records retained | Missing sales was not converted into zero demand |
 
 ## Business questions the marts can now support

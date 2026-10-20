@@ -3529,16 +3529,16 @@
   ],
   "validation": {
     "dbt_version": "1.12.5",
-    "generated_at": "2026-10-02T18:25:23.769361Z",
+    "generated_at": "2026-10-20T02:55:40.242040Z",
     "models": 35,
-    "tests": 100,
+    "tests": 111,
     "test_statuses": {
-      "pass": 100
+      "pass": 111
     },
     "all_statuses": {
-      "success": 35,
-      "pass": 100,
-      "no-op": 2
+      "success": 37,
+      "pass": 111,
+      "no-op": 3
     }
   }
 }

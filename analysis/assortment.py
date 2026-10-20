@@ -27,17 +27,18 @@ FY2024 W27–52) that cancels the seasonality.
 The result carries the A + τ·B decomposition of the chain GP change so the FY2026 plan model can draw τ.
 """
 from analysis.common import RESULTS, connect, round_floats, write_result
+from datetime import date
 import json
 
-FY_END = "date '2026-01-31'"
+FY_END = date(2026, 1, 31)
 MIN_RETAIN_SHARE = 0.6
 STORES_FY2026 = {'L': 8, 'M': 10, 'S': 6}
 
-CURRENT_SQL = f"""
+CURRENT_SQL = """
 select planogram_id, sku_id, facings::double as facings, shelf_capacity_units::double as capacity
 from stg_planograms
 where planogram_id in ('PG-SS-L-2024', 'PG-SS-M-2024', 'PG-SS-S-2024')
-  and effective_start <= {FY_END} and (effective_end is null or effective_end >= {FY_END})
+  and effective_start <= $fy_end and (effective_end is null or effective_end >= $fy_end)
 """
 
 # FY2025 sales of each SKU in the stores and weeks it was on that store's planogram (base planograms only, so
@@ -152,7 +153,7 @@ def main():
     cols = ['sku_id', 'description', 'brand', 'brand_type', 'subcategory', 'status', 'launch_date']
     items = {r[0]: dict(zip(cols, r)) for r in con.execute(ITEMS_SQL).fetchall()}
     current = {}
-    for pg, sku, f, cap in con.execute(CURRENT_SQL).fetchall():
+    for pg, sku, f, cap in con.execute(CURRENT_SQL, {'fy_end': FY_END}).fetchall():
         current.setdefault(pg, {})[sku] = {'facings': f, 'capacity': cap}
     sales = {(pg, sku): (sw, u, s, g) for pg, sku, sw, u, s, g in con.execute(SALES_SQL).fetchall()}
     max_cuts_l = len(delist_test)
