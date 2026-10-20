@@ -1,7 +1,10 @@
 """Portable dbt invocation using the currently active Python environment."""
-import os, sys
+
+import os
+import sys
 from pathlib import Path
 from dbt.cli.main import dbtRunner
+
 ROOT = Path(__file__).resolve().parents[1]
 os.chdir(ROOT)
 os.environ.setdefault("DBT_SEND_ANONYMOUS_USAGE_STATS", "false")

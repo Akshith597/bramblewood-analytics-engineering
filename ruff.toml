@@ -1,0 +1,9 @@
+line-length = 120
+target-version = "py312"
+
+[lint]
+# Default pyflakes + pycodestyle rules. Short lambdas used as local formatters are kept on purpose.
+ignore = ["E731"]
+
+[format]
+quote-style = "preserve"

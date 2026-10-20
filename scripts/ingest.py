@@ -1,19 +1,27 @@
 """Load immutable extracts; business transformations belong in dbt SQL."""
+
 from pathlib import Path
-import hashlib, json, platform
+import hashlib
+import json
+import platform
 from datetime import datetime, timezone
 import duckdb
 import pandas as pd
 
 ROOT = Path(__file__).resolve().parents[1]
 
+
 def main():
     source = ROOT / "data" / "raw"
     warehouse = ROOT / "warehouse"
     warehouse.mkdir(exist_ok=True)
     files = sorted(source.iterdir())
-    manifest = {"loaded_at_utc": datetime.now(timezone.utc).isoformat(),
-                "python": platform.python_version(), "duckdb": duckdb.__version__, "files": []}
+    manifest = {
+        "loaded_at_utc": datetime.now(timezone.utc).isoformat(),
+        "python": platform.python_version(),
+        "duckdb": duckdb.__version__,
+        "files": [],
+    }
     with duckdb.connect(str(warehouse / "bramblewood.duckdb")) as con:
         con.execute("BEGIN")
         con.execute("CREATE SCHEMA IF NOT EXISTS raw")
@@ -37,6 +45,7 @@ def main():
         con.execute("COMMIT")
     (warehouse / "load_manifest.json").write_text(json.dumps(manifest, indent=2), encoding="utf-8")
     print("Loaded", sum(len(f["tables"]) for f in manifest["files"]), "raw tables")
+
 
 if __name__ == "__main__":
     main()
