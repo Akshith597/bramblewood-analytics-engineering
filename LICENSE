@@ -13,7 +13,7 @@ The above copyright notice and this permission notice shall be included in all
 copies or substantial portions of the Software.
 
 This license applies to the project code and documentation. It does not cover
-the third-party synthetic dataset in data/, which retains its original terms.
+the AI-generated synthetic dataset in data/; see data/SOURCE_README.md for provenance.
 
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
 IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
