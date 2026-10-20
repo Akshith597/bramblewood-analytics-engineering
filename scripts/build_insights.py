@@ -157,8 +157,8 @@ def weekly_sales_figure(rows, holidays):
         f'Weekly net sales, {stores} comparable stores, FY2024 vs FY2025',
         f'Comparable-store sales {pct(totals[2025] / totals[2024] - 1, signed=True)} year over year; '
         f'FY2025 is ahead in {ahead} of 52 weeks. Dashed lines mark holiday weeks.',
-        'Source: fct_sales · stores selling all 104 weeks with no remodel (excludes #112 remodel, '
-        '#124 opened FY2025) · accepted POS, returns netted · descriptive, not causal · synthetic data',
+        'Source: fct_sales · stores selling all 104 weeks with no remodel (excludes #112, #124) · '
+        'accepted POS, returns netted · descriptive, not causal · synthetic data',
     )
     left, right, top, bottom = 76, 880, 118, 342
     values = [float(r['net_sales']) for r in rows]
@@ -182,6 +182,7 @@ def weekly_sales_figure(rows, holidays):
             f'stroke-dasharray="3 3"/>',
             fig.text(hx, label_y, holiday['holiday_event'], size=10.5, fill=MUTED, anchor='middle'),
         )
+    ends = {}
     for year, color in ((2024, PRIOR), (2025, SERIES_1)):
         series = [r for r in rows if r['fiscal_year'] == year]
         points = [(x(r['fiscal_week']), y(float(r['net_sales']))) for r in series]
@@ -195,11 +196,16 @@ def weekly_sales_figure(rows, holidays):
                 + '</circle>'
             )
         end_x, end_y = points[-1]
-        total = sum(float(r['net_sales']) for r in series)
+        ends[year] = (end_x, end_y, sum(float(r['net_sales']) for r in series))
+        fig.add(f'<circle cx="{end_x:.1f}" cy="{end_y:.1f}" r="4" fill="{color}" stroke="{SURFACE}" stroke-width="2"/>')
+    # End labels: the higher line's label sits above its point, the lower one's below, never closer than one block.
+    upper, lower = sorted(ends, key=lambda year: ends[year][1])
+    upper_y = ends[upper][1] - 6
+    label_y = {upper: upper_y, lower: max(ends[lower][1] + 12, upper_y + 30)}
+    for year, (end_x, _, total) in ends.items():
         fig.add(
-            f'<circle cx="{end_x:.1f}" cy="{end_y:.1f}" r="4" fill="{color}" stroke="{SURFACE}" stroke-width="2"/>',
-            fig.text(end_x + 10, end_y + (-6 if year == 2025 else 12), f'FY{year}', size=12, weight=650),
-            fig.text(end_x + 10, end_y + (8 if year == 2025 else 26), money(total, 2), size=11, fill=INK_2),
+            fig.text(end_x + 10, label_y[year], f'FY{year}', size=12, weight=650),
+            fig.text(end_x + 10, label_y[year] + 14, money(total, 2), size=11, fill=INK_2),
         )
     return fig
 
@@ -230,7 +236,7 @@ def subcategory_figure(rows):
         f'<rect x="{left + 80}" y="82" width="10" height="10" rx="2" fill="{SERIES_1}"/>',
         fig.text(left + 96, 91, 'FY2025', size=12, fill=INK_2),
         fig.text(700, 91, 'Sales YoY', size=12, fill=INK_2, weight=600),
-        fig.text(800, 91, 'FY2025 margin (pp change)', size=12, fill=INK_2, weight=600),
+        fig.text(800, 91, 'FY2025 margin (Δ pp)', size=12, fill=INK_2, weight=600),
     )
     for i, r in enumerate(rows):
         y0 = top + i * row_h
