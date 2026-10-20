@@ -1,3 +1,5 @@
 * text=auto eol=lf
 data/raw/*.csv -text
 *.xlsx binary
+# GitHub hides SQL from the language bar by default; the dbt models are the core of this repo.
+*.sql linguist-detectable
