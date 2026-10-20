@@ -58,7 +58,7 @@ def price_lever(pricing, con):
     for key, date in (('golden_ridge_kettle', None), ('bramble_select_tortilla', None)):
         d = pricing['decisions'][key]
         event = pricing['preregistered'][key]['event_date']
-        weeks = con.execute(f"select ('{event}'::date - '{fy_start}'::date) / 7").fetchone()[0]
+        weeks = con.execute("select (?::date - ?::date) / 7", [event, fy_start]).fetchone()[0]
         weeks_uncovered[key] = weeks
         x, p0, p1, c = d['price_increase'], d['pre_price'], d['post_price'], d['unit_cost']
         eps = d['pooled_elasticity_used']
@@ -84,11 +84,11 @@ def cut_sku_promos(con, assortment):
             weight[sku] = weight.get(sku, 0.0) + stores[pg.split('-')[2]] / total
     if not weight:
         return {}, weight
-    skus = ', '.join(f"'{k}'" for k in weight)
-    rows = con.execute(f"""
+    rows = con.execute("""
         select p.sku_id, p.mechanic || case when p.display = 'Y' then ' + display' else '' end as cell, count(*)
         from stg_promotions p join stg_fiscal_calendar c on p.start_date between c.week_start and c.week_ending
-        where p.status = 'Approved' and c.fiscal_year = 2025 and p.sku_id in ({skus}) group by all""").fetchall()
+        where p.status = 'Approved' and c.fiscal_year = 2025 and list_contains(?, p.sku_id) group by all""",
+                       [list(weight)]).fetchall()
     by_cell = {}
     for sku, cell, n in rows:
         by_cell[cell] = by_cell.get(cell, 0.0) + n * weight[sku]
@@ -111,11 +111,12 @@ def build_inputs(con):
                     'gp_before_funding': x['gp_before_funding'], 'sd': sd_from_ci(x['ci90']),
                     'scan_back': x['scan_back'], 'display_fee': x['display_fee']}
     approved = fund['by_status']['Approved']
-    priced = {'golden_ridge_kettle': "brand in ('Golden Ridge', 'Golden Rdge') and subcategory = 'Kettle Chips'",
-              'bramble_select_tortilla': "brand = 'Bramble Select' and subcategory = 'Tortilla Chips'"}
+    priced = {'golden_ridge_kettle': (['Golden Ridge', 'Golden Rdge'], 'Kettle Chips'),
+              'bramble_select_tortilla': (['Bramble Select'], 'Tortilla Chips')}
     price_overlap = {}
-    for key, cond in priced.items():
-        skus = {r[0] for r in con.execute(f'select sku_id from stg_items where {cond}').fetchall()}
+    for key, (brands, subcategory) in priced.items():
+        skus = {r[0] for r in con.execute('select sku_id from stg_items where list_contains(?, brand) and subcategory = ?',
+                                          [brands, subcategory]).fetchall()}
         price_overlap[key] = sorted(skus & set(weight))
     return {
         'assortment': {'a': a['chain']['a'], 'b': a['chain']['b'], 'tau': a['tau']['point'],

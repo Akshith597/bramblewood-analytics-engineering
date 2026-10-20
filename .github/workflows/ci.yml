@@ -3,11 +3,12 @@ on: [push, pull_request]
 concurrency:
   group: ci-${{ github.ref }}
   cancel-in-progress: true
+env:
+  DBT_SEND_ANONYMOUS_USAGE_STATS: 'false'
 jobs:
-  dbt-build:
+  # Needs no built warehouse, so it runs alongside the build instead of after it.
+  static-checks:
     runs-on: ubuntu-latest
-    env:
-      DBT_SEND_ANONYMOUS_USAGE_STATS: 'false'
     steps:
       - uses: actions/checkout@v6
       - uses: actions/setup-python@v5
@@ -15,22 +16,39 @@ jobs:
           python-version: '3.12'
           cache: pip
       - run: python -m pip install -r requirements-dev.txt
-      - run: python scripts/run_all.py
+      - name: Install dbt packages for the SQLFluff dbt templater
+        run: python scripts/invoke_dbt.py deps
+      - name: Unit tests — macros, evidence references, chart helpers, public-claim guards
+        run: python -m unittest discover -s tests_python -v
+      - name: SQLFluff (the dbt templater opens an empty local DuckDB file)
+        run: |
+          mkdir -p warehouse
+          python scripts/lint_sql.py
+      - run: python -m pre_commit run --all-files
+
+  warehouse:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: pip
+      - run: python -m pip install -r requirements-dev.txt
+      - name: Ingest, source freshness, dbt build, reconciliation, docs, evidence and charts
+        run: python scripts/run_all.py
       - name: Decision analyses, FY2026 plan, scorecard and public documents
         run: python -m analysis.run
       - name: No stale public claim — results, memo, plan, scorecard, README and chart figures must match the committed versions
         run: git diff --exit-code -- analysis/results docs README.md evidence/insights_figures.json docs/assets/insights
-      - uses: r-lib/actions/setup-r@v2
+      - name: Repeatability — full reload, incremental rebuild, identical model hashes
+        run: python scripts/verify_repeatability.py
+      - name: Hand the estimation panels to the R cross-check
+        uses: actions/upload-artifact@v4
         with:
-          use-public-rspm: true
-      - name: Independent R fixest cross-check
-        run: |
-          Rscript -e 'install.packages(c("fixest", "jsonlite"))'
-          Rscript analysis/crosscheck.R
-      - run: python scripts/verify_repeatability.py
-      - run: python -m unittest discover -s tests_python -v
-      - run: python scripts/lint_sql.py
-      - run: python -m pre_commit run --all-files
+          name: analysis-panels
+          path: target/analysis_panels/
+          retention-days: 1
       - uses: actions/upload-artifact@v4
         if: always()
         with:
@@ -38,9 +56,9 @@ jobs:
           path: |
             target/manifest.json
             target/run_results.json
+            target/sources.json
             target/catalog.json
             target/insights.html
-            target/crosscheck_fixest.json
             analysis/results/
             docs/decision_memo.md
             docs/fy2026_plan.md
@@ -48,3 +66,29 @@ jobs:
             README.md
             docs/assets/insights/
             evidence/
+
+  r-crosscheck:
+    needs: warehouse
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - uses: r-lib/actions/setup-r@v2
+        with:
+          use-public-rspm: true
+      - name: Install fixest and jsonlite (cached between runs)
+        uses: r-lib/actions/setup-r-dependencies@v2
+        with:
+          packages: |
+            any::fixest
+            any::jsonlite
+      - uses: actions/download-artifact@v4
+        with:
+          name: analysis-panels
+          path: target/analysis_panels
+      - name: Independent R fixest cross-check against the committed analysis results
+        run: Rscript analysis/crosscheck.R
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: crosscheck-fixest
+          path: target/crosscheck_fixest.json

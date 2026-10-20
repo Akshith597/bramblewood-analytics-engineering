@@ -295,16 +295,16 @@ def event_pnl(rows, cann_rows, gamma_hat):
 
 def holdout_error(con, role):
     """Actual vs imputed units on held-out rows of `role`, with a store cluster bootstrap range."""
-    units, base, gp_err = con.execute(f"""select sum(units), sum(base_units), sum(gp - base_units * reg_margin)
-        from promo_panel where role = '{role}' and log_base is not null""").fetchone()
-    per_store = con.execute(f"""select store_id, sum(units), sum(base_units) from promo_panel
-        where role = '{role}' and log_base is not null group by 1 order by 1""").fetchall()
+    units, base, gp_err = con.execute("""select sum(units), sum(base_units), sum(gp - base_units * reg_margin)
+        from promo_panel where role = ? and log_base is not null""", [role]).fetchone()
+    per_store = con.execute("""select store_id, sum(units), sum(base_units) from promo_panel
+        where role = ? and log_base is not null group by 1 order by 1""", [role]).fetchall()
     rng = random.Random(SEED)
     boot = []
     for _ in range(DRAWS):
         draw = [rng.choice(per_store) for _ in per_store]
         boot.append(sum(d[1] for d in draw) / sum(d[2] for d in draw) - 1)
-    return {'rows': con.execute(f"select count(*) from promo_panel where role = '{role}'").fetchone()[0],
+    return {'rows': con.execute("select count(*) from promo_panel where role = ?", [role]).fetchone()[0],
             'error_pct': units / base - 1, 'error_ci90_store_bootstrap': [quantile(boot, 0.05), quantile(boot, 0.95)],
             'gp_error': gp_err}
 
