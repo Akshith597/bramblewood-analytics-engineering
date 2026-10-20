@@ -172,6 +172,14 @@ evidence/             Executed results and machine-readable validation receipts
 
 The raw extracts in `data/raw/` (about 20 MB) are committed as ordinary Git files on purpose: a plain clone rebuilds everything offline, with no Git LFS setup or download step. The files never change, so they don't grow the history.
 
+## How I built this
+
+This project was built with AI assistance. The Git history includes Claude-authored implementation commits and links to Claude Code sessions. That history is retained so the development process is visible.
+
+Verification is part of the repository: dbt tests and contracts, independent raw-file sales reconciliation, repeatability checks, and Python and R estimator cross-checks run in CI. These checks provide evidence about correctness; they do not establish sole human authorship or validate every business assumption. Design choices and limitations are recorded in the [architecture decisions](docs/architecture.md) and [analysis plan](analysis/PLAN.md).
+
+For a warehouse walkthrough, start with the SQL in [staging](models/staging/), [intermediate](models/intermediate/) and [marts](models/marts/). Python handles ingestion, statistical analysis, evidence exports and document generation; its size reflects that broader analysis and tooling layer.
+
 ## Author
 
 **Akshith Reddy** · [Portfolio](https://akshith597.github.io/meridian_sales_portfolio/) · [GitHub @Akshith597](https://github.com/Akshith597) · feedback welcome via [issues](https://github.com/Akshith597/bramblewood-analytics-engineering/issues)
