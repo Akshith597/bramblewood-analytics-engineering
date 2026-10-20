@@ -17,7 +17,7 @@ This project models a **synthetic historical extract**, not a live retailer. Sal
 | `dim_vendor` | Vendor / `vendor_id` | Current vendor attributes and payment terms. |
 | `int_sales_keys` | Accepted POS row | Left joins to staged masters resolve SKU and fiscal week without hiding unmatched records. |
 | `int_sales_enriched` | Store × SKU × fiscal week | Reusable effective-cost/price enrichment upstream of all marts. |
-| `fct_sales` | Store × SKU × fiscal week / `sales_key` | One source row with one effective cost and one zone price. Stable MD5 key is an identifier, not a security control. |
+| `fct_sales` | Store × SKU × fiscal week / `sales_key` | One source row with one effective cost and one zone price. Stable MD5 key is an identifier, not a security control. Incremental: restates whole fiscal weeks inside a 28-day lookback; older corrections need a full refresh. |
 | `fct_inventory` | Store × SKU × fiscal week / `inventory_key` | Observed receipts and Saturday stock, including explicit zero-stock flags. |
 | `fct_vendor_claims` | Claim / `claim_id` | Billed and collected amounts; multiple claims per promotion remain possible. |
 | `int_promotion_sales` | Promotion × sales key | Approved event eligibility by SKU, inclusive dates and store zone. Explicit ambiguity count. |
@@ -29,6 +29,8 @@ This project models a **synthetic historical extract**, not a live retailer. Sal
 | `audit_reconciliation` | POS disposition | Row, unit and money control totals. |
 
 Dimensions are Type 1 views of the supplied master data, materialized as tables. This is **not** a reconstructed Type 2 history of item or store attributes. Cost, price and planogram tables carry their own effective periods.
+
+`snap_items` and `snap_stores` (dbt snapshots, `check` strategy on attribute columns, hard deletes invalidated) record Type 2 history going forward: each build that sees a changed master row closes the old version and opens a new one. History begins at a warehouse's first build, because the extracts carry no earlier attribute history, and a release built in a fresh workspace by the publication workflow starts its history empty. `tests/snapshot_versions_valid.sql` requires one current version per key and non-overlapping validity windows.
 
 All 14 raw sources have one direct staging projection. Staging owns DATE, INTEGER and DECIMAL casts, UPC normalization, and canonical subcategory labels. Intermediates depend only on staged or intermediate models. Facts and marts use `ref()` exclusively. `scripts/verify_project.py` checks these boundaries against the parsed dbt manifest.
 
@@ -73,4 +75,4 @@ Every one of the 13 mart-layer models has `contract.enforced: true` and explicit
 - True vendor funding entitlement from planned promotions alone.
 - Historical SCD attributes or collection balances at a past date from current extracts.
 
-The dataset's original analyst brief is preserved in `data/SOURCE_README.md` as background. This project's delivered scope is the tested analytics engineering foundation and descriptive business checks; it does not claim to complete all five causal analyst studies.
+The dataset's original analyst brief is preserved in `data/SOURCE_README.md` as background. The warehouse's own scope is the tested analytics engineering foundation and the descriptive business checks above. The five analyst questions are answered separately, as an extension in `analysis/` and the [decision memo](decision_memo.md), with their own fixed analysis plan and stated limits; none of the marts claims a causal effect.

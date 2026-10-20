@@ -1,12 +1,13 @@
 # Deviation log
 
 Everything decided after a result was seen, in order. Entries above the line were written **before** the answer
-key was requested or opened and are frozen with the estimates (tag `estimates-frozen-v1`). Entries below it record
+key was requested or opened and are frozen with the estimates (`estimates-frozen-v1`, commit [`ca771a4`](https://github.com/Akshith597/bramblewood-analytics-engineering/commit/ca771a463ae154bb8f32b6aed4edf2aa5422510f)). Entries below it record
 what the key taught; they never change a frozen estimate, interval or the plan.
 
 Deviations 1–5 (delist GP indexing, cross-zone price design, year-over-year delist adjustment, the Q2/Q4 addendum,
 the censored-demand stock-out estimator) are in the [decision memo](../../docs/decision_memo.md#how-the-results-were-checked). Estimates were first frozen as
-`estimates-frozen-v1` and re-frozen once as `estimates-frozen-v2` (deviation 12), still before the key was requested.
+`estimates-frozen-v1` (commit [`ca771a4`](https://github.com/Akshith597/bramblewood-analytics-engineering/commit/ca771a463ae154bb8f32b6aed4edf2aa5422510f)) and re-frozen once as `estimates-frozen-v2` (commit [`4e8e453`](https://github.com/Akshith597/bramblewood-analytics-engineering/commit/4e8e4531b86d05134ba2b1fa7d9d888d52acad6a), deviation 12),
+still before the key was requested. The version label is the `tag` field of `frozen_estimates.json` in each commit.
 
 ## Before the key (FY2026 round)
 

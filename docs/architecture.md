@@ -29,6 +29,21 @@ flowchart LR
 
 **Tradeoff:** This is not a multi-user production service. There is no scheduler, secrets service, warehouse RBAC or production monitoring. A cloud migration would retain the model DAG while adapting SQL, ingestion and deployment.
 
+### Running on Snowflake
+
+`profiles.yml` has an optional `snowflake` target that reads its credentials from `SNOWFLAKE_*` environment variables (key-pair auth by default). The model SQL is written to move across:
+
+- The four DuckDB-only expressions go through adapter-dispatched macros, or dbt's own cross-database macros: date parsing (`try_parse_date`: `try_strptime` / `try_to_date`), full-string regex (`regex_full_match`: `regexp_full_match` / `regexp_like`), day differences (`dbt.datediff`), and conditional counts (plain `count(case …)`, not DuckDB's `FILTER` clause). On DuckDB every model hashes identically to before the change.
+- The dispatched models compile to Snowflake SQL with `dbt compile --target snowflake --no-introspect`.
+
+What is **not** ported or verified:
+
+- Nothing has run against a live Snowflake account.
+- `scripts/ingest.py` loads only DuckDB. A Snowflake run needs the raw tables loaded first (for example with `write_pandas`), with POS columns kept as strings so `try_cast` applies.
+- The reconciliation, repeatability, evidence and `analysis/` scripts open the DuckDB file directly.
+
+Treat the target as the first step of a migration, not a supported deployment.
+
 ## ADR 02 — Deterministic full rebuild
 
 **Decision:** Replace raw tables transactionally, then build the entire bounded history. Source hashes identify exactly which bytes were loaded. A separate test hashes every ordered model before and after reload.
@@ -36,6 +51,8 @@ flowchart LR
 **Why:** Incremental append based on sales week would miss backdated costs, returns and corrected old extracts. The supplied files contain no reliable update timestamp.
 
 **Tradeoff:** Work scales with historical volume. For larger sources, add file manifests plus batch IDs, source-updated timestamps, merge keys, affected-partition recomputation, and atomic promotion of a validated warehouse. Do not use the maximum sales date as a universal watermark.
+
+**Revision — incremental `fct_sales`:** The largest fact is now incremental for the case the watermark concern does not cover: late or corrected POS rows in recent weeks. Each incremental run restates every fiscal week ending within `sales_restatement_lookback_days` (default 28) of the latest loaded week, using `delete+insert` on `week_key`, so rows that vanish from a corrected extract are removed rather than left behind. Backdated cost, price or master-data corrections still change weeks outside that window, so they require `dbt build --full-refresh`. The publication workflow always builds in a fresh workspace, so every published release is a full build. `verify_repeatability.py` runs the second build incrementally and requires every model to hash identically to the full build.
 
 ## ADR 03 — Keep grain explicit
 

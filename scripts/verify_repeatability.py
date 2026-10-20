@@ -1,4 +1,8 @@
-"""Compare every model's ordered contents before and after a complete reload/build."""
+"""Compare every model's ordered contents before and after a complete reload/build.
+
+The second build runs incremental models incrementally, so a match also shows that the incremental
+path (fct_sales restating its lookback window) reproduces the full build.
+"""
 
 from pathlib import Path
 import hashlib
@@ -39,6 +43,6 @@ if __name__ == '__main__':
     if not before or before != after:
         raise AssertionError('Full rebuild changed model contents')
     (ROOT / 'evidence/repeatability.json').write_text(
-        json.dumps({'status': 'pass', 'models': after}, indent=2), encoding='utf-8'
+        json.dumps({'status': 'pass', 'second_build': 'incremental', 'models': after}, indent=2), encoding='utf-8'
     )
-    print(f'PASS: {len(after)} models identical after full reload and rebuild')
+    print(f'PASS: {len(after)} models identical after full reload and incremental rebuild')
