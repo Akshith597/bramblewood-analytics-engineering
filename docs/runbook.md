@@ -43,6 +43,9 @@ Then visit `http://localhost:8080`. The generated catalog has model lineage and 
 | Run only fixture-based unit tests | `python scripts/invoke_dbt.py test --select test_type:unit` |
 | Test existing models | `python scripts/invoke_dbt.py test` |
 | Independent source tie-out | `python scripts/independent_reconcile.py` |
+| Check raw reload freshness | `python scripts/invoke_dbt.py source freshness` |
+| Snapshot item and store history | `python scripts/invoke_dbt.py snapshot` |
+| Rebuild the incremental sales fact from scratch | `python scripts/invoke_dbt.py build --full-refresh` |
 | Verify deterministic rebuild | `python scripts/verify_repeatability.py` |
 | Regenerate all delivery evidence | `python scripts/run_all.py` |
 
@@ -56,6 +59,8 @@ Then visit `http://localhost:8080`. The generated catalog has model lineage and 
 - **Temporal overlap:** Inspect the applicable raw effective periods. Only cost has an explicit latest-start policy; other overlaps fail.
 - **Missing key or cost:** Review left-join failures, source master coverage and lifecycle dates. Do not convert missing cost to zero.
 - **Stale evidence:** Run the complete pipeline. Documentation generation overwrites dbt's default run-results file, so the runner preserves the build receipt before generating docs.
+- **Stale source warning or error:** `source freshness` warns when a raw table was last reloaded more than 24 hours ago and fails after 72 hours, using the `raw._load_log` table that `ingest.py` writes. Rerun ingestion. This checks that loading still runs, not how old the extract is; the publication workflow checks extraction age against the batch manifest.
+- **Backdated correction:** `fct_sales` incremental runs restate only the weeks inside `sales_restatement_lookback_days`. After a cost, price, master-data or older POS correction, run `build --full-refresh`.
 - **Failure partway through:** Stop consumption, fix the input/model, rerun the whole pipeline and inspect the new receipt. A failed local dbt run is not an atomic rollback of every table.
 
 ## Operational acceptance criteria

@@ -5,6 +5,9 @@ profile: bramblewood
 model-paths: [models]
 test-paths: [tests]
 analysis-paths: [analyses]
+vars:
+  # fct_sales incremental runs restate fiscal weeks ending within this many days of the latest loaded week.
+  sales_restatement_lookback_days: 28
 models:
   bramblewood:
     staging:

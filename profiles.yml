@@ -5,3 +5,16 @@ bramblewood:
       type: duckdb
       path: warehouse/bramblewood.duckdb
       threads: 4
+    # Optional cloud target: `pip install dbt-snowflake`, set the variables below, then pass `--target snowflake`.
+    # Not run against a live account. See "Running on Snowflake" in docs/architecture.md for what is and isn't ported.
+    snowflake:
+      type: snowflake
+      account: "{{ env_var('SNOWFLAKE_ACCOUNT', '') }}"
+      user: "{{ env_var('SNOWFLAKE_USER', '') }}"
+      authenticator: "{{ env_var('SNOWFLAKE_AUTHENTICATOR', 'snowflake_jwt') }}"
+      private_key_path: "{{ env_var('SNOWFLAKE_PRIVATE_KEY_PATH', '') }}"
+      role: "{{ env_var('SNOWFLAKE_ROLE', 'TRANSFORMER') }}"
+      warehouse: "{{ env_var('SNOWFLAKE_WAREHOUSE', 'TRANSFORMING') }}"
+      database: "{{ env_var('SNOWFLAKE_DATABASE', 'BRAMBLEWOOD') }}"
+      schema: "{{ env_var('SNOWFLAKE_SCHEMA', 'ANALYTICS') }}"
+      threads: 8

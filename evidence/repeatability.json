@@ -1,5 +1,6 @@
 {
   "status": "pass",
+  "second_build": "incremental",
   "models": {
     "audit_reconciliation": {
       "rows": 3,
