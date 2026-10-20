@@ -167,7 +167,7 @@ The raw extracts in `data/raw/` (about 20 MB) are committed as ordinary Git file
 
 ## Author
 
-**Akshith Reddy** · [GitHub @Akshith597](https://github.com/Akshith597) · feedback welcome via [issues](https://github.com/Akshith597/bramblewood-analytics-engineering/issues)
+**Akshith Reddy** · [Portfolio](https://akshith597.github.io/meridian_sales_portfolio/) · [GitHub @Akshith597](https://github.com/Akshith597) · feedback welcome via [issues](https://github.com/Akshith597/bramblewood-analytics-engineering/issues)
 
 Project code is released under the [MIT License](LICENSE). The synthetic dataset in `data/` is third-party material described in [data/SOURCE_README.md](data/SOURCE_README.md) and is not covered by that license.
 
