@@ -33,6 +33,18 @@ class PublicClaimsTest(unittest.TestCase):
         self.assertEqual(build_plan.SCORECARD.read_text(encoding='utf-8'), build_plan.render_scorecard(),
                          'docs/scorecard.md is stale: run python -m analysis.build_plan')
 
+    def test_hand_written_build_counts_match_evidence(self):
+        # The dbt catalog front page and the case study state build counts in prose; hold them to the build receipt.
+        f = build_public.evidence_figures(build_public.evidence())
+        overview = (build_public.ROOT / 'models/overview.md').read_text(encoding='utf-8')
+        self.assertIn(f"**{f['models']} models · {f['source_tables']} staged sources · {f['contracts']} enforced "
+                      f"contracts · {f['all_checks']} dbt checks**", overview,
+                      'models/overview.md headline counts are stale')
+        case_study = (build_public.ROOT / 'docs/case_study.md').read_text(encoding='utf-8')
+        self.assertIn(f"{f['models']} dbt models; 2 snapshots; {f['data_tests']} data tests; {f['unit_tests']} unit "
+                      f"tests; {f['contracts']} enforced contracts", case_study,
+                      'docs/case_study.md build counts are stale')
+
     def test_templates_have_no_hand_typed_results(self):
         for template in (build_public.TEMPLATE, build_plan.PLAN_TEMPLATE, build_plan.SCORE_TEMPLATE):
             with self.subTest(template=template.name):

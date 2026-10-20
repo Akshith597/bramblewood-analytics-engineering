@@ -7,7 +7,7 @@ exposures:
   description: Executed CSV/JSON extracts from scripts/export_evidence.py support the portfolio case study and documented
     descriptive category, forecast, availability and funding checks.
   owner:
-    name: Aakshith Reddy
+    name: Akshith Reddy
   depends_on:
   - ref('mart_category_weekly')
   - ref('mart_forecast_accuracy')
@@ -22,7 +22,7 @@ exposures:
   description: Funding review CSV produced by the evidence exporter. Estimated contractual scan and display amounts
     are compared to actual billed and collected totals; cancelled events and ambiguous execution are flagged.
   owner:
-    name: Aakshith Reddy
+    name: Akshith Reddy
   depends_on:
   - ref('mart_promotion_funding')
   - ref('dim_vendor')
@@ -34,7 +34,7 @@ exposures:
   description: Static charts rendered by scripts/build_insights.py on every validated build and published beside the
     dbt catalog. Covers weekly chain sales, subcategory growth and margin, forecast accuracy and the vendor funding gap.
   owner:
-    name: Aakshith Reddy
+    name: Akshith Reddy
   depends_on:
   - ref('mart_category_weekly')
   - ref('mart_forecast_accuracy')
