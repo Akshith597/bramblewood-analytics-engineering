@@ -74,15 +74,17 @@ def build_arrays(rows, lost, fc):
     series = sorted({(r['store_id'], r['sku_id']) for r in rows})
     idx = {s: i for i, s in enumerate(series)}
     n, t = len(series), max(weeks) + 1
-    units = np.zeros((n, t)); demand = np.zeros((n, t)); carried = np.zeros((n, t), bool)
-    on_hand = np.zeros((n, t)); receipts = np.zeros((n, t)); zero = np.zeros((n, t), bool)
+    units, demand, on_hand, receipts = (np.zeros((n, t)) for _ in range(4))
+    carried, zero = np.zeros((n, t), bool), np.zeros((n, t), bool)
     meta = {}
     for r in rows:
         i = idx[(r['store_id'], r['sku_id'])]
         units[i, r['w']] = r['units']
         demand[i, r['w']] = r['units'] + lost.get((r['store_id'], r['sku_id'], r['w']), 0.0)
         carried[i, r['w']] = True
-        on_hand[i, r['w']] = r['on_hand']; receipts[i, r['w']] = r['receipts']; zero[i, r['w']] = r['zero_stock_snapshot']
+        on_hand[i, r['w']] = r['on_hand']
+        receipts[i, r['w']] = r['receipts']
+        zero[i, r['w']] = r['zero_stock_snapshot']
         meta[i] = (r['sku_id'], r['subcategory'], r['case_pack'], r['reg_margin'] or 0.0, r['unit_cost'] or 0.0)
     sku = [meta[i][0] for i in range(n)]
     chain_units = {}
@@ -129,10 +131,13 @@ def simulate(a, forecast, k, sigma=None):
         sold = np.minimum(a['demand'][:, w], avail) * live
         lost = (a['demand'][:, w] - sold) * live
         inv = (avail - sold) * live
-        sold_t += sold.sum(); lost_t += lost.sum(); rec_t += arrive[w].sum()
+        sold_t += sold.sum()
+        lost_t += lost.sum()
+        rec_t += arrive[w].sum()
         gp_lost += (lost * a['margin']).sum()
         stock_cost += (inv * a['cost']).sum()
-        zero_weeks += ((inv <= 0) & live).sum(); weeks += live.sum()
+        zero_weeks += ((inv <= 0) & live).sum()
+        weeks += live.sum()
         if w + 2 < t:
             # End of week w: order for delivery at the start of w + 2.
             target = forecast[:, w + 1] + forecast[:, w + 2] + k * sigma[:, w] * math.sqrt(2)
