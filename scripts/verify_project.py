@@ -1,4 +1,5 @@
 """Enforce layer boundaries and machine-readable contract/documentation coverage."""
+
 from pathlib import Path
 import json
 
@@ -7,8 +8,11 @@ ROOT = Path(__file__).resolve().parents[1]
 
 def main():
     manifest = json.loads((ROOT / 'target/manifest.json').read_text(encoding='utf-8'))
-    models = {key: value for key, value in manifest['nodes'].items()
-              if value['resource_type'] == 'model' and value['package_name'] == 'bramblewood'}
+    models = {
+        key: value
+        for key, value in manifest['nodes'].items()
+        if value['resource_type'] == 'model' and value['package_name'] == 'bramblewood'
+    }
     sources = {key for key, value in manifest['sources'].items() if value['package_name'] == 'bramblewood'}
     staged_sources = set()
     contracts = 0
@@ -39,12 +43,17 @@ def main():
             else:
                 contracts += 1
     if staged_sources != sources:
-        errors.append(f'Sources without direct staging coverage: {sorted(sources-staged_sources)}')
+        errors.append(f'Sources without direct staging coverage: {sorted(sources - staged_sources)}')
     if errors:
         raise AssertionError('\n'.join(errors))
-    receipt = {'status': 'pass', 'models': len(models), 'staged_sources': len(staged_sources),
-               'enforced_mart_contracts': contracts, 'documented_typed_columns': described_columns,
-               'exposures': len(manifest['exposures'])}
+    receipt = {
+        'status': 'pass',
+        'models': len(models),
+        'staged_sources': len(staged_sources),
+        'enforced_mart_contracts': contracts,
+        'documented_typed_columns': described_columns,
+        'exposures': len(manifest['exposures']),
+    }
     (ROOT / 'evidence/project_quality.json').write_text(json.dumps(receipt, indent=2), encoding='utf-8')
     print(json.dumps(receipt))
 

@@ -132,7 +132,7 @@ collected.
 
 ## How the results were checked
 
-- **Ground truth:** the answer key is distributed separately; a [request to the dataset's author](answer_key_request.md) is drafted.
+- **Ground truth:** the dataset's answer key is distributed separately and has not been received.
   Every estimate and interval was frozen before the key was opened (re-frozen once, still before the key, when the
   methods were simplified: deviation 12);
   the [scorecard](scorecard.md) compares them to it without re-tuning.
