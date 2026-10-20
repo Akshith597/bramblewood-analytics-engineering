@@ -2,3 +2,4 @@
 sqlfluff==4.3.0
 sqlfluff-templater-dbt==4.3.0
 pre-commit==4.3.0
+ruff==0.14.0

@@ -87,9 +87,11 @@ def receipts_vs_forecast(rows, panel):
     f, a, rc = (sum(x[i] for x in joined) for i in range(3))
     # Which explains receipts better week to week: this week's forecast or this week's sales?
     def r2(xs, ys):
-        n = len(xs); mx, my = sum(xs) / n, sum(ys) / n
+        n = len(xs)
+        mx, my = sum(xs) / n, sum(ys) / n
         sxy = sum((x - mx) * (y - my) for x, y in zip(xs, ys))
-        sxx = sum((x - mx) ** 2 for x in xs); syy = sum((y - my) ** 2 for y in ys)
+        sxx = sum((x - mx) ** 2 for x in xs)
+        syy = sum((y - my) ** 2 for y in ys)
         return sxy * sxy / (sxx * syy)
     return {'sku_weeks': len(joined), 'forecast_units': f, 'actual_units': a, 'receipt_units': rc,
             'forecast_over_actual': f / a - 1, 'receipts_over_actual': rc / a - 1,
