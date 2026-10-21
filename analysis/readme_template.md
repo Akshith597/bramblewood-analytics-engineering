@@ -4,6 +4,8 @@
 
 **Turning disconnected POS, inventory and merchandising extracts into a tested, auditable retail warehouse — built with dbt, DuckDB, SQL and Python.**
 
+Built to help merchandising and finance compare store performance, assess inventory availability, and investigate vendor-funding billing gaps using reconciled measures.
+
 [![Warehouse quality gate](https://github.com/Akshith597/bramblewood-analytics-engineering/actions/workflows/ci.yml/badge.svg)](https://github.com/Akshith597/bramblewood-analytics-engineering/actions/workflows/ci.yml)
 [![Docs & dashboard](https://github.com/Akshith597/bramblewood-analytics-engineering/actions/workflows/pages.yml/badge.svg)](https://akshith597.github.io/bramblewood-analytics-engineering/)
 ![dbt 1.12](https://img.shields.io/badge/dbt-1.12-FF694B?logo=dbt&logoColor=white)
@@ -26,6 +28,10 @@
 | **Data** | {pos_rows} POS rows, weekly store inventory and a {sheets}-sheet merchandising workbook: {stores} stores, {weeks} weeks, keys and date formats that don't agree |
 | **Warehouse** | {models} dbt models, an incremental sales fact, Type 2 snapshots, {contracts} enforced contracts, {all_checks} automated checks; sales reconciled to the cent against an independent rebuild |
 | **Reviewer path** | About ten minutes: [design](#warehouse-design) → [three decisions](#three-engineering-decisions) → [validation](#validation) → the [lineage graph](https://akshith597.github.io/bramblewood-analytics-engineering/) |
+
+[![Dashboard preview showing reconciled sales, funding bounds and comparable-store weekly sales](docs/assets/dashboard-preview.png)](https://akshith597.github.io/bramblewood-analytics-engineering/insights.html)
+
+*Static dashboard preview captured on `2026-10-21`. Open the [live dashboard](https://akshith597.github.io/bramblewood-analytics-engineering/insights.html) for the current build, exact data tables and metric definitions.*
 
 ## The problem
 
@@ -113,7 +119,7 @@ Result: [`verify_incremental.py`](scripts/verify_incremental.py) changes an amou
 - **Sales tie out to the cent** — {net_sales_exact} across {store_weeks} store-weeks matches an [independent rebuild](scripts/independent_reconcile.py) that reads the raw CSV with Python `Decimal`, without the transformation SQL. [Receipt](evidence/independent_reconciliation.json)
 - **Incremental loads are correct** — unchanged input rebuilds identically ([receipt](evidence/repeatability.json)); changed input matches a full rebuild ([receipt](evidence/incremental_changes.json)).
 - **Bad input fails loudly** — blank stock quantities fail a not-null contract, swapped promotion dates are reordered and flagged, and two extracts mapping to one raw table are rejected before loading; each guard has its own test.
-- **Every public number is generated** — this README is rendered from build results, CI fails on any difference, and a test checks each SQL excerpt above against its source file.
+- **README figures are generated and checked** — this README's text is rendered from committed results and build evidence, CI fails on any difference, and a test checks each SQL excerpt above against its source file. The dashboard preview is a dated screenshot; the live dashboard is rebuilt from the marts.
 
 ## How I built this
 
@@ -127,6 +133,8 @@ I built this with AI assistance (Claude Code), and Claude co-authored many commi
 - **How I verified it:** a test that every raw row is counted in exactly one disposition, the reconciliation test on `fct_sales`, and the independent `Decimal` rebuild across {store_weeks} store-weeks.
 
 ## Explore further
+
+- **Interview walkthrough:** a [five-minute outline and SQL practice exercise](docs/interview_walkthrough.md) covering the decisions, verification and limits.
 
 - **Run it locally** (Python 3.12, no credentials): `pip install -r requirements-dev.txt`, then `python scripts/run_all.py`. The [runbook](docs/runbook.md) has every command.
 - **Optional statistics extension:** the [business analysis](docs/business_analysis.md) answers the brief's five questions with scenario estimates. It is separate on purpose; the warehouse above is the core work.
