@@ -11,11 +11,32 @@ import pandas as pd
 ROOT = Path(__file__).resolve().parents[1]
 
 
-def main():
-    source = ROOT / "data" / "raw"
-    warehouse = ROOT / "warehouse"
+def read_sources(source):
+    """Read every extract into memory and refuse to start if two would land in the same raw table.
+
+    A CSV's table is its file stem and a workbook's tables are its sheet names, so an `inventory` sheet and an
+    `inventory.csv` would silently overwrite each other. DuckDB names are case-insensitive, so compare them that way.
+    """
+    loads, owners = [], {}
+    for path in sorted(source.iterdir()):
+        if path.suffix == ".csv":
+            tables = {path.stem: pd.read_csv(path, dtype=str, keep_default_na=False)}
+        elif path.suffix == ".xlsx":
+            tables = pd.read_excel(path, sheet_name=None, dtype={"upc": str})
+        else:
+            continue
+        for table in tables:
+            key = table.lower()
+            if key in owners:
+                raise ValueError(f'raw."{table}" would be loaded from both {owners[key]} and {path.name}')
+            owners[key] = path.name
+        loads.append((path, tables))
+    return loads
+
+
+def main(source=ROOT / "data" / "raw", warehouse=ROOT / "warehouse"):
+    loads = read_sources(source)
     warehouse.mkdir(exist_ok=True)
-    files = sorted(source.iterdir())
     manifest = {
         "loaded_at_utc": datetime.now(timezone.utc).isoformat(),
         "python": platform.python_version(),
@@ -30,14 +51,8 @@ def main():
             "CREATE OR REPLACE TABLE raw._load_log "
             "(table_name VARCHAR, source_file VARCHAR, row_count BIGINT, loaded_at_utc TIMESTAMPTZ)"
         )
-        for path in files:
+        for path, tables in loads:
             meta = {"file": path.name, "sha256": hashlib.sha256(path.read_bytes()).hexdigest(), "tables": {}}
-            if path.suffix == ".csv":
-                tables = {path.stem: pd.read_csv(path, dtype=str, keep_default_na=False)}
-            elif path.suffix == ".xlsx":
-                tables = pd.read_excel(path, sheet_name=None, dtype={"upc": str})
-            else:
-                continue
             for table, frame in tables.items():
                 frame = frame.copy()
                 frame["_source_file"] = path.name

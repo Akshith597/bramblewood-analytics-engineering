@@ -31,13 +31,12 @@ def xname(subcategory):
 
 EVENTS_SQL = """
 create or replace temp table promo_events as
--- PR-25-0432 has its start and end dates swapped in the source (end before start); POS discounts confirm
--- the 2025-03-30 to 2025-04-12 window, so the two dates are ordered here (logged as a data fix).
+-- stg_promotions orders PR-25-0432's swapped source dates (POS discounts confirm the 2025-03-30 to
+-- 2025-04-12 window), so every analysis and the warehouse use the same event window.
 with p as (
     select promo_id, sku_id, mechanic, display, store_scope, vendor_scan_per_unit::double as scan_per_unit,
         case when display = 'Y' then vendor_display_fee::double else 0 end as display_fee,
-        least(start_date, end_date) as start_date, greatest(start_date, end_date) as end_date,
-        start_date > end_date as dates_swapped
+        start_date, end_date, dates_swapped
     from stg_promotions where status = 'Approved'
 )
 select p.*, i.subcategory, cs.fiscal_year,

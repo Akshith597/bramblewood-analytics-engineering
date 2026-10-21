@@ -54,6 +54,8 @@
       "fiscal_year": 2024,
       "forecast_rows": 7420,
       "matched_rows": 7420,
+      "missing_forecast_rows": 0,
+      "scored_pairs": 7420,
       "wape": 0.2116439818,
       "bias": 0.1203724468,
       "non_two_week_lead_rows": 288
@@ -62,6 +64,8 @@
       "fiscal_year": 2025,
       "forecast_rows": 7184,
       "matched_rows": 7184,
+      "missing_forecast_rows": 0,
+      "scored_pairs": 7184,
       "wape": 0.2252867812,
       "bias": 0.133995964,
       "non_two_week_lead_rows": 0
@@ -1473,14 +1477,14 @@
     {
       "status": "Approved",
       "events": 771,
-      "scan_owed_estimate": 781642.25,
+      "scan_owed_estimate": 781788.65,
       "display_owed_estimate": 470500.0,
-      "funding_owed_estimate": 1252142.25,
+      "funding_owed_estimate": 1252288.65,
       "total_billed": 1119166.8,
       "amount_collected": 1119166.8,
-      "owed_minus_billed_estimate": 132975.45,
+      "owed_minus_billed_estimate": 133121.85,
       "uncollected_billed_amount": 0.0,
-      "owed_minus_collected_estimate": 132975.45,
+      "owed_minus_collected_estimate": 133121.85,
       "ambiguous_owed_events": 0
     },
     {
@@ -1516,11 +1520,11 @@
     },
     {
       "vendor_name": "Hartwell Snack Co.",
-      "funding_owed_estimate": 90085.65,
+      "funding_owed_estimate": 90232.05,
       "total_billed": 74757.85,
       "amount_collected": 74757.85,
-      "owed_minus_billed_estimate": 15327.8,
-      "owed_minus_collected_estimate": 15327.8
+      "owed_minus_billed_estimate": 15474.2,
+      "owed_minus_collected_estimate": 15474.2
     },
     {
       "vendor_name": "Golden Ridge Kettle Co.",
@@ -3405,18 +3409,6 @@
       "billed_on_cancelled_event": false
     },
     {
-      "promo_id": "PR-25-0432",
-      "vendor_id": "V02",
-      "status": "Approved",
-      "funding_estimate_status": "no_observed_sales",
-      "funding_owed_estimate": 0.0,
-      "total_billed": 74.0,
-      "amount_collected": 74.0,
-      "owed_minus_billed_estimate": -74.0,
-      "approved_without_claim": false,
-      "billed_on_cancelled_event": false
-    },
-    {
       "promo_id": "PR-24-0184",
       "vendor_id": "V08",
       "status": "Cancelled",
@@ -3516,28 +3508,28 @@
   "funding_assumption_sensitivity": [
     {
       "funding_estimate_status": "calendar_based_estimate",
-      "events": 768,
-      "funding_owed_estimate": 1249642.25,
-      "owed_minus_billed_estimate": 133049.45
+      "events": 769,
+      "funding_owed_estimate": 1249788.65,
+      "owed_minus_billed_estimate": 133121.85
     },
     {
       "funding_estimate_status": "no_observed_sales",
-      "events": 3,
+      "events": 2,
       "funding_owed_estimate": 2500.0,
-      "owed_minus_billed_estimate": -74.0
+      "owed_minus_billed_estimate": 0.0
     }
   ],
   "validation": {
     "dbt_version": "1.12.5",
-    "generated_at": "2026-10-20T02:55:40.242040Z",
+    "generated_at": "2026-10-21T17:34:08.786137Z",
     "models": 35,
-    "tests": 111,
+    "tests": 116,
     "test_statuses": {
-      "pass": 111
+      "pass": 116
     },
     "all_statuses": {
       "success": 37,
-      "pass": 111,
+      "pass": 116,
       "no-op": 3
     }
   }

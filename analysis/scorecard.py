@@ -3,7 +3,8 @@
     python -m analysis.scorecard freeze    # write analysis/scorecard/frozen_estimates.json (once, before the key)
     python -m analysis.scorecard           # score frozen estimates against analysis/scorecard/answer_key.json
 
-Rules fixed before the key is opened (re-frozen once as `estimates-frozen-v2`, still before the key: deviation 12):
+Rules fixed before the key is opened (re-frozen as `estimates-frozen-v2`, deviation 12, and `estimates-frozen-v3`,
+deviation 13, both with no key available):
 
 - Scored values are the frozen file, never a re-run. tests_python/test_scorecard.py fails if any current result
   differs from its frozen value, so an estimator cannot be re-tuned after the key without the test (and the
@@ -112,7 +113,7 @@ def collect():
 
 def freeze():
     DIR.mkdir(parents=True, exist_ok=True)
-    payload = {'frozen_before_answer_key': True, 'tag': 'estimates-frozen-v2', 'parameters': collect()}
+    payload = {'frozen_before_answer_key': True, 'tag': 'estimates-frozen-v3', 'parameters': collect()}
     FROZEN.write_text(json.dumps(payload, indent=2) + '\n', encoding='utf-8', newline='\n')
     print(f'Froze {len(payload["parameters"])} parameters to {FROZEN.relative_to(ROOT)}')
 

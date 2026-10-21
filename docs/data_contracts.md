@@ -17,20 +17,21 @@ This project models a **synthetic historical extract**, not a live retailer. Sal
 | `dim_vendor` | Vendor / `vendor_id` | Current vendor attributes and payment terms. |
 | `int_sales_keys` | Accepted POS row | Left joins to staged masters resolve SKU and fiscal week without hiding unmatched records. |
 | `int_sales_enriched` | Store × SKU × fiscal week | Reusable effective-cost/price enrichment upstream of all marts. |
-| `fct_sales` | Store × SKU × fiscal week / `sales_key` | One source row with one effective cost and one zone price. Stable MD5 key is an identifier, not a security control. Incremental: restates whole fiscal weeks inside a 28-day lookback; older corrections need a full refresh. |
-| `fct_inventory` | Store × SKU × fiscal week / `inventory_key` | Observed receipts and Saturday stock, including explicit zero-stock flags. |
+| `fct_sales` | Store × SKU × fiscal week / `sales_key` | One source row with one effective cost and one zone price. Stable MD5 key is an identifier, not a security control. Incremental: deletes and reloads every week ending inside a 28-day lookback from the latest source week, so deleted weeks disappear and an empty target fully loads; older corrections need a full refresh. |
+| `fct_inventory` | Store × SKU × fiscal week / `inventory_key` | Observed receipts and Saturday stock, including explicit zero-stock flags. Both quantities are required: a blank fails the contract instead of passing the nonnegative test as null. |
 | `fct_vendor_claims` | Claim / `claim_id` | Billed and collected amounts; multiple claims per promotion remain possible. |
 | `int_promotion_sales` | Promotion × sales key | Approved event eligibility by SKU, inclusive dates and store zone. Explicit ambiguity count. |
+| `stg_promotions` | Promotion / `promo_id` | Start and end dates are ordered, because one source event (`PR-25-0432`) has them swapped; the source dates and a `dates_swapped` flag are kept, and every consumer (warehouse and analysis) reads the ordered window. |
 | `mart_category_weekly` | Subcategory × fiscal week | Additive sales, units, estimated gross profit and discounts. |
 | `mart_availability` | Union of sales and inventory store × SKU × week keys | Full outer join and presence flags prevent missing observations becoming zero. |
-| `mart_forecast_accuracy` | Forecast SKU × target week | Actuals aggregated to chain grain before joining. Run week and forecast lead retained. |
+| `mart_forecast_accuracy` | Forecast SKU × target week | Actuals aggregated to chain grain before joining. Run week and forecast lead retained. WAPE and bias sum numerator and denominator over the same `is_scored_pair` rows (forecast and actual both present); a missing forecast quantity raises a warning and is counted in `evidence/forecast_metrics.csv`. |
 | `mart_promotion_funding` | Promotion | Estimated owed scan/display funding versus actual billed and collected; cancellation and execution caveats retained. |
 | `mart_assortment_productivity` | Scheduled store × SKU × week | Effective store planogram and item facings, with left-joined observed sales. |
 | `audit_reconciliation` | POS disposition | Row, unit and money control totals. |
 
 Dimensions are Type 1 views of the supplied master data, materialized as tables. This is **not** a reconstructed Type 2 history of item or store attributes. Cost, price and planogram tables carry their own effective periods.
 
-`snap_items` and `snap_stores` (dbt snapshots, `check` strategy on attribute columns, hard deletes invalidated) record Type 2 history going forward: each build that sees a changed master row closes the old version and opens a new one. History begins at a warehouse's first build, because the extracts carry no earlier attribute history, and a release built in a fresh workspace by the publication workflow starts its history empty. `tests/snapshot_versions_valid.sql` requires one current version per key and non-overlapping validity windows.
+`snap_items` and `snap_stores` (dbt snapshots, `check` strategy on attribute columns, hard deletes invalidated) record Type 2 history going forward: each build that sees a changed master row closes the old version and opens a new one. History begins at a warehouse's first build, because the extracts carry no earlier attribute history, and the publication workflow copies the current release's snapshot tables into each new build, so history accumulates across releases (only the first release starts empty). `tests/snapshot_versions_valid.sql` requires one current version per key and non-overlapping validity windows.
 
 All 14 raw sources have one direct staging projection. Staging owns DATE, INTEGER and DECIMAL casts, UPC normalization, and canonical subcategory labels. Intermediates depend only on staged or intermediate models. Facts and marts use `ref()` exclusively. `scripts/verify_project.py` checks these boundaries against the parsed dbt manifest.
 

@@ -15,8 +15,8 @@
 <text x="541.8" y="156.0" font-size="12" fill="#0b0b0b" font-weight="600" text-anchor="start">$26.5K</text>
 <text x="760.0" y="156.0" font-size="12" fill="#52514e" font-weight="400" text-anchor="start">$215K vs $188K</text>
 <text x="278.0" y="189.0" font-size="12.5" fill="#0b0b0b" font-weight="400" text-anchor="end">Hartwell Snack Co.</text>
-<rect class="hit" x="290" y="177" width="141.2" height="16" rx="3" fill="#eb6834"><title>Hartwell Snack Co.: owed $90.1K, billed $74.8K, gap $15.3K; 6 approved events without a claim</title></rect>
-<text x="439.2" y="190.0" font-size="12" fill="#0b0b0b" font-weight="600" text-anchor="start">$15.3K</text>
+<rect class="hit" x="290" y="177" width="142.5" height="16" rx="3" fill="#eb6834"><title>Hartwell Snack Co.: owed $90.2K, billed $74.8K, gap $15.5K; 6 approved events without a claim</title></rect>
+<text x="440.5" y="190.0" font-size="12" fill="#0b0b0b" font-weight="600" text-anchor="start">$15.5K</text>
 <text x="760.0" y="190.0" font-size="12" fill="#52514e" font-weight="400" text-anchor="start">$90K vs $75K</text>
 <text x="278.0" y="223.0" font-size="12.5" fill="#0b0b0b" font-weight="400" text-anchor="end">Golden Ridge Kettle Co.</text>
 <rect class="hit" x="290" y="211" width="133.7" height="16" rx="3" fill="#eb6834"><title>Golden Ridge Kettle Co.: owed $129.0K, billed $114.5K, gap $14.5K; 5 approved events without a claim</title></rect>

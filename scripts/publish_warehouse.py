@@ -2,6 +2,7 @@
 
 Consumers read current.json once, then open that release's database read-only.
 Only the pointer changes; an existing published database is never overwritten.
+Each candidate starts from the current release's snapshot tables, so Type 2 history accumulates across releases.
 """
 
 import argparse
@@ -16,6 +17,8 @@ import subprocess
 import sys
 import tempfile
 import uuid
+
+import duckdb
 
 ROOT = Path(__file__).resolve().parents[1]
 COPY_DIRS = ('data', 'models', 'snapshots', 'macros', 'tests', 'scripts', 'analyses', 'analysis', 'docs', 'evidence')
@@ -86,12 +89,33 @@ def verify_snapshot(root, manifest):
         raise ValueError('Source files differ from the batch manifest; publication rejected')
 
 
+def carry_snapshot_history(previous, candidate):
+    """Copy every dbt snapshot table from the previous release into a fresh candidate database.
+
+    dbt snapshots only add history to tables that already exist, so without this each release built in a clean
+    workspace would start its item and store history again. Snapshot tables are found by dbt's dbt_scd_id column.
+    """
+    database = candidate / 'warehouse/bramblewood.duckdb'
+    database.parent.mkdir(exist_ok=True)
+    with duckdb.connect(str(database)) as con:
+        con.execute("attach '{}' as previous (read_only)".format(str(previous).replace("'", "''")))
+        tables = con.execute(
+            "select distinct table_schema, table_name from information_schema.columns "
+            "where table_catalog = 'previous' and column_name = 'dbt_scd_id'"
+        ).fetchall()
+        for schema, table in tables:
+            con.execute(f'create schema if not exists "{schema}"')
+            con.execute(f'create table "{schema}"."{table}" as select * from previous."{schema}"."{table}"')
+        con.execute('detach previous')
+    return [f'{schema}.{table}' for schema, table in tables]
+
+
 def build(candidate):
     for script in ('run_all.py', 'verify_repeatability.py'):
         subprocess.run([sys.executable, str(candidate / 'scripts' / script)], cwd=candidate, check=True)
 
 
-def publish(root, destination, manifest, max_age_hours=24, builder=None):
+def publish(root, destination, manifest, max_age_hours=24, builder=None, history=carry_snapshot_history):
     root, destination = root.resolve(), destination.resolve()
     # Keep output away from copied source directories, including custom destinations.
     if destination == root or any(destination.is_relative_to(root / d) for d in COPY_DIRS):
@@ -114,6 +138,10 @@ def publish(root, destination, manifest, max_age_hours=24, builder=None):
                 if source.is_file() and source.suffix in ('.yml', '.yaml', '.txt'):
                     shutil.copy2(source, candidate / source.name)
             verify_snapshot(candidate, manifest)
+            carried = []
+            if (destination / 'current.json').is_file():
+                previous = json.loads((destination / 'current.json').read_text(encoding='utf-8'))
+                carried = history(destination / previous['database'], candidate)
             (builder or build)(candidate)
             # Reject a batch that expired during a long build, or was altered by a build step.
             validate_freshness(manifest, max_age_hours)
@@ -138,6 +166,7 @@ def publish(root, destination, manifest, max_age_hours=24, builder=None):
                 'source_manifest': manifest,
                 'source_age_hours_at_publish': ages,
                 'database_sha256': database_sha256,
+                'snapshot_history_carried': carried,
             }
             atomic_json(release / 'release.json', receipt)
             atomic_json(destination / 'current.json', receipt)

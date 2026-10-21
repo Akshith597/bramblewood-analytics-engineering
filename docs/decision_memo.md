@@ -2,16 +2,17 @@
 
 *To: VP Merchandising · Data: Bramblewood POS, inventory and merchandising extracts, FY2024–FY2025 (synthetic) ·
 Generated from code by `analysis/build_memo.py`; every figure is a named query result in `analysis/results/`.
-Method and decision rules were [committed before any outcome was computed](../analysis/PLAN.md).
+Methods and decision rules were first set out in an [analysis plan](../analysis/PLAN.md) committed before the first results commit;
+later changes are logged as deviations, and Git history (rewritten once to correct an author email) cannot by itself prove when results were first computed.
 The combined FY2026 plan built on these answers is [one page](fy2026_plan.md); estimates are frozen for the [answer-key scorecard](scorecard.md).*
 
 | Question | Answer | Dollar figure (90% range) | Recommendation |
 |---|---|---|---|
-| 1. Delisting test | **Inconclusive** — the test cannot detect a GP change smaller than 4.3%; but its transfer rate passes its placebo checks and prices a cut list | Test planogram: +$15.3K per year if rolled out (−$17.9K to +$48.5K). Cut list of 14 SKUs: +$55.1K per year (+$17.1K to +$93.1K) | Do not roll out the test planogram; cut the 14 SKUs that lose least GP per facing, planogram by planogram |
+| 1. Delisting test | **Inconclusive** — the test cannot detect a GP change smaller than 4.3%; but its transfer rate passes its placebo checks and prices a cut list | Test planogram: +$15.3K per year if rolled out (−$17.9K to +$48.5K). Cut list of 14 SKUs: +$55.1K per year (+$17.1K to +$93.1K) | Do not roll out the test planogram; treat the 14 SKUs that lose least GP per facing as candidates and pilot their removal with a store holdout, large-format stores first |
 | 2. Promotions | **Roughly break-even, and only because of vendor money** — 1% of FY2025 events made gross profit before funding | +$13.4K net in FY2025 (−$15.1K to +$42.0K); −$661.0K before funding | Cut or redesign promotions without a display; keep display events only where display execution is verified and the fee collected |
-| 3. Price increases | **Not identified** from the data; break-even analysis favours Golden Ridge, tortilla is a coin flip | Golden Ridge +$52.9K (+$49.4K to +$56.3K); tortilla −$1.2K (−$11.4K to +$8.3K) — scenarios, not estimates | Keep Golden Ridge; tortilla: roll the price back — a randomized test is worth less than it costs |
+| 3. Price increases | **Not identified** from the data. Validated: only the break-even arithmetic. Scenario: an unvalidated pooled elasticity favours Golden Ridge; tortilla is near break-even | Golden Ridge +$52.9K (+$49.4K to +$56.3K); tortilla −$1.2K (−$11.4K to +$8.3K) — scenarios, not estimates | Keep Golden Ridge, assuming the pooled elasticity is roughly right; tortilla: roll the price back, a scenario call on small dollars |
 | 4. Forecast and in-stock | **Forecast over-forecasts by +13.4%** (+11.8% to +15.0%); +12.5% with censored demand restored. The over-forecast never reached store shelves | $1.05M of planned units at cost, of which $19.4K became extra store stock; stock-outs $26.4K ($20.7K to $31.8K) | Correct the planning number for budgets, but do not re-tune store replenishment around it: at equal service it saves nothing (−$941.32) |
-| 5. Vendor funding | **Under-billed** on approved promotions | $65.5K to $133.0K | Bill the scan-back shortfall now; verify display execution before billing displays |
+| 5. Vendor funding | **Under-billed** on approved promotions | $65.6K (scan-back on observed units) to $133.1K (if every planned display also ran) | Bill the $65.6K scan-back shortfall now; verify display execution before billing the display portion |
 
 ## 1. Delisting test (stores 102, 106, 113, 116 from FY2025 W27)
 
@@ -35,7 +36,9 @@ dollars the delisted SKUs lost, a rate that, unlike the GP effect, passes both f
 holds year over year (1.30, 0.94 to 1.67). Cutting SKU *i* therefore changes GP by −GP<sub>i</sub> + τ · sales<sub>i</sub> · margin of its
 subcategory's retained SKUs. Ranked by GP per facing, within each planogram's fixed facings, among SKUs no bigger
 than the ones the test cut, and cut only if the change is positive at the low end of τ's range: 14 SKUs
-(7 in the large planogram, 9 in the medium planogram, 9 in the small planogram), +$55.1K a year (+$17.1K to +$93.1K). 10 of the test's 20 delisted SKUs fall in the large planogram's
+(7 in the large planogram, 9 in the medium planogram, 9 in the small planogram), +$55.1K a year (+$17.1K to +$93.1K). These are candidates, not a proven result: the transfer rate was measured on
+two-facing slow sellers in four large stores, so applying it to medium and small formats is an assumption. Pilot
+the cuts with a store holdout, large-format stores first, before a chain rollout. 10 of the test's 20 delisted SKUs fall in the large planogram's
 bottom 20 by GP per facing. Full list: [FY2026 plan](fy2026_plan.md).
 
 ## 2. Promotions (FY2025 events)
@@ -79,11 +82,15 @@ An increase loses gross profit only if shoppers are more price-sensitive than th
 arithmetic on price and cost. Neither event-level design passed its own checks: the planned comparison
 failed pre-trend (p < 0.001), fake-date and backtest checks, and an exploratory within-SKU cross-zone
 design failed the backtest (Golden Ridge) or pre-trends (tortilla). The pooled model across all
-206,724 non-promoted SKU-store-weeks suggests kettle is inelastic (−0.52) — far from
-−2.78, so Golden Ridge very likely paid off — while private-label tortilla sits near its break-even.
-By subcategory: Potato Chips −2.05; Cheese Snacks −1.96; Pretzels −1.37; Tortilla Chips −1.29; Popcorn −1.16 (not identified); Nuts −1.11; Trail Mix −0.83; Kettle Chips −0.52. Private label is more price-sensitive by 1.15 elasticity points (shift −1.46 to −0.84), identified
-only from Bramble Select changes. **Next:** the tortilla range spans break-even and the dollars are small either
-way, so take the action with the higher GP at the pooled estimate (roll the price back).
+206,692 non-promoted SKU-store-weeks suggests kettle is inelastic (−0.52) — far from
+−2.78, so if that unvalidated estimate is roughly right Golden Ridge paid off — while private-label tortilla sits near its
+break-even.
+By subcategory: Potato Chips −2.05; Cheese Snacks −1.96; Pretzels −1.37; Tortilla Chips −1.29; Popcorn −1.16 (not identified); Nuts −1.11; Trail Mix −0.83; Kettle Chips −0.52. Private label is more price-sensitive by 1.15 elasticity points (shift −1.47 to −0.84), identified
+only from Bramble Select changes. **What is validated and what is a scenario.** Validated: neither event design identified
+an effect, and the break-even elasticities are arithmetic on price and cost. Scenario: both recommendations
+assume the pooled, cross-SKU elasticity applies to these two items; that model has no event-level validation.
+**Next:** the tortilla range spans break-even and the dollars are small either way, so take the action with the
+higher GP at the pooled estimate (roll the price back).
 
 ## 4. Forecast and in-stock
 
@@ -125,8 +132,8 @@ stock-out; the weekly snapshot cannot measure this well.
 
 ## 5. Vendor funding
 
-On 771 approved events, scan-back owed on observed units exceeds scan-back billed by **$65.5K**;
-if every planned display ran, the gap rises to **$133.0K**. 150 approved events have no claim at all.
+On 771 approved events, scan-back owed on observed units exceeds scan-back billed by **$65.6K**;
+if every planned display ran, the gap rises to **$133.1K**. 150 approved events have no claim at all.
 Everything billed on approved events was collected; $974.65 was billed on cancelled events and not
 collected.
 

@@ -108,16 +108,24 @@ promotions can't also be counted in the promotion lever). Each uncertain input i
   funding; 50%, 75% or 100% of the under-billing is recovered.
 
 The **base case** uses the middle values. The **low case** puts every input at its bad end at the same time, and
-the **high case** at its good end. Because everything going wrong at once is unlikely, the low case is a cautious
-floor rather than a probability. The plan's headline is that it stays positive even in the low case.
+the **high case** at its good end. Because everything going wrong at once is unlikely, the low case is a modeled
+low case rather than a probability. It is not a guaranteed lower bound: basket effects, vendor reactions and
+implementation costs are left out of every case and could take the outcome below it. The plan stays positive in
+the modeled low case.
 
-## Why no test is proposed
+## What still needs a test
 
-Each decision is either already settled by the evidence (promotions without a display lose money before vendor
-funding; Golden Ridge's price is far from break-even; the cut list is positive at the low end of the transfer
-rate) or small in dollars (the tortilla price, a few thousand dollars either way). A store test costs more than
-that in lost profit and staff time. The biggest uncertainty, how much vendor money is re-won, is settled at the
-negotiating table, not by a test.
+None of the decisions is settled beyond doubt, and each rests on a stated assumption:
+
+- **Promotions without a display** lost money before vendor funding in FY2025. Dropping them assumes vendors and
+  shoppers respond as modeled.
+- **The cut list** is positive at the low end of the transfer rate, but that rate was measured on slow sellers in
+  four large stores. Applying it to other formats is an assumption, so the plan pilots the cuts with a store
+  holdout before a chain rollout.
+- **Golden Ridge's price** is far from break-even only if the unvalidated pooled elasticity is roughly right.
+- **The tortilla price** is a few thousand dollars either way, less than a store test would cost.
+
+The biggest uncertainty, how much vendor money is re-won, is decided at the negotiating table, not by a test.
 
 ## Checking the numbers twice
 
@@ -128,7 +136,8 @@ error). This catches coding mistakes, not design mistakes.
 ## The fixed analysis plan, and what it does and doesn't prove
 
 The metrics, comparison groups and decision rules for each question were written down and committed
-([`analysis/PLAN.md`](../analysis/PLAN.md)) before any result was computed. This makes it hard to quietly pick the
+([`analysis/PLAN.md`](../analysis/PLAN.md)) before the first results commit; promotions and out-of-stock cost were
+added in a later addendum, after some unit-level aggregates had been seen. This makes it hard to quietly pick the
 method that gives the nicest answer. Every later change is logged as a deviation with a reason. It isn't a formal
 pre-registration with an outside registry. The plan commit and the first results commit were made about half an hour
 apart by the same person, and a later author-email correction rewrote the repository's history (new commit IDs; same

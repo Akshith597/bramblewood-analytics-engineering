@@ -36,14 +36,14 @@
   },
   "by_promoted": {
     "False": {
-      "bias": 0.100349,
-      "rows": 6673,
+      "bias": 0.100368,
+      "rows": 6671,
       "wape": 0.207122
     },
     "True": {
-      "bias": 0.227817,
-      "rows": 511,
-      "wape": 0.275936
+      "bias": 0.227686,
+      "rows": 513,
+      "wape": 0.275896
     }
   },
   "by_subcategory": {
