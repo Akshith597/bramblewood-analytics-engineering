@@ -11,10 +11,10 @@ env:
 jobs:
   # Needs no built warehouse, so it runs alongside the build instead of after it.
   static-checks:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     steps:
-      - uses: actions/checkout@v6
-      - uses: actions/setup-python@v5
+      - uses: actions/checkout@v7
+      - uses: actions/setup-python@v7
         with:
           python-version: '3.12'
           cache: pip
@@ -30,10 +30,10 @@ jobs:
       - run: python -m pre_commit run --all-files
 
   warehouse:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     steps:
-      - uses: actions/checkout@v6
-      - uses: actions/setup-python@v5
+      - uses: actions/checkout@v7
+      - uses: actions/setup-python@v7
         with:
           python-version: '3.12'
           cache: pip
@@ -47,12 +47,12 @@ jobs:
       - name: Repeatability — full reload, incremental rebuild, identical model hashes
         run: python scripts/verify_repeatability.py
       - name: Hand the estimation panels to the R cross-check
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: analysis-panels
           path: target/analysis_panels/
           retention-days: 1
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v7
         if: always()
         with:
           name: warehouse-quality-evidence
@@ -72,9 +72,9 @@ jobs:
 
   r-crosscheck:
     needs: warehouse
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
       - uses: r-lib/actions/setup-r@v2
         with:
           use-public-rspm: true
@@ -84,13 +84,13 @@ jobs:
           packages: |
             any::fixest
             any::jsonlite
-      - uses: actions/download-artifact@v4
+      - uses: actions/download-artifact@v8
         with:
           name: analysis-panels
           path: target/analysis_panels
       - name: Independent R fixest cross-check against the committed analysis results
         run: Rscript analysis/crosscheck.R
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v7
         if: always()
         with:
           name: crosscheck-fixest
