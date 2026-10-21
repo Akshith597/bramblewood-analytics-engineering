@@ -2,16 +2,17 @@
 
 *To: VP Merchandising · Data: Bramblewood POS, inventory and merchandising extracts, FY2024–FY2025 (synthetic) ·
 Generated from code by `analysis/build_memo.py`; every figure is a named query result in `analysis/results/`.
-Method and decision rules were [committed before any outcome was computed](../analysis/PLAN.md).
+Methods and decision rules were first set out in an [analysis plan](../analysis/PLAN.md) committed before the first results commit;
+later changes are logged as deviations, and Git history (rewritten once to correct an author email) cannot by itself prove when results were first computed.
 The combined FY2026 plan built on these answers is [one page](fy2026_plan.md); estimates are frozen for the [answer-key scorecard](scorecard.md).*
 
 | Question | Answer | Dollar figure (90% range) | Recommendation |
 |---|---|---|---|
-| 1. Delisting test | **Inconclusive** — the test cannot detect a GP change smaller than {d_mde}; but its transfer rate passes its placebo checks and prices a cut list | Test planogram: {d_dollar} per year if rolled out ({d_dollar_ci}). Cut list of {a_cuts} SKUs: {a_gp} per year ({a_gp_ci}) | Do not roll out the test planogram; cut the {a_cuts} SKUs that lose least GP per facing, planogram by planogram |
+| 1. Delisting test | **Inconclusive** — the test cannot detect a GP change smaller than {d_mde}; but its transfer rate passes its placebo checks and prices a cut list | Test planogram: {d_dollar} per year if rolled out ({d_dollar_ci}). Cut list of {a_cuts} SKUs: {a_gp} per year ({a_gp_ci}) | Do not roll out the test planogram; treat the {a_cuts} SKUs that lose least GP per facing as candidates and pilot their removal with a store holdout, large-format stores first |
 | 2. Promotions | **Roughly break-even, and only because of vendor money** — {q2_pos_before} of FY2025 events made gross profit before funding | {q2_net} net in FY2025 ({q2_ci}); {q2_before} before funding | Cut or redesign promotions without a display; keep display events only where display execution is verified and the fee collected |
-| 3. Price increases | **Not identified** from the data; break-even analysis favours Golden Ridge, tortilla is a coin flip | Golden Ridge {p_gr_gp} ({p_gr_gp_ci}); tortilla {p_bs_gp} ({p_bs_gp_ci}) — scenarios, not estimates | Keep Golden Ridge; tortilla: {e_tortilla_action} — a randomized test is worth less than it costs |
+| 3. Price increases | **Not identified** from the data. Validated: only the break-even arithmetic. Scenario: an unvalidated pooled elasticity favours Golden Ridge; tortilla is near break-even | Golden Ridge {p_gr_gp} ({p_gr_gp_ci}); tortilla {p_bs_gp} ({p_bs_gp_ci}) — scenarios, not estimates | Keep Golden Ridge, assuming the pooled elasticity is roughly right; tortilla: {e_tortilla_action}, a scenario call on small dollars |
 | 4. Forecast and in-stock | **Forecast over-forecasts by {f_bias}** ({f_bias_ci}); {ph_bias_restored} with censored demand restored. The over-forecast never reached store shelves | {f_cost} of planned units at cost, of which {ph_excess} became extra store stock; stock-outs {o_gp} ({o_ci}) | Correct the planning number for budgets, but do not re-tune store replenishment around it: at equal service it saves nothing ({s_saving}) |
-| 5. Vendor funding | **Under-billed** on approved promotions | {v_low} to {v_high} | Bill the scan-back shortfall now; verify display execution before billing displays |
+| 5. Vendor funding | **Under-billed** on approved promotions | {v_low} (scan-back on observed units) to {v_high} (if every planned display also ran) | Bill the {v_low} scan-back shortfall now; verify display execution before billing the display portion |
 
 ## 1. Delisting test (stores 102, 106, 113, 116 from FY2025 W27)
 
@@ -35,7 +36,9 @@ dollars the delisted SKUs lost, a rate that, unlike the GP effect, passes both f
 holds year over year ({a_tau_yoy}). Cutting SKU *i* therefore changes GP by −GP<sub>i</sub> + τ · sales<sub>i</sub> · margin of its
 subcategory's retained SKUs. Ranked by GP per facing, within each planogram's fixed facings, among SKUs no bigger
 than the ones the test cut, and cut only if the change is positive at the low end of τ's range: {a_cuts} SKUs
-({a_by_pg}), {a_gp} a year ({a_gp_ci}). {a_overlap} of the test's {a_test_n} delisted SKUs fall in the large planogram's
+({a_by_pg}), {a_gp} a year ({a_gp_ci}). These are candidates, not a proven result: the transfer rate was measured on
+two-facing slow sellers in four large stores, so applying it to medium and small formats is an assumption. Pilot
+the cuts with a store holdout, large-format stores first, before a chain rollout. {a_overlap} of the test's {a_test_n} delisted SKUs fall in the large planogram's
 bottom {a_test_n} by GP per facing. Full list: [FY2026 plan](fy2026_plan.md).
 
 ## 2. Promotions (FY2025 events)
@@ -75,10 +78,14 @@ arithmetic on price and cost. Neither event-level design passed its own checks: 
 failed pre-trend (p {p_gr_pretrend}), fake-date and backtest checks, and an exploratory within-SKU cross-zone
 design failed the backtest (Golden Ridge) or pre-trends (tortilla). The pooled model across all
 {p_pooled_n} non-promoted SKU-store-weeks suggests kettle is inelastic ({p_gr_pooled}) — far from
-{p_gr_be}, so Golden Ridge very likely paid off — while private-label tortilla sits near its break-even.
+{p_gr_be}, so if that unvalidated estimate is roughly right Golden Ridge paid off — while private-label tortilla sits near its
+break-even.
 By subcategory: {p_subcats}. Private label is more price-sensitive by {p_pl_shift} elasticity points (shift {p_pl_shift_ci}), identified
-only from Bramble Select changes. **Next:** the tortilla range spans break-even and the dollars are small either
-way, so take the action with the higher GP at the pooled estimate ({e_tortilla_action}).
+only from Bramble Select changes. **What is validated and what is a scenario.** Validated: neither event design identified
+an effect, and the break-even elasticities are arithmetic on price and cost. Scenario: both recommendations
+assume the pooled, cross-SKU elasticity applies to these two items; that model has no event-level validation.
+**Next:** the tortilla range spans break-even and the dollars are small either way, so take the action with the
+higher GP at the pooled estimate ({e_tortilla_action}).
 
 ## 4. Forecast and in-stock
 

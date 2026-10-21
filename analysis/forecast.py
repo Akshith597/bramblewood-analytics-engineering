@@ -32,6 +32,8 @@ left join cal c2 on c2.idx = c.idx - 2
 left join actual lag2 on lag2.sku_id = f.sku_id and lag2.week_key = c2.week_key
 left join cal c3 on c3.fiscal_year = c.fiscal_year - 1 and c3.fiscal_week = c.fiscal_week
 left join actual ly on ly.sku_id = f.sku_id and ly.week_key = c3.week_key
+-- Same scored-pair rule as mart_forecast_accuracy: a row without a forecast quantity is not scored.
+where f.forecast_units is not null
 """
 
 

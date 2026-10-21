@@ -2,20 +2,20 @@
   "decisions": {
     "bramble_select_tortilla": {
       "breakeven_elasticity": -2.18085,
-      "conditional_annual_gp_change": -1230.82,
+      "conditional_annual_gp_change": -1232.76,
       "conditional_annual_gp_range": [
-        -11368.2,
-        8334.26
+        -11367.2,
+        8329.63
       ],
       "conditional_note": "Scenario at the pooled elasticity; endpoints add the CI bounds of each term, which is conservative. Not validated at the event level.",
       "credible_designs": [],
       "margin_before": 0.433184,
       "outcome": "not_identified",
       "pooled_elasticity_range": [
-        -3.05214,
-        -1.8364
+        -3.05208,
+        -1.8367
       ],
-      "pooled_elasticity_used": -2.44427,
+      "pooled_elasticity_used": -2.44439,
       "post_price": 4.16094,
       "pre_price": 3.78766,
       "price_increase": 0.098552,
@@ -23,20 +23,20 @@
     },
     "golden_ridge_kettle": {
       "breakeven_elasticity": -2.78165,
-      "conditional_annual_gp_change": 52889.4,
+      "conditional_annual_gp_change": 52887.3,
       "conditional_annual_gp_range": [
-        49431.5,
-        56285.3
+        49428.6,
+        56284.0
       ],
       "conditional_note": "Scenario at the pooled elasticity; endpoints add the CI bounds of each term, which is conservative. Not validated at the event level.",
       "credible_designs": [],
       "margin_before": 0.334405,
       "outcome": "not_identified",
       "pooled_elasticity_range": [
-        -0.727686,
-        -0.304103
+        -0.727861,
+        -0.304186
       ],
-      "pooled_elasticity_used": -0.515894,
+      "pooled_elasticity_used": -0.516023,
       "post_price": 5.55862,
       "pre_price": 5.13511,
       "price_increase": 0.0824729,
@@ -47,93 +47,93 @@
     "by_subcategory": {
       "Cheese Snacks": {
         "ci90": [
-          -2.29269,
-          -1.61907
+          -2.29292,
+          -1.61923
         ],
-        "elasticity": -1.95588,
+        "elasticity": -1.95608,
         "identified": true,
         "regular_price_changes": 28,
-        "se_store_cr1": 0.204765
+        "se_store_cr1": 0.204784
       },
       "Kettle Chips": {
         "ci90": [
-          -0.727686,
-          -0.304103
+          -0.727861,
+          -0.304186
         ],
-        "elasticity": -0.515894,
+        "elasticity": -0.516023,
         "identified": true,
         "regular_price_changes": 50,
-        "se_store_cr1": 0.12876
+        "se_store_cr1": 0.128788
       },
       "Nuts": {
         "ci90": [
-          -1.38561,
-          -0.826937
+          -1.38628,
+          -0.827613
         ],
-        "elasticity": -1.10627,
+        "elasticity": -1.10695,
         "identified": true,
         "regular_price_changes": 38,
-        "se_store_cr1": 0.169825
+        "se_store_cr1": 0.169824
       },
       "Popcorn": {
         "ci90": [
-          -1.74868,
-          -0.570829
+          -1.74902,
+          -0.571111
         ],
-        "elasticity": -1.15976,
+        "elasticity": -1.16006,
         "identified": false,
         "regular_price_changes": 5,
-        "se_store_cr1": 0.358042
+        "se_store_cr1": 0.358058
       },
       "Potato Chips": {
         "ci90": [
-          -2.28468,
-          -1.82526
+          -2.27774,
+          -1.81781
         ],
-        "elasticity": -2.05497,
+        "elasticity": -2.04777,
         "identified": true,
         "regular_price_changes": 57,
-        "se_store_cr1": 0.139656
+        "se_store_cr1": 0.139808
       },
       "Pretzels": {
         "ci90": [
-          -1.63409,
-          -1.10695
+          -1.63351,
+          -1.10642
         ],
-        "elasticity": -1.37052,
+        "elasticity": -1.36997,
         "identified": true,
         "regular_price_changes": 32,
-        "se_store_cr1": 0.160241
+        "se_store_cr1": 0.160224
       },
       "Tortilla Chips": {
         "ci90": [
-          -1.58715,
-          -1.00066
+          -1.58593,
+          -0.999672
         ],
-        "elasticity": -1.29391,
+        "elasticity": -1.2928,
         "identified": true,
         "regular_price_changes": 40,
-        "se_store_cr1": 0.178281
+        "se_store_cr1": 0.178209
       },
       "Trail Mix": {
         "ci90": [
-          -1.26839,
-          -0.393873
+          -1.26768,
+          -0.393108
         ],
-        "elasticity": -0.831133,
+        "elasticity": -0.830394,
         "identified": true,
         "regular_price_changes": 18,
-        "se_store_cr1": 0.265835
+        "se_store_cr1": 0.265851
       }
     },
     "fe_iterations": 10,
-    "n": 206724,
+    "n": 206692,
     "private_label_shift": {
       "ci90": [
-        -1.46499,
-        -0.835733
+        -1.46615,
+        -0.837026
       ],
-      "elasticity_shift": -1.15036,
+      "elasticity_shift": -1.15159,
       "note": "identified only from Bramble Select tortilla and trail-mix changes"
     }
   },
@@ -151,21 +151,21 @@
           "treated": 28
         }
       },
-      "observed_golden_ridge_elasticity": -0.17966,
+      "observed_golden_ridge_elasticity": -0.196813,
       "predicted_golden_ridge_elasticity": -1.31401,
       "prediction_interval90": [
-        -1.87665,
-        -0.751368
+        -1.87669,
+        -0.751335
       ]
     },
     "bramble_select_tortilla": {
       "annual_gp_change": {
         "ci90": [
-          -2524.64,
-          11927.6
+          -3368.29,
+          11127.6
         ],
         "method": "GP change evaluated at the ends of the elasticity range",
-        "point": 4850.84
+        "point": 4029.76
       },
       "checks_passed": {
         "backtest": false,
@@ -177,17 +177,17 @@
       "event_date": "2025-05-04",
       "event_study": {
         "pre_bins_tested": 3,
-        "pre_trend_p": 1.94101e-37,
+        "pre_trend_p": 9.14498e-38,
         "treated_bins": {
-          "treated_b0": -0.258382,
-          "treated_b1": -0.314573,
-          "treated_b2": -0.374657,
-          "treated_b3": -0.431577,
-          "treated_bm2": -0.0470412,
-          "treated_bm3": -0.307441,
-          "treated_bm4": 0.343274
+          "treated_b0": -0.258739,
+          "treated_b1": -0.314966,
+          "treated_b2": -0.3751,
+          "treated_b3": -0.431907,
+          "treated_bm2": -0.0437193,
+          "treated_bm3": -0.307881,
+          "treated_bm4": 0.343526
         },
-        "wald_stat": 173.783
+        "wald_stat": 175.296
       },
       "fake_date": {
         "ci90_store_cr1": [
@@ -201,9 +201,9 @@
         ],
         "elasticity": -1.45348
       },
-      "n": 32185,
+      "n": 32153,
       "planted_elasticity_recovered": -1.5,
-      "rows": 32185,
+      "rows": 32153,
       "share_realized_price_equals_regular": 1.0,
       "skus_by_role": {
         "control": 59,
@@ -212,41 +212,41 @@
       },
       "x_cross": {
         "ci90_sku_cr1": [
-          -0.0278978,
-          0.514019
+          -0.0412356,
+          0.501559
         ],
         "ci90_store_cr1": [
-          0.0258391,
-          0.460282
+          0.0150914,
+          0.445232
         ],
-        "elasticity": 0.243061,
+        "elasticity": 0.230162,
         "reported_ci90": [
-          -0.0278978,
-          0.514019
+          -0.0412356,
+          0.501559
         ],
         "reported_ci_source": "sku_cr1",
-        "se_sku_cr1": 0.164731,
-        "se_store_cr1": 0.132061,
+        "se_sku_cr1": 0.164998,
+        "se_store_cr1": 0.130753,
         "sku_clusters": 84,
         "store_clusters": 22
       },
       "x_own": {
         "ci90_sku_cr1": [
-          -3.20175,
-          -2.33703
+          -3.21573,
+          -2.34949
         ],
         "ci90_store_cr1": [
-          -3.09208,
-          -2.4467
+          -3.10655,
+          -2.45868
         ],
-        "elasticity": -2.76939,
+        "elasticity": -2.78261,
         "reported_ci90": [
-          -3.20175,
-          -2.33703
+          -3.21573,
+          -2.34949
         ],
         "reported_ci_source": "sku_cr1",
-        "se_sku_cr1": 0.262858,
-        "se_store_cr1": 0.19618,
+        "se_sku_cr1": 0.263319,
+        "se_store_cr1": 0.196938,
         "sku_clusters": 84,
         "store_clusters": 22
       }
@@ -254,11 +254,11 @@
     "golden_ridge_kettle": {
       "annual_gp_change": {
         "ci90": [
-          57187.6,
-          68576.2
+          56807.8,
+          68214.6
         ],
         "method": "GP change evaluated at the ends of the elasticity range",
-        "point": 62970.0
+        "point": 62599.5
       },
       "checks_passed": {
         "backtest": false,
@@ -270,17 +270,17 @@
       "event_date": "2025-04-06",
       "event_study": {
         "pre_bins_tested": 3,
-        "pre_trend_p": 4.84346e-22,
+        "pre_trend_p": 2.11031e-21,
         "treated_bins": {
-          "treated_b0": 0.090366,
-          "treated_b1": 0.0768248,
-          "treated_b2": 0.149433,
-          "treated_b3": -0.192571,
-          "treated_bm2": 0.198523,
-          "treated_bm3": 0.0745028,
-          "treated_bm4": 0.117915
+          "treated_b0": 0.0864305,
+          "treated_b1": 0.0727744,
+          "treated_b2": 0.145392,
+          "treated_b3": -0.196699,
+          "treated_bm2": 0.194345,
+          "treated_bm3": 0.0711998,
+          "treated_bm4": 0.113772
         },
-        "wald_stat": 102.355
+        "wald_stat": 99.3821
       },
       "fake_date": {
         "ci90_store_cr1": [
@@ -294,9 +294,9 @@
         ],
         "elasticity": -1.17036
       },
-      "n": 27077,
+      "n": 27045,
       "planted_elasticity_recovered": -1.5,
-      "rows": 27077,
+      "rows": 27045,
       "share_realized_price_equals_regular": 1.0,
       "skus_by_role": {
         "control": 59,
@@ -305,41 +305,41 @@
       },
       "x_cross": {
         "ci90_sku_cr1": [
-          0.325313,
-          1.57677
+          0.298865,
+          1.56127
         ],
         "ci90_store_cr1": [
-          0.545546,
-          1.35654
+          0.526781,
+          1.33336
         ],
-        "elasticity": 0.951043,
+        "elasticity": 0.930068,
         "reported_ci90": [
-          0.325313,
-          1.57677
+          0.298865,
+          1.56127
         ],
         "reported_ci_source": "sku_cr1",
-        "se_sku_cr1": 0.380417,
-        "se_store_cr1": 0.246525,
+        "se_sku_cr1": 0.383744,
+        "se_store_cr1": 0.245181,
         "sku_clusters": 76,
         "store_clusters": 22
       },
       "x_own": {
         "ci90_sku_cr1": [
-          -0.534847,
-          0.175526
+          -0.553857,
+          0.160231
         ],
         "ci90_store_cr1": [
-          -0.541803,
-          0.182482
+          -0.559006,
+          0.16538
         ],
-        "elasticity": -0.17966,
+        "elasticity": -0.196813,
         "reported_ci90": [
-          -0.541803,
-          0.182482
+          -0.559006,
+          0.16538
         ],
         "reported_ci_source": "store_cr1",
-        "se_sku_cr1": 0.215938,
-        "se_store_cr1": 0.220167,
+        "se_sku_cr1": 0.217067,
+        "se_store_cr1": 0.220198,
         "sku_clusters": 76,
         "store_clusters": 22
       }
@@ -359,21 +359,21 @@
           "treated": 28
         }
       },
-      "observed_golden_ridge_elasticity": -4.39962,
+      "observed_golden_ridge_elasticity": -4.39143,
       "predicted_golden_ridge_elasticity": 0.273853,
       "prediction_interval90": [
-        -2.50887,
-        3.05657
+        -2.50285,
+        3.05056
       ]
     },
     "bramble_select_tortilla": {
       "annual_gp_change": {
         "ci90": [
-          -355966.0,
-          -229102.0
+          -344267.0,
+          -218126.0
         ],
         "method": "GP change evaluated at the ends of the elasticity range",
-        "point": -282918.0
+        "point": -271628.0
       },
       "checks_passed": {
         "backtest": false,
@@ -385,17 +385,17 @@
       "event_date": "2025-05-04",
       "event_study": {
         "pre_bins_tested": 3,
-        "pre_trend_p": 0.00464166,
+        "pre_trend_p": 0.00386615,
         "treated_bins": {
-          "treated_b0": -3.50834,
-          "treated_b1": -4.00244,
-          "treated_b2": -1.01889,
-          "treated_b3": 0.266693,
-          "treated_bm2": -0.92116,
-          "treated_bm3": 6.4329,
-          "treated_bm4": 5.56055
+          "treated_b0": -3.39884,
+          "treated_b1": -3.89145,
+          "treated_b2": -0.90326,
+          "treated_b3": 0.374655,
+          "treated_bm2": -0.89701,
+          "treated_bm3": 6.54624,
+          "treated_bm4": 5.63975
         },
-        "wald_stat": 12.9977
+        "wald_stat": 13.3893
       },
       "fake_date": {
         "ci90_store_cr1": [
@@ -409,9 +409,9 @@
         ],
         "elasticity": 1.12426
       },
-      "n": 32185,
+      "n": 32153,
       "planted_elasticity_recovered": -1.5,
-      "rows": 32185,
+      "rows": 32153,
       "share_realized_price_equals_regular": 1.0,
       "skus_by_role": {
         "control": 59,
@@ -420,41 +420,41 @@
       },
       "x_cross": {
         "ci90_sku_cr1": [
-          -8.31292,
-          -0.109561
+          -8.1515,
+          0.0113672
         ],
         "ci90_store_cr1": [
-          -6.70276,
-          -1.71972
+          -6.52112,
+          -1.61901
         ],
-        "elasticity": -4.21124,
+        "elasticity": -4.07007,
         "reported_ci90": [
-          -8.31292,
-          -0.109561
+          -8.1515,
+          0.0113672
         ],
         "reported_ci_source": "sku_cr1",
-        "se_sku_cr1": 2.49364,
-        "se_store_cr1": 1.51474,
+        "se_sku_cr1": 2.48134,
+        "se_store_cr1": 1.49014,
         "sku_clusters": 84,
         "store_clusters": 22
       },
       "x_own": {
         "ci90_sku_cr1": [
-          -6.85265,
-          -1.99951
+          -6.77553,
+          -1.93973
         ],
         "ci90_store_cr1": [
-          -7.61538,
-          -1.23678
+          -7.54955,
+          -1.1657
         ],
-        "elasticity": -4.42608,
+        "elasticity": -4.35763,
         "reported_ci90": [
-          -7.61538,
-          -1.23678
+          -7.54955,
+          -1.1657
         ],
         "reported_ci_source": "store_cr1",
-        "se_sku_cr1": 1.47525,
-        "se_store_cr1": 1.93896,
+        "se_sku_cr1": 1.46998,
+        "se_store_cr1": 1.94055,
         "sku_clusters": 84,
         "store_clusters": 22
       }
@@ -462,11 +462,11 @@
     "golden_ridge_kettle": {
       "annual_gp_change": {
         "ci90": [
-          -87619.5,
-          19150.1
+          -87466.6,
+          19320.3
         ],
         "method": "GP change evaluated at the ends of the elasticity range",
-        "point": -28906.2
+        "point": -28739.3
       },
       "checks_passed": {
         "backtest": false,
@@ -478,17 +478,17 @@
       "event_date": "2025-04-06",
       "event_study": {
         "pre_bins_tested": 3,
-        "pre_trend_p": 0.365795,
+        "pre_trend_p": 0.363319,
         "treated_bins": {
-          "treated_b0": -1.46426,
-          "treated_b1": -2.14086,
-          "treated_b2": -5.87284,
-          "treated_b3": 2.24635,
-          "treated_bm2": 1.79555,
-          "treated_bm3": 3.80035,
-          "treated_bm4": -7.32999
+          "treated_b0": -1.49654,
+          "treated_b1": -2.03499,
+          "treated_b2": -5.76378,
+          "treated_b3": 2.36115,
+          "treated_bm2": 1.90796,
+          "treated_bm3": 3.86322,
+          "treated_bm4": -7.21137
         },
-        "wald_stat": 3.17244
+        "wald_stat": 3.18951
       },
       "fake_date": {
         "ci90_store_cr1": [
@@ -502,9 +502,9 @@
         ],
         "elasticity": 2.22568
       },
-      "n": 27077,
+      "n": 27045,
       "planted_elasticity_recovered": -1.5,
-      "rows": 27077,
+      "rows": 27045,
       "share_realized_price_equals_regular": 1.0,
       "skus_by_role": {
         "control": 59,
@@ -513,41 +513,41 @@
       },
       "x_cross": {
         "ci90_sku_cr1": [
-          -6.56184,
-          3.84788
+          -6.56673,
+          3.84653
         ],
         "ci90_store_cr1": [
-          -3.93511,
-          1.22115
+          -3.9327,
+          1.2125
         ],
-        "elasticity": -1.35698,
+        "elasticity": -1.3601,
         "reported_ci90": [
-          -6.56184,
-          3.84788
+          -6.56673,
+          3.84653
         ],
         "reported_ci_source": "sku_cr1",
-        "se_sku_cr1": 3.16433,
-        "se_store_cr1": 1.56739,
+        "se_sku_cr1": 3.1654,
+        "se_store_cr1": 1.56403,
         "sku_clusters": 76,
         "store_clusters": 22
       },
       "x_own": {
         "ci90_sku_cr1": [
-          -6.75376,
-          -2.04548
+          -6.74757,
+          -2.03529
         ],
         "ci90_store_cr1": [
-          -6.65046,
-          -2.14878
+          -6.63482,
+          -2.14803
         ],
-        "elasticity": -4.39962,
+        "elasticity": -4.39143,
         "reported_ci90": [
-          -6.75376,
-          -2.04548
+          -6.74757,
+          -2.03529
         ],
         "reported_ci_source": "sku_cr1",
-        "se_sku_cr1": 1.43122,
-        "se_store_cr1": 1.36841,
+        "se_sku_cr1": 1.43243,
+        "se_store_cr1": 1.36389,
         "sku_clusters": 76,
         "store_clusters": 22
       }

@@ -46,6 +46,8 @@ jobs:
         run: git diff --exit-code -- analysis/results docs README.md evidence/insights_figures.json docs/assets/insights
       - name: Repeatability — full reload, incremental rebuild, identical model hashes
         run: python scripts/verify_repeatability.py
+      - name: Incremental change cases — changed, deleted and late rows, deleted weeks, empty target
+        run: python scripts/verify_incremental.py
       - name: Hand the estimation panels to the R cross-check
         uses: actions/upload-artifact@v7
         with:
