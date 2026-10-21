@@ -1,3 +1,3 @@
 status,events,scan_owed_estimate,display_owed_estimate,funding_owed_estimate,total_billed,amount_collected,owed_minus_billed_estimate,uncollected_billed_amount,owed_minus_collected_estimate,ambiguous_owed_events
-Approved,771,781642.25,470500.0,1252142.25,1119166.8,1119166.8,132975.45,0.0,132975.45,0
+Approved,771,781788.65,470500.0,1252288.65,1119166.8,1119166.8,133121.85,0.0,133121.85,0
 Cancelled,8,0.0,0.0,0.0,974.65,0.0,-974.65,974.65,0.0,0

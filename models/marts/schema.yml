@@ -237,10 +237,15 @@ models:
     - type: not_null
   - name: receipts_units
     data_type: integer
-    description: Units received into the store during the fiscal week.
+    description: Units received into the store during the fiscal week; required, so a blank quantity fails the build
+      instead of passing the nonnegative test as null.
+    constraints:
+    - type: not_null
   - name: on_hand_eow
     data_type: integer
-    description: Store units on hand at Saturday close; excludes DC inventory.
+    description: Store units on hand at Saturday close; excludes DC inventory. Required for the same reason.
+    constraints:
+    - type: not_null
   - name: _source_file
     data_type: varchar
     description: Original extract filename retained for row-level traceability.
@@ -566,7 +571,7 @@ models:
         - week_key
 - name: mart_forecast_accuracy
   description: One forecast SKU-target-week with chain actuals, signed and absolute unit error, coverage and lead
-    horizon. Aggregate WAPE uses ratio of sums on matched rows.
+    horizon. Aggregate WAPE uses ratio of sums over is_scored_pair rows.
   columns:
   - name: sku_id
     data_type: varchar
@@ -589,6 +594,10 @@ models:
   - name: has_actual
     data_type: boolean
     description: True when the target forecast SKU-week has observed chain sales.
+  - name: is_scored_pair
+    data_type: boolean
+    description: True when both forecast and actual units are present; WAPE and bias numerators and denominators
+      are summed over these rows only, and excluded rows are reported as coverage.
   - name: error_units
     data_type: bigint
     description: Forecast minus observed actual units; positive means overforecast.

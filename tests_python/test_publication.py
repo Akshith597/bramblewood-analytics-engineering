@@ -7,6 +7,8 @@ import tempfile
 import unittest
 from unittest.mock import patch
 
+import duckdb
+
 from scripts import publish_warehouse as publisher
 
 
@@ -29,9 +31,32 @@ class PublicationTest(unittest.TestCase):
         (candidate / 'evidence').mkdir(exist_ok=True)
         (candidate / 'evidence/build.json').write_text('{"passed":true}', encoding='utf-8')
 
-    def publish(self, manifest=None, builder=None):
+    def publish(self, manifest=None, builder=None, history=None):
+        # Fixture databases are sentinel files, so the default history step is replaced unless a test supplies one.
         return publisher.publish(self.root, self.destination, manifest or self.manifest,
-                                 builder=builder or self.build_fixture)
+                                 builder=builder or self.build_fixture, history=history or (lambda previous, c: []))
+
+    def test_next_release_receives_the_current_release_database_for_history(self):
+        first = self.publish()
+        seen = []
+        second = self.publish(history=lambda previous, candidate: seen.append(previous) or ['main_snapshots.snap_items'])
+        self.assertEqual(seen, [self.destination / first['database']])
+        self.assertEqual(second['snapshot_history_carried'], ['main_snapshots.snap_items'])
+
+    def test_snapshot_tables_are_copied_into_the_candidate(self):
+        previous = Path(self.temporary.name) / 'previous.duckdb'
+        with duckdb.connect(str(previous)) as con:
+            con.execute('create schema main_snapshots')
+            con.execute("create table main_snapshots.snap_items as select 'SS-1' as sku_id, 'a' as dbt_scd_id")
+            con.execute('create table main.fct_sales as select 1 as units')
+        candidate = Path(self.temporary.name) / 'candidate'
+        candidate.mkdir()
+        carried = publisher.carry_snapshot_history(previous, candidate)
+        self.assertEqual(carried, ['main_snapshots.snap_items'])
+        with duckdb.connect(str(candidate / 'warehouse/bramblewood.duckdb'), read_only=True) as con:
+            self.assertEqual(con.execute('select sku_id from main_snapshots.snap_items').fetchall(), [('SS-1',)])
+            self.assertFalse(con.execute("select count(*) from information_schema.tables "
+                                         "where table_name = 'fct_sales'").fetchone()[0])
 
     def test_corrected_batch_creates_new_release_and_preserves_old_database(self):
         first = self.publish()

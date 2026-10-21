@@ -6,7 +6,7 @@
         17116.0,
         93134.6
       ],
-      "share_of_range_width": 0.283789
+      "share_of_range_width": 0.283764
     },
     "forecast": {
       "base": 0.0,
@@ -17,12 +17,12 @@
       "share_of_range_width": 0.0
     },
     "prices": {
-      "base": 10077.0,
+      "base": 10078.1,
       "range": [
-        6984.91,
-        13064.6
+        6984.03,
+        13067.6
       ],
-      "share_of_range_width": 0.0226966
+      "share_of_range_width": 0.022709
     },
     "promo_calendar": {
       "base": 229179.0,
@@ -30,15 +30,15 @@
         141030.0,
         317329.0
       ],
-      "share_of_range_width": 0.658153
+      "share_of_range_width": 0.658096
     },
     "vendor_terms": {
-      "base": 14208.3,
+      "base": 14237.5,
       "range": [
-        9472.19,
-        18944.4
+        9491.67,
+        18983.3
       ],
-      "share_of_range_width": 0.0353611
+      "share_of_range_width": 0.0354307
     }
   },
   "design": {
@@ -50,14 +50,14 @@
     ],
     "inputs_low_base_high": {
       "eps:bramble_select_tortilla": [
-        -3.05214,
-        -2.44427,
-        -1.8364
+        -3.05208,
+        -2.44439,
+        -1.8367
       ],
       "eps:golden_ridge_kettle": [
-        -0.727686,
-        -0.515894,
-        -0.304103
+        -0.727861,
+        -0.516023,
+        -0.304186
       ],
       "rho": [
         0.0,
@@ -95,12 +95,12 @@
     "note": "Dropping display events pays only if vendors keep more than this share of their display funding in other forms."
   },
   "if_display_also_dropped": {
-    "base": 353608.0,
+    "base": 353609.0,
     "note": "Not the plan: shown to size the negotiation. Positive only if vendors keep more than the break-even share of display funding.",
     "positive_in_low_case": false,
     "range": [
-      -21710.5,
-      728822.0
+      -21711.4,
+      728825.0
     ]
   },
   "inputs": {
@@ -120,32 +120,32 @@
     },
     "price": {
       "bramble_select_tortilla": {
-        "annual_gp_change_at_eps": -1230.82,
+        "annual_gp_change_at_eps": -1232.76,
         "breakeven_elasticity": -2.18085,
         "c": 2.14691,
-        "eps": -2.44427,
+        "eps": -2.44439,
         "eps_range": [
-          -3.05214,
-          -1.8364
+          -3.05208,
+          -1.8367
         ],
         "p0": 3.78766,
         "p1": 4.16094,
-        "q0": 30673.9,
+        "q0": 30708.4,
         "weeks_uncovered": 13.0,
         "x": 0.098552
       },
       "golden_ridge_kettle": {
-        "annual_gp_change_at_eps": 52889.4,
+        "annual_gp_change_at_eps": 52887.3,
         "breakeven_elasticity": -2.78165,
         "c": 3.4179,
-        "eps": -0.515894,
+        "eps": -0.516023,
         "eps_range": [
-          -0.727686,
-          -0.304103
+          -0.727861,
+          -0.304186
         ],
         "p0": 5.13511,
         "p1": 5.55862,
-        "q0": 156591.0,
+        "q0": 156595.0,
         "weeks_uncovered": 9.0,
         "x": 0.0824729
       }
@@ -208,20 +208,20 @@
     "vendor": {
       "one_off_backbill": {
         "display_component": 67500.0,
-        "lower_scan_only": 65475.5,
+        "lower_scan_only": 65621.9,
         "note": "Lower bound uses only scan-back on observed scoped units. The upper bound also assumes every planned display ran; display execution is not observable in these extracts.",
-        "upper_scan_plus_planned_display": 132975.0
+        "upper_scan_plus_planned_display": 133122.0
       },
       "scan_billed": 716167.0,
-      "scan_owed": 781642.0,
-      "underbilled_share": 0.083766
+      "scan_owed": 781789.0,
+      "underbilled_share": 0.0839382
     }
   },
   "one_off_backbill": {
     "display_component": 67500.0,
-    "lower_scan_only": 65475.5,
+    "lower_scan_only": 65621.9,
     "note": "Lower bound uses only scan-back on observed scoped units. The upper bound also assumes every planned display ran; display execution is not observable in these extracts.",
-    "upper_scan_plus_planned_display": 132975.0
+    "upper_scan_plus_planned_display": 133122.0
   },
   "promo_funding_sensitivity": {
     "rho_0": 147933.0,
@@ -230,11 +230,11 @@
   },
   "tortilla_action": "roll_back",
   "total": {
-    "base": 308590.0,
+    "base": 308621.0,
     "positive_in_low_case": true,
     "range": [
-      174603.0,
-      442473.0
+      174621.0,
+      442515.0
     ]
   }
 }
