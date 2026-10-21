@@ -12,6 +12,9 @@ from analysis.common import ROOT
 
 TEMPLATE = ROOT / 'analysis/readme_template.md'
 README = ROOT / 'README.md'
+# The optional statistics extension lives on its own page so the README stays on the warehouse.
+EXTENSION_TEMPLATE = ROOT / 'analysis/extension_template.md'
+EXTENSION = ROOT / 'docs/business_analysis.md'
 EVIDENCE = ROOT / 'evidence'
 
 
@@ -109,15 +112,25 @@ def plan_figures(r):
             'a_plan': money(lev['assortment']['base'])}
 
 
-def render(results=None, ev=None):
+def values(results=None, ev=None):
     results = results or load()
-    values = {**memo_figures(results), **evidence_figures(ev or evidence()), **plan_figures(results)}
-    return TEMPLATE.read_text(encoding='utf-8').format(**values)
+    return {**memo_figures(results), **evidence_figures(ev or evidence()), **plan_figures(results)}
+
+
+def render(results=None, ev=None):
+    return TEMPLATE.read_text(encoding='utf-8').format(**values(results, ev))
+
+
+def render_extension(results=None, ev=None):
+    # Prose built for the README links from the repository root; this page lives in docs/.
+    v = {k: x.replace('](docs/', '](') if isinstance(x, str) else x for k, x in values(results, ev).items()}
+    return EXTENSION_TEMPLATE.read_text(encoding='utf-8').format(**v)
 
 
 def main():
     README.write_text(render(), encoding='utf-8', newline='\n')
-    print(f'Wrote {README.relative_to(ROOT)}')
+    EXTENSION.write_text(render_extension(), encoding='utf-8', newline='\n')
+    print(f'Wrote {README.relative_to(ROOT)} and {EXTENSION.relative_to(ROOT)}')
 
 
 if __name__ == '__main__':

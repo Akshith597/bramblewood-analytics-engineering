@@ -43,6 +43,14 @@ class PublicationTest(unittest.TestCase):
         self.assertEqual(seen, [self.destination / first['database']])
         self.assertEqual(second['snapshot_history_carried'], ['main_snapshots.snap_items'])
 
+    def test_damaged_current_release_is_not_used_for_history(self):
+        first = self.publish()
+        (self.destination / first['database']).write_bytes(b'damaged')
+        with self.assertRaisesRegex(ValueError, 'checksum'):
+            self.publish(history=lambda previous, candidate: self.fail('history read a damaged release'))
+        current = json.loads((self.destination / 'current.json').read_text(encoding='utf-8'))
+        self.assertEqual(current['release_id'], first['release_id'])
+
     def test_snapshot_tables_are_copied_into_the_candidate(self):
         previous = Path(self.temporary.name) / 'previous.duckdb'
         with duckdb.connect(str(previous)) as con:
