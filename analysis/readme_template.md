@@ -25,7 +25,7 @@
 | **Stack** | SQL · dbt-core · DuckDB · Python (ingestion, verification, charts) · GitHub Actions · GitHub Pages |
 | **Data** | {pos_rows} POS rows, weekly store inventory and a {sheets}-sheet merchandising workbook: {stores} stores, {weeks} weeks, keys and date formats that don't agree |
 | **Warehouse** | {models} dbt models (staging → intermediate → marts), an incremental sales fact, Type 2 snapshots, source freshness checks, {contracts} enforced contracts, {all_checks} automated checks; sales reconciled to the cent against an independent Python rebuild |
-| **Start here** | [`fct_sales`](models/marts/fct_sales.sql) · [cost intervals](models/intermediate/int_item_cost_intervals.sql) · [row audit](models/staging/stg_pos_audit.sql) · [reconciliation test](tests/pos_reconciliation.sql) · [lineage graph](https://akshith597.github.io/bramblewood-analytics-engineering/) |
+| **Reviewer path** | About ten minutes: [the problem](#the-problem) → [warehouse design](#warehouse-design) → three models ([row audit](models/staging/stg_pos_audit.sql), [cost intervals](models/intermediate/int_item_cost_intervals.sql), [`fct_sales`](models/marts/fct_sales.sql)) → two tests ([reconciliation](tests/pos_reconciliation.sql), [incremental change cases](scripts/verify_incremental.py)) → [validation results](#validation). The [lineage graph](https://akshith597.github.io/bramblewood-analytics-engineering/) shows the same path visually |
 | **Optional extension** | Statistical answers to the brief's five business questions and a {plan_total} scenario-estimated FY2026 plan ([below](#optional-extension-business-analysis)) |
 
 ## The problem
@@ -67,6 +67,8 @@ Only staging models read raw sources, intermediate models never read marts, and 
 | Return transactions | Preserve signed units and amounts | {return_rows} return rows retained instead of dropped as "invalid" |
 | Inventory without sales | Keep both sides with presence flags | {inventory_only} inventory-only observations remain visible |
 | Forecast at chain grain | Aggregate actuals to chain SKU-week before joining | No store-level fanout in forecast measures |
+| Swapped promotion dates (one event) | Order the dates once in `stg_promotions`, keep the source dates and a flag | Warehouse funding and every analysis read the same window; a unit test and a singular test guard it |
+| Blank inventory quantities, colliding source names | Fail loudly: not-null contract on stock and receipts; ingestion rejects two extracts that map to one raw table before loading | Neither occurs in the supplied data; both are covered by fixture tests |
 | Many claims per promotion | Aggregate claims and eligible units before joining funding terms | Funding gap computed without double counting; cancelled-event claims ({cancelled_billed}) kept separate |
 
 The most instructive failure: the cost-overlap test initially failed for `SS-1081`, whose old cost ended two weeks *after* the new one began. A direct join would have duplicated sales rows and inflated revenue. The fix closes each cost period the day before the next one starts and keeps the source dates beside it ([`int_item_cost_intervals`](models/intermediate/int_item_cost_intervals.sql)):
@@ -98,28 +100,26 @@ where
 
 ## Incremental loads and history
 
-- **Incremental fact table.** [`fct_sales`](models/marts/fct_sales.sql) restates whole fiscal weeks inside a trailing lookback window, so rows dropped from a corrected extract disappear too, not just changed rows. Backdated cost or master-data corrections go through `--full-refresh`. [Design decision](docs/architecture.md#adr-02--deterministic-full-rebuild)
+- **Incremental fact table.** [`fct_sales`](models/marts/fct_sales.sql) restates a date window, not just the week keys present in new data. A [pre-hook](macros/restate_sales_window.sql) deletes every week ending within the lookback of the latest *source* week, so changed rows, deleted rows and whole deleted weeks are all restated; the model then appends every source row newer than what remains, which loads everything into an empty target. Backdated cost or master-data corrections go through `--full-refresh`. [Design decision](docs/architecture.md#adr-02--deterministic-full-rebuild)
 
 ```sql
-{{{{
-    config(
-        materialized='incremental',
-        incremental_strategy='delete+insert',
-        unique_key='week_key',
-        on_schema_change='fail'
-    )
-}}}}
+        delete from {{{{ this }}}}
+        where week_ending > (
+            select max(week_ending) - {{{{ var('sales_restatement_lookback_days', 28) }}}}
+            from {{{{ ref('int_sales_enriched') }}}}
+        )
 -- ...
 {{% if is_incremental() %}}
     where week_ending > (
-        select max(week_ending) - {{{{ var('sales_restatement_lookback_days', 28) }}}}
+        select coalesce(max(week_ending), date '1900-01-01')
         from {{{{ this }}}}
     )
 {{% endif %}}
 ```
 
-- **Proven equal to a full build.** [`verify_repeatability.py`](scripts/verify_repeatability.py) hashes the ordered contents of all {models} models after a full build and again after a reload and incremental rebuild; CI fails if any hash differs. [Receipt](evidence/repeatability.json)
-- **Type 2 history.** dbt snapshots track item and store master changes on attribute columns only, with tests for one current version per key and non-overlapping validity windows. [Data contracts](docs/data_contracts.md)
+- **Changed input is tested, not assumed.** [`verify_incremental.py`](scripts/verify_incremental.py) edits copies of the warehouse and runs `fct_sales` incrementally: a changed amount, deleted rows, a deleted week, a deleted latest week and an empty target must each match a full rebuild, and a correction outside the window must be missed until `--full-refresh`. Run against the first version of the model, it catches the deleted-week and empty-target bugs that version had. [Receipt](evidence/incremental_changes.json)
+- **Unchanged input rebuilds identically.** [`verify_repeatability.py`](scripts/verify_repeatability.py) hashes the ordered contents of all {models} models after a full build and again after a reload and incremental rebuild; CI fails if any hash differs. [Receipt](evidence/repeatability.json)
+- **Type 2 history.** dbt snapshots track item and store master changes on attribute columns only, with tests for one current version per key and non-overlapping validity windows. The publication workflow copies the current release's snapshot tables into each new build, so history accumulates across releases. [Data contracts](docs/data_contracts.md)
 - **Source freshness.** `dbt source freshness` warns, then fails, when raw tables stop being reloaded. A separate [publication workflow](docs/runbook.md#validated-batch-publication) checks source hashes and extraction age before atomically switching a release pointer.
 - **Portable SQL.** DuckDB-only expressions go through dispatched macros, and an optional Snowflake target compiles the models. It has not run against a live account. [What is ported](docs/architecture.md#running-on-snowflake)
 
@@ -153,17 +153,17 @@ The upper bound of the funding gap, by vendor: it assumes every approved event a
 
 ## Optional extension: business analysis
 
-Everything above is the analytics engineering work. This section goes further into analyst and data-science territory: it uses the tested warehouse to answer the five questions in the source brief. It is optional reading for analytics engineering roles.
+Everything above is the analytics engineering work. This section goes further into analyst and data-science territory: it uses the tested warehouse to answer the five questions in the source brief. It is optional reading for analytics engineering roles. All dollar figures are **scenario estimates on synthetic data**, not delivered or realized impact.
 
 The [decision memo](docs/decision_memo.md) answers each question with a dollar figure, a 90% range and a recommendation, or says plainly when the data cannot answer. The methods are explained without jargon in [methods in plain English](docs/methods_explained.md).
 
 | Question | What the evidence supports | Recommendation |
 |---|---|---|
-| Delist slow sellers? | **Inconclusive.** With four test stores the test cannot detect a gross-profit change under {d_mde}, and the same comparison on a fake date a year earlier shows a {d_fake24} "effect", so large-store seasonality confounds it. What it did measure cleanly: units fell {d_units} but net sales changed only {d_sales}, because shoppers switched to the items that stayed (retained items recovered {d_transfer} of the lost sales, {d_transfer_ci}). | Don't roll out the test planogram; cut the {a_cuts} SKUs that earn the least gross profit per facing ({a_value}) |
+| Delist slow sellers? | **Inconclusive.** With four test stores the test cannot detect a gross-profit change under {d_mde}, and the same comparison on a fake date a year earlier shows a {d_fake24} "effect", so large-store seasonality confounds it. What it did measure cleanly: units fell {d_units} but net sales changed only {d_sales}, because shoppers switched to the items that stayed (retained items recovered {d_transfer} of the lost sales, {d_transfer_ci}). | Don't roll out the test planogram. Treat the {a_cuts} SKUs that earn the least gross profit per facing as candidates ({a_value} if the transfer rate holds) and pilot their removal with a store holdout, large-format stores first: the rate was measured in four large stores only |
 | Promotions | **Roughly break-even, and only because of vendor money.** FY2025 events net {q2_net} ({q2_ci}) after funding and {q2_before} before it; {q2_pos_before} of events made money on their own. | Drop promotions without a display; keep display events where execution is verified and the fee collected |
-| Spring 2025 price increases | **Not identified** by either event design. Break-even arithmetic still decides Golden Ridge: shoppers would have to be far more price-sensitive than measured to make the increase lose money (break-even elasticity {p_gr_be} vs an estimate of {p_gr_pooled}). Private-label tortilla sits near break-even ({p_bs_be} vs {p_bs_pooled}) and the dollars are small either way. | Keep Golden Ridge's price; tortilla: {e_tortilla_action} (the higher-GP option at the estimate) |
+| Spring 2025 price increases | **Not identified** by either event design. *Validated:* the break-even elasticities ({p_gr_be} for Golden Ridge, {p_bs_be} for tortilla) are arithmetic on price and cost. *Scenario:* an unvalidated pooled elasticity ({p_gr_pooled} for kettle, {p_bs_pooled} for private-label tortilla) puts Golden Ridge far from break-even and tortilla near it. | Keep Golden Ridge's price, assuming the pooled estimate is roughly right; tortilla: {e_tortilla_action}, a scenario call on small dollars |
 | Forecast and in-stock | Over-forecasts by {f_bias} ({f_bias_ci}) while beating naive benchmarks; a correction learned on FY2024 cut FY2025 bias to {f_bias_after} out of sample. {ph_readme} Stock-outs cost an estimated {o_gp} of GP ({o_ci}, exploratory). | Use the corrected forecast for budgets; leave store replenishment alone |
-| Vendor funding | Scan-back under-billed on approved events by {v_low} to {v_high}; a range, because display execution is not observable. | Bill the scan-back shortfall now; verify displays before billing them |
+| Vendor funding | Approved events were under-billed by {v_low} to {v_high}. The low end is scan-back on observed units; the high end also counts display fees for every planned display, which the extracts cannot confirm ran. | Bill the {v_low} scan-back shortfall now; verify displays before billing the display portion |
 
 ### The FY2026 plan
 
@@ -207,7 +207,7 @@ Browse lineage and compiled SQL locally with `python scripts/invoke_dbt.py docs 
 
 ## Scope and limitations
 
-This is a local batch warehouse, not a deployed production platform. Item and store dimensions reflect the supplied current master; snapshots record changes only from a warehouse's first build, and cost, price and planogram periods are effective-dated. Cost precedence is a documented assumption. A zero-stock snapshot does not establish lost sales, and approved promotion eligibility does not establish realized lift or funding entitlement. Source-owner exception resolution, alert delivery and managed scheduling remain future work. See the [design decisions](docs/architecture.md) for the tradeoffs.
+This is a local batch warehouse, not a deployed production platform, and it does not demonstrate production operating experience: there is no live scheduler, access control, monitoring, alerting, recovery drill or cloud run behind it. Item and store dimensions reflect the supplied current master; snapshots record changes only from the first build (carried across published releases), and cost, price and planogram periods are effective-dated. Cost precedence is a documented assumption. A zero-stock snapshot does not establish lost sales, and approved promotion eligibility does not establish realized lift or funding entitlement. Source-owner exception resolution, alert delivery and managed scheduling remain future work. See the [design decisions](docs/architecture.md) for the tradeoffs.
 
 ## Repository map
 

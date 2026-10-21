@@ -16,6 +16,9 @@ select
     a.actual_units,
     a.reporting_stores,
     a.week_key is not null as has_actual,
+    -- WAPE and bias use only rows with both a forecast and an actual, so a missing forecast cannot shrink the
+    -- error while its actual units stay in the denominator.
+    f.forecast_units is not null and a.week_key is not null as is_scored_pair,
     f.forecast_units - a.actual_units as error_units,
     abs(f.forecast_units - a.actual_units) as absolute_error_units,
     {{ dbt.datediff('r.week_start', 'w.week_start', 'day') }}

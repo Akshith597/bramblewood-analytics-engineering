@@ -8,12 +8,12 @@
   "rows": [
     {
       "ci90": [
-        -2.29269,
-        -1.61907
+        -2.29292,
+        -1.61923
       ],
       "covered": null,
       "error": null,
-      "estimate": -1.95588,
+      "estimate": -1.95608,
       "family": "elasticity",
       "id": "elasticity.Cheese Snacks",
       "parameter": "Own-price elasticity, Cheese Snacks (national/regional brands)",
@@ -24,12 +24,12 @@
     },
     {
       "ci90": [
-        -0.727686,
-        -0.304103
+        -0.727861,
+        -0.304186
       ],
       "covered": null,
       "error": null,
-      "estimate": -0.515894,
+      "estimate": -0.516023,
       "family": "elasticity",
       "id": "elasticity.Kettle Chips",
       "parameter": "Own-price elasticity, Kettle Chips (national/regional brands)",
@@ -40,12 +40,12 @@
     },
     {
       "ci90": [
-        -1.38561,
-        -0.826937
+        -1.38628,
+        -0.827613
       ],
       "covered": null,
       "error": null,
-      "estimate": -1.10627,
+      "estimate": -1.10695,
       "family": "elasticity",
       "id": "elasticity.Nuts",
       "parameter": "Own-price elasticity, Nuts (national/regional brands)",
@@ -56,12 +56,12 @@
     },
     {
       "ci90": [
-        -1.74868,
-        -0.570829
+        -1.74902,
+        -0.571111
       ],
       "covered": null,
       "error": null,
-      "estimate": -1.15976,
+      "estimate": -1.16006,
       "family": "elasticity",
       "id": "elasticity.Popcorn",
       "note": "flagged not identified before the key",
@@ -73,12 +73,12 @@
     },
     {
       "ci90": [
-        -2.28468,
-        -1.82526
+        -2.27774,
+        -1.81781
       ],
       "covered": null,
       "error": null,
-      "estimate": -2.05497,
+      "estimate": -2.04777,
       "family": "elasticity",
       "id": "elasticity.Potato Chips",
       "parameter": "Own-price elasticity, Potato Chips (national/regional brands)",
@@ -89,12 +89,12 @@
     },
     {
       "ci90": [
-        -1.63409,
-        -1.10695
+        -1.63351,
+        -1.10642
       ],
       "covered": null,
       "error": null,
-      "estimate": -1.37052,
+      "estimate": -1.36997,
       "family": "elasticity",
       "id": "elasticity.Pretzels",
       "parameter": "Own-price elasticity, Pretzels (national/regional brands)",
@@ -105,12 +105,12 @@
     },
     {
       "ci90": [
-        -1.58715,
-        -1.00066
+        -1.58593,
+        -0.999672
       ],
       "covered": null,
       "error": null,
-      "estimate": -1.29391,
+      "estimate": -1.2928,
       "family": "elasticity",
       "id": "elasticity.Tortilla Chips",
       "parameter": "Own-price elasticity, Tortilla Chips (national/regional brands)",
@@ -121,12 +121,12 @@
     },
     {
       "ci90": [
-        -1.26839,
-        -0.393873
+        -1.26768,
+        -0.393108
       ],
       "covered": null,
       "error": null,
-      "estimate": -0.831133,
+      "estimate": -0.830394,
       "family": "elasticity",
       "id": "elasticity.Trail Mix",
       "parameter": "Own-price elasticity, Trail Mix (national/regional brands)",
@@ -137,12 +137,12 @@
     },
     {
       "ci90": [
-        -1.46499,
-        -0.835733
+        -1.46615,
+        -0.837026
       ],
       "covered": null,
       "error": null,
-      "estimate": -1.15036,
+      "estimate": -1.15159,
       "family": "elasticity",
       "id": "elasticity.private_label_shift",
       "parameter": "Private-label shift in own-price elasticity",
@@ -153,12 +153,12 @@
     },
     {
       "ci90": [
-        -0.727686,
-        -0.304103
+        -0.727861,
+        -0.304186
       ],
       "covered": null,
       "error": null,
-      "estimate": -0.515894,
+      "estimate": -0.516023,
       "family": "elasticity",
       "id": "elasticity.golden_ridge_kettle",
       "parameter": "Own-price elasticity, Golden Ridge kettle",
@@ -169,12 +169,12 @@
     },
     {
       "ci90": [
-        -3.05214,
-        -1.8364
+        -3.05208,
+        -1.8367
       ],
       "covered": null,
       "error": null,
-      "estimate": -2.44427,
+      "estimate": -2.44439,
       "family": "elasticity",
       "id": "elasticity.bramble_select_tortilla",
       "parameter": "Own-price elasticity, Bramble Select (private label) tortilla",
