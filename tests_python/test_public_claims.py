@@ -45,6 +45,18 @@ class PublicClaimsTest(unittest.TestCase):
                       f"tests; {f['contracts']} enforced contracts", case_study,
                       'docs/case_study.md build counts are stale')
 
+    def test_readme_sql_excerpts_match_source(self):
+        # Each ```sql block is a verbatim excerpt; a "-- ..." line separates pieces taken from the same file.
+        sources = [p.read_text(encoding='utf-8') for d in ('models', 'tests', 'macros')
+                   for p in (build_public.ROOT / d).rglob('*.sql')]
+        blocks = re.findall(r'```sql\n(.*?)```', build_public.README.read_text(encoding='utf-8'), flags=re.S)
+        self.assertTrue(blocks, 'README has no SQL excerpts')
+        for block in blocks:
+            for piece in re.split(r'^-- \.\.\.\n', block, flags=re.M):
+                with self.subTest(piece=piece[:60]):
+                    self.assertTrue(any(piece in s for s in sources),
+                                    'README SQL excerpt no longer matches any model or test file')
+
     def test_templates_have_no_hand_typed_results(self):
         for template in (build_public.TEMPLATE, build_plan.PLAN_TEMPLATE, build_plan.SCORE_TEMPLATE):
             with self.subTest(template=template.name):
