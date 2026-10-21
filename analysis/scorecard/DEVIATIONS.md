@@ -49,4 +49,5 @@ still before the key was requested. The version label is the `tag` field of `fro
 
 ## After the key
 
-*(Empty: the key has not been received.)*
+*(Empty: no answer key is available, and it is unknown whether one exists; see
+[data/SOURCE_README.md](../../data/SOURCE_README.md).)*

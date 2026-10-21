@@ -95,8 +95,9 @@ def plan_figures(r):
                f"{pos(ph['restated']['excess_store_stock_cost'])} of extra store stock; an inventory replay finds no saving from "
                f"the correction at equal service ({money(r['inventory_sim']['verdict']['policy_cost_saving_at_best_z'])}).")
     score = ("Every estimate and interval is frozen for the [answer-key scorecard](docs/scorecard.md); "
-             + ('the key is scored there.' if sc['key_received'] else "they will be scored against the dataset's "
-                                                                'answer key when it becomes available.'))
+             + ('the key is scored there.' if sc['key_received'] else
+                'no answer key is available, and it is unknown whether one exists, so they are scored only if one '
+                'is obtained.'))
     # The cut list's value at the point estimate and in the plan's base case usually agree; say it once if so.
     a_point, a_base = money(r['assortment']['chain']['gp_change']), money(lev['assortment']['base'])
     a_value = (f'{a_point} a year' if a_point == a_base
