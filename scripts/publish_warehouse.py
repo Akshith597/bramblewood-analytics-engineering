@@ -141,6 +141,9 @@ def publish(root, destination, manifest, max_age_hours=24, builder=None, history
             carried = []
             if (destination / 'current.json').is_file():
                 previous = json.loads((destination / 'current.json').read_text(encoding='utf-8'))
+                # Never carry history out of a damaged release; the operator decides how to recover it.
+                if digest(destination / previous['database']) != previous['database_sha256']:
+                    raise ValueError('Current release database fails its checksum; snapshot history not carried')
                 carried = history(destination / previous['database'], candidate)
             (builder or build)(candidate)
             # Reject a batch that expired during a long build, or was altered by a build step.
