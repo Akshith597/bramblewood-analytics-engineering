@@ -44,6 +44,14 @@ still before the key was requested. The version label is the `tag` field of `fro
     83%…164%, which grows the cut list from 11 to 14 SKUs; the plan's base case is +$308.6K (simulation mean was
     +$306.0K) and its range is now a low-to-high envelope rather than a simulated 90% range. All point estimates
     are unchanged; only intervals moved, and they were re-frozen as `estimates-frozen-v2` before the key.
+13. **Promotion dates fixed in the warehouse, estimates re-frozen.** A review found that `PR-25-0432`'s swapped
+    start and end dates were corrected only inside the promotion analysis; the warehouse, the funding mart and the
+    pricing and forecast panels still read the swapped dates. The correction moved into `stg_promotions`, so every
+    consumer now sees the same window. This is a data fix, not a method change, and nothing was re-tuned. Effects:
+    the pricing panel loses 32 promoted store-weeks, so every elasticity moves by less than 0.01 (largest: Potato
+    Chips −2.055 → −2.048; Golden Ridge −0.516 → −0.516); the funding gap rises from $65.5K–$133.0K to
+    $65.6K–$133.1K because the event's scan-back is now counted. No decision changes. The 11 elasticity
+    parameters were re-frozen as `estimates-frozen-v3`, still with no answer key available.
 
 ---
 

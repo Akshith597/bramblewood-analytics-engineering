@@ -51,12 +51,12 @@
       "sha256": "88e344e4d8b93fe4100c247794e9ec1f35906f430689860e3f4ec5dab8a355ff"
     },
     "int_promotion_sales": {
-      "rows": 19993,
-      "sha256": "55c698d0033006efa6652299b82282cb575d5d67b5c7b2377e5b9f37090c3bce"
+      "rows": 20027,
+      "sha256": "14fd6ba8f799137f61e56b6cab846b83b077581808095314e39a2928e6cca032"
     },
     "int_promotion_totals": {
-      "rows": 768,
-      "sha256": "59657b7ef831f6eda49b96212b56c15dd9dd9c235dfcc1545456a86317d7d972"
+      "rows": 769,
+      "sha256": "709d8eafc1da0ac317e09f6dd8f92ebde7f38ae6e4327d37b7f12eb820d4ef93"
     },
     "int_sales_enriched": {
       "rows": 273262,
@@ -80,11 +80,11 @@
     },
     "mart_forecast_accuracy": {
       "rows": 14604,
-      "sha256": "e413ac25ee35f2028b7fa638a040f186a1513738abaeafb89e4b22f3653b0040"
+      "sha256": "80f8d1635d91f968db5419a64c201283b1eb64431e01e2764543744b9ab92df3"
     },
     "mart_promotion_funding": {
       "rows": 779,
-      "sha256": "53e47bcf0d670776f047c627badf46e8d64c76b8fa5ebf5d6a899f03f4ff0937"
+      "sha256": "c4b0a4615f041db8ad7fdee36af18d10692b8dde415d7f5a97f05bfd66aa9b0c"
     },
     "stg_data_dictionary": {
       "rows": 35,
@@ -120,7 +120,7 @@
     },
     "stg_promotions": {
       "rows": 779,
-      "sha256": "90980837ed942b552fb3ebd4175ee09712efe9fa7b9fec94c2ac24a4670fb853"
+      "sha256": "c9456da7e38403a40f89aa7fe7cff06f5997eca9c5ea9ba929e4ef0cd3ba42cf"
     },
     "stg_reg_price": {
       "rows": 702,

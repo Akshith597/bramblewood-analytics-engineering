@@ -1,9 +1,14 @@
+-- One source event (PR-25-0432) has its start and end dates swapped; POS discounts confirm the ordered window.
+-- Every consumer reads the ordered dates from here, and the source dates and a flag are kept for audit.
 select
     cast(promo_id as varchar) as promo_id,
     cast(sku_id as varchar) as sku_id,
     cast(vendor_id as varchar) as vendor_id,
-    cast(start_date as date) as start_date,
-    cast(end_date as date) as end_date,
+    least(cast(start_date as date), cast(end_date as date)) as start_date,
+    greatest(cast(start_date as date), cast(end_date as date)) as end_date,
+    cast(start_date as date) as source_start_date,
+    cast(end_date as date) as source_end_date,
+    cast(start_date as date) > cast(end_date as date) as dates_swapped,
     cast(mechanic as varchar) as mechanic,
     cast(offer as varchar) as offer,
     cast(promo_price as decimal(18, 2)) as promo_price,

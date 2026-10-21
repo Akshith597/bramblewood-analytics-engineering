@@ -6,21 +6,23 @@ no figure is typed by hand. Synthetic data. Evidence: [decision memo](decision_m
 
 > **Scenario-estimated annual GP opportunity: {plan_gp}** against the FY2025 run-rate, after vendor funding
 > (low to high case **{plan_ci}**; {plan_low_note}).
-> Separately, {backbill} of potential one-off FY2025 scan-back is subject to validation and collection.
+> Separately, {backbill} of potential one-off FY2025 under-billing is subject to validation and collection: the low
+> end is scan-back on observed units; the high end also counts display fees for every planned display.
 
 **How the range is built:** every uncertain input is set three ways — its pessimistic end, its base value and its
 optimistic end. Estimated inputs (transfer rate, elasticities, promotion results) use the ends of their 90%
 intervals; the two negotiation inputs are stated assumptions: vendors re-win none, half or all of the dropped
 events' funding, and {u_vals} of the under-billing is recovered. The low case puts every input at its bad
-end at the same time, so it is a deliberately cautious floor, not a probability. These are modeled opportunities,
+end at the same time, so it is a modeled low case, not a probability and not a guaranteed lower bound: the costs
+and effects listed under "Not measured" are excluded and could take the outcome below it. These are modeled opportunities,
 not realized savings; unmodeled basket effects, vendor responses and implementation costs can change the outcome.
 
 | Lever | Action | Scenario FY2026 GP (low to high) | Rests on |
 |---|---|---|---|
 | **Promo calendar** | Drop the {drop_events} FY2025-style events without a display (TPR, BOGO, multi-buy alone). Keep the {keep_events} display events, each with a photo-verified display | {promo_gp} ({promo_ci}) | Before funding these events lost {drop_gpbf}; positive even if vendors keep none of their funding ({promo_rho0}) |
 | **Vendor terms** | Treat vendor money as a budget: move the dropped events' scan-back ({drop_funding}) into allowances on kept events; bill scan-back on every kept event | {vendor_gp} ({vendor_ci}) | FY2025 scan-back was under-billed by {underbilled} of what was owed |
-| **Assortment** | Cut the {cut_n} SKUs below, planogram by planogram; give their facings to same-subcategory SKUs with the most units per facing; total facings unchanged | {cut_gp} ({cut_ci}) | Delist test transfer rate {tau} ({tau_ci}); positive at its low end |
-| **Prices** | Keep Golden Ridge; {tortilla_action} private-label tortilla | {price_gp} ({price_ci}) | Break-even arithmetic; tortilla near break-even, so the action with the higher GP at the estimate |
+| **Assortment** | Pilot removing the {cut_n} candidate SKUs below in large-format stores with a store holdout, then extend planogram by planogram; give their facings to same-subcategory SKUs with the most units per facing; total facings unchanged | {cut_gp} ({cut_ci}) | Delist test transfer rate {tau} ({tau_ci}), measured in four large stores; assumed to carry to other formats |
+| **Prices** | Keep Golden Ridge; {tortilla_action} private-label tortilla | {price_gp} ({price_ci}) | Scenario: assumes the unvalidated pooled elasticity applies to both items. Only the break-even arithmetic is validated; tortilla is near break-even, so the action with the higher GP at the estimate |
 | **Replenishment** | No change to store ordering; use the bias-corrected forecast for budgets only | {fc_gp} | Correction saves nothing at equal service ({sim_saving}); receipts already follow sales |
 | **Total** | | **{plan_gp} ({plan_ci})** | Sum of the levers; overlaps between levers removed |
 
@@ -37,9 +39,12 @@ vendor money is re-won at the table. **Negotiation rule:** drop display events t
 |---|---|---|---|---|---|---|
 {cut_rows}
 
-**Tests not in the plan:** each decision is either settled by the evidence (promotions, Golden Ridge, the cut
-list) or too small in dollars to justify a store test (tortilla). The uncertainty that matters most is the vendor
-funding share, and that is settled by negotiation, not by a test.
+**What still needs testing:** none of the levers is settled beyond doubt. Dropping non-display promotions rests on
+measured losses before funding but assumes vendors respond as modeled; the cut list rests on a transfer rate from
+four large stores, so it is piloted with a holdout first; Golden Ridge rests on an unvalidated pooled elasticity,
+though it would need shoppers to be far more price-sensitive than estimated to lose money; tortilla is too small in
+dollars to justify a store test. The uncertainty that matters most is the vendor funding share, which is decided in
+negotiation, not by a test.
 
 **Changed since the memo:** {changed}
 

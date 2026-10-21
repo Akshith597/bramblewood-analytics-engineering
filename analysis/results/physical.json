@@ -35,14 +35,14 @@
     },
     "in_stock_by_promoted": {
       "False": {
-        "bias": 0.153831,
-        "rows": 6001,
-        "wape": 0.216574
+        "bias": 0.153821,
+        "rows": 6000,
+        "wape": 0.216572
       },
       "True": {
-        "bias": 0.308124,
-        "rows": 417,
-        "wape": 0.319053
+        "bias": 0.308092,
+        "rows": 418,
+        "wape": 0.319017
       }
     },
     "in_stock_by_subcategory": {

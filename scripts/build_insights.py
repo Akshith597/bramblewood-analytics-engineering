@@ -56,7 +56,7 @@ QUERIES = {
         sum(f.absolute_error_units) / sum(abs(f.actual_units)) as wape,
         sum(f.error_units) / sum(abs(f.actual_units)) as bias
         from mart_forecast_accuracy as f join dim_week as w using (week_key)
-        where f.has_actual and f.lead_weeks = 2 group by all order by 1, 2""",
+        where f.is_scored_pair and f.lead_weeks = 2 group by all order by 1, 2""",
     'funding': """select v.vendor_name, sum(p.funding_owed_estimate) as owed,
         sum(p.total_billed) as billed, sum(p.owed_minus_billed_estimate) as gap,
         count(*) filter (where p.approved_without_claim) as unclaimed_events
