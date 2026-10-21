@@ -1,8 +1,8 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="960" height="462" viewBox="0 0 960 462" role="img" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif">
-<title>Estimated vendor funding owed but not billed</title><desc>Approved promotions: contractual scan-back + display fees minus amounts billed, by vendor.</desc>
+<title>Estimated vendor funding owed but not billed</title><desc>Upper bound. Approved promotions: contractual scan-back + display fees minus amounts billed, by vendor.</desc>
 <rect width="960" height="462" rx="12" fill="#fcfcfb" stroke="#e6e5e0"/>
 <text x="28.0" y="40.0" font-size="19" fill="#0b0b0b" font-weight="650" text-anchor="start">Estimated vendor funding owed but not billed</text>
-<text x="28.0" y="64.0" font-size="13.5" fill="#52514e" font-weight="400" text-anchor="start">Approved promotions: contractual scan-back + display fees minus amounts billed, by vendor.</text>
+<text x="28.0" y="64.0" font-size="13.5" fill="#52514e" font-weight="400" text-anchor="start">Upper bound. Approved promotions: contractual scan-back + display fees minus amounts billed, by vendor.</text>
 <text x="28.0" y="444.0" font-size="11.5" fill="#8a8984" font-weight="400" text-anchor="start">Source: mart_promotion_funding · estimate assumes approved events executed as planned · a review queue, not recovered cash · synthetic data</text>
 <text x="290.0" y="90.0" font-size="12" fill="#52514e" font-weight="600" text-anchor="start">Owed − billed</text>
 <text x="760.0" y="90.0" font-size="12" fill="#52514e" font-weight="600" text-anchor="start">Owed vs billed</text>

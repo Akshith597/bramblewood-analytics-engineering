@@ -2,7 +2,7 @@
 
 **Bramblewood Retail Analytics Warehouse**  
 Analytics engineering portfolio · dbt / DuckDB / SQL / Python  
-Synthetic data · FY2024–FY2025 · 24 stores · 151 master SKUs
+AI-generated synthetic data · FY2024–FY2025 · 24 stores · 151 master SKUs
 
 [Decision memo](decision_memo.md) · [Live insights dashboard](https://akshith597.github.io/bramblewood-analytics-engineering/insights.html) · [dbt catalog](https://akshith597.github.io/bramblewood-analytics-engineering/) · [Repository](https://github.com/Akshith597/bramblewood-analytics-engineering)
 
@@ -42,7 +42,7 @@ The implemented policy lets the later effective start supersede the old cost. Th
 
 **Forecast review.** FY2025 forecast WAPE is 22.53% and bias is +13.40%, indicating overforecast on matched SKU-weeks. All 7,184 forecast rows have observed actuals. Actual sales can be stock-constrained; this is not unconstrained demand accuracy. FY2024 has 288 startup rows with lead time other than two weeks, so unfiltered year-over-year comparisons mix horizons. [Forecast results](../evidence/forecast_metrics.csv)
 
-**Funding review.** Approved events have **$1,252,142.25 estimated contractual funding owed**, versus **$1,119,166.80 billed and collected**, exposing a **$132,975.45 estimated billing gap**. The estimate combines $781,642.25 scan-back on observed scoped net units and $470,500.00 planned display fees. It assumes planned approved events and displays executed; missing sales/discount signals are explicitly flagged. Separately, two cancelled-event claims total **$974.65 billed but uncollected**. Cancelled claims are a different control exception and are not added to the approved billing gap. [Waterfall](../evidence/funding_waterfall.csv) · [Assumption sensitivity](../evidence/funding_assumption_sensitivity.csv) · [Review queue](../evidence/funding_exception_queue.csv)
+**Funding review.** Approved events have **$1,252,142.25 estimated contractual funding owed**, versus **$1,119,166.80 billed and collected**, an estimated billing gap of **$65,475.45 to $132,975.45**. The owed estimate combines $781,642.25 scan-back on observed scoped net units and $470,500.00 planned display fees. The lower bound counts scan-back only; the upper bound assumes every planned approved display ran, which the extracts cannot confirm. Missing sales/discount signals are explicitly flagged. Separately, two cancelled-event claims total **$974.65 billed but uncollected**. Cancelled claims are a different control exception and are not added to the approved billing gap. [Waterfall](../evidence/funding_waterfall.csv) · [Assumption sensitivity](../evidence/funding_assumption_sensitivity.csv) · [Review queue](../evidence/funding_exception_queue.csv)
 
 ## What this demonstrates
 
