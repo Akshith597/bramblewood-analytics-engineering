@@ -26,6 +26,8 @@ class PublicClaimsTest(unittest.TestCase):
     def test_readme_matches_results(self):
         self.assertEqual(build_public.README.read_text(encoding='utf-8'), build_public.render(),
                          'README.md is stale: run python -m analysis.build_public')
+        self.assertEqual(build_public.EXTENSION.read_text(encoding='utf-8'), build_public.render_extension(),
+                         'docs/business_analysis.md is stale: run python -m analysis.build_public')
 
     def test_plan_and_scorecard_match_results(self):
         self.assertEqual(build_plan.PLAN.read_text(encoding='utf-8'), build_plan.render_plan(),
@@ -71,7 +73,8 @@ class PublicClaimsTest(unittest.TestCase):
                                     'README SQL excerpt no longer matches any model or test file')
 
     def test_templates_have_no_hand_typed_results(self):
-        for template in (build_public.TEMPLATE, build_plan.PLAN_TEMPLATE, build_plan.SCORE_TEMPLATE):
+        for template in (build_public.TEMPLATE, build_public.EXTENSION_TEMPLATE, build_plan.PLAN_TEMPLATE,
+                         build_plan.SCORE_TEMPLATE):
             with self.subTest(template=template.name):
                 self.assertFalse(hand_typed(template.read_text(encoding='utf-8')),
                                  f'Numbers typed into {template.name} instead of results')
