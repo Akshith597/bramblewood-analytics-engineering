@@ -45,6 +45,19 @@ class PublicClaimsTest(unittest.TestCase):
                       f"tests; {f['contracts']} enforced contracts", case_study,
                       'docs/case_study.md build counts are stale')
 
+    def test_hand_written_funding_gap_matches_results(self):
+        # The catalog front page and case study state the gap in prose; both bounds must match the funding result.
+        # Results are rounded to six significant figures, so take the exact upper bound from the evidence waterfall
+        # and subtract the display component (whole-dollar fees) for the scan-only lower bound.
+        approved = next(r for r in build_public.evidence()['summary']['funding_waterfall'] if r['status'] == 'Approved')
+        upper = approved['owed_minus_billed_estimate']
+        lower = upper - build_public.load()['funding']['approved_gap_range']['display_component']
+        expected = f'${lower:,.2f} to ${upper:,.2f}'
+        for doc in ('models/overview.md', 'docs/case_study.md'):
+            with self.subTest(doc=doc):
+                self.assertIn(expected, (build_public.ROOT / doc).read_text(encoding='utf-8'),
+                              f'{doc} funding gap range is stale')
+
     def test_readme_sql_excerpts_match_source(self):
         # Each ```sql block is a verbatim excerpt; a "-- ..." line separates pieces taken from the same file.
         sources = [p.read_text(encoding='utf-8') for d in ('models', 'tests', 'macros')
