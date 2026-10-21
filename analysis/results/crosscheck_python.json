@@ -15,116 +15,116 @@
       "reference": 0.0178243
     },
     {
-      "abs_diff": 4.41706e-07,
+      "abs_diff": 1.51147e-07,
       "check": "preregistered_golden_ridge_kettle_x_own_beta",
       "pass": true,
-      "primary": -0.17966,
-      "reference": -0.17966
+      "primary": -0.196813,
+      "reference": -0.196813
     },
     {
-      "abs_diff": 5.63605e-09,
+      "abs_diff": 2.35926e-07,
       "check": "preregistered_golden_ridge_kettle_x_own_se",
       "pass": true,
-      "primary": 0.220167,
-      "reference": 0.220167
+      "primary": 0.220198,
+      "reference": 0.220198
     },
     {
-      "abs_diff": 4.66633e-07,
+      "abs_diff": 4.90336e-08,
       "check": "preregistered_golden_ridge_kettle_x_cross_beta",
       "pass": true,
-      "primary": 0.951043,
-      "reference": 0.951043
+      "primary": 0.930068,
+      "reference": 0.930068
     },
     {
-      "abs_diff": 1.41255e-07,
+      "abs_diff": 3.08534e-07,
       "check": "preregistered_golden_ridge_kettle_x_cross_se",
       "pass": true,
-      "primary": 0.246525,
-      "reference": 0.246525
+      "primary": 0.245181,
+      "reference": 0.245181
     },
     {
-      "abs_diff": 1.50851e-06,
+      "abs_diff": 3.20236e-06,
       "check": "preregistered_bramble_select_tortilla_x_own_beta",
       "pass": true,
-      "primary": -2.76939,
-      "reference": -2.76939
+      "primary": -2.78261,
+      "reference": -2.78261
     },
     {
-      "abs_diff": 2.64936e-08,
+      "abs_diff": 1.31516e-07,
       "check": "preregistered_bramble_select_tortilla_x_own_se",
       "pass": true,
-      "primary": 0.19618,
-      "reference": 0.19618
+      "primary": 0.196938,
+      "reference": 0.196938
     },
     {
-      "abs_diff": 4.45122e-07,
+      "abs_diff": 2.64622e-07,
       "check": "preregistered_bramble_select_tortilla_x_cross_beta",
       "pass": true,
-      "primary": 0.243061,
-      "reference": 0.243061
+      "primary": 0.230162,
+      "reference": 0.230162
     },
     {
-      "abs_diff": 2.55513e-07,
+      "abs_diff": 4.58387e-07,
       "check": "preregistered_bramble_select_tortilla_x_cross_se",
       "pass": true,
-      "primary": 0.132061,
-      "reference": 0.132061
+      "primary": 0.130753,
+      "reference": 0.130753
     },
     {
-      "abs_diff": 6.3028e-07,
+      "abs_diff": 4.11263e-06,
       "check": "zone_dose_golden_ridge_kettle_x_own_beta",
       "pass": true,
-      "primary": -4.39962,
-      "reference": -4.39962
+      "primary": -4.39143,
+      "reference": -4.39143
     },
     {
-      "abs_diff": 3.25094e-06,
+      "abs_diff": 2.32316e-07,
       "check": "zone_dose_golden_ridge_kettle_x_own_se",
       "pass": true,
-      "primary": 1.36841,
-      "reference": 1.36841
+      "primary": 1.36389,
+      "reference": 1.36389
     },
     {
-      "abs_diff": 3.11735e-06,
+      "abs_diff": 7.62794e-07,
       "check": "zone_dose_golden_ridge_kettle_x_cross_beta",
       "pass": true,
-      "primary": -1.35698,
-      "reference": -1.35698
+      "primary": -1.3601,
+      "reference": -1.3601
     },
     {
-      "abs_diff": 8.98532e-07,
+      "abs_diff": 1.8707e-06,
       "check": "zone_dose_golden_ridge_kettle_x_cross_se",
       "pass": true,
-      "primary": 1.56739,
-      "reference": 1.56739
+      "primary": 1.56403,
+      "reference": 1.56403
     },
     {
-      "abs_diff": 3.41722e-07,
+      "abs_diff": 2.79679e-06,
       "check": "zone_dose_bramble_select_tortilla_x_own_beta",
       "pass": true,
-      "primary": -4.42608,
-      "reference": -4.42608
+      "primary": -4.35763,
+      "reference": -4.35763
     },
     {
-      "abs_diff": 7.95154e-07,
+      "abs_diff": 2.26613e-06,
       "check": "zone_dose_bramble_select_tortilla_x_own_se",
       "pass": true,
-      "primary": 1.93896,
-      "reference": 1.93896
+      "primary": 1.94055,
+      "reference": 1.94055
     },
     {
-      "abs_diff": 5.34096e-07,
+      "abs_diff": 2.99285e-06,
       "check": "zone_dose_bramble_select_tortilla_x_cross_beta",
       "pass": true,
-      "primary": -4.21124,
-      "reference": -4.21124
+      "primary": -4.07007,
+      "reference": -4.07007
     },
     {
-      "abs_diff": 3.64178e-06,
+      "abs_diff": 2.89128e-06,
       "check": "zone_dose_bramble_select_tortilla_x_cross_se",
       "pass": true,
-      "primary": 1.51474,
-      "reference": 1.51474
+      "primary": 1.49014,
+      "reference": 1.49014
     },
     {
       "abs_diff": 5.32452e-10,

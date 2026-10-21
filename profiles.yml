@@ -3,7 +3,8 @@ bramblewood:
   outputs:
     dev:
       type: duckdb
-      path: warehouse/bramblewood.duckdb
+      # Overridable so scripts/verify_incremental.py can exercise throwaway copies of the warehouse.
+      path: "{{ env_var('BRAMBLEWOOD_DUCKDB', 'warehouse/bramblewood.duckdb') }}"
       threads: 4
     # Optional cloud target: `pip install dbt-snowflake`, set the variables below, then pass `--target snowflake`.
     # Not run against a live account. See "Running on Snowflake" in docs/architecture.md for what is and isn't ported.

@@ -1,16 +1,17 @@
 {{
     config(
         materialized='incremental',
-        incremental_strategy='delete+insert',
-        unique_key='week_key',
-        on_schema_change='fail'
+        incremental_strategy='append',
+        on_schema_change='fail',
+        pre_hook="{{ restate_sales_window() }}"
     )
 }}
 
--- Incremental runs restate whole fiscal weeks inside the lookback window: delete+insert on week_key
--- removes rows that disappeared from a corrected extract as well as replacing changed ones. Corrections
--- older than the window need `dbt build --full-refresh`; verify_repeatability.py proves the incremental
--- path reproduces a full build.
+-- Incremental runs restate a date window, not just the week keys present in the new data. The pre-hook deletes
+-- every week ending within the lookback of the latest source week, including weeks that vanished from a corrected
+-- extract; the select then loads every source row newer than what remains, which is everything when the target is
+-- empty. Corrections older than the window need `dbt build --full-refresh`. scripts/verify_incremental.py tests
+-- these cases; scripts/verify_repeatability.py separately shows an unchanged input rebuilds identically.
 select
     sales_key,
     store_id,
@@ -36,7 +37,7 @@ select
 from {{ ref('int_sales_enriched') }}
 {% if is_incremental() %}
     where week_ending > (
-        select max(week_ending) - {{ var('sales_restatement_lookback_days', 28) }}
+        select coalesce(max(week_ending), date '1900-01-01')
         from {{ this }}
     )
 {% endif %}

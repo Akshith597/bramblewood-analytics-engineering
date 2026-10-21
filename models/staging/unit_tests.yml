@@ -73,3 +73,32 @@ unit_tests:
       disposition: embedded_header
     - _source_row: 5
       disposition: invalid_record
+- name: orders_swapped_promotion_dates_and_flags_them
+  model: stg_promotions
+  given:
+  - input: source('raw', 'promotions')
+    rows:
+    - promo_id: PR-25-0432
+      start_date: '2025-04-12'
+      end_date: '2025-03-30'
+      _source_row: 2
+      _source_file: fixture.xlsx
+    - promo_id: PR-25-0001
+      start_date: '2025-01-05'
+      end_date: '2025-01-18'
+      _source_row: 3
+      _source_file: fixture.xlsx
+  expect:
+    rows:
+    - promo_id: PR-25-0432
+      start_date: '2025-03-30'
+      end_date: '2025-04-12'
+      source_start_date: '2025-04-12'
+      source_end_date: '2025-03-30'
+      dates_swapped: true
+    - promo_id: PR-25-0001
+      start_date: '2025-01-05'
+      end_date: '2025-01-18'
+      source_start_date: '2025-01-05'
+      source_end_date: '2025-01-18'
+      dates_swapped: false

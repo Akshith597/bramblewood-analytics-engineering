@@ -349,10 +349,23 @@ models:
     description: Vendor master identifier; joins to dim_vendor.vendor_id.
   - name: start_date
     data_type: date
-    description: Inclusive planned promotion start DATE.
+    description: Inclusive planned promotion start DATE; the earlier of the two source dates.
+    data_tests:
+    - not_null
   - name: end_date
     data_type: date
-    description: Inclusive planned promotion end DATE.
+    description: Inclusive planned promotion end DATE; the later of the two source dates.
+    data_tests:
+    - not_null
+  - name: source_start_date
+    data_type: date
+    description: Start DATE exactly as supplied, kept for audit.
+  - name: source_end_date
+    data_type: date
+    description: End DATE exactly as supplied, kept for audit.
+  - name: dates_swapped
+    data_type: boolean
+    description: True when the source end date precedes its start date and the dates were reordered.
   - name: mechanic
     data_type: varchar
     description: TPR, Multi-buy or BOGO planned promotion mechanism.

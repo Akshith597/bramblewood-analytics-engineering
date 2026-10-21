@@ -1,4 +1,10 @@
-# Analysis plan — committed before any outcome was computed
+# Analysis plan — committed before the first results commit
+
+> **Note on timing (added later):** this plan was committed about half an hour before the first results commit,
+> by the same author. The promotion and out-of-stock sections are a later addendum written after some unit-level
+> aggregates had been seen. Git history was rewritten once to correct an author email (same files, messages and
+> dates; new commit IDs), so the history alone cannot prove when results were first computed. The original title
+> said "before any outcome was computed"; it was changed because that cannot be verified.
 
 This plan fixes the metric, comparison groups, windows, estimator, inference and decision rule for each of the
 VP's five questions *before* looking at results, so the answer cannot drift toward a convenient one. Treatment

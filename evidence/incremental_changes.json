@@ -1,0 +1,51 @@
+{
+  "status": "pass",
+  "cases": {
+    "changed_amount_inside_window": {
+      "inside_lookback_window": true,
+      "after_incremental_run": {
+        "missing_from_fct_sales": 0,
+        "extra_in_fct_sales": 0
+      }
+    },
+    "deleted_rows_inside_window": {
+      "inside_lookback_window": true,
+      "after_incremental_run": {
+        "missing_from_fct_sales": 0,
+        "extra_in_fct_sales": 0
+      }
+    },
+    "deleted_week_inside_window": {
+      "inside_lookback_window": true,
+      "after_incremental_run": {
+        "missing_from_fct_sales": 0,
+        "extra_in_fct_sales": 0
+      }
+    },
+    "deleted_latest_week": {
+      "inside_lookback_window": true,
+      "after_incremental_run": {
+        "missing_from_fct_sales": 0,
+        "extra_in_fct_sales": 0
+      }
+    },
+    "empty_target": {
+      "inside_lookback_window": true,
+      "after_incremental_run": {
+        "missing_from_fct_sales": 0,
+        "extra_in_fct_sales": 0
+      }
+    },
+    "correction_outside_window": {
+      "inside_lookback_window": false,
+      "after_incremental_run": {
+        "missing_from_fct_sales": 1,
+        "extra_in_fct_sales": 1
+      },
+      "after_full_refresh": {
+        "missing_from_fct_sales": 0,
+        "extra_in_fct_sales": 0
+      }
+    }
+  }
+}

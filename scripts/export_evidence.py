@@ -19,8 +19,12 @@ QUERIES = {
         from mart_availability group by 1,2 order by 1,2""",
     "forecast_metrics": """select w.fiscal_year, count(*) as forecast_rows,
         count(*) filter (where f.has_actual) as matched_rows,
-        sum(f.absolute_error_units)/nullif(sum(abs(f.actual_units)),0) as wape,
-        sum(f.error_units)/nullif(sum(abs(f.actual_units)),0) as bias,
+        count(*) filter (where f.forecast_units is null) as missing_forecast_rows,
+        count(*) filter (where f.is_scored_pair) as scored_pairs,
+        sum(f.absolute_error_units) filter (where f.is_scored_pair)
+            /nullif(sum(abs(f.actual_units)) filter (where f.is_scored_pair),0) as wape,
+        sum(f.error_units) filter (where f.is_scored_pair)
+            /nullif(sum(abs(f.actual_units)) filter (where f.is_scored_pair),0) as bias,
         count(*) filter (where f.lead_weeks != 2) as non_two_week_lead_rows
         from mart_forecast_accuracy f join dim_week w using(week_key) group by 1 order by 1""",
     "funding_by_vendor": """select v.vendor_name, count(*) as claims, sum(c.total_billed) as billed,
