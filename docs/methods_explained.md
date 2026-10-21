@@ -130,8 +130,10 @@ error). This catches coding mistakes, not design mistakes.
 The metrics, comparison groups and decision rules for each question were written down and committed
 ([`analysis/PLAN.md`](../analysis/PLAN.md)) before any result was computed. This makes it hard to quietly pick the
 method that gives the nicest answer. Every later change is logged as a deviation with a reason. It isn't a formal
-pre-registration with an outside registry, and the plan and results were written a day apart by the same person, so
-it shows discipline rather than proving independence.
+pre-registration with an outside registry. The plan commit and the first results commit were made about half an hour
+apart by the same person, and a later author-email correction rewrote the repository's history (new commit IDs; same
+files, messages and dates). Git timestamps are set by whoever commits, so Git history alone cannot prove when results
+were first computed. The plan shows discipline rather than proving independence.
 
 ## Questions to be ready for
 
