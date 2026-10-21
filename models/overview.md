@@ -6,11 +6,11 @@ An analytics engineering portfolio by **Akshith Reddy**, built with **dbt, DuckD
 
 **35 models · 14 staged sources · 13 enforced contracts · 111 dbt checks**
 
-This synthetic case study turns disconnected retail extracts into auditable sales, inventory, forecasting, assortment and vendor-funding marts for a fictional 24-store grocer. All companies and transactions are fictional; dollar amounts are dataset findings, not real client outcomes.
+This case study, built on an AI-generated synthetic dataset, turns disconnected retail extracts into auditable sales, inventory, forecasting, assortment and vendor-funding marts for a fictional 24-store grocer. All companies and transactions are fictional; dollar amounts are dataset findings, not real client outcomes.
 
 ## The business result
 
-Approved promotions imply **$1,252,142.25 in estimated contractual funding**, compared with **$1,119,166.80 billed and collected**: an estimated **$132,975.45 billing gap**. Scan funding uses eligible signed net units; a planned display fee is counted once per approved display event. Display execution is not independently verified, ambiguous event assignments remain null, and cancelled-event claims are separate exceptions. This estimate is a review queue, not a confirmed receivable.
+Approved promotions were under-billed to vendors by an estimated **$65,475.45 to $132,975.45**. The lower bound counts only scan-back on observed eligible units; the upper bound also assumes every planned display ran, which the extracts cannot confirm. Against **$1,119,166.80 billed and collected**, approved promotions imply up to **$1,252,142.25 in contractual funding**. Ambiguous event assignments remain null, and cancelled-event claims are separate exceptions. This estimate is a review queue, not a confirmed receivable.
 
 Open [the promotion funding mart](#!/model/model.bramblewood.mart_promotion_funding) to inspect its definitions, types, SQL and dependencies.
 
