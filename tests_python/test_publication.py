@@ -115,6 +115,35 @@ class PublicationTest(unittest.TestCase):
             with self.assertRaisesRegex(ValueError, 'freshness'):
                 publisher.check(self.destination, 24)
 
+    def test_check_rejects_modified_or_truncated_database(self):
+        receipt = self.publish()
+        database = self.destination / receipt['database']
+        for contents in (b'changed', b''):
+            with self.subTest(contents=contents):
+                database.write_bytes(contents)
+                with self.assertRaisesRegex(ValueError, 'checksum'):
+                    publisher.check(self.destination, 24)
+
+    def test_batch_expiring_during_release_copy_keeps_previous_pointer(self):
+        self.publish()
+        before = (self.destination / 'current.json').read_bytes()
+        now = publisher.utcnow()
+        clock = [now]
+        copy = publisher.shutil.copy2
+
+        def slow_copy(source, target, *args, **kwargs):
+            result = copy(source, target, *args, **kwargs)
+            if Path(target).name == 'bramblewood.duckdb':
+                clock[0] = now + timedelta(hours=25)
+            return result
+
+        with patch.object(publisher, 'utcnow', side_effect=lambda: clock[0]):
+            with patch.object(publisher.shutil, 'copy2', side_effect=slow_copy):
+                with self.assertRaisesRegex(ValueError, 'freshness'):
+                    self.publish()
+        self.assertEqual((self.destination / 'current.json').read_bytes(), before)
+        self.assertFalse((self.destination / '.publisher.lock').exists())
+
     def test_invalid_threshold_and_naive_timestamp_rejected(self):
         for threshold in (0, -1, float('nan'), float('inf')):
             with self.assertRaises(ValueError):

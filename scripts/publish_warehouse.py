@@ -116,7 +116,7 @@ def publish(root, destination, manifest, max_age_hours=24, builder=None):
             verify_snapshot(candidate, manifest)
             (builder or build)(candidate)
             # Reject a batch that expired during a long build, or was altered by a build step.
-            ages = validate_freshness(manifest, max_age_hours)
+            validate_freshness(manifest, max_age_hours)
             verify_snapshot(candidate, manifest)
             database = candidate / 'warehouse/bramblewood.duckdb'
             if not database.is_file() or database.stat().st_size == 0:
@@ -126,14 +126,18 @@ def publish(root, destination, manifest, max_age_hours=24, builder=None):
             shutil.copy2(database, release / 'bramblewood.duckdb')
             shutil.copytree(candidate / 'evidence', release / 'evidence')
             batch_id = hashlib.sha256(json.dumps(manifest['files'], sort_keys=True).encode()).hexdigest()
+            database_sha256 = digest(release / 'bramblewood.duckdb')
+            # Copying and hashing a large release can outlast the source-age SLA too.
+            published_at = utcnow()
+            ages = validate_freshness(manifest, max_age_hours, now=published_at)
             receipt = {
                 'release_id': run_id,
                 'batch_id': batch_id,
-                'published_at_utc': utcnow().isoformat(),
+                'published_at_utc': published_at.isoformat(),
                 'database': f'releases/{run_id}/bramblewood.duckdb',
                 'source_manifest': manifest,
                 'source_age_hours_at_publish': ages,
-                'database_sha256': digest(release / 'bramblewood.duckdb'),
+                'database_sha256': database_sha256,
             }
             atomic_json(release / 'release.json', receipt)
             atomic_json(destination / 'current.json', receipt)
@@ -148,6 +152,8 @@ def check(destination, max_age_hours):
     database = (destination / receipt['database']).resolve()
     if not database.is_relative_to((destination / 'releases').resolve()) or not database.is_file():
         raise ValueError('Published database is missing or outside releases')
+    if digest(database) != receipt['database_sha256']:
+        raise ValueError('Published database checksum differs from the release receipt')
     return {'status': 'fresh', 'release_id': receipt['release_id']}
 
 
