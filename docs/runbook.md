@@ -94,7 +94,7 @@ release = json.loads((published / 'current.json').read_text(encoding='utf-8'))
 con = duckdb.connect(str(published / release['database']), read_only=True)
 ```
 
-Schedule the `check` command using your operating-system scheduler or monitoring service. It emits JSON and exits nonzero on stale sources, missing publication, or missing database; route that exit status to your alert service. No scheduler or external alert is installed by this change. Keep the original extraction timestamps when retrying a failed build. Old release files remain available to existing readers and are never overwritten by the publisher.
+Schedule the `check` command using your operating-system scheduler or monitoring service. It emits JSON and exits nonzero on stale sources, missing publication, missing database, or a database checksum mismatch; route that exit status to your alert service. No scheduler or external alert is installed by this change. Keep the original extraction timestamps when retrying a failed build. Old release files remain available to existing readers and are never overwritten by the publisher.
 
 If a build fails, the last published pointer stays unchanged; inspect the command's failure output, correct the batch or model and retry. A crash can leave `.publisher.lock` in the destination. Confirm no publisher is active before manually removing that empty directory. Unreferenced releases can remain after a failed pointer swap; inspect them before any manual retention cleanup. Do not delete a release while readers may still be using it.
 
