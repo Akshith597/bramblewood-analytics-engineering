@@ -24,7 +24,7 @@ Because of that, the project treats the data as a fixed extract: it validates wh
 
 ### Dataset reuse
 
-The project code's MIT license does not cover the dataset, and no separate dataset license is currently specified. The files are included so reviewers can reproduce this portfolio's warehouse and checks. This provenance note does not grant additional reuse or redistribution permissions; AI generation alone does not establish those permissions. A separate dataset license can be added once the generation source and applicable terms are confirmed.
+The files are included so the warehouse and its checks can be reproduced. The code's MIT license does not cover them, and no separate dataset license has been granted.
 
 ## Case-study brief
 
