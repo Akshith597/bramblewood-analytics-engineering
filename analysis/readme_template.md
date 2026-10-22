@@ -123,7 +123,7 @@ Result: [`verify_incremental.py`](scripts/verify_incremental.py) changes an amou
 
 ## How I built this
 
-I built this with AI assistance (Claude Code), and Claude co-authored many commits; the history links to those sessions. My role was to set the requirements and design choices, direct the implementation, and verify the results.
+I built this with AI assistance. My role was to set the requirements and design choices, direct the implementation, and verify the results.
 
 **A decision I owned: POS replay classification** (decision 1 above).
 
