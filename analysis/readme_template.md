@@ -134,15 +134,13 @@ I built this with AI assistance. My role was to set the requirements and design 
 
 ## Explore further
 
-- **Interview walkthrough:** a [five-minute outline and SQL practice exercise](docs/interview_walkthrough.md) covering the decisions, verification and limits.
-
 - **Run it locally** (Python 3.12, no credentials): `pip install -r requirements-dev.txt`, then `python scripts/run_all.py`. The [runbook](docs/runbook.md) has every command.
 - **Optional statistics extension:** the [business analysis](docs/business_analysis.md) answers the brief's five questions with scenario estimates. It is separate on purpose; the warehouse above is the core work.
 - **Operations drill:** a weekly [recovery drill](docs/runbook.md#scheduled-recovery-drill) on GitHub Actions publishes a release, detects a stale source, rejects a tampered batch without moving the release pointer, and recovers with a fresh batch. It runs on GitHub's runners and is a drill, not a production deployment.
 
 ## Scope
 
-A local batch warehouse that demonstrates modeling, testing and verification. It has no live scheduler, access control, monitoring or alert delivery, so it does not show production operating experience. Limitations and tradeoffs are in the [design decisions](docs/architecture.md).
+A local batch warehouse focused on modeling, testing and verification. Scheduling, access control, monitoring and alerting are out of scope; the [design decisions](docs/architecture.md) cover what a production deployment would add, plus the limitations and tradeoffs.
 
 ## Author
 
