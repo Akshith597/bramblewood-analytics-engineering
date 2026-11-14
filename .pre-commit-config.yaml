@@ -15,8 +15,8 @@ repos:
         pass_filenames: false
         types: [python]
       - id: ruff-format
-        name: Ruff format (scripts)
-        entry: python -m ruff format --check scripts
+        name: Ruff format (Python)
+        entry: python -m ruff format --check scripts business_analysis tests_python
         language: system
         pass_filenames: false
         types: [python]

@@ -1,4 +1,5 @@
 """Q4 — forecast accuracy and bias (descriptive). Implements business_analysis/PLAN.md §Q4."""
+
 import random
 
 from business_analysis.common import connect, round_floats, write_result
@@ -64,39 +65,58 @@ def main():
     rows = [dict(zip(cols, r)) for r in cur.fetchall()]
     fy25 = [r for r in rows if r['fiscal_year'] == 2025]
     result = {'fy2025': {**metrics(fy25), 'bias_ci90_sku_bootstrap': bootstrap_bias(fy25)}}
-    result['by_subcategory'] = {s: metrics([r for r in fy25 if r['subcategory'] == s])
-                                for s in sorted({r['subcategory'] for r in fy25})}
+    result['by_subcategory'] = {
+        s: metrics([r for r in fy25 if r['subcategory'] == s]) for s in sorted({r['subcategory'] for r in fy25})
+    }
     result['by_promoted'] = {str(p): metrics([r for r in fy25 if r['promoted'] == p]) for p in (False, True)}
-    result['by_lead_weeks_all_years'] = {str(k): metrics([r for r in rows if r['lead_weeks'] == k])
-                                         for k in sorted({r['lead_weeks'] for r in rows})}
+    result['by_lead_weeks_all_years'] = {
+        str(k): metrics([r for r in rows if r['lead_weeks'] == k]) for k in sorted({r['lead_weeks'] for r in rows})
+    }
     comparable = [r for r in fy25 if r['naive_lag2'] is not None and r['naive_last_year'] is not None]
     mae = lambda key: sum(abs(r[key] - r['actual']) for r in comparable) / len(comparable)
-    result['mase'] = {'rows': len(comparable), 'vs_lag2_naive': mae('forecast') / mae('naive_lag2'),
-                      'vs_seasonal_naive': mae('forecast') / mae('naive_last_year'),
-                      'bias_lag2_naive': sum(r['naive_lag2'] - r['actual'] for r in comparable)
-                      / sum(r['actual'] for r in comparable)}
+    result['mase'] = {
+        'rows': len(comparable),
+        'vs_lag2_naive': mae('forecast') / mae('naive_lag2'),
+        'vs_seasonal_naive': mae('forecast') / mae('naive_last_year'),
+        'bias_lag2_naive': sum(r['naive_lag2'] - r['actual'] for r in comparable)
+        / sum(r['actual'] for r in comparable),
+    }
     costed = [r for r in fy25 if r['unit_cost'] is not None]
     result['fy2025_net_overforecast'] = {
         'units': sum(r['forecast'] - r['actual'] for r in costed),
         'cost': sum((r['forecast'] - r['actual']) * r['unit_cost'] for r in costed),
         'note': 'Net forecast minus actual at unit cost: inventory planned against demand that did not occur. '
-                'An exposure; the realised loss depends on order policy and carrying cost, not in the extracts.'}
+        'An exposure; the realised loss depends on order policy and carrying cost, not in the extracts.',
+    }
     # Out-of-sample bias correction: learn one scale factor per subcategory on FY2024 two-week-lead rows,
     # apply it to FY2025, and compare error. Tests whether the bias is stable enough to correct.
     fy24 = [r for r in rows if r['fiscal_year'] == 2024 and r['lead_weeks'] == 2]
-    factor = {s: sum(r['actual'] for r in fy24 if r['subcategory'] == s)
-              / sum(r['forecast'] for r in fy24 if r['subcategory'] == s) for s in {r['subcategory'] for r in fy24}}
+    factor = {
+        s: sum(r['actual'] for r in fy24 if r['subcategory'] == s)
+        / sum(r['forecast'] for r in fy24 if r['subcategory'] == s)
+        for s in {r['subcategory'] for r in fy24}
+    }
     corrected = [{**r, 'forecast': r['forecast'] * factor[r['subcategory']]} for r in fy25]
     after = metrics(corrected)
     result['bias_correction_backtest'] = {
-        'trained_on': 'FY2024 lead-2 rows', 'evaluated_on': 'FY2025',
-        'factors': factor, 'wape_before': result['fy2025']['wape'], 'wape_after': after['wape'],
-        'bias_before': result['fy2025']['bias'], 'bias_after': after['bias']}
+        'trained_on': 'FY2024 lead-2 rows',
+        'evaluated_on': 'FY2025',
+        'factors': factor,
+        'wape_before': result['fy2025']['wape'],
+        'wape_after': after['wape'],
+        'bias_before': result['fy2025']['bias'],
+        'bias_after': after['bias'],
+    }
     write_result('forecast', round_floats(result))
     return result
 
 
 if __name__ == '__main__':
     import json
+
     r = round_floats(main())
-    print(json.dumps({k: r[k] for k in ('fy2025', 'mase', 'fy2025_net_overforecast', 'bias_correction_backtest')}, indent=1))
+    print(
+        json.dumps(
+            {k: r[k] for k in ('fy2025', 'mase', 'fy2025_net_overforecast', 'bias_correction_backtest')}, indent=1
+        )
+    )

@@ -18,6 +18,7 @@ deviation 13, both with no key available):
 - A parameter whose 90% interval misses the truth is listed under "What the scorecard proved wrong", with the
   public claims that depend on it (CLAIMS below), so a miss is traced to the decisions it touched.
 """
+
 import json
 import sys
 
@@ -44,8 +45,16 @@ def res(name):
 
 
 def entry(pid, family, label, unit, estimate, ci90, source, primary=True, note=None):
-    e = {'id': pid, 'family': family, 'parameter': label, 'unit': unit, 'estimate': estimate,
-         'ci90': list(ci90) if ci90 else None, 'source': source, 'primary': primary}
+    e = {
+        'id': pid,
+        'family': family,
+        'parameter': label,
+        'unit': unit,
+        'estimate': estimate,
+        'ci90': list(ci90) if ci90 else None,
+        'source': source,
+        'primary': primary,
+    }
     if note:
         e['note'] = note
     return e
@@ -56,58 +65,190 @@ def collect():
     p, pr, f, ph, d = res('pricing'), res('promotions'), res('forecast'), res('physical'), res('delist')
     out = []
     for s, x in sorted(p['pooled']['by_subcategory'].items()):
-        out.append(entry(f'elasticity.{s}', 'elasticity', f'Own-price elasticity, {s} (national/regional brands)',
-                         'elasticity', x['elasticity'], x['ci90'], 'pricing.pooled.by_subcategory',
-                         note=None if x['identified'] else 'flagged not identified before the key'))
+        out.append(
+            entry(
+                f'elasticity.{s}',
+                'elasticity',
+                f'Own-price elasticity, {s} (national/regional brands)',
+                'elasticity',
+                x['elasticity'],
+                x['ci90'],
+                'pricing.pooled.by_subcategory',
+                note=None if x['identified'] else 'flagged not identified before the key',
+            )
+        )
     pl = p['pooled']['private_label_shift']
-    out.append(entry('elasticity.private_label_shift', 'elasticity', 'Private-label shift in own-price elasticity',
-                     'elasticity points', pl['elasticity_shift'], pl['ci90'], 'pricing.pooled.private_label_shift'))
-    for key, label in (('golden_ridge_kettle', 'Golden Ridge kettle'), ('bramble_select_tortilla',
-                                                                          'Bramble Select (private label) tortilla')):
+    out.append(
+        entry(
+            'elasticity.private_label_shift',
+            'elasticity',
+            'Private-label shift in own-price elasticity',
+            'elasticity points',
+            pl['elasticity_shift'],
+            pl['ci90'],
+            'pricing.pooled.private_label_shift',
+        )
+    )
+    for key, label in (
+        ('golden_ridge_kettle', 'Golden Ridge kettle'),
+        ('bramble_select_tortilla', 'Bramble Select (private label) tortilla'),
+    ):
         x = p['decisions'][key]
-        out.append(entry(f'elasticity.{key}', 'elasticity', f'Own-price elasticity, {label}', 'elasticity',
-                         x['pooled_elasticity_used'], x['pooled_elasticity_range'], f'pricing.decisions.{key}'))
+        out.append(
+            entry(
+                f'elasticity.{key}',
+                'elasticity',
+                f'Own-price elasticity, {label}',
+                'elasticity',
+                x['pooled_elasticity_used'],
+                x['pooled_elasticity_range'],
+                f'pricing.decisions.{key}',
+            )
+        )
     for label, c in sorted(pr['fy2025']['mechanic_display'].items()):
-        out.append(entry(f'promo_lift.{label}', 'promo_lift', f'Unit lift in promoted weeks, {label} (FY2025)',
-                         'share over baseline', c['lift_pct'], c['lift_pct_ci90_store_bootstrap'],
-                         'promotions.fy2025.mechanic_display'))
+        out.append(
+            entry(
+                f'promo_lift.{label}',
+                'promo_lift',
+                f'Unit lift in promoted weeks, {label} (FY2025)',
+                'share over baseline',
+                c['lift_pct'],
+                c['lift_pct_ci90_store_bootstrap'],
+                'promotions.fy2025.mechanic_display',
+            )
+        )
     a = pr['fy2025']['all']['all']
-    out.append(entry('promo_lift.all', 'promo_lift', 'Unit lift in promoted weeks, all events (FY2025)',
-                     'share over baseline', a['lift_pct'], a['lift_pct_ci90_store_bootstrap'], 'promotions.fy2025.all'))
+    out.append(
+        entry(
+            'promo_lift.all',
+            'promo_lift',
+            'Unit lift in promoted weeks, all events (FY2025)',
+            'share over baseline',
+            a['lift_pct'],
+            a['lift_pct_ci90_store_bootstrap'],
+            'promotions.fy2025.all',
+        )
+    )
     for s, x in sorted(pr['cannibalisation'].items()):
-        out.append(entry(f'cannibalisation.{s}', 'cannibalisation',
-                         f'Log change in a sister SKU\'s units per promoted same-subcategory SKU, {s}', 'log points',
-                         x['per_promoted_sister'], [x['per_promoted_sister'] - Z90 * x['se_store_cr1'],
-                                                    x['per_promoted_sister'] + Z90 * x['se_store_cr1']],
-                         'promotions.cannibalisation'))
+        out.append(
+            entry(
+                f'cannibalisation.{s}',
+                'cannibalisation',
+                f'Log change in a sister SKU\'s units per promoted same-subcategory SKU, {s}',
+                'log points',
+                x['per_promoted_sister'],
+                [
+                    x['per_promoted_sister'] - Z90 * x['se_store_cr1'],
+                    x['per_promoted_sister'] + Z90 * x['se_store_cr1'],
+                ],
+                'promotions.cannibalisation',
+            )
+        )
     for k, v in sorted(pr['post_dip_by_week'].items()):
-        out.append(entry(f'pantry_loading.week{k}', 'pantry_loading',
-                         f'Units vs baseline in post-promotion week {k} (pantry-loading dip)', 'share vs baseline',
-                         v, pr['post_dip_ci90_store_bootstrap'][k], 'promotions.post_dip_by_week'))
+        out.append(
+            entry(
+                f'pantry_loading.week{k}',
+                'pantry_loading',
+                f'Units vs baseline in post-promotion week {k} (pantry-loading dip)',
+                'share vs baseline',
+                v,
+                pr['post_dip_ci90_store_bootstrap'][k],
+                'promotions.post_dip_by_week',
+            )
+        )
     b = ph['bias_refit']
-    out.append(entry('forecast_bias.fy2025_restored_demand', 'forecast_bias',
-                     'Forecast bias FY2025, censored demand restored (primary)', 'share of demand',
-                     b['restored_demand_all_weeks']['bias'], b['restored_demand_all_weeks']['ci90'], 'physical.bias_refit'))
-    out.append(entry('forecast_bias.fy2025_in_stock_weeks', 'forecast_bias',
-                     'Forecast bias FY2025, weeks with no stock-out (requested refit; selected on low demand)',
-                     'share of actual', b['in_stock_weeks']['bias'], b['in_stock_weeks']['ci90'], 'physical.bias_refit',
-                     primary=False))
-    out.append(entry('forecast_bias.fy2025_all_weeks', 'forecast_bias', 'Forecast bias FY2025, all weeks (memo)',
-                     'share of actual', f['fy2025']['bias'], f['fy2025']['bias_ci90_sku_bootstrap'], 'forecast.fy2025',
-                     primary=False))
+    out.append(
+        entry(
+            'forecast_bias.fy2025_restored_demand',
+            'forecast_bias',
+            'Forecast bias FY2025, censored demand restored (primary)',
+            'share of demand',
+            b['restored_demand_all_weeks']['bias'],
+            b['restored_demand_all_weeks']['ci90'],
+            'physical.bias_refit',
+        )
+    )
+    out.append(
+        entry(
+            'forecast_bias.fy2025_in_stock_weeks',
+            'forecast_bias',
+            'Forecast bias FY2025, weeks with no stock-out (requested refit; selected on low demand)',
+            'share of actual',
+            b['in_stock_weeks']['bias'],
+            b['in_stock_weeks']['ci90'],
+            'physical.bias_refit',
+            primary=False,
+        )
+    )
+    out.append(
+        entry(
+            'forecast_bias.fy2025_all_weeks',
+            'forecast_bias',
+            'Forecast bias FY2025, all weeks (memo)',
+            'share of actual',
+            f['fy2025']['bias'],
+            f['fy2025']['bias_ci90_sku_bootstrap'],
+            'forecast.fy2025',
+            primary=False,
+        )
+    )
     for s, x in sorted(b['in_stock_by_subcategory'].items()):
-        out.append(entry(f'forecast_bias.in_stock.{s}', 'forecast_bias', f'Forecast bias FY2025 in-stock weeks, {s}',
-                         'share of actual', x['bias'], x['ci90'], 'physical.bias_refit.in_stock_by_subcategory',
-                         primary=False))
-    out.append(entry('delist.gp_effect', 'delist', 'Delist test: category GP effect in test stores',
-                     'share of GP', d['gp']['beta'], d['gp']['ci90'], 'delist.gp'))
-    out.append(entry('delist.units_effect', 'delist', 'Delist test: category units effect', 'log points',
-                     d['units']['beta'], d['units']['ci90'], 'delist.units'))
-    out.append(entry('delist.sales_effect', 'delist', 'Delist test: category net sales effect', 'log points',
-                     d['sales']['beta'], d['sales']['ci90'], 'delist.sales'))
-    out.append(entry('delist.transfer_rate', 'delist', 'Delist test: retained-SKU sales gained per $ of delisted '
-                     'sales lost', 'ratio', d['transfer']['transfer_rate'], d['transfer']['transfer_rate_ci90'],
-                     'delist.transfer'))
+        out.append(
+            entry(
+                f'forecast_bias.in_stock.{s}',
+                'forecast_bias',
+                f'Forecast bias FY2025 in-stock weeks, {s}',
+                'share of actual',
+                x['bias'],
+                x['ci90'],
+                'physical.bias_refit.in_stock_by_subcategory',
+                primary=False,
+            )
+        )
+    out.append(
+        entry(
+            'delist.gp_effect',
+            'delist',
+            'Delist test: category GP effect in test stores',
+            'share of GP',
+            d['gp']['beta'],
+            d['gp']['ci90'],
+            'delist.gp',
+        )
+    )
+    out.append(
+        entry(
+            'delist.units_effect',
+            'delist',
+            'Delist test: category units effect',
+            'log points',
+            d['units']['beta'],
+            d['units']['ci90'],
+            'delist.units',
+        )
+    )
+    out.append(
+        entry(
+            'delist.sales_effect',
+            'delist',
+            'Delist test: category net sales effect',
+            'log points',
+            d['sales']['beta'],
+            d['sales']['ci90'],
+            'delist.sales',
+        )
+    )
+    out.append(
+        entry(
+            'delist.transfer_rate',
+            'delist',
+            'Delist test: retained-SKU sales gained per $ of delisted sales lost',
+            'ratio',
+            d['transfer']['transfer_rate'],
+            d['transfer']['transfer_rate_ci90'],
+            'delist.transfer',
+        )
+    )
     return round_floats(out)
 
 
@@ -128,8 +269,16 @@ def score_rows(frozen, key):
             row['error'] = e['estimate'] - t
             row['covered'] = bool(e['ci90'] and e['ci90'][0] <= t <= e['ci90'][1])
             if not row['covered']:
-                wrong.append({'id': e['id'], 'parameter': e['parameter'], 'estimate': e['estimate'], 'truth': t,
-                              'ci90': e['ci90'], 'claims_affected': CLAIMS[e['family']]})
+                wrong.append(
+                    {
+                        'id': e['id'],
+                        'parameter': e['parameter'],
+                        'estimate': e['estimate'],
+                        'truth': t,
+                        'ci90': e['ci90'],
+                        'claims_affected': CLAIMS[e['family']],
+                    }
+                )
         rows.append(row)
     scored = [r for r in rows if r['truth'] is not None]
     families = {}
@@ -137,19 +286,26 @@ def score_rows(frozen, key):
         f = families.setdefault(r['family'], {'scored': 0, 'covered': 0})
         f['scored'] += 1
         f['covered'] += r['covered']
-    return {'key_received': bool(key), 'parameters': len(rows), 'scored': len(scored),
-            'covered': sum(r['covered'] for r in scored),
-            'coverage': sum(r['covered'] for r in scored) / len(scored) if scored else None,
-            'by_family': families, 'rows': rows, 'proved_wrong': wrong,
-            'unmapped_key_ids': sorted(set(key) - {e['id'] for e in frozen})}
+    return {
+        'key_received': bool(key),
+        'parameters': len(rows),
+        'scored': len(scored),
+        'covered': sum(r['covered'] for r in scored),
+        'coverage': sum(r['covered'] for r in scored) / len(scored) if scored else None,
+        'by_family': families,
+        'rows': rows,
+        'proved_wrong': wrong,
+        'unmapped_key_ids': sorted(set(key) - {e['id'] for e in frozen}),
+    }
 
 
 def score():
     frozen = json.loads(FROZEN.read_text(encoding='utf-8'))['parameters']
     key = json.loads(KEY.read_text(encoding='utf-8'))['truth'] if KEY.exists() else {}
     result = score_rows(frozen, key)
-    (RESULTS / 'scorecard.json').write_text(json.dumps(round_floats(result), indent=2, sort_keys=True) + '\n',
-                                            encoding='utf-8', newline='\n')
+    (RESULTS / 'scorecard.json').write_text(
+        json.dumps(round_floats(result), indent=2, sort_keys=True) + '\n', encoding='utf-8', newline='\n'
+    )
     return result
 
 

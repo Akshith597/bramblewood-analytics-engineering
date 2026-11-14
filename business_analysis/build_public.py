@@ -5,6 +5,7 @@ figure is a named placeholder filled from a generated file (business_analysis/re
 template may not contain hand-typed numbers (tests_python/test_public_claims.py), and CI regenerates it and fails
 on any difference.
 """
+
 import json
 
 from business_analysis.build_memo import figures as memo_figures, load, money, pct, rng
@@ -19,8 +20,14 @@ EVIDENCE = ROOT / 'evidence'
 
 
 def evidence():
-    names = ('summary', 'independent_reconciliation', 'project_quality', 'load_manifest', 'insights_figures',
-             'dbt_build_results')
+    names = (
+        'summary',
+        'independent_reconciliation',
+        'project_quality',
+        'load_manifest',
+        'insights_figures',
+        'dbt_build_results',
+    )
     return {n: json.loads((EVIDENCE / f'{n}.json').read_text(encoding='utf-8')) for n in names}
 
 
@@ -50,31 +57,48 @@ def evidence_figures(e):
     pp = lambda v: f'{v:+.1f} pp'.replace('-', '−')
     cancelled = next(r for r in s['funding_waterfall'] if r['status'] == 'Cancelled')
     return {
-        'stores': count(ins['stores']), 'skus': count(ins['skus']), 'weeks': count(tables['fiscal_calendar']),
-        'source_tables': count(sources), 'csvs': count(sources - sheets), 'sheets': count(sheets), 'models': count(q['models']),
-        'contracts': count(q['enforced_mart_contracts']), 'columns': count(q['documented_typed_columns']),
-        'data_tests': count(kinds.get('test', 0)), 'unit_tests': count(kinds.get('unit_test', 0)),
+        'stores': count(ins['stores']),
+        'skus': count(ins['skus']),
+        'weeks': count(tables['fiscal_calendar']),
+        'source_tables': count(sources),
+        'csvs': count(sources - sheets),
+        'sheets': count(sheets),
+        'models': count(q['models']),
+        'contracts': count(q['enforced_mart_contracts']),
+        'columns': count(q['documented_typed_columns']),
+        'data_tests': count(kinds.get('test', 0)),
+        'unit_tests': count(kinds.get('unit_test', 0)),
         'all_checks': count(kinds.get('test', 0) + kinds.get('unit_test', 0)),
         'pos_rows': count(sum(r['source_rows'] for r in s['reconciliation'])),
         'pos_accepted': count(disp['accepted']['source_rows']),
-        'net_sales_exact': f"${float(rec['net_sales']):,.2f}", 'store_weeks': count(rec['store_weeks_reconciled']),
+        'net_sales_exact': f"${float(rec['net_sales']):,.2f}",
+        'store_weeks': count(rec['store_weeks_reconciled']),
         'replay_rows': count(disp['exact_replay']['source_rows']),
         'replay_sales': f"${disp['exact_replay']['net_sales']:,.2f}",
-        'upcs_padded': count(obs['upcs_padded']), 'legacy_dates': count(obs['legacy_dates']),
-        'cost_rows': count(cost['affected_sales_rows']), 'cost_cogs': f"${cost['cogs_increase_vs_prior_cost']:,.2f}",
-        'return_rows': count(obs['return_rows']), 'inventory_only': count(cov[False]),
+        'upcs_padded': count(obs['upcs_padded']),
+        'legacy_dates': count(obs['legacy_dates']),
+        'cost_rows': count(cost['affected_sales_rows']),
+        'cost_cogs': f"${cost['cogs_increase_vs_prior_cost']:,.2f}",
+        'return_rows': count(obs['return_rows']),
+        'inventory_only': count(cov[False]),
         'cancelled_billed': f"${cancelled['total_billed']:,.2f}",
-        'comp_stores': count(ins['comparable_stores']), 'comp_growth': pct(ins['comparable_growth']),
+        'comp_stores': count(ins['comparable_stores']),
+        'comp_growth': pct(ins['comparable_growth']),
         'chain_growth': pct(annual[2025]['net_sales'] / annual[2024]['net_sales'] - 1),
-        'shrinking': count(ins['subcategories_shrinking']), 'n_subcats': count(len(subs)),
+        'shrinking': count(ins['subcategories_shrinking']),
+        'n_subcats': count(len(subs)),
         'growers': ', '.join(f"**{g} ({pct(subs[g]['growth'], 0)})**" for g in growers),
-        'margin_loser': margin_loser, 'margin_loser_sales': pct(subs[margin_loser]['growth']),
+        'margin_loser': margin_loser,
+        'margin_loser_sales': pct(subs[margin_loser]['growth']),
         'margin_loser_pp': pp(subs[margin_loser]['margin_change_pp']),
-        'largest': largest, 'largest_sales': pct(subs[largest]['growth']),
+        'largest': largest,
+        'largest_sales': pct(subs[largest]['growth']),
         'largest_pp': pp(subs[largest]['margin_change_pp']),
-        'fc_periods': 'every period' if ins['forecast_periods_over_fy2025'] == ins['forecast_periods_fy2025']
+        'fc_periods': 'every period'
+        if ins['forecast_periods_over_fy2025'] == ins['forecast_periods_fy2025']
         else f"{ins['forecast_periods_over_fy2025']} of {ins['forecast_periods_fy2025']} periods",
-        'fc_bias_fy25': pct(fc[2025]['bias']), 'fc_wape_fy25': pct(fc[2025]['wape'], signed=False),
+        'fc_bias_fy25': pct(fc[2025]['bias']),
+        'fc_wape_fy25': pct(fc[2025]['wape'], signed=False),
     }
 
 
@@ -82,34 +106,49 @@ def plan_figures(r):
     """README lines for the FY2026 plan and the work beyond the five questions (empty until those results exist)."""
     p, lev, ph, sc = r['plan'], r['plan']['by_lever'], r['physical'], r['scorecard']
     pos = lambda v: money(v).lstrip('+')
-    plan = (f"The [one-page FY2026 plan](docs/fy2026_plan.md) models a **scenario-estimated annual GP opportunity of {money(p['total']['base'])} "
-            f"after vendor funding** (low to high case {rng(*p['total']['range'], money)}). Drop promotions without a display "
-            f"({money(lev['promo_calendar']['base'])}), treat vendor funding as a budget to re-negotiate and bill in full "
-            f"({money(lev['vendor_terms']['base'])}), pilot cutting {r['assortment']['chain']['distinct_skus_cut']} "
-            f"candidate SKUs on GP per facing and measured demand transfer ({money(lev['assortment']['base'])}, if the "
-            f"large-store transfer rate holds in other formats), keep Golden Ridge's price "
-            f"({money(lev['prices']['base'])} with the tortilla call, assuming the unvalidated pooled elasticity), and "
-            f"leave store replenishment alone. "
-            f"The low and high cases set every uncertain input to the pessimistic or optimistic end of its range at once: "
-            f"the 90% intervals of the transfer rate, elasticities and promotion results, plus stated assumptions about "
-            f"how much vendor funding is re-won and how much under-billing is recovered. Unmodeled basket effects, vendor "
-            f"responses and implementation costs are excluded, so the low case is a modeled low case, not a guaranteed "
-            f"lower bound. This is a scenario estimate on synthetic data, not realized savings or a forecast.")
-    ph_line = (f"That over-forecast never reached store shelves: receipts follow sales, and the "
-               f"{pos(ph['restated']['memo_over_forecast_cost'])} of over-forecast units at cost became "
-               f"{pos(ph['restated']['excess_store_stock_cost'])} of extra store stock; an inventory replay finds no saving from "
-               f"the correction at equal service ({money(r['inventory_sim']['verdict']['policy_cost_saving_at_best_z'])}).")
-    score = ("Every estimate and interval is frozen for the [answer-key scorecard](docs/scorecard.md); "
-             + ('the key is scored there.' if sc['key_received'] else
-                'no answer key is available, and it is unknown whether one exists, so they are scored only if one '
-                'is obtained.'))
+    plan = (
+        f"The [one-page FY2026 plan](docs/fy2026_plan.md) models a **scenario-estimated annual GP opportunity of {money(p['total']['base'])} "
+        f"after vendor funding** (low to high case {rng(*p['total']['range'], money)}). Drop promotions without a display "
+        f"({money(lev['promo_calendar']['base'])}), treat vendor funding as a budget to re-negotiate and bill in full "
+        f"({money(lev['vendor_terms']['base'])}), pilot cutting {r['assortment']['chain']['distinct_skus_cut']} "
+        f"candidate SKUs on GP per facing and measured demand transfer ({money(lev['assortment']['base'])}, if the "
+        f"large-store transfer rate holds in other formats), keep Golden Ridge's price "
+        f"({money(lev['prices']['base'])} with the tortilla call, assuming the unvalidated pooled elasticity), and "
+        f"leave store replenishment alone. "
+        f"The low and high cases set every uncertain input to the pessimistic or optimistic end of its range at once: "
+        f"the 90% intervals of the transfer rate, elasticities and promotion results, plus stated assumptions about "
+        f"how much vendor funding is re-won and how much under-billing is recovered. Unmodeled basket effects, vendor "
+        f"responses and implementation costs are excluded, so the low case is a modeled low case, not a guaranteed "
+        f"lower bound. This is a scenario estimate on synthetic data, not realized savings or a forecast."
+    )
+    ph_line = (
+        f"That over-forecast never reached store shelves: receipts follow sales, and the "
+        f"{pos(ph['restated']['memo_over_forecast_cost'])} of over-forecast units at cost became "
+        f"{pos(ph['restated']['excess_store_stock_cost'])} of extra store stock; an inventory replay finds no saving from "
+        f"the correction at equal service ({money(r['inventory_sim']['verdict']['policy_cost_saving_at_best_z'])})."
+    )
+    score = "Every estimate and interval is frozen for the [answer-key scorecard](docs/scorecard.md); " + (
+        'the key is scored there.'
+        if sc['key_received']
+        else 'no answer key is available, and it is unknown whether one exists, so they are scored only if one '
+        'is obtained.'
+    )
     # The cut list's value at the point estimate and in the plan's base case usually agree; say it once if so.
     a_point, a_base = money(r['assortment']['chain']['gp_change']), money(lev['assortment']['base'])
-    a_value = (f'{a_point} a year' if a_point == a_base
-               else f"{a_point} a year at the point estimate; {a_base} in the plan's base case")
-    return {'plan_readme': plan, 'ph_readme': ph_line, 'scorecard_readme': score, 'a_value': a_value,
-            'plan_total': money(p['total']['base']), 'plan_range': rng(*p['total']['range'], money),
-            'a_plan': money(lev['assortment']['base'])}
+    a_value = (
+        f'{a_point} a year'
+        if a_point == a_base
+        else f"{a_point} a year at the point estimate; {a_base} in the plan's base case"
+    )
+    return {
+        'plan_readme': plan,
+        'ph_readme': ph_line,
+        'scorecard_readme': score,
+        'a_value': a_value,
+        'plan_total': money(p['total']['base']),
+        'plan_range': rng(*p['total']['range'], money),
+        'a_plan': money(lev['assortment']['base']),
+    }
 
 
 def values(results=None, ev=None):
@@ -135,4 +174,3 @@ def main():
 
 if __name__ == '__main__':
     main()
-

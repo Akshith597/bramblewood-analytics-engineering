@@ -5,6 +5,7 @@ Guimarães–Portugal), executed as DuckDB window queries so panels never leave 
 k×k algebra is done in plain Python. Small-sample convention: CR1 with c = G/(G-1), matching
 `fixest::feols(..., ssc = ssc(adj = FALSE, cluster.adj = TRUE))`.
 """
+
 import math
 
 
@@ -48,9 +49,13 @@ def demean(con, source, columns, fes, tol=1e-10, max_iter=1000):
         if len(fes) == 1:
             return iteration + 1
         # After a sweep only the earlier FEs can have drifted; converged when every group mean is ~0.
-        drift = con.execute(' union all '.join(
-            f'select max(abs(m)) from (select avg({c}) as m from _dm group by {fe})'
-            for fe in fes[:-1] for c in columns)).fetchall()
+        drift = con.execute(
+            ' union all '.join(
+                f'select max(abs(m)) from (select avg({c}) as m from _dm group by {fe})'
+                for fe in fes[:-1]
+                for c in columns
+            )
+        ).fetchall()
         drift = max(row[0] for row in drift)
         if drift < tol:
             return iteration + 1
@@ -61,25 +66,43 @@ def feols(con, source, y, xs, fes, cluster_label='cluster'):
     """OLS of y on xs with absorbed `fes`; `source` must expose a `cluster_id` column."""
     iterations = demean(con, source, [y, *xs], fes)
     k = len(xs)
-    sums = con.execute('select count(*), ' + ', '.join(
-        [f'sum({a} * {b})' for a in xs for b in xs] + [f'sum({a} * {y})' for a in xs]) + ' from _dm').fetchone()
+    sums = con.execute(
+        'select count(*), '
+        + ', '.join([f'sum({a} * {b})' for a in xs for b in xs] + [f'sum({a} * {y})' for a in xs])
+        + ' from _dm'
+    ).fetchone()
     n = sums[0]
-    xtx = [list(sums[1 + i * k:1 + (i + 1) * k]) for i in range(k)]
-    xty = list(sums[1 + k * k:])
+    xtx = [list(sums[1 + i * k : 1 + (i + 1) * k]) for i in range(k)]
+    xty = list(sums[1 + k * k :])
     bread = invert(xtx)
     beta = matvec(bread, xty)
     residual = f'({y} - ' + ' - '.join(f'{b!r} * {x}' for b, x in zip(beta, xs)) + ')'
-    scores = con.execute('select cluster_id, ' + ', '.join(f'sum({x} * {residual})' for x in xs)
-                         + ' from _dm group by cluster_id order by cluster_id').fetchall()
+    scores = con.execute(
+        'select cluster_id, '
+        + ', '.join(f'sum({x} * {residual})' for x in xs)
+        + ' from _dm group by cluster_id order by cluster_id'
+    ).fetchall()
     g = len(scores)
     meat = [[sum(s[1 + i] * s[1 + j] for s in scores) for j in range(k)] for i in range(k)]
     c = g / (g - 1)
-    vcov = [[c * v for v in row] for row in
-            [[sum(bread[i][a] * meat[a][b] * bread[b][j] for a in range(k) for b in range(k))
-              for j in range(k)] for i in range(k)]]
-    return {'beta': dict(zip(xs, beta)), 'se': dict(zip(xs, (math.sqrt(vcov[i][i]) for i in range(k)))),
-            'n': n, 'clusters': g, 'cluster': cluster_label, 'fe_iterations': iterations,
-            '_vcov': vcov, '_bread': bread, '_scores': [list(s[1:]) for s in scores]}
+    vcov = [
+        [c * v for v in row]
+        for row in [
+            [sum(bread[i][a] * meat[a][b] * bread[b][j] for a in range(k) for b in range(k)) for j in range(k)]
+            for i in range(k)
+        ]
+    ]
+    return {
+        'beta': dict(zip(xs, beta)),
+        'se': dict(zip(xs, (math.sqrt(vcov[i][i]) for i in range(k)))),
+        'n': n,
+        'clusters': g,
+        'cluster': cluster_label,
+        'fe_iterations': iterations,
+        '_vcov': vcov,
+        '_bread': bread,
+        '_scores': [list(s[1:]) for s in scores],
+    }
 
 
 def wald_pvalue(fit, names):
@@ -131,8 +154,10 @@ def _betacf(a, b, x):
     d = 1 / (tiny if abs(d) < tiny else d)
     h = d
     for m in range(1, 300):
-        for num in (m * (b - m) * x / ((a + 2 * m - 1) * (a + 2 * m)),
-                    -(a + m) * (a + b + m) * x / ((a + 2 * m) * (a + 2 * m + 1))):
+        for num in (
+            m * (b - m) * x / ((a + 2 * m - 1) * (a + 2 * m)),
+            -(a + m) * (a + b + m) * x / ((a + 2 * m) * (a + 2 * m + 1)),
+        ):
             d = 1 + num * d
             d = 1 / (tiny if abs(d) < tiny else d)
             c = 1 + num / c
@@ -147,8 +172,11 @@ def t_sf2(t, df):
     """Two-sided p-value P(|T| >= |t|) for Student's t with `df` degrees of freedom."""
     x = df / (df + t * t)
     a, b = df / 2, 0.5
-    front = math.exp(math.lgamma(a + b) - math.lgamma(a) - math.lgamma(b) + a * math.log(x) + b * math.log(1 - x)) \
-        if 0 < x < 1 else 0.0
+    front = (
+        math.exp(math.lgamma(a + b) - math.lgamma(a) - math.lgamma(b) + a * math.log(x) + b * math.log(1 - x))
+        if 0 < x < 1
+        else 0.0
+    )
     if x <= 0:
         return 0.0
     if x >= 1:
@@ -184,17 +212,24 @@ def fe_levels(con, source, y, beta, fes, tol=1e-9, max_iter=2000):
     """
     resid = f'{y} - ' + ' - '.join(f'{b!r} * {x}' for x, b in beta.items()) if beta else y
     cols = ', '.join(f'0.0::double as _c{i}' for i in range(len(fes)))
-    con.execute(f'create or replace temp table _bf as select {", ".join(fes)}, ({resid})::double as _r, {cols} '
-                f'from {source}')
+    con.execute(
+        f'create or replace temp table _bf as select {", ".join(fes)}, ({resid})::double as _r, {cols} from {source}'
+    )
     for iteration in range(max_iter):
         change = 0.0
         for i, fe in enumerate(fes):
             others = ' - '.join(f'_c{j}' for j in range(len(fes)) if j != i) or '0'
-            con.execute(f'create or replace temp table _bf_new as select * replace '
-                        f'(avg(_r - {others}) over (partition by {fe}) as _c{i}) from _bf')
-            change = max(change, con.execute(
-                f'select max(abs(n.v - o.v)) from (select {fe}, any_value(_c{i}) as v from _bf_new group by 1) n '
-                f'join (select {fe}, any_value(_c{i}) as v from _bf group by 1) o using ({fe})').fetchone()[0])
+            con.execute(
+                f'create or replace temp table _bf_new as select * replace '
+                f'(avg(_r - {others}) over (partition by {fe}) as _c{i}) from _bf'
+            )
+            change = max(
+                change,
+                con.execute(
+                    f'select max(abs(n.v - o.v)) from (select {fe}, any_value(_c{i}) as v from _bf_new group by 1) n '
+                    f'join (select {fe}, any_value(_c{i}) as v from _bf group by 1) o using ({fe})'
+                ).fetchone()[0],
+            )
             con.execute('create or replace temp table _bf as select * from _bf_new')
         if change < tol:
             break

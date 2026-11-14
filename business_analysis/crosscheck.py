@@ -3,6 +3,7 @@
 Reads the exported estimation panels (target/analysis_panels/*.csv), so it shares neither SQL nor solver code
 with the primary estimates. business_analysis/crosscheck.R repeats the same comparisons with R fixest in CI.
 """
+
 import csv
 import json
 
@@ -29,16 +30,31 @@ def delist_rows():
     out = []
     for r in rows:
         treat = int(r['store_id']) in TREATED and int(r['week_index']) >= switch
-        out.append({'store': r['store_id'], 'week': r['week_key'], 'cluster_id': r['store_id'],
-                    'y': float(r['gp']) / (sum(base[r['store_id']]) / len(base[r['store_id']])),
-                    'd': 1.0 if treat else 0.0})
+        out.append(
+            {
+                'store': r['store_id'],
+                'week': r['week_key'],
+                'cluster_id': r['store_id'],
+                'y': float(r['gp']) / (sum(base[r['store_id']]) / len(base[r['store_id']])),
+                'd': 1.0 if treat else 0.0,
+            }
+        )
     return out
 
 
 def pricing_rows(name, cluster):
-    return [{'fe_a': r['fe_a'], 'fe_b': r['fe_b'], 'fe_c': r['fe_c'], 'cluster_id': r[cluster],
-             'y': float(r['log_units']), 'x_own': float(r['x_own']), 'x_cross': float(r['x_cross'])}
-            for r in read(name)]
+    return [
+        {
+            'fe_a': r['fe_a'],
+            'fe_b': r['fe_b'],
+            'fe_c': r['fe_c'],
+            'cluster_id': r[cluster],
+            'y': float(r['log_units']),
+            'x_own': float(r['x_own']),
+            'x_cross': float(r['x_cross']),
+        }
+        for r in read(name)
+    ]
 
 
 def main():
@@ -61,13 +77,20 @@ def main():
 
     promotions = json.loads((RESULTS / 'promotions.json').read_text(encoding='utf-8'))
     xs = [xname(s) for s in SUBCATS]
-    panel = [{**{k: r[k] for k in ('fe_a', 'fe_b', 'fe_c', 'cluster_id')}, 'y': float(r['y']),
-              **{x: float(r[x]) for x in xs}} for r in read('promotions_clean')]
+    panel = [
+        {
+            **{k: r[k] for k in ('fe_a', 'fe_b', 'fe_c', 'cluster_id')},
+            'y': float(r['y']),
+            **{x: float(r[x]) for x in xs},
+        }
+        for r in read('promotions_clean')
+    ]
     ref = feols_reference(panel, 'y', xs, ['fe_a', 'fe_b', 'fe_c'])
     for s in SUBCATS:
         primary = promotions['cannibalisation'][s]
-        checks.append((f'promotions_{xname(s)}_beta', primary['per_promoted_sister'], ref['beta'][xname(s)],
-                       TOL_BETA * 10))
+        checks.append(
+            (f'promotions_{xname(s)}_beta', primary['per_promoted_sister'], ref['beta'][xname(s)], TOL_BETA * 10)
+        )
         checks.append((f'promotions_{xname(s)}_se', primary['se_store_cr1'], ref['se'][xname(s)], TOL_SE))
 
     rows = []
@@ -75,8 +98,9 @@ def main():
         # Primary values are stored at 6 significant figures; compare relative to that precision.
         diff = abs(primary - reference)
         allowed = max(tol, 5e-6 * abs(reference))
-        rows.append({'check': name, 'primary': primary, 'reference': reference, 'abs_diff': diff,
-                     'pass': diff <= allowed})
+        rows.append(
+            {'check': name, 'primary': primary, 'reference': reference, 'abs_diff': diff, 'pass': diff <= allowed}
+        )
     failed = [r['check'] for r in rows if not r['pass']]
     write_result('crosscheck_python', round_floats({'status': 'fail' if failed else 'pass', 'checks': rows}))
     if failed:

@@ -4,6 +4,7 @@ Shares no code with fe.py: rows are pulled into Python, FEs are swept with dicti
 equations are solved by Cramer's rule / explicit 2x2 algebra (k <= 2) or a Cholesky factorisation (k > 2, not
 the Gauss-Jordan inverse fe.py uses), so a bug in one path cannot hide in both.
 """
+
 import math
 from collections import defaultdict
 
@@ -68,7 +69,7 @@ def feols_reference(rows, y, xs, fes, tol=1e-10, max_iter=5000):
         sab = sum(r[a] * r[b] for r in rows)
         say = sum(r[a] * r[y] for r in rows)
         sby = sum(r[b] * r[y] for r in rows)
-        det = saa * sbb - sab ** 2
+        det = saa * sbb - sab**2
         beta = [(sbb * say - sab * sby) / det, (saa * sby - sab * say) / det]
         bread = [[sbb / det, -sab / det], [-sab / det, saa / det]]
     else:

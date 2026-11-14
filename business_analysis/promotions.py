@@ -6,6 +6,7 @@ snapshot), then used to impute the no-promotion baseline for every held-out week
 model's slope on the number of same-subcategory sister SKUs on promotion in that store-week. Every promoted
 store-SKU-week gets its own counterfactual, so each event gets its own P&L.
 """
+
 import math
 import random
 
@@ -13,16 +14,24 @@ from business_analysis.common import connect, export_panel, round_floats, write_
 from business_analysis.fe import fe_levels, feols, quantile
 
 SEED = 20261014
-POST_WEEKS = 2                  # post-promotion dip window
-PRE_WEEKS = 2                   # held-out pre-period check
-PLACEBO_SHIFT_WEEKS = 8         # held-out fake events: each real event moved 8 weeks earlier
+POST_WEEKS = 2  # post-promotion dip window
+PRE_WEEKS = 2  # held-out pre-period check
+PLACEBO_SHIFT_WEEKS = 8  # held-out fake events: each real event moved 8 weeks earlier
 DRAWS = 1999
 Z90 = 1.6448536269514722
 FES = ['fe_a', 'fe_b', 'fe_c']  # store x SKU, store x week, subcategory x fiscal period (holiday weeks split out)
 PLANTED_CANNIBALISATION = -0.05
 DECISION_YEAR = 2025
-SUBCATS = ['Cheese Snacks', 'Kettle Chips', 'Nuts', 'Popcorn', 'Potato Chips', 'Pretzels', 'Tortilla Chips',
-           'Trail Mix']
+SUBCATS = [
+    'Cheese Snacks',
+    'Kettle Chips',
+    'Nuts',
+    'Popcorn',
+    'Potato Chips',
+    'Pretzels',
+    'Tortilla Chips',
+    'Trail Mix',
+]
 
 
 def xname(subcategory):
@@ -100,8 +109,10 @@ left join promoted_count pc on pc.store_id = s.store_id and pc.subcategory = s.s
 
 
 def build(con):
-    con.execute('create or replace temp table cal as select *, row_number() over (order by week_start) as w '
-                'from stg_fiscal_calendar')
+    con.execute(
+        'create or replace temp table cal as select *, row_number() over (order by week_start) as w '
+        'from stg_fiscal_calendar'
+    )
     con.execute(EVENTS_SQL)
     con.execute(PANEL_SQL)
     dupes = con.execute("""select count(*) from (select store_id, sku_id, w from promo_panel
@@ -136,8 +147,11 @@ def impute(con, fit):
     con.execute("""create or replace temp table promo_panel as
         select p.*, exp(p.log_base) * s.k as base_units from promo_panel p join smear s using (subcategory)""")
     missing = con.execute("select count(*) from promo_panel where role != 'clean' and log_base is null").fetchone()[0]
-    return {'fe_level_iterations': iterations, 'rows_without_baseline': missing,
-            'retransformation': dict(con.execute('select * from smear order by 1').fetchall())}
+    return {
+        'fe_level_iterations': iterations,
+        'rows_without_baseline': missing,
+        'retransformation': dict(con.execute('select * from smear order by 1').fetchall()),
+    }
 
 
 CONTRIB_SQL = """
@@ -219,7 +233,7 @@ def summarise(rows, cann_rows, gamma_hat, stores, year=None):
                 st[c] += r[c]
         for r in cann_rows:
             st = cells[key(meta[r['promo_id']])]['stores'].get(r['store_id'])
-            if st is None:      # sister rows in a store where the event itself sold nothing
+            if st is None:  # sister rows in a store where the event itself sold nothing
                 continue
             k = (r['subcategory'], r['k'])
             st['cm'][k] = st['cm'].get(k, 0.0) + r['margin_volume']
@@ -256,20 +270,31 @@ def summarise(rows, cann_rows, gamma_hat, stores, year=None):
             cann_gp = sum(cann.values())
             before_funding = s['lift_gp'] + s['dip_gp'] + cann_gp
             result[label] = {
-                'events': len(cell['events']), 'store_clusters': g_n,
+                'events': len(cell['events']),
+                'store_clusters': g_n,
                 'lift_pct': s['units'] / s['base_units'] - 1,
                 'lift_pct_ci90_store_bootstrap': [quantile(lift_boot, 0.05), quantile(lift_boot, 0.95)],
-                'incremental_units': s['lift_units'], 'dip_units': s['dip_units'], 'cannibalised_units': cann_units,
+                'incremental_units': s['lift_units'],
+                'dip_units': s['dip_units'],
+                'cannibalised_units': cann_units,
                 'net_incremental_units': s['lift_units'] + s['dip_units'] + cann_units,
-                'lift_gp': s['lift_gp'], 'dip_gp': s['dip_gp'], 'cannibalisation_gp': cann_gp,
-                'scan_back': s['scan_back'], 'display_fee': s['display_fee'],
-                'gp_before_funding': before_funding, 'net_gp': total_net,
-                'net_gp_per_event': total_net / len(cell['events']), 'baseline_gp': total_base,
-                'ci90_store_cr1': ci_cr1, 'ci90_store_bootstrap': ci_boot, 'ci90': ci,
+                'lift_gp': s['lift_gp'],
+                'dip_gp': s['dip_gp'],
+                'cannibalisation_gp': cann_gp,
+                'scan_back': s['scan_back'],
+                'display_fee': s['display_fee'],
+                'gp_before_funding': before_funding,
+                'net_gp': total_net,
+                'net_gp_per_event': total_net / len(cell['events']),
+                'baseline_gp': total_base,
+                'ci90_store_cr1': ci_cr1,
+                'ci90_store_bootstrap': ci_boot,
+                'ci90': ci,
                 'ci_source': 'bootstrap' if ci is ci_boot else 'cr1',
                 'mde': 2.8 * (ci[1] - ci[0]) / 2 / Z90,
                 'outcome': outcome(ci),
-                'funding_dependent': outcome(ci) == 'keep' and before_funding < 0}
+                'funding_dependent': outcome(ci) == 'keep' and before_funding < 0,
+            }
         out[gname] = result
     return out
 
@@ -277,15 +302,22 @@ def summarise(rows, cann_rows, gamma_hat, stores, year=None):
 def event_pnl(rows, cann_rows, gamma_hat):
     by_event = {}
     for r in rows:
-        e = by_event.setdefault(r['promo_id'], {'mechanic': r['mechanic'], 'display': r['display'],
-                                                'subcategory': r['subcategory'], 'fiscal_year': r['fiscal_year'],
-                                                **{c: 0.0 for c in COMPONENTS}, 'cann_gp': 0.0})
+        e = by_event.setdefault(
+            r['promo_id'],
+            {
+                'mechanic': r['mechanic'],
+                'display': r['display'],
+                'subcategory': r['subcategory'],
+                'fiscal_year': r['fiscal_year'],
+                **{c: 0.0 for c in COMPONENTS},
+                'cann_gp': 0.0,
+            },
+        )
         for c in COMPONENTS:
             e[c] += r[c]
     for r in cann_rows:
         if r['promo_id'] in by_event:
-            by_event[r['promo_id']]['cann_gp'] += cann_loss({(r['subcategory'], r['k']): r['margin_volume']},
-                                                            gamma_hat)
+            by_event[r['promo_id']]['cann_gp'] += cann_loss({(r['subcategory'], r['k']): r['margin_volume']}, gamma_hat)
     for e in by_event.values():
         e['net_gp_before_funding'] = e['lift_gp'] + e['dip_gp'] + e['cann_gp']
         e['net_gp'] = e['net_gp_before_funding'] + e['scan_back'] + e['display_fee']
@@ -294,18 +326,27 @@ def event_pnl(rows, cann_rows, gamma_hat):
 
 def holdout_error(con, role):
     """Actual vs imputed units on held-out rows of `role`, with a store cluster bootstrap range."""
-    units, base, gp_err = con.execute("""select sum(units), sum(base_units), sum(gp - base_units * reg_margin)
-        from promo_panel where role = ? and log_base is not null""", [role]).fetchone()
-    per_store = con.execute("""select store_id, sum(units), sum(base_units) from promo_panel
-        where role = ? and log_base is not null group by 1 order by 1""", [role]).fetchall()
+    units, base, gp_err = con.execute(
+        """select sum(units), sum(base_units), sum(gp - base_units * reg_margin)
+        from promo_panel where role = ? and log_base is not null""",
+        [role],
+    ).fetchone()
+    per_store = con.execute(
+        """select store_id, sum(units), sum(base_units) from promo_panel
+        where role = ? and log_base is not null group by 1 order by 1""",
+        [role],
+    ).fetchall()
     rng = random.Random(SEED)
     boot = []
     for _ in range(DRAWS):
         draw = [rng.choice(per_store) for _ in per_store]
         boot.append(sum(d[1] for d in draw) / sum(d[2] for d in draw) - 1)
-    return {'rows': con.execute("select count(*) from promo_panel where role = ?", [role]).fetchone()[0],
-            'error_pct': units / base - 1, 'error_ci90_store_bootstrap': [quantile(boot, 0.05), quantile(boot, 0.95)],
-            'gp_error': gp_err}
+    return {
+        'rows': con.execute("select count(*) from promo_panel where role = ?", [role]).fetchone()[0],
+        'error_pct': units / base - 1,
+        'error_ci90_store_bootstrap': [quantile(boot, 0.05), quantile(boot, 0.95)],
+        'gp_error': gp_err,
+    }
 
 
 def post_dip_ci(con):
@@ -334,8 +375,14 @@ def main():
     build(con)
     planted = fit_baseline(con, shift=PLANTED_CANNIBALISATION)
     fit = fit_baseline(con)
-    export_panel('promotions_clean', fetch(con, f"""select fe_a, fe_b, fe_c, cluster_id, y,
-        {', '.join(xname(s) for s in SUBCATS)} from clean order by fe_a, fe_b"""))
+    export_panel(
+        'promotions_clean',
+        fetch(
+            con,
+            f"""select fe_a, fe_b, fe_c, cluster_id, y,
+        {', '.join(xname(s) for s in SUBCATS)} from clean order by fe_a, fe_b""",
+        ),
+    )
     info = impute(con, fit)
     con.execute(CONTRIB_SQL)
     con.execute(CANN_SQL)
@@ -346,45 +393,73 @@ def main():
     events = event_pnl(rows, cann_rows, gamma_hat)
 
     result = {
-        'design': {'clean_rows': fit['n'], 'store_clusters': fit['clusters'], 'fe': FES,
-                   'fe_iterations': fit['fe_iterations'], **info,
-                   'roles': {r[0]: {'rows': r[1], 'units': r[2], 'baseline_units': r[3]} for r in con.execute(
-                       'select role, count(*), sum(units), sum(base_units) from promo_panel group by 1 order by 1'
-                   ).fetchall()},
-                   'approved_events': con.execute('select count(*) from promo_events').fetchone()[0],
-                   'events_with_sales': len(events),
-                   'dates_swapped_fixed': [r[0] for r in con.execute(
-                       'select promo_id from promo_events where dates_swapped order by 1').fetchall()]},
-        'cannibalisation': {s: {'per_promoted_sister': fit['beta'][xname(s)], 'se_store_cr1': fit['se'][xname(s)]}
-                            for s in SUBCATS},
+        'design': {
+            'clean_rows': fit['n'],
+            'store_clusters': fit['clusters'],
+            'fe': FES,
+            'fe_iterations': fit['fe_iterations'],
+            **info,
+            'roles': {
+                r[0]: {'rows': r[1], 'units': r[2], 'baseline_units': r[3]}
+                for r in con.execute(
+                    'select role, count(*), sum(units), sum(base_units) from promo_panel group by 1 order by 1'
+                ).fetchall()
+            },
+            'approved_events': con.execute('select count(*) from promo_events').fetchone()[0],
+            'events_with_sales': len(events),
+            'dates_swapped_fixed': [
+                r[0] for r in con.execute('select promo_id from promo_events where dates_swapped order by 1').fetchall()
+            ],
+        },
+        'cannibalisation': {
+            s: {'per_promoted_sister': fit['beta'][xname(s)], 'se_store_cr1': fit['se'][xname(s)]} for s in SUBCATS
+        },
         'planted_cannibalisation_recovered': {s: planted['beta'][xname(s)] - fit['beta'][xname(s)] for s in SUBCATS},
         'pre_period': holdout_error(con, 'pre'),
         'placebo': holdout_error(con, 'placebo'),
-        'post_dip_by_week': {str(k): v for k, v in con.execute("""select post_k, sum(units) / sum(base_units) - 1
-            from promo_panel where role = 'post' and log_base is not null group by 1 order by 1""").fetchall()},
+        'post_dip_by_week': {
+            str(k): v
+            for k, v in con.execute("""select post_k, sum(units) / sum(base_units) - 1
+            from promo_panel where role = 'post' and log_base is not null group by 1 order by 1""").fetchall()
+        },
         'post_dip_ci90_store_bootstrap': post_dip_ci(con),
         'all_years': summarise(rows, cann_rows, gamma_hat, stores),
         'fy2025': summarise(rows, cann_rows, gamma_hat, stores, year=DECISION_YEAR),
     }
     fy = [e for e in events.values() if e['fiscal_year'] == DECISION_YEAR]
-    ranked = sorted(({'promo_id': k, **{x: v[x] for x in ('mechanic', 'display', 'subcategory', 'net_gp')}}
-                     for k, v in events.items() if v['fiscal_year'] == DECISION_YEAR), key=lambda e: e['net_gp'])
+    ranked = sorted(
+        (
+            {'promo_id': k, **{x: v[x] for x in ('mechanic', 'display', 'subcategory', 'net_gp')}}
+            for k, v in events.items()
+            if v['fiscal_year'] == DECISION_YEAR
+        ),
+        key=lambda e: e['net_gp'],
+    )
     result['events_fy2025'] = {
-        'events': len(fy), 'share_net_positive': sum(e['net_gp'] > 0 for e in fy) / len(fy),
+        'events': len(fy),
+        'share_net_positive': sum(e['net_gp'] > 0 for e in fy) / len(fy),
         'share_positive_before_funding': sum(e['net_gp_before_funding'] > 0 for e in fy) / len(fy),
-        'median_net_gp': quantile([e['net_gp'] for e in fy], 0.5), 'worst_5': ranked[:5], 'best_5': ranked[-5:]}
+        'median_net_gp': quantile([e['net_gp'] for e in fy], 0.5),
+        'worst_5': ranked[:5],
+        'best_5': ranked[-5:],
+    }
     # Credibility: the placebo baseline error, applied to each cell's baseline GP, must not flip the sign of a
     # cell the decision rule calls keep or cut.
     err = result['placebo']['error_pct']
-    flips = [f'{g}:{label}' for g in ('all', 'mechanic', 'mechanic_display') for label, c in
-             result['fy2025'][g].items() if c['outcome'] != 'inconclusive'
-             and (c['net_gp'] - err * c['baseline_gp'] > 0) != (c['net_gp'] > 0)]
+    flips = [
+        f'{g}:{label}'
+        for g in ('all', 'mechanic', 'mechanic_display')
+        for label, c in result['fy2025'][g].items()
+        if c['outcome'] != 'inconclusive' and (c['net_gp'] - err * c['baseline_gp'] > 0) != (c['net_gp'] > 0)
+    ]
     result['checks_passed'] = {
         'pre_period_within_3pct': abs(result['pre_period']['error_pct']) < 0.03,
         'placebo_within_2pct': abs(err) < 0.02,
         'placebo_does_not_flip_decisions': not flips,
-        'planted_cannibalisation_recovered': all(abs(v - PLANTED_CANNIBALISATION) < 1e-6
-                                                 for v in result['planted_cannibalisation_recovered'].values())}
+        'planted_cannibalisation_recovered': all(
+            abs(v - PLANTED_CANNIBALISATION) < 1e-6 for v in result['planted_cannibalisation_recovered'].values()
+        ),
+    }
     result['credible'] = all(result['checks_passed'].values())
     write_result('promotions', round_floats(result))
     return result
@@ -392,12 +467,30 @@ def main():
 
 if __name__ == '__main__':
     import json
+
     r = round_floats(main())
-    print(json.dumps({k: r[k] for k in ('design', 'cannibalisation', 'pre_period', 'placebo', 'post_dip_by_week',
-                                        'checks_passed', 'events_fy2025')}, indent=1))
+    print(
+        json.dumps(
+            {
+                k: r[k]
+                for k in (
+                    'design',
+                    'cannibalisation',
+                    'pre_period',
+                    'placebo',
+                    'post_dip_by_week',
+                    'checks_passed',
+                    'events_fy2025',
+                )
+            },
+            indent=1,
+        )
+    )
     for g in ('all', 'mechanic', 'display', 'mechanic_display', 'subcategory'):
         for label, c in r['fy2025'][g].items():
-            print(f"{g:16} {label:22} ev={c['events']:3} lift={c['lift_pct']:+.2f} liftGP={c['lift_gp']:9.0f} "
-                  f"dip={c['dip_gp']:8.0f} cann={c['cannibalisation_gp']:8.0f} scan={c['scan_back']:8.0f} "
-                  f"disp={c['display_fee']:7.0f} net={c['net_gp']:9.0f} ci={[round(x) for x in c['ci90']]} "
-                  f"{c['ci_source']} {c['outcome']}{' FUNDING-DEP' if c['funding_dependent'] else ''}")
+            print(
+                f"{g:16} {label:22} ev={c['events']:3} lift={c['lift_pct']:+.2f} liftGP={c['lift_gp']:9.0f} "
+                f"dip={c['dip_gp']:8.0f} cann={c['cannibalisation_gp']:8.0f} scan={c['scan_back']:8.0f} "
+                f"disp={c['display_fee']:7.0f} net={c['net_gp']:9.0f} ci={[round(x) for x in c['ci90']]} "
+                f"{c['ci_source']} {c['outcome']}{' FUNDING-DEP' if c['funding_dependent'] else ''}"
+            )

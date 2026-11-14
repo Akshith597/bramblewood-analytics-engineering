@@ -25,6 +25,7 @@ A forecast is worth what it does to the shelf: how often the item is there (serv
   is the difference in those minimum policy costs. Also reported: the stock each forecast needs to reach the same
   fill rate (interpolated along its frontier). WAPE is not used.
 """
+
 import csv
 import json
 import math
@@ -35,7 +36,7 @@ from business_analysis.common import PANELS, RESULTS, connect, round_floats, wri
 
 CARRY_RATE = 0.25
 CARRY_SENSITIVITY = (0.15, 0.35)
-K_GRID = [round(x * 0.25, 2) for x in range(0, 25)]    # z = 0 … 6
+K_GRID = [round(x * 0.25, 2) for x in range(0, 25)]  # z = 0 … 6
 FILL_TARGETS = (0.975, 0.98, 0.985, 0.99)
 TRAIL = 13
 
@@ -101,11 +102,22 @@ def build_arrays(rows, lost, fc):
             den = cu[lo:hi].sum()
             share = units[i, lo:hi].sum() / den if den > 0 else 0.0
             forecast[i, w] = fc.get((s, w), 0.0) * share
-    return {'series': series, 'w0': w0, 't': t, 'units': units, 'demand': demand, 'carried': carried,
-            'on_hand': on_hand, 'receipts': receipts, 'zero': zero, 'forecast': forecast,
-            'subcategory': np.array([meta[i][1] for i in range(n)]),
-            'case_pack': np.array([meta[i][2] for i in range(n)], float),
-            'margin': np.array([meta[i][3] for i in range(n)]), 'cost': np.array([meta[i][4] for i in range(n)])}
+    return {
+        'series': series,
+        'w0': w0,
+        't': t,
+        'units': units,
+        'demand': demand,
+        'carried': carried,
+        'on_hand': on_hand,
+        'receipts': receipts,
+        'zero': zero,
+        'forecast': forecast,
+        'subcategory': np.array([meta[i][1] for i in range(n)]),
+        'case_pack': np.array([meta[i][2] for i in range(n)], float),
+        'margin': np.array([meta[i][3] for i in range(n)]),
+        'cost': np.array([meta[i][4] for i in range(n)]),
+    }
 
 
 def trailing_sigma(a, forecast):
@@ -122,7 +134,7 @@ def simulate(a, forecast, k, sigma=None):
     """Replay FY2025 under an order-up-to policy with safety factor k (= z). Returns outcome totals."""
     w0, t = a['w0'], a['t']
     sigma = trailing_sigma(a, forecast) if sigma is None else sigma
-    inv = a['on_hand'][:, w0 - 1].copy()            # actual stock at the end of FY2024
+    inv = a['on_hand'][:, w0 - 1].copy()  # actual stock at the end of FY2024
     arrive = {w0: a['receipts'][:, w0].copy(), w0 + 1: a['receipts'][:, w0 + 1].copy()}  # already ordered
     sold_t = lost_t = stock_cost = zero_weeks = weeks = gp_lost = rec_t = 0.0
     for w in range(w0, t):
@@ -145,9 +157,17 @@ def simulate(a, forecast, k, sigma=None):
             arrive[w + 2] = np.ceil(need / a['case_pack'] - 1e-9) * a['case_pack'] * a['carried'][:, w + 2]
     n_weeks = t - w0
     avg_stock = stock_cost / n_weeks
-    out = {'k': k, 'fill_rate': sold_t / (sold_t + lost_t), 'zero_stock_share': zero_weeks / weeks,
-           'units_sold': sold_t, 'lost_units': lost_t, 'receipts': rec_t, 'avg_stock_cost': avg_stock,
-           'lost_gp': gp_lost, 'carrying_cost': CARRY_RATE * avg_stock}
+    out = {
+        'k': k,
+        'fill_rate': sold_t / (sold_t + lost_t),
+        'zero_stock_share': zero_weeks / weeks,
+        'units_sold': sold_t,
+        'lost_units': lost_t,
+        'receipts': rec_t,
+        'avg_stock_cost': avg_stock,
+        'lost_gp': gp_lost,
+        'carrying_cost': CARRY_RATE * avg_stock,
+    }
     out['policy_cost'] = out['lost_gp'] + out['carrying_cost']
     out['policy_cost_carry_sensitivity'] = {str(c): gp_lost + c * avg_stock for c in CARRY_SENSITIVITY}
     return out
@@ -156,15 +176,25 @@ def simulate(a, forecast, k, sigma=None):
 def observed_process(a):
     """Regress weekly receipts on sales the week before, the same week and the week after, and opening stock."""
     w0, t = a['w0'], a['t']
-    live = a['carried'][:, w0:t - 1] & a['carried'][:, w0 - 1:t - 2] & a['carried'][:, w0 + 1:t]
-    cols = [a['units'][:, w0 - 1:t - 2], a['units'][:, w0:t - 1], a['units'][:, w0 + 1:t], a['on_hand'][:, w0 - 1:t - 2]]
+    live = a['carried'][:, w0 : t - 1] & a['carried'][:, w0 - 1 : t - 2] & a['carried'][:, w0 + 1 : t]
+    cols = [
+        a['units'][:, w0 - 1 : t - 2],
+        a['units'][:, w0 : t - 1],
+        a['units'][:, w0 + 1 : t],
+        a['on_hand'][:, w0 - 1 : t - 2],
+    ]
     x = np.column_stack([c[live] for c in cols] + [np.ones(live.sum())])
-    y = a['receipts'][:, w0:t - 1][live]
+    y = a['receipts'][:, w0 : t - 1][live]
     beta = np.linalg.lstsq(x, y, rcond=None)[0]
     resid = y - x @ beta
-    return {'coef_sales_prev_week': beta[0], 'coef_sales_same_week': beta[1], 'coef_sales_next_week': beta[2],
-            'coef_opening_stock': beta[3], 'r2': 1 - (resid ** 2).sum() / ((y - y.mean()) ** 2).sum(),
-            'rows': int(live.sum())}
+    return {
+        'coef_sales_prev_week': beta[0],
+        'coef_sales_same_week': beta[1],
+        'coef_sales_next_week': beta[2],
+        'coef_opening_stock': beta[3],
+        'r2': 1 - (resid**2).sum() / ((y - y.mean()) ** 2).sum(),
+        'rows': int(live.sum()),
+    }
 
 
 def actual_outcomes(a):
@@ -172,10 +202,13 @@ def actual_outcomes(a):
     live = a['carried'][:, w0:t]
     inv = a['on_hand'][:, w0:t]
     lost = (a['demand'][:, w0:t] - a['units'][:, w0:t]) * live
-    return {'fill_rate': a['units'][:, w0:t].sum() / a['demand'][:, w0:t].sum(),
-            'zero_stock_share': (a['zero'][:, w0:t] & live).sum() / live.sum(),
-            'avg_stock_cost': (inv * a['cost'][:, None]).sum() / (t - w0), 'receipts': a['receipts'][:, w0:t].sum(),
-            'lost_gp': (lost * a['margin'][:, None]).sum()}
+    return {
+        'fill_rate': a['units'][:, w0:t].sum() / a['demand'][:, w0:t].sum(),
+        'zero_stock_share': (a['zero'][:, w0:t] & live).sum() / live.sum(),
+        'avg_stock_cost': (inv * a['cost'][:, None]).sum() / (t - w0),
+        'receipts': a['receipts'][:, w0:t].sum(),
+        'lost_gp': (lost * a['margin'][:, None]).sum(),
+    }
 
 
 def tune(a, forecast, target_zero):
@@ -206,50 +239,76 @@ def main():
     same_k = simulate(a, corr, raw_cal['k'])
     corr_tuned, corr_runs = tune(a, corr, raw_cal['zero_stock_share'])
     # Equal-stock comparison: the corrected policy holding no more stock than the calibrated raw one.
-    equal_stock = max((r for r in corr_runs if r['avg_stock_cost'] <= raw_cal['avg_stock_cost']),
-                      key=lambda r: r['k'], default=None)
+    equal_stock = max(
+        (r for r in corr_runs if r['avg_stock_cost'] <= raw_cal['avg_stock_cost']), key=lambda r: r['k'], default=None
+    )
     best_raw = min(raw_runs, key=lambda r: r['policy_cost'])
     best_corr = min(corr_runs, key=lambda r: r['policy_cost'])
     delta = best_raw['policy_cost'] - best_corr['policy_cost']
-    at_fill = {str(f): {'raw': stock_at_fill(raw_runs, f), 'corrected': stock_at_fill(corr_runs, f)}
-               for f in FILL_TARGETS}
+    at_fill = {
+        str(f): {'raw': stock_at_fill(raw_runs, f), 'corrected': stock_at_fill(corr_runs, f)} for f in FILL_TARGETS
+    }
     result = {
-        'design': {'carry_rate': CARRY_RATE, 'z_grid': K_GRID, 'trail_weeks': TRAIL, 'weeks': a['t'] - a['w0'],
-                   'store_sku_series': len(a['series'])},
+        'design': {
+            'carry_rate': CARRY_RATE,
+            'z_grid': K_GRID,
+            'trail_weeks': TRAIL,
+            'weeks': a['t'] - a['w0'],
+            'store_sku_series': len(a['series']),
+        },
         'actual_fy2025': actual,
         'observed_replenishment': observed_process(a),
         'raw_calibrated': raw_cal,
         'corrected_same_k': same_k,
         'corrected_same_service': corr_tuned,
         'corrected_equal_stock': equal_stock,
-        'frontier': {'raw': [{k: r[k] for k in ('k', 'fill_rate', 'zero_stock_share', 'avg_stock_cost', 'lost_gp',
-                                                 'policy_cost')} for r in raw_runs],
-                     'corrected': [{k: r[k] for k in ('k', 'fill_rate', 'zero_stock_share', 'avg_stock_cost',
-                                                       'lost_gp', 'policy_cost')} for r in corr_runs]},
-        'min_cost': {'raw': {k: best_raw[k] for k in ('k', 'fill_rate', 'avg_stock_cost', 'lost_gp', 'policy_cost')},
-                     'corrected': {k: best_corr[k] for k in ('k', 'fill_rate', 'avg_stock_cost', 'lost_gp',
-                                                             'policy_cost')}},
+        'frontier': {
+            'raw': [
+                {k: r[k] for k in ('k', 'fill_rate', 'zero_stock_share', 'avg_stock_cost', 'lost_gp', 'policy_cost')}
+                for r in raw_runs
+            ],
+            'corrected': [
+                {k: r[k] for k in ('k', 'fill_rate', 'zero_stock_share', 'avg_stock_cost', 'lost_gp', 'policy_cost')}
+                for r in corr_runs
+            ],
+        },
+        'min_cost': {
+            'raw': {k: best_raw[k] for k in ('k', 'fill_rate', 'avg_stock_cost', 'lost_gp', 'policy_cost')},
+            'corrected': {k: best_corr[k] for k in ('k', 'fill_rate', 'avg_stock_cost', 'lost_gp', 'policy_cost')},
+        },
         'stock_at_fill_rate': at_fill,
         'verdict': {
             'policy_cost_saving_at_best_z': delta,
             'policy_cost_saving_at_best_z_carry_sensitivity': {
                 str(c): min(r['lost_gp'] + c * r['avg_stock_cost'] for r in raw_runs)
-                - min(r['lost_gp'] + c * r['avg_stock_cost'] for r in corr_runs) for c in CARRY_SENSITIVITY},
+                - min(r['lost_gp'] + c * r['avg_stock_cost'] for r in corr_runs)
+                for c in CARRY_SENSITIVITY
+            },
             'stock_change_same_service': corr_tuned['avg_stock_cost'] - raw_cal['avg_stock_cost'],
             'lost_gp_change_same_z': same_k['lost_gp'] - raw_cal['lost_gp'],
             'material_threshold': 5000.0,
             'adopt': delta > 5000.0,
             'note': 'Correcting the bias without re-tuning safety stock removes the cushion the bias was providing; '
-                    'the fair comparison re-tunes z to the same zero-stock rate. Applies to forecast-driven '
-                    'replenishment; under the observed process store receipts follow same-week sales.'},
+            'the fair comparison re-tunes z to the same zero-stock rate. Applies to forecast-driven '
+            'replenishment; under the observed process store receipts follow same-week sales.',
+        },
     }
-    result = json.loads(json.dumps(result, default=lambda o: o.item()))   # numpy scalars → Python
+    result = json.loads(json.dumps(result, default=lambda o: o.item()))  # numpy scalars → Python
     write_result('inventory_sim', round_floats(result))
     return result
 
 
 if __name__ == '__main__':
     r = round_floats(main())
-    for k in ('actual_fy2025', 'observed_replenishment', 'raw_calibrated', 'corrected_same_k', 'corrected_same_service', 'corrected_equal_stock',
-              'min_cost', 'stock_at_fill_rate', 'verdict'):
+    for k in (
+        'actual_fy2025',
+        'observed_replenishment',
+        'raw_calibrated',
+        'corrected_same_k',
+        'corrected_same_service',
+        'corrected_equal_stock',
+        'min_cost',
+        'stock_at_fill_rate',
+        'verdict',
+    ):
         print(k, json.dumps(r[k]))

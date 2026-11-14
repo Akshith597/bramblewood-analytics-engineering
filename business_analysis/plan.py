@@ -33,6 +33,7 @@ SKUs' GP), scaled by the share of stores where the SKU is cut; a cut SKU that is
 from the price lever (checked, reported); the promo cells share one baseline model, so they move to their low or
 high ends together.
 """
+
 import itertools
 import json
 
@@ -63,10 +64,18 @@ def price_lever(pricing, con):
         x, p0, p1, c = d['price_increase'], d['pre_price'], d['post_price'], d['unit_cost']
         eps = d['pooled_elasticity_used']
         q0 = d['conditional_annual_gp_change'] / ((1 + x) ** eps * (p1 - c) - (p0 - c))
-        out[key] = {'x': x, 'p0': p0, 'p1': p1, 'c': c, 'q0': q0, 'eps': eps,
-                    'eps_range': sorted(d['pooled_elasticity_range']), 'weeks_uncovered': weeks,
-                    'annual_gp_change_at_eps': d['conditional_annual_gp_change'],
-                    'breakeven_elasticity': d['breakeven_elasticity']}
+        out[key] = {
+            'x': x,
+            'p0': p0,
+            'p1': p1,
+            'c': c,
+            'q0': q0,
+            'eps': eps,
+            'eps_range': sorted(d['pooled_elasticity_range']),
+            'weeks_uncovered': weeks,
+            'annual_gp_change_at_eps': d['conditional_annual_gp_change'],
+            'breakeven_elasticity': d['breakeven_elasticity'],
+        }
     return out
 
 
@@ -84,11 +93,13 @@ def cut_sku_promos(con, assortment):
             weight[sku] = weight.get(sku, 0.0) + stores[pg.split('-')[2]] / total
     if not weight:
         return {}, weight
-    rows = con.execute("""
+    rows = con.execute(
+        """
         select p.sku_id, p.mechanic || case when p.display = 'Y' then ' + display' else '' end as cell, count(*)
         from stg_promotions p join stg_fiscal_calendar c on p.start_date between c.week_start and c.week_ending
         where p.status = 'Approved' and c.fiscal_year = 2025 and list_contains(?, p.sku_id) group by all""",
-                       [list(weight)]).fetchall()
+        [list(weight)],
+    ).fetchall()
     by_cell = {}
     for sku, cell, n in rows:
         by_cell[cell] = by_cell.get(cell, 0.0) + n * weight[sku]
@@ -100,50 +111,88 @@ def tortilla_action(p):
 
 
 def build_inputs(con):
-    a, pr, pricing, fund, sim = res('assortment'), res('promotions'), res('pricing'), res('funding'), res('inventory_sim')
+    a, pr, pricing, fund, sim = (
+        res('assortment'),
+        res('promotions'),
+        res('pricing'),
+        res('funding'),
+        res('inventory_sim'),
+    )
     cells = pr['fy2025']['mechanic_display']
     cut_events, weight = cut_sku_promos(con, a)
     promo = {}
     for c in CUT_CELLS + KEEP_CELLS:
         x = cells[c]
         overlap = min(cut_events.get(c, 0.0) / x['events'], 1.0)
-        promo[c] = {'events': x['events'], 'cut_sku_event_share': overlap,
-                    'gp_before_funding': x['gp_before_funding'], 'sd': sd_from_ci(x['ci90']),
-                    'scan_back': x['scan_back'], 'display_fee': x['display_fee']}
+        promo[c] = {
+            'events': x['events'],
+            'cut_sku_event_share': overlap,
+            'gp_before_funding': x['gp_before_funding'],
+            'sd': sd_from_ci(x['ci90']),
+            'scan_back': x['scan_back'],
+            'display_fee': x['display_fee'],
+        }
     approved = fund['by_status']['Approved']
-    priced = {'golden_ridge_kettle': (['Golden Ridge', 'Golden Rdge'], 'Kettle Chips'),
-              'bramble_select_tortilla': (['Bramble Select'], 'Tortilla Chips')}
+    priced = {
+        'golden_ridge_kettle': (['Golden Ridge', 'Golden Rdge'], 'Kettle Chips'),
+        'bramble_select_tortilla': (['Bramble Select'], 'Tortilla Chips'),
+    }
     price_overlap = {}
     for key, (brands, subcategory) in priced.items():
-        skus = {r[0] for r in con.execute('select sku_id from stg_items where list_contains(?, brand) and subcategory = ?',
-                                          [brands, subcategory]).fetchall()}
+        skus = {
+            r[0]
+            for r in con.execute(
+                'select sku_id from stg_items where list_contains(?, brand) and subcategory = ?', [brands, subcategory]
+            ).fetchall()
+        }
         price_overlap[key] = sorted(skus & set(weight))
     return {
-        'assortment': {'a': a['chain']['a'], 'b': a['chain']['b'], 'tau': a['tau']['point'],
-                       'tau_range': sorted(a['tau']['ci90']), 'skus_cut': a['chain']['distinct_skus_cut']},
-        'price': price_lever(pricing, con), 'price_overlap_with_cuts': price_overlap,
+        'assortment': {
+            'a': a['chain']['a'],
+            'b': a['chain']['b'],
+            'tau': a['tau']['point'],
+            'tau_range': sorted(a['tau']['ci90']),
+            'skus_cut': a['chain']['distinct_skus_cut'],
+        },
+        'price': price_lever(pricing, con),
+        'price_overlap_with_cuts': price_overlap,
         'promo': promo,
-        'vendor': {'scan_owed': approved['scan_owed'], 'scan_billed': approved['scan_billed'],
-                   'underbilled_share': (approved['scan_owed'] - approved['scan_billed']) / approved['scan_owed'],
-                   'one_off_backbill': fund['approved_gap_range']},
+        'vendor': {
+            'scan_owed': approved['scan_owed'],
+            'scan_billed': approved['scan_billed'],
+            'underbilled_share': (approved['scan_owed'] - approved['scan_billed']) / approved['scan_owed'],
+            'one_off_backbill': fund['approved_gap_range'],
+        },
         'tortilla_action': tortilla_action(price_lever(pricing, con)['bramble_select_tortilla']),
-        'forecast': {'policy_cost_saving': sim['verdict']['policy_cost_saving_at_best_z'], 'adopted': sim['verdict']['adopt']},
+        'forecast': {
+            'policy_cost_saving': sim['verdict']['policy_cost_saving_at_best_z'],
+            'adopted': sim['verdict']['adopt'],
+        },
     }
 
 
 def input_values(inp):
     """(low end, base, high end) for every uncertain input. z_promo is the shared promo-cell error in SDs."""
     a = inp['assortment']
-    vals = {'tau': (a['tau_range'][0], a['tau'], a['tau_range'][1]),
-            'z_promo': (-Z90, 0.0, Z90), 'rho': (0.0, 0.5, 1.0), 'u': (0.5, 0.75, 1.0)}
+    vals = {
+        'tau': (a['tau_range'][0], a['tau'], a['tau_range'][1]),
+        'z_promo': (-Z90, 0.0, Z90),
+        'rho': (0.0, 0.5, 1.0),
+        'u': (0.5, 0.75, 1.0),
+    }
     for k, p in inp['price'].items():
         vals[f'eps:{k}'] = (p['eps_range'][0], p['eps'], p['eps_range'][1])
     return vals
 
 
 def as_draw(values):
-    return {'tau': values['tau'], 'z_promo': values['z_promo'], 'rho': values['rho'], 'u': values['u'],
-            'eps': {k.split(':', 1)[1]: v for k, v in values.items() if k.startswith('eps:')}}
+    return {
+        'tau': values['tau'],
+        'z_promo': values['z_promo'],
+        'rho': values['rho'],
+        'u': values['u'],
+        'eps': {k.split(':', 1)[1]: v for k, v in values.items() if k.startswith('eps:')},
+    }
 
 
 def evaluate(inp, d, plan=None):
@@ -170,8 +219,7 @@ def evaluate(inp, d, plan=None):
         if key == 'bramble_select_tortilla' and plan['tortilla'] == 'roll_back':
             carry = -gp_change(p, d['eps'][key]) * (52 - p['weeks_uncovered']) / 52
         price += carry
-    return {'assortment': assortment, 'prices': price, 'promo_calendar': promo, 'vendor_terms': vendor,
-            'forecast': 0.0}
+    return {'assortment': assortment, 'prices': price, 'promo_calendar': promo, 'vendor_terms': vendor, 'forecast': 0.0}
 
 
 def scenarios(inp, plan=None):
@@ -180,8 +228,10 @@ def scenarios(inp, plan=None):
     vals = input_values(inp)
     names = list(vals)
     base = evaluate(inp, as_draw({k: v[1] for k, v in vals.items()}), plan)
-    combos = [evaluate(inp, as_draw(dict(zip(names, ends))), plan)
-              for ends in itertools.product(*[(v[0], v[2]) for v in vals.values()])]
+    combos = [
+        evaluate(inp, as_draw(dict(zip(names, ends))), plan)
+        for ends in itertools.product(*[(v[0], v[2]) for v in vals.values()])
+    ]
     out = {k: {'base': base[k], 'range': [min(c[k] for c in combos), max(c[k] for c in combos)]} for k in base}
     totals = [sum(c.values()) for c in combos]
     out_total = {'base': sum(base.values()), 'range': [min(totals), max(totals)]}
@@ -199,30 +249,41 @@ def main():
     # Robustness of the promo lever to the funding assumption.
     p = inp['promo']
     keep = {c: 1 - x['cut_sku_event_share'] for c, x in p.items()}
-    promo_at = lambda rho: sum(keep[c] * (-p[c]['gp_before_funding'] - (1 - rho) * (p[c]['scan_back'] + p[c]['display_fee']))
-                               for c in CUT_CELLS)
+    promo_at = lambda rho: sum(
+        keep[c] * (-p[c]['gp_before_funding'] - (1 - rho) * (p[c]['scan_back'] + p[c]['display_fee']))
+        for c in CUT_CELLS
+    )
     disp_gpbf = sum(keep[c] * p[c]['gp_before_funding'] for c in KEEP_CELLS)
     disp_funding = sum(keep[c] * (p[c]['scan_back'] + p[c]['display_fee']) for c in KEEP_CELLS)
     result = {
-        'design': {'method': 'low / base / high scenarios over the ends of each input range',
-                   'drop_cells': CUT_CELLS, 'keep_cells': KEEP_CELLS,
-                   'inputs_low_base_high': input_values(inp),
-                   'rho_note': 'assumption: share of dropped-event vendor funding re-won in negotiation',
-                   'billing_recovery_note': 'assumption: share of the under-billing recovered on kept events'},
+        'design': {
+            'method': 'low / base / high scenarios over the ends of each input range',
+            'drop_cells': CUT_CELLS,
+            'keep_cells': KEEP_CELLS,
+            'inputs_low_base_high': input_values(inp),
+            'rho_note': 'assumption: share of dropped-event vendor funding re-won in negotiation',
+            'billing_recovery_note': 'assumption: share of the under-billing recovered on kept events',
+        },
         'inputs': inp,
         'total': total,
         'by_lever': by_lever,
         'promo_funding_sensitivity': {'rho_0': promo_at(0.0), 'rho_0.5': promo_at(0.5), 'rho_1': promo_at(1.0)},
-        'display_events': {'gp_before_funding': disp_gpbf, 'funding': disp_funding,
-                           'breakeven_rho_to_drop': 1 + disp_gpbf / disp_funding if disp_funding else None,
-                           'note': 'Dropping display events pays only if vendors keep more than this share of '
-                                   'their display funding in other forms.'},
+        'display_events': {
+            'gp_before_funding': disp_gpbf,
+            'funding': disp_funding,
+            'breakeven_rho_to_drop': 1 + disp_gpbf / disp_funding if disp_funding else None,
+            'note': 'Dropping display events pays only if vendors keep more than this share of '
+            'their display funding in other forms.',
+        },
         'one_off_backbill': inp['vendor']['one_off_backbill'],
         'tortilla_action': inp['tortilla_action'],
     }
     upside, _ = scenarios(inp, {'drop_cells': CUT_CELLS + KEEP_CELLS})
-    result['if_display_also_dropped'] = {**upside, 'note': 'Not the plan: shown to size the negotiation. Positive only '
-                                         'if vendors keep more than the break-even share of display funding.'}
+    result['if_display_also_dropped'] = {
+        **upside,
+        'note': 'Not the plan: shown to size the negotiation. Positive only '
+        'if vendors keep more than the break-even share of display funding.',
+    }
     write_result('plan', round_floats(result))
     return result
 
@@ -230,4 +291,7 @@ def main():
 if __name__ == '__main__':
     r = round_floats(main())
     print(json.dumps({k: r[k] for k in ('total', 'by_lever', 'promo_funding_sensitivity', 'display_events')}, indent=1))
-    print(json.dumps(r['inputs']['price_overlap_with_cuts']), json.dumps({c: x['cut_sku_event_share'] for c, x in r['inputs']['promo'].items()}))
+    print(
+        json.dumps(r['inputs']['price_overlap_with_cuts']),
+        json.dumps({c: x['cut_sku_event_share'] for c, x in r['inputs']['promo'].items()}),
+    )

@@ -5,6 +5,7 @@ was at least the sales. Lost units are estimated as the expected demand above th
 model's imputed demand and the empirical distribution of its in-stock residuals. The originally planned
 adjacent-week estimator is also reported unchanged.
 """
+
 import bisect
 import json
 import math
@@ -17,11 +18,11 @@ from business_analysis.promotions import SEED, build, fit_baseline, impute
 DECISION_YEAR = 2025
 BINS = 10
 BIN_SENSITIVITY = (5, 20)
-ADJACENT = 2                    # nearest in-stock non-promoted weeks on each side
+ADJACENT = 2  # nearest in-stock non-promoted weeks on each side
 ADJACENT_MAX_GAP = 6
 PLANTED_CENSOR = 0.7
 CALIBRATION_TOLERANCE = 0.25
-PRIORITY_SHARE = 0.01           # decision threshold: 1% of FY2025 category GP
+PRIORITY_SHARE = 0.01  # decision threshold: 1% of FY2025 category GP
 DRAWS = 1999
 
 ROWS_SQL = """
@@ -85,8 +86,11 @@ def censored_estimates(rows, clean, bins):
     tails = BinnedTail(clean, bins)
     post_shift = {}
     for k in (1, 2):
-        e = [r['log_units'] - r['log_base'] for r in rows if r['role'] == 'post' and r['post_k'] == k
-             and not r['zero_stock']]
+        e = [
+            r['log_units'] - r['log_base']
+            for r in rows
+            if r['role'] == 'post' and r['post_k'] == k and not r['zero_stock']
+        ]
         post_shift[k] = sum(e) / len(e)
     promo_resid = {}
     for r in rows:
@@ -107,15 +111,29 @@ def censored_estimates(rows, clean, bins):
             group = 'non_promoted'
             units = lost_units(mu, r['units'], tails(mu))
             margin = r['reg_margin']
-        out.append({'store_id': r['store_id'], 'sku_id': r['sku_id'], 'w': r['w'], 'fiscal_year': r['fiscal_year'], 'group': group,
-                    'lost_units': units, 'lost_gp': units * margin, 'sold': r['units']})
+        out.append(
+            {
+                'store_id': r['store_id'],
+                'sku_id': r['sku_id'],
+                'w': r['w'],
+                'fiscal_year': r['fiscal_year'],
+                'group': group,
+                'lost_units': units,
+                'lost_gp': units * margin,
+                'sold': r['units'],
+            }
+        )
     return out, tails
 
 
 def totals(records, year, group):
     sel = [r for r in records if r['fiscal_year'] == year and r['group'] == group]
-    return {'zero_stock_weeks': len(sel), 'units_sold': sum(r['sold'] for r in sel),
-            'lost_units': sum(r['lost_units'] for r in sel), 'lost_gp': sum(r['lost_gp'] for r in sel)}
+    return {
+        'zero_stock_weeks': len(sel),
+        'units_sold': sum(r['sold'] for r in sel),
+        'lost_units': sum(r['lost_units'] for r in sel),
+        'lost_gp': sum(r['lost_gp'] for r in sel),
+    }
 
 
 def store_bootstrap(records, year, group):
@@ -150,18 +168,29 @@ def adjacent_week_estimator(rows):
                 continue
             sides = []
             for step in (-1, 1):
-                found = [weeks[r['w'] + step * d]['units'] for d in range(1, ADJACENT_MAX_GAP + 1)
-                         if r['w'] + step * d in weeks and weeks[r['w'] + step * d]['role'] in clean_roles][:ADJACENT]
+                found = [
+                    weeks[r['w'] + step * d]['units']
+                    for d in range(1, ADJACENT_MAX_GAP + 1)
+                    if r['w'] + step * d in weeks and weeks[r['w'] + step * d]['role'] in clean_roles
+                ][:ADJACENT]
                 sides.append(found)
             if all(sides):
                 base = sum(sides[0] + sides[1]) / len(sides[0] + sides[1])
-                out.append({'fiscal_year': r['fiscal_year'], 'lost_units': base - r['units'],
-                            'lost_gp': (base - r['units']) * r['reg_margin']})
+                out.append(
+                    {
+                        'fiscal_year': r['fiscal_year'],
+                        'lost_units': base - r['units'],
+                        'lost_gp': (base - r['units']) * r['reg_margin'],
+                    }
+                )
     fy = [o for o in out if o['fiscal_year'] == DECISION_YEAR]
-    return {'zero_stock_weeks_with_both_sides': len(fy), 'lost_units': sum(o['lost_units'] for o in fy),
-            'lost_gp': sum(o['lost_gp'] for o in fy),
-            'share_weeks_with_positive_loss': sum(o['lost_units'] > 0 for o in fy) / len(fy),
-            'informative': sum(o['lost_units'] for o in fy) > 0}
+    return {
+        'zero_stock_weeks_with_both_sides': len(fy),
+        'lost_units': sum(o['lost_units'] for o in fy),
+        'lost_gp': sum(o['lost_gp'] for o in fy),
+        'share_weeks_with_positive_loss': sum(o['lost_units'] > 0 for o in fy) / len(fy),
+        'informative': sum(o['lost_units'] for o in fy) > 0,
+    }
 
 
 def main():
@@ -174,8 +203,10 @@ def main():
     clean = [r for r in rows if r['role'] == 'clean']
     records, tails = censored_estimates(rows, clean, BINS)
     # Per-week censored demand, reused by business_analysis/physical.py (bias on restored demand) and the inventory simulation.
-    export_panel('stockout_lost_units', [{k: r[k] for k in ('store_id', 'sku_id', 'w', 'fiscal_year', 'group',
-                                                            'sold', 'lost_units')} for r in records])
+    export_panel(
+        'stockout_lost_units',
+        [{k: r[k] for k in ('store_id', 'sku_id', 'w', 'fiscal_year', 'group', 'sold', 'lost_units')} for r in records],
+    )
 
     # Calibration: predicted number of stock-outs among non-promoted weeks with known availability.
     eligible = [r for r in rows if r['role'] in ('clean', 'stockout') and r['available'] and r['available'] > 0]
@@ -205,8 +236,10 @@ def main():
         where fiscal_year = {DECISION_YEAR}""").fetchone()[0]
     primary = totals(records, DECISION_YEAR, 'non_promoted')
     ci_boot = store_bootstrap(records, DECISION_YEAR, 'non_promoted')
-    sensitivity = {str(b): totals(censored_estimates(rows, clean, b)[0], DECISION_YEAR, 'non_promoted')['lost_gp']
-                   for b in BIN_SENSITIVITY}
+    sensitivity = {
+        str(b): totals(censored_estimates(rows, clean, b)[0], DECISION_YEAR, 'non_promoted')['lost_gp']
+        for b in BIN_SENSITIVITY
+    }
     ci = [min(ci_boot[0], *sensitivity.values()), max(ci_boot[1], *sensitivity.values())]
     promoted = totals(records, DECISION_YEAR, 'promoted')
     promoted['ci90_store_bootstrap'] = store_bootstrap(records, DECISION_YEAR, 'promoted')
@@ -214,36 +247,65 @@ def main():
     transfer = json.loads((RESULTS / 'delist.json').read_text(encoding='utf-8'))['transfer']
     keep = [1 - transfer['transfer_rate_ci90'][1], 1 - transfer['transfer_rate_ci90'][0]]
     result = {
-        'design': {'zero_stock_weeks_all_years': len(records), 'bins': BINS, 'decision_year': DECISION_YEAR,
-                   'note': 'Exploratory: estimator chosen after the planned estimator was seen to be negative.'},
+        'design': {
+            'zero_stock_weeks_all_years': len(records),
+            'bins': BINS,
+            'decision_year': DECISION_YEAR,
+            'note': 'Exploratory: estimator chosen after the planned estimator was seen to be negative.',
+        },
         'preregistered_adjacent_weeks': adjacent_week_estimator(rows),
-        'calibration': {'eligible_weeks': len(eligible), 'predicted_stockouts': predicted,
-                        'observed_stockouts': observed, 'ratio': predicted / observed,
-                        'passed': abs(predicted / observed - 1) <= CALIBRATION_TOLERANCE},
-        'planted_censoring': {'weeks': len(placebo), 'true_lost_units': truth, 'recovered_lost_units': recovered,
-                              'recovered_share': recovered / truth, 'below_truth': recovered <= truth,
-                              'note': 'Censoring at 70% of the week\'s own sales ties the floor to the demand '
-                                      'shock, unlike a real stock-out; see the post-hoc check.'},
-        'planted_censoring_posthoc': {'weeks': weeks_ph, 'true_lost_units': truth_ph,
-                                      'recovered_lost_units': recovered_ph, 'recovered_share': recovered_ph / truth_ph,
-                                      'note': 'Not registered. Availability = imputed baseline units.'},
-        'fy2025_non_promoted': {**primary, 'ci90_store_bootstrap': ci_boot, 'bin_sensitivity_lost_gp': sensitivity,
-                                'ci90': ci, 'share_of_category_gp': primary['lost_gp'] / category_gp,
-                                'ci90_share_of_category_gp': [v / category_gp for v in ci]},
+        'calibration': {
+            'eligible_weeks': len(eligible),
+            'predicted_stockouts': predicted,
+            'observed_stockouts': observed,
+            'ratio': predicted / observed,
+            'passed': abs(predicted / observed - 1) <= CALIBRATION_TOLERANCE,
+        },
+        'planted_censoring': {
+            'weeks': len(placebo),
+            'true_lost_units': truth,
+            'recovered_lost_units': recovered,
+            'recovered_share': recovered / truth,
+            'below_truth': recovered <= truth,
+            'note': 'Censoring at 70% of the week\'s own sales ties the floor to the demand '
+            'shock, unlike a real stock-out; see the post-hoc check.',
+        },
+        'planted_censoring_posthoc': {
+            'weeks': weeks_ph,
+            'true_lost_units': truth_ph,
+            'recovered_lost_units': recovered_ph,
+            'recovered_share': recovered_ph / truth_ph,
+            'note': 'Not registered. Availability = imputed baseline units.',
+        },
+        'fy2025_non_promoted': {
+            **primary,
+            'ci90_store_bootstrap': ci_boot,
+            'bin_sensitivity_lost_gp': sensitivity,
+            'ci90': ci,
+            'share_of_category_gp': primary['lost_gp'] / category_gp,
+            'ci90_share_of_category_gp': [v / category_gp for v in ci],
+        },
         'fy2025_promoted_secondary': promoted,
         'fy2024_non_promoted': totals(records, 2024, 'non_promoted'),
         'category_gp_fy2025': category_gp,
-        'substitution_context': {'delist_transfer_rate': transfer['transfer_rate'],
-                                 'category_loss_range': [primary['lost_gp'] * keep[0], primary['lost_gp'] * keep[1]],
-                                 'note': 'Lost SKU GP x (1 - transfer rate from the delist test); permanent '
-                                         'delisting is not a temporary stock-out, so context only.'},
+        'substitution_context': {
+            'delist_transfer_rate': transfer['transfer_rate'],
+            'category_loss_range': [primary['lost_gp'] * keep[0], primary['lost_gp'] * keep[1]],
+            'note': 'Lost SKU GP x (1 - transfer rate from the delist test); permanent '
+            'delisting is not a temporary stock-out, so context only.',
+        },
     }
-    result['checks_passed'] = {'calibration_within_25pct': result['calibration']['passed'],
-                               'planted_recovery_below_truth': result['planted_censoring']['below_truth']}
+    result['checks_passed'] = {
+        'calibration_within_25pct': result['calibration']['passed'],
+        'planted_recovery_below_truth': result['planted_censoring']['below_truth'],
+    }
     result['credible'] = all(result['checks_passed'].values())
-    result['decision'] = {'threshold_share_of_category_gp': PRIORITY_SHARE,
-                          'outcome': 'prioritise_replenishment' if ci[0] > PRIORITY_SHARE * category_gp
-                          else 'lower_priority_than_forecast_bias'}
+    result['decision'] = {
+        'threshold_share_of_category_gp': PRIORITY_SHARE,
+        'outcome': 'prioritise_replenishment'
+        if ci[0] > PRIORITY_SHARE * category_gp
+        else 'lower_priority_than_forecast_bias',
+    }
     write_result('stockouts', round_floats(result))
     return result
 

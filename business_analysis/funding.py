@@ -1,4 +1,5 @@
 """Q5 — vendor funding owed vs billed vs collected (arithmetic with an assumption range). PLAN.md §Q5."""
+
 from business_analysis.common import connect, round_floats, write_result
 
 SQL = """
@@ -24,8 +25,17 @@ from events group by 1 order by 1
 
 def main():
     con = connect()
-    keys = ['events', 'scan_owed', 'display_owed', 'scan_billed', 'display_billed', 'billed', 'collected',
-            'ambiguous_rows', 'events_without_claim']
+    keys = [
+        'events',
+        'scan_owed',
+        'display_owed',
+        'scan_billed',
+        'display_billed',
+        'billed',
+        'collected',
+        'ambiguous_rows',
+        'events_without_claim',
+    ]
     by_status = {r[0]: dict(zip(keys, r[1:])) for r in con.execute(SQL).fetchall()}
     a = by_status['Approved']
     scan_gap = a['scan_owed'] - a['scan_billed']
@@ -37,7 +47,8 @@ def main():
             'upper_scan_plus_planned_display': scan_gap + display_gap,
             'display_component': display_gap,
             'note': 'Lower bound uses only scan-back on observed scoped units. The upper bound also assumes every '
-                    'planned display ran; display execution is not observable in these extracts.'},
+            'planned display ran; display execution is not observable in these extracts.',
+        },
         'approved_billed_not_collected': a['billed'] - a['collected'],
         'cancelled_billed_not_collected': by_status.get('Cancelled', {}).get('billed', 0)
         - by_status.get('Cancelled', {}).get('collected', 0),
@@ -48,4 +59,5 @@ def main():
 
 if __name__ == '__main__':
     import json
+
     print(json.dumps(round_floats(main()), indent=1))

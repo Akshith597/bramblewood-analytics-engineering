@@ -1,4 +1,5 @@
 """Shared plumbing for the decision analyses: read-only warehouse access and deterministic outputs."""
+
 from pathlib import Path
 import csv
 import json
@@ -39,8 +40,9 @@ def round_floats(value, digits=6):
 
 def write_result(name, payload):
     RESULTS.mkdir(parents=True, exist_ok=True)
-    (RESULTS / f'{name}.json').write_text(json.dumps(payload, indent=2, sort_keys=True) + '\n',
-                                          encoding='utf-8', newline='\n')
+    (RESULTS / f'{name}.json').write_text(
+        json.dumps(payload, indent=2, sort_keys=True) + '\n', encoding='utf-8', newline='\n'
+    )
 
 
 def export_panel(name, rows):

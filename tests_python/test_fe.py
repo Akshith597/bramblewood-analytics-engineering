@@ -1,4 +1,5 @@
 """Estimator checks on simulated panels with known parameters (no warehouse needed)."""
+
 import csv
 import math
 import random
@@ -80,10 +81,14 @@ class FixedEffectsTest(unittest.TestCase):
 
     def test_reference_cholesky_path_matches_for_three_regressors(self):
         rows = [{**r, 'z': math.sin(i) + 0.2 * r['x2']} for i, r in enumerate(self.rows)]
-        self.con.execute('create or replace table panel3 (fe_a varchar, fe_b varchar, cluster_id varchar, '
-                         'y double, x1 double, x2 double, z double)')
-        self.con.executemany('insert into panel3 values (?, ?, ?, ?, ?, ?, ?)',
-                             [[r[c] for c in ('fe_a', 'fe_b', 'cluster_id', 'y', 'x1', 'x2', 'z')] for r in rows])
+        self.con.execute(
+            'create or replace table panel3 (fe_a varchar, fe_b varchar, cluster_id varchar, '
+            'y double, x1 double, x2 double, z double)'
+        )
+        self.con.executemany(
+            'insert into panel3 values (?, ?, ?, ?, ?, ?, ?)',
+            [[r[c] for c in ('fe_a', 'fe_b', 'cluster_id', 'y', 'x1', 'x2', 'z')] for r in rows],
+        )
         fit = feols(self.con, 'panel3', 'y', ['x1', 'x2', 'z'], ['fe_a', 'fe_b'])
         ref = feols_reference(rows, 'y', ['x1', 'x2', 'z'], ['fe_a', 'fe_b'])
         for name in ('x1', 'x2', 'z'):
