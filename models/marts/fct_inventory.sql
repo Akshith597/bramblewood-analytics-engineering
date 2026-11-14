@@ -8,4 +8,4 @@ select
     _source_file,
     _source_row,
     on_hand_eow = 0 as zero_stock_snapshot
-from {{ ref('stg_inventory') }}
+from {{ ref('int_inventory_accepted') }}
