@@ -3,7 +3,6 @@
 from pathlib import Path
 from collections import Counter
 import json
-import shutil
 import duckdb
 import sqlglot
 from sqlglot import exp
@@ -87,6 +86,15 @@ def referenced_models(query):
     return {table.name for table in statement.find_all(exp.Table)} - cte_names
 
 
+def portable_manifest(manifest):
+    """The load manifest without the load time and interpreter patch version, which differ on every machine.
+
+    What stays is what identifies the input: each source file's SHA-256 and the row count of every raw table. The
+    committed copy is therefore reproducible, and CI fails when a rebuild produces a different one.
+    """
+    return {key: value for key, value in manifest.items() if key not in ('loaded_at_utc', 'python')}
+
+
 def main():
     evidence = ROOT / 'evidence'
     evidence.mkdir(exist_ok=True)
@@ -109,7 +117,6 @@ def main():
     tests = [r for r in runs['results'] if r['unique_id'].startswith(('test.', 'unit_test.'))]
     result['validation'] = {
         'dbt_version': runs['metadata']['dbt_version'],
-        'generated_at': runs['metadata']['generated_at'],
         'models': len([n for n in manifest['nodes'].values() if n['resource_type'] == 'model']),
         'tests': len(tests),
         'test_statuses': dict(Counter(r['status'] for r in tests)),
@@ -117,7 +124,13 @@ def main():
     }
     (evidence / 'summary.json').write_text(json.dumps(result, indent=2), encoding='utf-8')
     (evidence / 'queries.json').write_text(json.dumps(QUERIES, indent=2), encoding='utf-8')
-    shutil.copyfile(ROOT / 'warehouse/load_manifest.json', evidence / 'load_manifest.json')
+    (evidence / 'load_manifest.json').write_text(
+        json.dumps(
+            portable_manifest(json.loads((ROOT / 'warehouse/load_manifest.json').read_text(encoding='utf-8'))), indent=2
+        )
+        + '\n',
+        encoding='utf-8',
+    )
     print(json.dumps(result['validation'], indent=2))
 
 
