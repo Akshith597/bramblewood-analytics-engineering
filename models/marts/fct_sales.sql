@@ -37,7 +37,7 @@ select
 from {{ ref('int_sales_enriched') }}
 {% if is_incremental() %}
     where week_ending > (
-        select coalesce(max(week_ending), date '1900-01-01')
-        from {{ this }}
+        select coalesce(max(loaded.week_ending), date '1900-01-01')
+        from {{ this }} as loaded
     )
 {% endif %}
