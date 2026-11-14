@@ -4,7 +4,7 @@
 
 An analytics engineering portfolio by **Akshith Reddy**, built with **dbt, DuckDB, SQL and Python**.
 
-**35 models · 14 staged sources · 13 enforced contracts · 116 dbt checks**
+**36 models · 14 staged sources · 13 enforced contracts · 126 dbt checks**
 
 This case study, built on an AI-generated synthetic dataset, turns disconnected retail extracts into auditable sales, inventory, forecasting, assortment and vendor-funding marts for a fictional 24-store grocer. All companies and transactions are fictional; dollar amounts are dataset findings, not real client outcomes.
 

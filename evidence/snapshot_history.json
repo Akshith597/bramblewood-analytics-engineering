@@ -1,0 +1,22 @@
+{
+  "status": "pass",
+  "cases": {
+    "changed_item_attribute": {
+      "versions": 2,
+      "open_versions": 1,
+      "old_version_closed_at_new_start": true
+    },
+    "resorted_item_master": {
+      "items_checked": 150,
+      "new_versions": 0
+    },
+    "removed_store": {
+      "versions": 1,
+      "open_versions": 0
+    },
+    "unchanged_stores": {
+      "stores_checked": 23,
+      "new_versions": 0
+    }
+  }
+}

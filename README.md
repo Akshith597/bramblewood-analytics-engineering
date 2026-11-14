@@ -26,7 +26,7 @@ Built to help merchandising and finance compare store performance, assess invent
 | **What I built** | A dbt warehouse that turns three disagreeing retail extracts into reconciled, contract-enforced facts and marts, rebuilt and verified by CI on every change |
 | **Stack** | SQL · dbt-core · DuckDB · Python (ingestion and verification) · GitHub Actions · GitHub Pages |
 | **Data** | 273,376 POS rows, weekly store inventory and a 12-sheet merchandising workbook: 24 stores, 104 weeks, keys and date formats that don't agree |
-| **Warehouse** | 35 dbt models, an incremental sales fact, Type 2 snapshots, 13 enforced contracts, 116 automated checks; sales reconciled to the cent against an independent rebuild |
+| **Warehouse** | 36 dbt models, an incremental sales fact, Type 2 snapshots, 13 enforced contracts, 126 automated checks; sales reconciled to the cent against an independent rebuild |
 | **Reviewer path** | About ten minutes: [design](#warehouse-design) → [three decisions](#three-engineering-decisions) → [validation](#validation) → the [lineage graph](https://akshith597.github.io/bramblewood-analytics-engineering/) |
 
 [![Dashboard preview showing reconciled sales, funding bounds and comparable-store weekly sales](docs/assets/dashboard-preview.png)](https://akshith597.github.io/bramblewood-analytics-engineering/insights.html)
@@ -57,7 +57,7 @@ flowchart LR
   M --> E[Evidence exports]
   M --> V[Insights dashboard]
   M --> G[dbt catalog on GitHub Pages]
-  T{{111 data tests · 5 unit tests ·<br/>independent reconciliation}} -.gates.-> M
+  T{{120 data tests · 6 unit tests ·<br/>independent reconciliation}} -.gates.-> M
 ```
 
 Only staging models read raw sources, intermediate models never read marts, and every mart has an enforced contract; CI checks these rules against the dbt manifest. Grains and metric definitions: [data contracts](docs/data_contracts.md). All design decisions: [architecture ADRs](docs/architecture.md).
@@ -105,8 +105,8 @@ Result: 34 sales rows affected and a **$29.12** COGS sensitivity disclosed. [The
 -- ...
 {% if is_incremental() %}
     where week_ending > (
-        select coalesce(max(week_ending), date '1900-01-01')
-        from {{ this }}
+        select coalesce(max(loaded.week_ending), date '1900-01-01')
+        from {{ this }} as loaded
     )
 {% endif %}
 ```
@@ -115,11 +115,12 @@ Result: [`verify_incremental.py`](scripts/verify_incremental.py) changes an amou
 
 ## Validation
 
-- **116/116 dbt checks pass** — 111 data tests and 5 unit tests, plus 13 enforced mart contracts. [Receipt](evidence/dbt_build_results.json)
-- **Sales tie out to the cent** — $21,886,423.88 across 2,427 store-weeks matches an [independent rebuild](scripts/independent_reconcile.py) that reads the raw CSV with Python `Decimal`, without the transformation SQL. [Receipt](evidence/independent_reconciliation.json)
+- **126/126 dbt checks pass** — 120 data tests and 6 unit tests, plus 13 enforced mart contracts. [Receipt](evidence/dbt_build_results.json)
+- **Sales tie out to the cent** — $21,886,423.88 matches an [independent rebuild](scripts/independent_reconcile.py) on every one of 273,262 store × SKU × week keys. The rebuild reads the raw CSV with Python `Decimal`, without the transformation SQL, and the replays it drops must equal the row audit's in count and dollars. [Receipt](evidence/independent_reconciliation.json)
 - **Incremental loads are correct** — unchanged input rebuilds identically ([receipt](evidence/repeatability.json)); changed input matches a full rebuild ([receipt](evidence/incremental_changes.json)).
-- **Bad input fails loudly** — blank stock quantities fail a not-null contract, swapped promotion dates are reordered and flagged, and two extracts mapping to one raw table are rejected before loading; each guard has its own test.
-- **README figures are generated and checked** — this README's text is rendered from committed results and build evidence, CI fails on any difference, and a test checks each SQL excerpt above against its source file. The dashboard preview is a dated screenshot; the live dashboard is rebuilt from the marts.
+- **Type 2 history is exercised, not assumed** — [`verify_snapshots.py`](scripts/verify_snapshots.py) changes an item, re-sorts the item master and removes a store on a copy of the warehouse; the snapshots must version the first, ignore the second and close the third. [Receipt](evidence/snapshot_history.json)
+- **Bad input fails loudly** — blank or malformed inventory rows are labelled in a [row audit](models/staging/stg_inventory_audit.sql) and fail a test that names each source row, swapped promotion dates are reordered and flagged, and two extracts mapping to one raw table are rejected before loading; each guard has its own test.
+- **README figures are generated and checked** — this README's text is rendered from committed results and build evidence, and a test checks each SQL excerpt above against its source file. Every receipt in [`evidence/`](evidence) is reproducible, and CI rebuilds them and fails on any difference. The dashboard preview is a dated screenshot; the live dashboard is rebuilt from the marts.
 
 ## How I built this
 

@@ -11,6 +11,7 @@ python -m pip install -r requirements-dev.txt
 python scripts/run_all.py
 python scripts/verify_repeatability.py
 python scripts/verify_incremental.py
+python scripts/verify_snapshots.py
 python -m unittest discover -s tests_python -v
 python -m sqlfluff lint models tests analyses
 python -m pre_commit install
@@ -33,7 +34,7 @@ print(con.sql('SELECT * FROM mart_category_weekly LIMIT 8').df())
 python scripts/invoke_dbt.py docs serve --port 8080
 ```
 
-Then visit `http://localhost:8080`. The generated catalog has model lineage and compiled SQL. Stop the server with Ctrl+C. `target/` is generated locally and is excluded from Git; `evidence/dbt_build_results.json` is the portable build receipt.
+Then visit `http://localhost:8080`. The generated catalog has model lineage and compiled SQL. Stop the server with Ctrl+C. `target/` is generated locally and is excluded from Git; `evidence/dbt_build_results.json` is the portable build receipt: each node's outcome, without timestamps or machine paths, so it is identical on every clean build.
 
 ## Targeted tasks
 
@@ -49,25 +50,28 @@ Then visit `http://localhost:8080`. The generated catalog has model lineage and 
 | Rebuild the incremental sales fact from scratch | `python scripts/invoke_dbt.py build --full-refresh` |
 | Verify deterministic rebuild (unchanged input) | `python scripts/verify_repeatability.py` |
 | Verify incremental handling of changed input | `python scripts/verify_incremental.py` |
+| Verify Type 2 snapshot history on changed masters | `python scripts/verify_snapshots.py` |
+| Compile for the optional Snowflake target, offline | `pip install -r requirements-snowflake.txt` in a separate environment, then `python scripts/verify_snowflake_compile.py` |
 | Regenerate all delivery evidence | `python scripts/run_all.py` |
 
 ## Troubleshooting
 
 - **Database locked:** Stop any writer or dbt docs session using the warehouse, then retry. DuckDB is a local file database.
+- **Invalid inventory row:** The `no_invalid_inventory` test returns each excluded row from `stg_inventory_audit` with its source row and disposition. Fix the extract or change the policy explicitly; do not filter the row away.
 - **Invalid POS row:** Inspect `stg_pos_audit` where `disposition='invalid_record'`. Do not filter it away to make tests pass. Correct ingestion/contract only with an explicit policy.
 - **Contract mismatch:** Compare output columns and types with `models/marts/schema.yml`. Correct SQL/schema intentionally; disabling the contract bypasses the public model guarantee.
 - **Lint failure:** Run `python -m sqlfluff fix models tests analyses`, review the edits, then rerun lint. SQLFluff uses the dbt templater and the project's DuckDB profile; install dev requirements and run `dbt deps` first.
 - **Duplicate sales key:** Check normalized UPC, date and source rows. Nonidentical records sharing a business key require a source correction or an explicit aggregation rule.
 - **Temporal overlap:** Inspect the applicable raw effective periods. Only cost has an explicit latest-start policy; other overlaps fail.
 - **Missing key or cost:** Review left-join failures, source master coverage and lifecycle dates. Do not convert missing cost to zero.
-- **Stale evidence:** Run the complete pipeline. Documentation generation overwrites dbt's default run-results file, so the runner preserves the build receipt before generating docs.
+- **Stale evidence:** CI rebuilds every file in `evidence/` and fails on any difference from the committed copy. Run the complete pipeline, then the three `verify_*.py` scripts, and commit the result. Documentation generation overwrites dbt's default run-results file, so the runner preserves the build receipt before generating docs.
 - **Stale source warning or error:** `source freshness` warns when a raw table was last reloaded more than 24 hours ago and fails after 72 hours, using the `raw._load_log` table that `ingest.py` writes. Rerun ingestion. This checks that loading still runs, not how old the extract is; the publication workflow checks extraction age against the batch manifest.
 - **Backdated correction:** `fct_sales` incremental runs restate only the weeks inside `sales_restatement_lookback_days`. After a cost, price, master-data or older POS correction, run `build --full-refresh`.
 - **Failure partway through:** Stop consumption, fix the input/model, rerun the whole pipeline and inspect the new receipt. A failed local dbt run is not an atomic rollback of every table.
 
 ## Operational acceptance criteria
 
-Every model builds, every data and unit test passes, every source store-week ties out independently, and repeated loads reproduce the same model fingerprints. Review the cost exception and metric limitations even when checks pass. Historical source coverage is not a live freshness SLA.
+Every model builds, every data and unit test passes, every source store-SKU-week ties out independently, and repeated loads reproduce the same model fingerprints. Review the cost exception and metric limitations even when checks pass. Historical source coverage is not a live freshness SLA.
 
 ## Validated batch publication
 
@@ -122,6 +126,8 @@ This is a drill on CI runners. It shows the failure and recovery paths working; 
 ## Publication
 
 The dataset in `data/` was generated by AI and is fictional; [data/SOURCE_README.md](../data/SOURCE_README.md) records its provenance. The project's MIT license covers the code and documentation only, not the dataset, and no separate dataset license has been documented. Record one before redistributing the data on its own terms.
+
+The dbt catalog and dashboard on GitHub Pages are built once, inside the quality gate, and [`pages.yml`](../.github/workflows/pages.yml) deploys that exact build only after every gate job has passed on `main`. A failing gate leaves the published site unchanged.
 
 The publication guide describes repository and Pages setup. Refer to the GitHub Actions run and the release evidence for actual hosted validation status.
 

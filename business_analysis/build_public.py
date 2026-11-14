@@ -73,6 +73,7 @@ def evidence_figures(e):
         'pos_accepted': count(disp['accepted']['source_rows']),
         'net_sales_exact': f"${float(rec['net_sales']):,.2f}",
         'store_weeks': count(rec['store_weeks_reconciled']),
+        'store_sku_weeks': count(rec['store_sku_weeks_reconciled']),
         'replay_rows': count(disp['exact_replay']['source_rows']),
         'replay_sales': f"${disp['exact_replay']['net_sales']:,.2f}",
         'upcs_padded': count(obs['upcs_padded']),

@@ -1,9 +1,11 @@
 {
   "status": "pass",
+  "store_sku_weeks_reconciled": 273262,
   "store_weeks_reconciled": 2427,
   "accepted_rows": 273262,
   "embedded_headers": 1,
   "exact_replays": 113,
+  "replay_net_sales": "8489.86",
   "net_sales": "21886423.88",
-  "method": "Python csv + Decimal compared to every dbt store-week total"
+  "method": "Python csv + Decimal compared to every dbt store-SKU-week total; replays compared to the row audit"
 }
