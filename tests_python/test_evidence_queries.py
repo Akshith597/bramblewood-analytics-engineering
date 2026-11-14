@@ -1,4 +1,5 @@
 """Prevent stale warehouse objects from masking removed-model references."""
+
 import unittest
 
 from scripts.export_evidence import referenced_models

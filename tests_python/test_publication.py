@@ -1,4 +1,5 @@
 """Publication failure boundaries with small filesystem fixtures; no warehouse dependencies."""
+
 from datetime import timedelta
 import json
 from pathlib import Path
@@ -33,13 +34,20 @@ class PublicationTest(unittest.TestCase):
 
     def publish(self, manifest=None, builder=None, history=None):
         # Fixture databases are sentinel files, so the default history step is replaced unless a test supplies one.
-        return publisher.publish(self.root, self.destination, manifest or self.manifest,
-                                 builder=builder or self.build_fixture, history=history or (lambda previous, c: []))
+        return publisher.publish(
+            self.root,
+            self.destination,
+            manifest or self.manifest,
+            builder=builder or self.build_fixture,
+            history=history or (lambda previous, c: []),
+        )
 
     def test_next_release_receives_the_current_release_database_for_history(self):
         first = self.publish()
         seen = []
-        second = self.publish(history=lambda previous, candidate: seen.append(previous) or ['main_snapshots.snap_items'])
+        second = self.publish(
+            history=lambda previous, candidate: seen.append(previous) or ['main_snapshots.snap_items']
+        )
         self.assertEqual(seen, [self.destination / first['database']])
         self.assertEqual(second['snapshot_history_carried'], ['main_snapshots.snap_items'])
 
@@ -63,8 +71,11 @@ class PublicationTest(unittest.TestCase):
         self.assertEqual(carried, ['main_snapshots.snap_items'])
         with duckdb.connect(str(candidate / 'warehouse/bramblewood.duckdb'), read_only=True) as con:
             self.assertEqual(con.execute('select sku_id from main_snapshots.snap_items').fetchall(), [('SS-1',)])
-            self.assertFalse(con.execute("select count(*) from information_schema.tables "
-                                         "where table_name = 'fct_sales'").fetchone()[0])
+            self.assertFalse(
+                con.execute("select count(*) from information_schema.tables where table_name = 'fct_sales'").fetchone()[
+                    0
+                ]
+            )
 
     def test_corrected_batch_creates_new_release_and_preserves_old_database(self):
         first = self.publish()
@@ -76,14 +87,18 @@ class PublicationTest(unittest.TestCase):
         self.assertNotEqual(first['batch_id'], second['batch_id'])
         self.assertEqual(old_database.read_bytes(), old_bytes)
         self.assertNotEqual((self.destination / second['database']).read_bytes(), old_bytes)
-        self.assertEqual(json.loads((self.destination / 'current.json').read_text())['release_id'], second['release_id'])
+        self.assertEqual(
+            json.loads((self.destination / 'current.json').read_text())['release_id'], second['release_id']
+        )
         self.assertEqual(publisher.check(self.destination, 24)['status'], 'fresh')
 
     def test_failed_build_keeps_previous_pointer(self):
         self.publish()
         before = (self.destination / 'current.json').read_bytes()
+
         def fail(candidate):
             raise subprocess.CalledProcessError(1, 'dbt build')
+
         with self.assertRaises(subprocess.CalledProcessError):
             self.publish(builder=fail)
         self.assertEqual((self.destination / 'current.json').read_bytes(), before)
@@ -104,19 +119,23 @@ class PublicationTest(unittest.TestCase):
 
     def test_source_change_during_snapshot_is_rejected(self):
         copy = publisher.shutil.copytree
+
         def altered_copy(source, target, *args, **kwargs):
             result = copy(source, target, *args, **kwargs)
             if source.name == 'data':
                 (target / 'raw/sales.csv').write_text('changed', encoding='utf-8')
             return result
+
         with patch.object(publisher.shutil, 'copytree', side_effect=altered_copy):
             with self.assertRaisesRegex(ValueError, 'differ'):
                 self.publish()
 
     def test_batch_expiring_during_build_does_not_publish(self):
         now = publisher.utcnow()
+
         def long_build(candidate):
             self.build_fixture(candidate)
+
         with patch.object(publisher, 'utcnow', side_effect=[now, now + timedelta(hours=25)]):
             with self.assertRaisesRegex(ValueError, 'freshness'):
                 self.publish(builder=long_build)
@@ -125,10 +144,12 @@ class PublicationTest(unittest.TestCase):
         self.publish()
         before = (self.destination / 'current.json').read_bytes()
         replace = publisher.os.replace
+
         def fail_pointer(source, target):
             if target.name == 'current.json':
                 raise PermissionError('pointer busy')
             return replace(source, target)
+
         with patch.object(publisher.os, 'replace', side_effect=fail_pointer):
             with self.assertRaises(PermissionError):
                 self.publish()

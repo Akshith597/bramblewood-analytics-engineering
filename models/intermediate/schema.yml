@@ -77,6 +77,37 @@ models:
   - name: test_planogram
     data_type: boolean
     description: True when the scheduled planogram ID contains TEST, identifying the supplied assortment test.
+- name: int_inventory_accepted
+  description: One accepted store-SKU-week inventory observation. Headers, blank quantities and malformed rows stay in
+    stg_inventory_audit with their disposition and fail the no_invalid_inventory test.
+  columns:
+  - name: store_id
+    data_type: integer
+    description: Store master identifier used consistently across sales, inventory and planograms.
+    data_tests:
+    - not_null
+  - name: sku_id
+    data_type: varchar
+    description: Internal product SKU identifier; replacement pack sizes retain distinct keys.
+    data_tests:
+    - not_null
+  - name: week_key
+    data_type: varchar
+    description: Authoritative FYyyyy-Www fiscal week key; joins to dim_week.week_key.
+    data_tests:
+    - not_null
+  - name: receipts_units
+    data_type: integer
+    description: Units received into the store during the fiscal week.
+  - name: on_hand_eow
+    data_type: integer
+    description: Store units on hand at Saturday close; excludes DC inventory.
+  - name: _source_file
+    data_type: varchar
+    description: Original extract filename retained for row-level traceability.
+  - name: _source_row
+    data_type: bigint
+    description: Original extract row number; headers occupy row 1 in each file or sheet.
 - name: int_pos_accepted
   description: One accepted POS business record after exact replay/header exclusions. Nonidentical normalized-key
     conflicts are tested downstream.

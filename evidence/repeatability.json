@@ -38,6 +38,10 @@
       "rows": 623,
       "sha256": "517e0d34356b966b1262bf2f591497b2fc7bd4c18a861ab4bb08ee9e71f42f01"
     },
+    "int_inventory_accepted": {
+      "rows": 275150,
+      "sha256": "719ff625c1cb5a9c4086d684b9a0e1b8ea32856b22612f53871ab0f1a8b74783"
+    },
     "int_item_cost_intervals": {
       "rows": 219,
       "sha256": "19f263d99a35747f41ecd6bc9c370d4f63569c52e41024ccc8afbbae11a63328"
@@ -98,9 +102,9 @@
       "rows": 14604,
       "sha256": "66ec053be170ff6b2844061c310da9c9b14af8fa004d1581906e95ddb2ee46a8"
     },
-    "stg_inventory": {
+    "stg_inventory_audit": {
       "rows": 275150,
-      "sha256": "719ff625c1cb5a9c4086d684b9a0e1b8ea32856b22612f53871ab0f1a8b74783"
+      "sha256": "9a715a37285ac09a428073d45a20fb8f7cb54a83e80adc2939a7cf67bb52768f"
     },
     "stg_item_cost": {
       "rows": 219,

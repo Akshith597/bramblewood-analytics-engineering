@@ -8,8 +8,8 @@ select
 from {{ ref('stg_store_planogram') }} as sp
 inner join {{ ref('stg_fiscal_calendar') }} as w
     on
-        w.week_ending >= sp.effective_start
-        and (sp.effective_end is null or w.week_ending <= sp.effective_end)
+        sp.effective_start <= w.week_ending
+        and (sp.effective_end is null or sp.effective_end >= w.week_ending)
 inner join {{ ref('stg_planograms') }} as pg
     on
         sp.planogram_id = pg.planogram_id

@@ -2,7 +2,11 @@
 dialect = duckdb
 templater = dbt
 max_line_length = 120
-rules = layout,capitalisation,aliasing
+rules = layout,capitalisation,aliasing,ambiguous,structure,references,convention
+# ST06 (simple columns before calculations) would reorder model columns, and column order is part of each model's
+# published interface and of the repeatability hashes. RF04 and RF06 object to the keyword-named source columns
+# ("table", "column", format) in the merchandising workbook, which the staging models rename but cannot avoid reading.
+exclude_rules = ST06,RF04,RF06
 
 [sqlfluff:templater:dbt]
 project_dir = .

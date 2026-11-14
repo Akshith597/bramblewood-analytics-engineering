@@ -1,22 +1,43 @@
 """Guard every public claim (README, FY2026 plan, scorecard) against drift from results and hand-typed figures."""
+
 import re
 import unittest
 
-from analysis import build_plan, build_public
+from business_analysis import build_plan, build_public
 
 # Numbers allowed as literal text outside placeholders: tool versions in badges and commands, design constants
-# fixed in analysis/PLAN.md or the plan model, and list enumerators.
-ALLOWED = {'2024', '2025', '2026', 'FY2024', 'FY2025', 'FY2026', 'W27', '1', '2', '3', '4', '5', '13', '20', '90%',
-           '1.12', '1.5', '3.12', '8080', '25%'}
+# fixed in business_analysis/PLAN.md or the plan model, and list enumerators.
+ALLOWED = {
+    '2024',
+    '2025',
+    '2026',
+    'FY2024',
+    'FY2025',
+    'FY2026',
+    'W27',
+    '1',
+    '2',
+    '3',
+    '4',
+    '5',
+    '13',
+    '20',
+    '90%',
+    '1.12',
+    '1.5',
+    '3.12',
+    '8080',
+    '25%',
+}
 
 
 def hand_typed(text):
-    text = re.sub(r'```.*?```', '', text, flags=re.S)                  # code blocks (commands, mermaid)
-    text = re.sub(r'^\s*!?\[!?\[?.*$', '', text, flags=re.M)            # badge and image lines
+    text = re.sub(r'```.*?```', '', text, flags=re.S)  # code blocks (commands, mermaid)
+    text = re.sub(r'^\s*!?\[!?\[?.*$', '', text, flags=re.M)  # badge and image lines
     text = re.sub(r'\{\{|\}\}', '', text)
     text = re.sub(r'\{\w+\}', '', text)
-    text = re.sub(r'\]\([^)]*\)', ']', text)                          # link targets
-    text = re.sub(r'`[^`]*`', '', text)                               # inline code (tag names, paths)
+    text = re.sub(r'\]\([^)]*\)', ']', text)  # link targets
+    text = re.sub(r'`[^`]*`', '', text)  # inline code (tag names, paths)
     # Not inside words such as GitHub handles ("Akshith597").
     tokens = {t.rstrip('.,') for t in re.findall(r'(?<![\w.])(?:FY)?\d[\d.,]*%?|W\d+', text)}
     return sorted(tokens - ALLOWED)
@@ -24,28 +45,46 @@ def hand_typed(text):
 
 class PublicClaimsTest(unittest.TestCase):
     def test_readme_matches_results(self):
-        self.assertEqual(build_public.README.read_text(encoding='utf-8'), build_public.render(),
-                         'README.md is stale: run python -m analysis.build_public')
-        self.assertEqual(build_public.EXTENSION.read_text(encoding='utf-8'), build_public.render_extension(),
-                         'docs/business_analysis.md is stale: run python -m analysis.build_public')
+        self.assertEqual(
+            build_public.README.read_text(encoding='utf-8'),
+            build_public.render(),
+            'README.md is stale: run python -m business_analysis.build_public',
+        )
+        self.assertEqual(
+            build_public.EXTENSION.read_text(encoding='utf-8'),
+            build_public.render_extension(),
+            'docs/business_analysis.md is stale: run python -m business_analysis.build_public',
+        )
 
     def test_plan_and_scorecard_match_results(self):
-        self.assertEqual(build_plan.PLAN.read_text(encoding='utf-8'), build_plan.render_plan(),
-                         'docs/fy2026_plan.md is stale: run python -m analysis.build_plan')
-        self.assertEqual(build_plan.SCORECARD.read_text(encoding='utf-8'), build_plan.render_scorecard(),
-                         'docs/scorecard.md is stale: run python -m analysis.build_plan')
+        self.assertEqual(
+            build_plan.PLAN.read_text(encoding='utf-8'),
+            build_plan.render_plan(),
+            'docs/fy2026_plan.md is stale: run python -m business_analysis.build_plan',
+        )
+        self.assertEqual(
+            build_plan.SCORECARD.read_text(encoding='utf-8'),
+            build_plan.render_scorecard(),
+            'docs/scorecard.md is stale: run python -m business_analysis.build_plan',
+        )
 
     def test_hand_written_build_counts_match_evidence(self):
         # The dbt catalog front page and the case study state build counts in prose; hold them to the build receipt.
         f = build_public.evidence_figures(build_public.evidence())
         overview = (build_public.ROOT / 'models/overview.md').read_text(encoding='utf-8')
-        self.assertIn(f"**{f['models']} models · {f['source_tables']} staged sources · {f['contracts']} enforced "
-                      f"contracts · {f['all_checks']} dbt checks**", overview,
-                      'models/overview.md headline counts are stale')
+        self.assertIn(
+            f"**{f['models']} models · {f['source_tables']} staged sources · {f['contracts']} enforced "
+            f"contracts · {f['all_checks']} dbt checks**",
+            overview,
+            'models/overview.md headline counts are stale',
+        )
         case_study = (build_public.ROOT / 'docs/case_study.md').read_text(encoding='utf-8')
-        self.assertIn(f"{f['models']} dbt models; 2 snapshots; {f['data_tests']} data tests; {f['unit_tests']} unit "
-                      f"tests; {f['contracts']} enforced contracts", case_study,
-                      'docs/case_study.md build counts are stale')
+        self.assertIn(
+            f"{f['models']} dbt models; 2 snapshots; {f['data_tests']} data tests; {f['unit_tests']} unit "
+            f"tests; {f['contracts']} enforced contracts",
+            case_study,
+            'docs/case_study.md build counts are stale',
+        )
 
     def test_hand_written_funding_gap_matches_results(self):
         # The catalog front page and case study state the gap in prose; both bounds must match the funding result.
@@ -57,27 +96,38 @@ class PublicClaimsTest(unittest.TestCase):
         expected = f'${lower:,.2f} to ${upper:,.2f}'
         for doc in ('models/overview.md', 'docs/case_study.md'):
             with self.subTest(doc=doc):
-                self.assertIn(expected, (build_public.ROOT / doc).read_text(encoding='utf-8'),
-                              f'{doc} funding gap range is stale')
+                self.assertIn(
+                    expected, (build_public.ROOT / doc).read_text(encoding='utf-8'), f'{doc} funding gap range is stale'
+                )
 
     def test_readme_sql_excerpts_match_source(self):
         # Each ```sql block is a verbatim excerpt; a "-- ..." line separates pieces taken from the same file.
-        sources = [p.read_text(encoding='utf-8') for d in ('models', 'tests', 'macros')
-                   for p in (build_public.ROOT / d).rglob('*.sql')]
+        sources = [
+            p.read_text(encoding='utf-8')
+            for d in ('models', 'tests', 'macros')
+            for p in (build_public.ROOT / d).rglob('*.sql')
+        ]
         blocks = re.findall(r'```sql\n(.*?)```', build_public.README.read_text(encoding='utf-8'), flags=re.S)
         self.assertTrue(blocks, 'README has no SQL excerpts')
         for block in blocks:
             for piece in re.split(r'^-- \.\.\.\n', block, flags=re.M):
                 with self.subTest(piece=piece[:60]):
-                    self.assertTrue(any(piece in s for s in sources),
-                                    'README SQL excerpt no longer matches any model or test file')
+                    self.assertTrue(
+                        any(piece in s for s in sources), 'README SQL excerpt no longer matches any model or test file'
+                    )
 
     def test_templates_have_no_hand_typed_results(self):
-        for template in (build_public.TEMPLATE, build_public.EXTENSION_TEMPLATE, build_plan.PLAN_TEMPLATE,
-                         build_plan.SCORE_TEMPLATE):
+        for template in (
+            build_public.TEMPLATE,
+            build_public.EXTENSION_TEMPLATE,
+            build_plan.PLAN_TEMPLATE,
+            build_plan.SCORE_TEMPLATE,
+        ):
             with self.subTest(template=template.name):
-                self.assertFalse(hand_typed(template.read_text(encoding='utf-8')),
-                                 f'Numbers typed into {template.name} instead of results')
+                self.assertFalse(
+                    hand_typed(template.read_text(encoding='utf-8')),
+                    f'Numbers typed into {template.name} instead of results',
+                )
 
 
 if __name__ == '__main__':

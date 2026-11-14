@@ -8,7 +8,8 @@ This project models a **synthetic historical extract**, not a live retailer. Sal
 |---|---|---|
 | `stg_pos_audit` | Original POS row / `_source_row` | Preserve original fields, typed fields, replay rank and disposition. No silent drops. |
 | `int_pos_accepted` | Store × UPC × week ending | Accepted rows only; dates normalized; UPC is a 12-character string. Signed returns retained. |
-| `stg_inventory` | Store × SKU × fiscal week | Typed weekly snapshot; `fiscal_week` renamed `week_key`. |
+| `stg_inventory_audit` | Original inventory row / `_source_row` | Preserve original fields, typed fields and disposition (`accepted`, `embedded_header`, `missing_quantity`, `invalid_record`). Values are parsed with `try_cast`, so a malformed row is labelled instead of aborting the build. |
+| `int_inventory_accepted` | Store × SKU × fiscal week | Accepted rows only; `fiscal_week` renamed `week_key`. Any other disposition fails `no_invalid_inventory`, which returns the source rows. |
 | `stg_item_cost` | SKU × effective start | Typed source cost periods with DATE boundaries and DECIMAL unit cost. |
 | `int_item_cost_intervals` | SKU × effective start | Latest-start precedence with original end date and adjustment flag retained. |
 | `dim_item` | SKU / `sku_id` | Current item-master attributes. UPC is unique. Replacement SKU stays distinct. |
@@ -18,7 +19,7 @@ This project models a **synthetic historical extract**, not a live retailer. Sal
 | `int_sales_keys` | Accepted POS row | Left joins to staged masters resolve SKU and fiscal week without hiding unmatched records. |
 | `int_sales_enriched` | Store × SKU × fiscal week | Reusable effective-cost/price enrichment upstream of all marts. |
 | `fct_sales` | Store × SKU × fiscal week / `sales_key` | One source row with one effective cost and one zone price. Stable MD5 key is an identifier, not a security control. Incremental: deletes and reloads every week ending inside a 28-day lookback from the latest source week, so deleted weeks disappear and an empty target fully loads; older corrections need a full refresh. |
-| `fct_inventory` | Store × SKU × fiscal week / `inventory_key` | Observed receipts and Saturday stock, including explicit zero-stock flags. Both quantities are required: a blank fails the contract instead of passing the nonnegative test as null. |
+| `fct_inventory` | Store × SKU × fiscal week / `inventory_key` | Observed receipts and Saturday stock, including explicit zero-stock flags. Both quantities are required: a blank is labelled `missing_quantity` in the row audit and fails the build there, and the not-null contract remains as a second guard so a null can never pass the nonnegative test. |
 | `fct_vendor_claims` | Claim / `claim_id` | Billed and collected amounts; multiple claims per promotion remain possible. |
 | `int_promotion_sales` | Promotion × sales key | Approved event eligibility by SKU, inclusive dates and store zone. Explicit ambiguity count. |
 | `stg_promotions` | Promotion / `promo_id` | Start and end dates are ordered, because one source event (`PR-25-0432`) has them swapped; the source dates and a `dates_swapped` flag are kept, and every consumer (warehouse and analysis) reads the ordered window. |
@@ -76,4 +77,4 @@ Every one of the 13 mart-layer models has `contract.enforced: true` and explicit
 - True vendor funding entitlement from planned promotions alone.
 - Historical SCD attributes or collection balances at a past date from current extracts.
 
-The dataset's original analyst brief is preserved in `data/SOURCE_README.md` as background. The warehouse's own scope is the tested analytics engineering foundation and the descriptive business checks above. The five analyst questions are answered separately, as an extension in `analysis/` and the [decision memo](decision_memo.md), with their own fixed analysis plan and stated limits; none of the marts claims a causal effect.
+The dataset's original analyst brief is preserved in `data/SOURCE_README.md` as background. The warehouse's own scope is the tested analytics engineering foundation and the descriptive business checks above. The five analyst questions are answered separately, as an extension in `business_analysis/` and the [decision memo](decision_memo.md), with their own fixed analysis plan and stated limits; none of the marts claims a causal effect.

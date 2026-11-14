@@ -1,4 +1,5 @@
 """Raw-load guards with small fixture extracts; no warehouse dependencies."""
+
 from pathlib import Path
 import tempfile
 import unittest

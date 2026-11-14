@@ -33,7 +33,7 @@ The implemented policy lets the later effective start supersede the old cost. Th
 | $21,886,423.88 accepted net sales | Independent comparison across 2,427 store-weeks |
 | 30,985 UPCs and 83,351 legacy dates normalized | [Quality observations](../evidence/quality_observations.csv) |
 | 160 return records preserved | Negative net sales were not treated as invalid data |
-| 35 dbt models; 2 snapshots; 111 data tests; 5 unit tests; 13 enforced contracts | [Build results](../evidence/dbt_build_results.json) |
+| 36 dbt models; 2 snapshots; 120 data tests; 6 unit tests; 13 enforced contracts | [Build results](../evidence/dbt_build_results.json) |
 | 1,888 inventory-only records retained | Missing sales was not converted into zero demand |
 
 ## Business questions the marts can now support
@@ -48,4 +48,4 @@ The implemented policy lets the later effective start supersede the old cost. Th
 
 The project shows SQL transformation, dimensional modeling, effective-dated joins, reconciliation, automated testing, lineage, metric governance and operational tradeoffs. Its strongest feature is that **ambiguous source data stays visible even after the warehouse builds successfully**.
 
-No real retailer outcome, production deployment, causal uplift or realized recovery is claimed. The brief's delisting, pricing, forecast and funding questions are answered in the [decision memo](decision_memo.md) using an [analysis plan](../analysis/PLAN.md) committed before the first results commit; promotion profitability and out-of-stock cost were added to the plan later, and the plan's addendum lists what had already been seen when they were. Later method changes are logged as deviations, and because Git history was rewritten once to correct an author email, the commit history alone cannot prove when results were first computed.
+No real retailer outcome, production deployment, causal uplift or realized recovery is claimed. The brief's delisting, pricing, forecast and funding questions are answered in the [decision memo](decision_memo.md) using an [analysis plan](../business_analysis/PLAN.md) committed before the first results commit; promotion profitability and out-of-stock cost were added to the plan later, and the plan's addendum lists what had already been seen when they were. Later method changes are logged as deviations, and because Git history was rewritten once to correct an author email, the commit history alone cannot prove when results were first computed.

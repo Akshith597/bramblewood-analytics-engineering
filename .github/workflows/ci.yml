@@ -3,6 +3,8 @@ on:
   push:
     branches: [main]
   pull_request:
+permissions:
+  contents: read
 concurrency:
   group: ci-${{ github.ref }}
   cancel-in-progress: true
@@ -13,27 +15,29 @@ jobs:
   static-checks:
     runs-on: ubuntu-24.04
     steps:
-      - uses: actions/checkout@v7
-      - uses: actions/setup-python@v7
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: actions/setup-python@6d4fd22b20465ccc0f7354476588e8df7c9ca0e0 # v7.1.0
         with:
           python-version: '3.12'
           cache: pip
       - run: python -m pip install -r requirements-dev.txt
       - name: Install dbt packages for the SQLFluff dbt templater
         run: python scripts/invoke_dbt.py deps
-      - name: Unit tests — macros, evidence references, chart helpers, public-claim guards
+      - name: Unit tests — macros, analysis arithmetic, reconciliation, receipts, public-claim guards
         run: python -m unittest discover -s tests_python -v
       - name: SQLFluff (the dbt templater opens an empty local DuckDB file)
         run: |
           mkdir -p warehouse
           python scripts/lint_sql.py
+      - name: No stale lint receipt
+        run: git diff --exit-code -- evidence/sqlfluff.json
       - run: python -m pre_commit run --all-files
 
   warehouse:
     runs-on: ubuntu-24.04
     steps:
-      - uses: actions/checkout@v7
-      - uses: actions/setup-python@v7
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: actions/setup-python@6d4fd22b20465ccc0f7354476588e8df7c9ca0e0 # v7.1.0
         with:
           python-version: '3.12'
           cache: pip
@@ -41,20 +45,36 @@ jobs:
       - name: Ingest, source freshness, dbt build, reconciliation, docs, evidence and charts
         run: python scripts/run_all.py
       - name: Decision analyses, FY2026 plan, scorecard and public documents
-        run: python -m analysis.run
-      - name: No stale public claim — results, memo, plan, scorecard, README and chart figures must match the committed versions
-        run: git diff --exit-code -- analysis/results docs README.md evidence/insights_figures.json docs/assets/insights
+        run: python -m business_analysis.run
       - name: Repeatability — full reload, incremental rebuild, identical model hashes
         run: python scripts/verify_repeatability.py
       - name: Incremental change cases — changed, deleted and late rows, deleted weeks, empty target
         run: python scripts/verify_incremental.py
+      - name: Type 2 snapshots — changed item, re-sorted master, removed store
+        run: python scripts/verify_snapshots.py
+      # After every step that writes a receipt, so each one is compared with its committed copy.
+      - name: No stale public claim or receipt — results, memo, plan, scorecard, README, charts and all of evidence/
+        run: git diff --exit-code -- business_analysis/results docs README.md evidence
       - name: Hand the estimation panels to the R cross-check
-        uses: actions/upload-artifact@v7
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         with:
           name: analysis-panels
           path: target/analysis_panels/
           retention-days: 1
-      - uses: actions/upload-artifact@v7
+      # The site is staged here, from the build the gate just verified. pages.yml deploys this artifact once the
+      # whole workflow has passed; it never rebuilds.
+      - name: Stage the dbt catalog and dashboard for GitHub Pages
+        if: github.event_name == 'push'
+        run: python scripts/prepare_pages.py
+      - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        if: github.event_name == 'push'
+        with:
+          name: pages-site
+          path: public_site/
+          include-hidden-files: true
+          if-no-files-found: error
+          retention-days: 30
+      - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         if: always()
         with:
           name: warehouse-quality-evidence
@@ -64,7 +84,7 @@ jobs:
             target/sources.json
             target/catalog.json
             target/insights.html
-            analysis/results/
+            business_analysis/results/
             docs/decision_memo.md
             docs/fy2026_plan.md
             docs/scorecard.md
@@ -72,27 +92,43 @@ jobs:
             docs/assets/insights/
             evidence/
 
+  # The optional Snowflake target has never run against an account. This keeps what can be checked without one
+  # true: the project compiles for the Snowflake adapter and the result parses as Snowflake SQL.
+  snowflake-compile:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: actions/setup-python@6d4fd22b20465ccc0f7354476588e8df7c9ca0e0 # v7.1.0
+        with:
+          python-version: '3.12'
+          cache: pip
+          cache-dependency-path: requirements-snowflake.txt
+      - run: python -m pip install -r requirements-snowflake.txt
+      - run: python scripts/invoke_dbt.py deps
+      - name: Compile for Snowflake offline and parse the result as Snowflake SQL
+        run: python scripts/verify_snowflake_compile.py
+
   r-crosscheck:
     needs: warehouse
     runs-on: ubuntu-24.04
     steps:
-      - uses: actions/checkout@v7
-      - uses: r-lib/actions/setup-r@v2
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: r-lib/actions/setup-r@f9a764fea8d5c63df6ef9a5c7795bf7deb5d7e05 # v2.14.0
         with:
           use-public-rspm: true
       - name: Install fixest and jsonlite (cached between runs)
-        uses: r-lib/actions/setup-r-dependencies@v2
+        uses: r-lib/actions/setup-r-dependencies@f9a764fea8d5c63df6ef9a5c7795bf7deb5d7e05 # v2.14.0
         with:
           packages: |
             any::fixest
             any::jsonlite
-      - uses: actions/download-artifact@v8
+      - uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8.0.2
         with:
           name: analysis-panels
           path: target/analysis_panels
       - name: Independent R fixest cross-check against the committed analysis results
-        run: Rscript analysis/crosscheck.R
-      - uses: actions/upload-artifact@v7
+        run: Rscript business_analysis/crosscheck.R
+      - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         if: always()
         with:
           name: crosscheck-fixest

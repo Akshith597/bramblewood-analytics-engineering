@@ -3,7 +3,7 @@
 Dependency-free SVG keeps the figures reproducible in CI and readable on GitHub.
 Outputs:
   docs/assets/insights/*.svg          committed figures embedded in the README
-  evidence/insights_figures.json      the headline numbers behind the figures, read by analysis/build_public.py
+  evidence/insights_figures.json      the headline numbers behind the figures, read by business_analysis/build_public.py
   target/insights.html                dashboard page published next to the dbt catalog
 """
 

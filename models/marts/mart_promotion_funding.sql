@@ -17,10 +17,10 @@ with event_inputs as (
         coalesce(e.ambiguous_sales_rows, 0) as ambiguous_sales_rows,
         coalesce(e.discounted_sales_rows, 0) as discounted_sales_rows,
         coalesce(c.claim_count, 0) as claim_count,
-        coalesce(c.scan_amount_billed, 0::decimal(18, 2)) as scan_amount_billed,
-        coalesce(c.display_fee_billed, 0::decimal(18, 2)) as display_fee_billed,
-        coalesce(c.total_billed, 0::decimal(18, 2)) as total_billed,
-        coalesce(c.amount_collected, 0::decimal(18, 2)) as amount_collected
+        coalesce(c.scan_amount_billed, cast(0 as decimal(18, 2))) as scan_amount_billed,
+        coalesce(c.display_fee_billed, cast(0 as decimal(18, 2))) as display_fee_billed,
+        coalesce(c.total_billed, cast(0 as decimal(18, 2))) as total_billed,
+        coalesce(c.amount_collected, cast(0 as decimal(18, 2))) as amount_collected
     from {{ ref('stg_promotions') }} as p
     left join {{ ref('int_promotion_totals') }} as e on p.promo_id = e.promo_id
     left join {{ ref('int_claim_totals') }} as c on p.promo_id = c.promo_id

@@ -78,31 +78,62 @@ models:
   - name: _source_row
     data_type: bigint
     description: Original extract row number; headers occupy row 1 in each file or sheet.
-- name: stg_inventory
-  description: One observed store-SKU-week inventory extract row. Receipts and Saturday stock are integers; absence
-    is not a zero.
+- name: stg_inventory_audit
+  description: One original store-SKU-week inventory extract row with typed fields and an accepted/header/missing/invalid
+    disposition. Original strings and row lineage are retained; absence is not a zero.
   columns:
-  - name: store_id
-    data_type: integer
-    description: Store master identifier used consistently across sales, inventory and planograms.
-  - name: sku_id
+  - name: source_store_id
     data_type: varchar
-    description: Internal product SKU identifier; replacement pack sizes retain distinct keys.
-  - name: week_key
+    description: Store identifier exactly as it appears in the extract.
+  - name: source_sku_id
     data_type: varchar
-    description: Authoritative FYyyyy-Www fiscal week key; joins to dim_week.week_key.
-  - name: receipts_units
-    data_type: integer
-    description: Units received into the store during the fiscal week.
-  - name: on_hand_eow
-    data_type: integer
-    description: Store units on hand at Saturday close; excludes DC inventory.
+    description: SKU identifier exactly as it appears in the extract.
+  - name: source_fiscal_week
+    data_type: varchar
+    description: Fiscal week exactly as it appears in the extract.
+  - name: source_receipts_units
+    data_type: varchar
+    description: Receipts quantity exactly as it appears in the extract; may be blank or malformed.
+  - name: source_on_hand_eow
+    data_type: varchar
+    description: Saturday stock quantity exactly as it appears in the extract; may be blank or malformed.
   - name: _source_file
     data_type: varchar
     description: Original extract filename retained for row-level traceability.
   - name: _source_row
     data_type: bigint
     description: Original extract row number; headers occupy row 1 in each file or sheet.
+    data_tests:
+    - unique
+    - not_null
+  - name: store_id
+    data_type: integer
+    description: Typed store master identifier; null when the source value is not an integer.
+  - name: sku_id
+    data_type: varchar
+    description: Internal product SKU identifier, trimmed; null when blank.
+  - name: week_key
+    data_type: varchar
+    description: Authoritative FYyyyy-Www fiscal week key, trimmed from fiscal_week; joins to dim_week.week_key.
+  - name: receipts_units
+    data_type: integer
+    description: Typed units received into the store during the fiscal week; null when blank or malformed.
+  - name: on_hand_eow
+    data_type: integer
+    description: Typed store units on hand at Saturday close; null when blank or malformed.
+  - name: disposition
+    data_type: varchar
+    description: 'Original inventory row classification: accepted, embedded_header, missing_quantity (a blank
+      quantity) or invalid_record (an unusable key or a malformed number). Only accepted rows are loaded.'
+    data_tests:
+    - not_null
+    - accepted_values:
+        arguments:
+          values:
+          - accepted
+          - embedded_header
+          - missing_quantity
+          - invalid_record
 - name: stg_item_cost
   description: Typed source projection of item_cost. Money uses fixed precision and calendar values use DATE. Original
     source file and row identify every observation.

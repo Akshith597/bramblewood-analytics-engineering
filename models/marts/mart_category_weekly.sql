@@ -9,6 +9,6 @@ select
     cast(sum(s.promo_discount) as decimal(18, 2)) as promo_discount,
     count(distinct s.store_id) as reporting_stores
 from {{ ref('fct_sales') }} as s
-join {{ ref('dim_item') }} as i using (sku_id)
-join {{ ref('dim_week') }} as w using (week_key)
+inner join {{ ref('dim_item') }} as i on s.sku_id = i.sku_id
+inner join {{ ref('dim_week') }} as w on s.week_key = w.week_key
 group by all

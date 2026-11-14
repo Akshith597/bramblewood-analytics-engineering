@@ -34,13 +34,13 @@ flowchart LR
 `profiles.yml` has an optional `snowflake` target that reads its credentials from `SNOWFLAKE_*` environment variables (key-pair auth by default). The model SQL is written to move across:
 
 - The four DuckDB-only expressions go through adapter-dispatched macros, or dbt's own cross-database macros: date parsing (`try_parse_date`: `try_strptime` / `try_to_date`), full-string regex (`regex_full_match`: `regexp_full_match` / `regexp_like`), day differences (`dbt.datediff`), and conditional counts (plain `count(case …)`, not DuckDB's `FILTER` clause). On DuckDB every model hashes identically to before the change.
-- The dispatched models compile to Snowflake SQL with `dbt compile --target snowflake --no-introspect`.
+- CI compiles the project for Snowflake without an account ([`verify_snowflake_compile.py`](../scripts/verify_snowflake_compile.py)): every model except `fct_sales` must render with the Snowflake implementations of the dispatched macros and parse as Snowflake SQL. `fct_sales` is excluded because `is_incremental()` has to ask the warehouse whether the table exists.
 
 What is **not** ported or verified:
 
-- Nothing has run against a live Snowflake account.
+- Nothing has run against a live Snowflake account. The CI check proves the SQL compiles and parses, not that it executes or returns the same rows.
 - `scripts/ingest.py` loads only DuckDB. A Snowflake run needs the raw tables loaded first (for example with `write_pandas`), with POS columns kept as strings so `try_cast` applies.
-- The reconciliation, repeatability, evidence and `analysis/` scripts open the DuckDB file directly.
+- The reconciliation, repeatability, evidence and `business_analysis/` scripts open the DuckDB file directly.
 
 Treat the target as the first step of a migration, not a supported deployment.
 

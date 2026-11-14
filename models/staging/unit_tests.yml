@@ -73,6 +73,91 @@ unit_tests:
       disposition: embedded_header
     - _source_row: 5
       disposition: invalid_record
+- name: labels_blank_malformed_and_header_inventory_rows
+  model: stg_inventory_audit
+  given:
+  - input: source('raw', 'store_inventory_weekly')
+    rows:
+    - store_id: '101'
+      sku_id: SS-1001
+      fiscal_week: FY2024-W01
+      receipts_units: ' 48 '
+      on_hand_eow: '0'
+      _source_row: 2
+      _source_file: fixture.csv
+    - store_id: '101'
+      sku_id: SS-1001
+      fiscal_week: FY2024-W01
+      receipts_units: '48'
+      on_hand_eow: ''
+      _source_row: 3
+      _source_file: fixture.csv
+    - store_id: '101'
+      sku_id: SS-1001
+      fiscal_week: FY2024-W01
+      receipts_units: n/a
+      on_hand_eow: '14'
+      _source_row: 4
+      _source_file: fixture.csv
+    - store_id: store_id
+      sku_id: sku_id
+      fiscal_week: fiscal_week
+      receipts_units: receipts_units
+      on_hand_eow: on_hand_eow
+      _source_row: 5
+      _source_file: fixture.csv
+    - store_id: '101'
+      sku_id: SS-1001
+      fiscal_week: 2024-W01
+      receipts_units: '48'
+      on_hand_eow: '14'
+      _source_row: 6
+      _source_file: fixture.csv
+    - store_id: 10A
+      sku_id: SS-1001
+      fiscal_week: FY2024-W01
+      receipts_units: '48'
+      on_hand_eow: '14'
+      _source_row: 7
+      _source_file: fixture.csv
+  expect:
+    rows:
+    - _source_row: 2
+      store_id: 101
+      week_key: FY2024-W01
+      receipts_units: 48
+      on_hand_eow: 0
+      disposition: accepted
+    - _source_row: 3
+      store_id: 101
+      week_key: FY2024-W01
+      receipts_units: 48
+      on_hand_eow: null
+      disposition: missing_quantity
+    - _source_row: 4
+      store_id: 101
+      week_key: FY2024-W01
+      receipts_units: null
+      on_hand_eow: 14
+      disposition: invalid_record
+    - _source_row: 5
+      store_id: null
+      week_key: fiscal_week
+      receipts_units: null
+      on_hand_eow: null
+      disposition: embedded_header
+    - _source_row: 6
+      store_id: 101
+      week_key: 2024-W01
+      receipts_units: 48
+      on_hand_eow: 14
+      disposition: invalid_record
+    - _source_row: 7
+      store_id: null
+      week_key: FY2024-W01
+      receipts_units: 48
+      on_hand_eow: 14
+      disposition: invalid_record
 - name: orders_swapped_promotion_dates_and_flags_them
   model: stg_promotions
   given:

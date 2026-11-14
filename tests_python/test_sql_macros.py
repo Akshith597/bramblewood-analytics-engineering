@@ -1,4 +1,5 @@
 """Exercise the delivered macros on edge cases independently of the data extract."""
+
 from pathlib import Path
 import unittest
 
@@ -32,8 +33,7 @@ class MacroGuards(unittest.TestCase):
         self.con.executemany('insert into period_fixture values (?, ?, ?)', rows)
 
     def test_adjacent_nonoverlapping_and_different_partitions(self):
-        self.create_fixture([('A', '2025-01-01', '2025-01-07'), ('A', '2025-01-08', None),
-                             ('B', '2025-01-01', None)])
+        self.create_fixture([('A', '2025-01-01', '2025-01-07'), ('A', '2025-01-08', None), ('B', '2025-01-01', None)])
         self.assertEqual(self.con.execute(self.overlap_query()).fetchall(), [])
 
     def test_inclusive_touching_boundary_is_overlap(self):

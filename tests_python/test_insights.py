@@ -1,4 +1,5 @@
 """Guard the dependency-free chart helpers used for the published insights."""
+
 import unittest
 import xml.dom.minidom
 
