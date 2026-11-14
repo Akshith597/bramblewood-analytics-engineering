@@ -1,4 +1,4 @@
-"""Q4 — out-of-stock cost (exploratory). Implements the analysis/PLAN.md addendum (§Q4 out-of-stock).
+"""Q4 — out-of-stock cost (exploratory). Implements the business_analysis/PLAN.md addendum (§Q4 out-of-stock).
 
 On a zero-stock snapshot week the store sold everything it had (sales = prior on-hand + receipts), so demand
 was at least the sales. Lost units are estimated as the expected demand above that floor, using the Q2 baseline
@@ -10,9 +10,9 @@ import json
 import math
 import random
 
-from analysis.common import RESULTS, connect, export_panel, round_floats, write_result
-from analysis.fe import quantile
-from analysis.promotions import SEED, build, fit_baseline, impute
+from business_analysis.common import RESULTS, connect, export_panel, round_floats, write_result
+from business_analysis.fe import quantile
+from business_analysis.promotions import SEED, build, fit_baseline, impute
 
 DECISION_YEAR = 2025
 BINS = 10
@@ -173,7 +173,7 @@ def main():
     rows = [dict(zip(cols, r)) for r in cur.fetchall()]
     clean = [r for r in rows if r['role'] == 'clean']
     records, tails = censored_estimates(rows, clean, BINS)
-    # Per-week censored demand, reused by analysis/physical.py (bias on restored demand) and the inventory simulation.
+    # Per-week censored demand, reused by business_analysis/physical.py (bias on restored demand) and the inventory simulation.
     export_panel('stockout_lost_units', [{k: r[k] for k in ('store_id', 'sku_id', 'w', 'fiscal_year', 'group',
                                                             'sold', 'lost_units')} for r in records])
 

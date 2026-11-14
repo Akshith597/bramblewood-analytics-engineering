@@ -1,15 +1,15 @@
 """Re-estimate the headline coefficients with the independent pure-Python implementation.
 
 Reads the exported estimation panels (target/analysis_panels/*.csv), so it shares neither SQL nor solver code
-with the primary estimates. analysis/crosscheck.R repeats the same comparisons with R fixest in CI.
+with the primary estimates. business_analysis/crosscheck.R repeats the same comparisons with R fixest in CI.
 """
 import csv
 import json
 
-from analysis.common import PANELS, RESULTS, round_floats, write_result
-from analysis.delist import TREATED
-from analysis.fe_reference import feols_reference
-from analysis.promotions import SUBCATS, xname
+from business_analysis.common import PANELS, RESULTS, round_floats, write_result
+from business_analysis.delist import TREATED
+from business_analysis.fe_reference import feols_reference
+from business_analysis.promotions import SUBCATS, xname
 
 TOL_BETA, TOL_SE = 1e-6, 1e-4
 

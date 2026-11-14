@@ -7,7 +7,7 @@ import math
 import duckdb
 
 ROOT = Path(__file__).resolve().parents[1]
-RESULTS = ROOT / 'analysis' / 'results'
+RESULTS = ROOT / 'business_analysis' / 'results'
 PANELS = ROOT / 'target' / 'analysis_panels'
 
 

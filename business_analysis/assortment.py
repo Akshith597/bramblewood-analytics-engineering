@@ -4,7 +4,7 @@ For each planogram (L, M, S) as set at the end of FY2025:
 
 - GP per facing = FY2025 gross profit per store-year of the SKU in stores on that planogram ÷ its facings.
 - Demand transfer: when a SKU is cut and its facings go to retained SKUs, the delist test measured that retained
-  SKUs gained τ dollars of sales per dollar the delisted SKUs lost (analysis/results/delist.json; τ = 1.24, 90%
+  SKUs gained τ dollars of sales per dollar the delisted SKUs lost (business_analysis/results/delist.json; τ = 1.24, 90%
   0.81 to 1.66). That rate already includes the reallocation of the freed facings, which is what a cut does.
   Cutting SKU i changes annual GP per store by  −GP_i + τ · sales_i · m_rest,  where m_rest is the gross margin
   rate of the retained SKUs in the same subcategory and planogram.
@@ -26,7 +26,7 @@ FY2024 W27–52) that cancels the seasonality.
 
 The result carries the A + τ·B decomposition of the chain GP change so the FY2026 plan model can draw τ.
 """
-from analysis.common import RESULTS, connect, round_floats, write_result
+from business_analysis.common import RESULTS, connect, round_floats, write_result
 from datetime import date
 import json
 
@@ -128,7 +128,7 @@ def reallocate(cuts, rows, items):
 
 
 def tau_checks(con):
-    from analysis.delist import Did, TREATED, load, series
+    from business_analysis.delist import Did, TREATED, load, series
     panel, switch, _ = load(con)
     donors = tuple(s for s in sorted(panel) if s not in TREATED)
     weeks = list(range(104))

@@ -1,4 +1,4 @@
-"""Q2 — promotion profitability. Implements the analysis/PLAN.md addendum (§Q2); deviations are logged in the memo.
+"""Q2 — promotion profitability. Implements the business_analysis/PLAN.md addendum (§Q2); deviations are logged in the memo.
 
 Imputation design (Borusyak–Jaravel–Spiess style): a fixed-effects model of log units is fitted only on
 "clean" store-SKU-weeks (no own promotion, not in the two weeks before or after one, in stock at the weekly
@@ -9,8 +9,8 @@ store-SKU-week gets its own counterfactual, so each event gets its own P&L.
 import math
 import random
 
-from analysis.common import connect, export_panel, round_floats, write_result
-from analysis.fe import fe_levels, feols, quantile
+from business_analysis.common import connect, export_panel, round_floats, write_result
+from business_analysis.fe import fe_levels, feols, quantile
 
 SEED = 20261014
 POST_WEEKS = 2                  # post-promotion dip window

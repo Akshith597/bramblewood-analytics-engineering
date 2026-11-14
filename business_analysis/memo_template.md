@@ -1,8 +1,8 @@
 # Salty Snacks — FY2026 line-review decision memo
 
 *To: VP Merchandising · Data: Bramblewood POS, inventory and merchandising extracts, FY2024–FY2025 (synthetic) ·
-Generated from code by `analysis/build_memo.py`; every figure is a named query result in `analysis/results/`.
-Methods and decision rules were first set out in an [analysis plan](../analysis/PLAN.md) committed before the first results commit;
+Generated from code by `business_analysis/build_memo.py`; every figure is a named query result in `business_analysis/results/`.
+Methods and decision rules were first set out in an [analysis plan](../business_analysis/PLAN.md) committed before the first results commit;
 later changes are logged as deviations, and Git history (rewritten once to correct an author email) cannot by itself prove when results were first computed.
 The combined FY2026 plan built on these answers is [one page](fy2026_plan.md); estimates are frozen for the [answer-key scorecard](scorecard.md).*
 
@@ -157,4 +157,4 @@ collected.
   low demand; (11) elasticity labels fixed for the scorecard; (12) the wild cluster bootstrap, synthetic control,
   plan simulation and value-of-information ranking were replaced with clustered standard errors, permutation
   tests, a plain store bootstrap and low/base/high scenarios, so that every method can be explained in a sentence.
-  All are logged in [the deviation log](../analysis/scorecard/DEVIATIONS.md).
+  All are logged in [the deviation log](../business_analysis/scorecard/DEVIATIONS.md).

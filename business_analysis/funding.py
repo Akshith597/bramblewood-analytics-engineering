@@ -1,5 +1,5 @@
 """Q5 — vendor funding owed vs billed vs collected (arithmetic with an assumption range). PLAN.md §Q5."""
-from analysis.common import connect, round_floats, write_result
+from business_analysis.common import connect, round_floats, write_result
 
 SQL = """
 with events as (

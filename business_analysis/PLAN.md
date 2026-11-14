@@ -93,7 +93,7 @@ funding. Deferred behind Q1 and Q3; marked not yet answered if not completed.
 ## Addendum (2026-10-15) — Q2 and Q4 out-of-stock, registered before the decision quantities were computed
 
 The two deferred questions are specified here in full. The original planned-method paragraphs above are left as
-written. Code: `analysis/promotions.py`, `analysis/stockouts.py`.
+written. Code: `business_analysis/promotions.py`, `business_analysis/stockouts.py`.
 
 ### Seen before registration
 

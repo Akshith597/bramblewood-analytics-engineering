@@ -10,7 +10,7 @@ repos:
         files: ^(models|tests|analyses)/.*\.sql$
       - id: ruff-check
         name: Ruff lint (Python)
-        entry: python -m ruff check scripts analysis tests_python
+        entry: python -m ruff check scripts business_analysis tests_python
         language: system
         pass_filenames: false
         types: [python]

@@ -1,7 +1,7 @@
 """Answer-key scorecard: freeze every estimate and 90% interval, then score them against the dataset's ground truth.
 
-    python -m analysis.scorecard freeze    # write analysis/scorecard/frozen_estimates.json (once, before the key)
-    python -m analysis.scorecard           # score frozen estimates against analysis/scorecard/answer_key.json
+    python -m business_analysis.scorecard freeze    # write business_analysis/scorecard/frozen_estimates.json (once, before the key)
+    python -m business_analysis.scorecard           # score frozen estimates against business_analysis/scorecard/answer_key.json
 
 Rules fixed before the key is opened (re-frozen as `estimates-frozen-v2`, deviation 12, and `estimates-frozen-v3`,
 deviation 13, both with no key available):
@@ -13,7 +13,7 @@ deviation 13, both with no key available):
   coverage is 90%; parameters frozen without an interval are scored for error only and counted as not covered.
 - The key is transcribed into answer_key.json in its own commit, with each parameter mapped to the ids below. A
   truth defined differently from the estimate (e.g. a different elasticity or lift definition) is converted only
-  by a rule written in analysis/scorecard/DEVIATIONS.md before the converted number is compared, and flagged.
+  by a rule written in business_analysis/scorecard/DEVIATIONS.md before the converted number is compared, and flagged.
 - Anything learned from the key is logged in DEVIATIONS.md as a deviation; estimates and the plan are not changed.
 - A parameter whose 90% interval misses the truth is listed under "What the scorecard proved wrong", with the
   public claims that depend on it (CLAIMS below), so a miss is traced to the decisions it touched.
@@ -21,9 +21,9 @@ deviation 13, both with no key available):
 import json
 import sys
 
-from analysis.common import RESULTS, ROOT, round_floats
+from business_analysis.common import RESULTS, ROOT, round_floats
 
-DIR = ROOT / 'analysis/scorecard'
+DIR = ROOT / 'business_analysis/scorecard'
 FROZEN = DIR / 'frozen_estimates.json'
 KEY = DIR / 'answer_key.json'
 Z90 = 1.6448536

@@ -1,19 +1,19 @@
-"""Render README.md from analysis/readme_template.md, the analysis results and the build evidence.
+"""Render README.md from business_analysis/readme_template.md, the analysis results and the build evidence.
 
 The README is the most-read public claim in the repository, so it gets the same treatment as the memo: every
-figure is a named placeholder filled from a generated file (analysis/results/*.json or evidence/*.json), the
+figure is a named placeholder filled from a generated file (business_analysis/results/*.json or evidence/*.json), the
 template may not contain hand-typed numbers (tests_python/test_public_claims.py), and CI regenerates it and fails
 on any difference.
 """
 import json
 
-from analysis.build_memo import figures as memo_figures, load, money, pct, rng
-from analysis.common import ROOT
+from business_analysis.build_memo import figures as memo_figures, load, money, pct, rng
+from business_analysis.common import ROOT
 
-TEMPLATE = ROOT / 'analysis/readme_template.md'
+TEMPLATE = ROOT / 'business_analysis/readme_template.md'
 README = ROOT / 'README.md'
 # The optional statistics extension lives on its own page so the README stays on the warehouse.
-EXTENSION_TEMPLATE = ROOT / 'analysis/extension_template.md'
+EXTENSION_TEMPLATE = ROOT / 'business_analysis/extension_template.md'
 EXTENSION = ROOT / 'docs/business_analysis.md'
 EVIDENCE = ROOT / 'evidence'
 

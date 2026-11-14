@@ -1,9 +1,9 @@
-"""Q3 — spring-2025 regular-price increases. Implements analysis/PLAN.md §Q3."""
+"""Q3 — spring-2025 regular-price increases. Implements business_analysis/PLAN.md §Q3."""
 import datetime
 import math
 
-from analysis.common import connect, export_panel, round_floats, write_result
-from analysis.fe import clustered_ci, feols, wald_pvalue
+from business_analysis.common import connect, export_panel, round_floats, write_result
+from business_analysis.fe import clustered_ci, feols, wald_pvalue
 
 EXCLUDED_STORES = (112, 124)
 HALF_WINDOW_DAYS = 91          # 13 weeks either side

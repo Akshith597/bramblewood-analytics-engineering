@@ -21,7 +21,7 @@ import uuid
 import duckdb
 
 ROOT = Path(__file__).resolve().parents[1]
-COPY_DIRS = ('data', 'models', 'snapshots', 'macros', 'tests', 'scripts', 'analyses', 'analysis', 'docs', 'evidence')
+COPY_DIRS = ('data', 'models', 'snapshots', 'macros', 'tests', 'scripts', 'analyses', 'business_analysis', 'docs', 'evidence')
 
 
 def utcnow():

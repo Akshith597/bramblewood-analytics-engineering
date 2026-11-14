@@ -41,9 +41,9 @@ jobs:
       - name: Ingest, source freshness, dbt build, reconciliation, docs, evidence and charts
         run: python scripts/run_all.py
       - name: Decision analyses, FY2026 plan, scorecard and public documents
-        run: python -m analysis.run
+        run: python -m business_analysis.run
       - name: No stale public claim — results, memo, plan, scorecard, README and chart figures must match the committed versions
-        run: git diff --exit-code -- analysis/results docs README.md evidence/insights_figures.json docs/assets/insights
+        run: git diff --exit-code -- business_analysis/results docs README.md evidence/insights_figures.json docs/assets/insights
       - name: Repeatability — full reload, incremental rebuild, identical model hashes
         run: python scripts/verify_repeatability.py
       - name: Incremental change cases — changed, deleted and late rows, deleted weeks, empty target
@@ -64,7 +64,7 @@ jobs:
             target/sources.json
             target/catalog.json
             target/insights.html
-            analysis/results/
+            business_analysis/results/
             docs/decision_memo.md
             docs/fy2026_plan.md
             docs/scorecard.md
@@ -91,7 +91,7 @@ jobs:
           name: analysis-panels
           path: target/analysis_panels
       - name: Independent R fixest cross-check against the committed analysis results
-        run: Rscript analysis/crosscheck.R
+        run: Rscript business_analysis/crosscheck.R
       - uses: actions/upload-artifact@v7
         if: always()
         with:

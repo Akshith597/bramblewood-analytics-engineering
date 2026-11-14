@@ -1,4 +1,4 @@
-"""Render docs/decision_memo.md from analysis/results/*.json and analysis/memo_template.md.
+"""Render docs/decision_memo.md from business_analysis/results/*.json and business_analysis/memo_template.md.
 
 Every figure in the memo is a named placeholder filled from a result file. The narrative also makes a few
 qualitative claims ("inconclusive", "far from break-even"); CLAIMS asserts each one against the results, so a
@@ -7,9 +7,9 @@ re-run that changes a conclusion fails the build instead of silently publishing 
 import json
 import re
 
-from analysis.common import RESULTS, ROOT
+from business_analysis.common import RESULTS, ROOT
 
-TEMPLATE = ROOT / 'analysis/memo_template.md'
+TEMPLATE = ROOT / 'business_analysis/memo_template.md'
 MEMO = ROOT / 'docs/decision_memo.md'
 
 

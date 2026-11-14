@@ -7,7 +7,7 @@ not a probability statement.
 
 Levers (annual GP change for FY2026 against the FY2025 run-rate, gross profit after vendor funding):
 
-1. Assortment: the cut list (analysis/assortment.py). Change = A + τ·B, τ at its estimate and at its 90% CI ends.
+1. Assortment: the cut list (business_analysis/assortment.py). Change = A + τ·B, τ at its estimate and at its 90% CI ends.
 2. Prices: hold both spring 2025 increases. FY2025 carried Golden Ridge for only part of the year and FY2026 carries
    it all year, so the plan gains the uncovered weeks of each increase. Own-price elasticity at the pooled estimate
    and its 90% CI ends; GP change at elasticity ε is Q0 · [(1+x)^ε (p1 − c) − (p0 − c)], with Q0 backed out of the
@@ -15,16 +15,16 @@ Levers (annual GP change for FY2026 against the FY2025 run-rate, gross profit af
    has the higher GP at the point estimate.
 3. Promo calendar: drop the events without a display (TPR, BOGO, multi-buy alone). Vendor funding is treated as a
    negotiable budget, not as profit an event creates: dropping an event avoids its GP before funding (lift, dip,
-   cannibalisation; analysis/promotions.py), and the vendor's scan-back for it is lost except for a share ρ that
+   cannibalisation; business_analysis/promotions.py), and the vendor's scan-back for it is lost except for a share ρ that
    is renegotiated into allowances on the events kept. ρ is a negotiation outcome with no data behind it:
    low 0 (vendors move none of it), base 0.5, high 1 (all of it), and the plan is chosen so the lever is positive
    even at ρ = 0. Display events are kept: dropping them pays only if ρ exceeds a break-even share (reported), so
    that call waits for the vendor negotiation.
 4. Vendor terms: bill scan-back on every kept event. FY2025 under-billed scan-back by a measured share of what was
-   owed (analysis/funding.py); the plan recovers u of that share on the kept events' scan-back: low 50%, base
+   owed (business_analysis/funding.py); the plan recovers u of that share on the kept events' scan-back: low 50%, base
    75%, high 100%.
    The FY2025 back-bill is one-off cash, shown separately and not in the run-rate GP change.
-5. Forecast: no store-replenishment change. The inventory simulation (analysis/inventory_sim.py) found the
+5. Forecast: no store-replenishment change. The inventory simulation (business_analysis/inventory_sim.py) found the
    correction does not lower the cost of service once safety stock is re-tuned, and store receipts follow sales,
    not the forecast. Lever value 0; the corrected number is for planning and budgeting only.
 
@@ -36,7 +36,7 @@ high ends together.
 import itertools
 import json
 
-from analysis.common import RESULTS, connect, round_floats, write_result
+from business_analysis.common import RESULTS, connect, round_floats, write_result
 
 CUT_CELLS = ('BOGO', 'Multi-buy', 'TPR')
 KEEP_CELLS = ('BOGO + display', 'Multi-buy + display', 'TPR + display')

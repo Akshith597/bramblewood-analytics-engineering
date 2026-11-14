@@ -2,10 +2,10 @@
 import re
 import unittest
 
-from analysis import build_plan, build_public
+from business_analysis import build_plan, build_public
 
 # Numbers allowed as literal text outside placeholders: tool versions in badges and commands, design constants
-# fixed in analysis/PLAN.md or the plan model, and list enumerators.
+# fixed in business_analysis/PLAN.md or the plan model, and list enumerators.
 ALLOWED = {'2024', '2025', '2026', 'FY2024', 'FY2025', 'FY2026', 'W27', '1', '2', '3', '4', '5', '13', '20', '90%',
            '1.12', '1.5', '3.12', '8080', '25%'}
 
@@ -25,15 +25,15 @@ def hand_typed(text):
 class PublicClaimsTest(unittest.TestCase):
     def test_readme_matches_results(self):
         self.assertEqual(build_public.README.read_text(encoding='utf-8'), build_public.render(),
-                         'README.md is stale: run python -m analysis.build_public')
+                         'README.md is stale: run python -m business_analysis.build_public')
         self.assertEqual(build_public.EXTENSION.read_text(encoding='utf-8'), build_public.render_extension(),
-                         'docs/business_analysis.md is stale: run python -m analysis.build_public')
+                         'docs/business_analysis.md is stale: run python -m business_analysis.build_public')
 
     def test_plan_and_scorecard_match_results(self):
         self.assertEqual(build_plan.PLAN.read_text(encoding='utf-8'), build_plan.render_plan(),
-                         'docs/fy2026_plan.md is stale: run python -m analysis.build_plan')
+                         'docs/fy2026_plan.md is stale: run python -m business_analysis.build_plan')
         self.assertEqual(build_plan.SCORECARD.read_text(encoding='utf-8'), build_plan.render_scorecard(),
-                         'docs/scorecard.md is stale: run python -m analysis.build_plan')
+                         'docs/scorecard.md is stale: run python -m business_analysis.build_plan')
 
     def test_hand_written_build_counts_match_evidence(self):
         # The dbt catalog front page and the case study state build counts in prose; hold them to the build receipt.

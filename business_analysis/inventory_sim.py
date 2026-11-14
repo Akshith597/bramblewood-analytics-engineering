@@ -3,10 +3,10 @@
 A forecast is worth what it does to the shelf: how often the item is there (service), how much stock it takes
 (inventory carried) and the gross profit lost when it is not. This replays FY2025 store by store, SKU by SKU:
 
-- Demand: units sold plus the censored-demand model's lost units on zero-stock weeks (analysis/stockouts.py).
+- Demand: units sold plus the censored-demand model's lost units on zero-stock weeks (business_analysis/stockouts.py).
 - Forecast: the chain two-week-lead forecast, split to stores by each store's share of the SKU's units over the
   13 weeks that were known when the order was placed. "Corrected" multiplies it by the per-subcategory factors
-  learned on FY2024 (analysis/results/forecast.json) — the correction the memo recommends.
+  learned on FY2024 (business_analysis/results/forecast.json) — the correction the memo recommends.
 - Policy: weekly review, order placed at the end of week w for delivery at the start of week w + 2 (the forecast
   is run two weeks ahead), rounded up to whole case packs (every receipt in the extract is a case-pack multiple).
   Order-up-to level = forecast for weeks w+1 and w+2 + z · σ · √2, where σ is the RMS of that forecast's own store
@@ -31,7 +31,7 @@ import math
 
 import numpy as np
 
-from analysis.common import PANELS, RESULTS, connect, round_floats, write_result
+from business_analysis.common import PANELS, RESULTS, connect, round_floats, write_result
 
 CARRY_RATE = 0.25
 CARRY_SENSITIVITY = (0.15, 0.35)

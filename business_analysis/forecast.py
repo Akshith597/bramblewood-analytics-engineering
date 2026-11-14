@@ -1,8 +1,8 @@
-"""Q4 — forecast accuracy and bias (descriptive). Implements analysis/PLAN.md §Q4."""
+"""Q4 — forecast accuracy and bias (descriptive). Implements business_analysis/PLAN.md §Q4."""
 import random
 
-from analysis.common import connect, round_floats, write_result
-from analysis.fe import quantile
+from business_analysis.common import connect, round_floats, write_result
+from business_analysis.fe import quantile
 
 SEED = 20261014
 

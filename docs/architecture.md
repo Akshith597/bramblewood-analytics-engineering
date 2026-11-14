@@ -40,7 +40,7 @@ What is **not** ported or verified:
 
 - Nothing has run against a live Snowflake account.
 - `scripts/ingest.py` loads only DuckDB. A Snowflake run needs the raw tables loaded first (for example with `write_pandas`), with POS columns kept as strings so `try_cast` applies.
-- The reconciliation, repeatability, evidence and `analysis/` scripts open the DuckDB file directly.
+- The reconciliation, repeatability, evidence and `business_analysis/` scripts open the DuckDB file directly.
 
 Treat the target as the first step of a migration, not a supported deployment.
 

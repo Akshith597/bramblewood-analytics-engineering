@@ -2,7 +2,7 @@
 
 This page explains every statistical method the [decision memo](decision_memo.md) and the
 [FY2026 plan](fy2026_plan.md) use: what it does, why it was chosen here, and the questions a reviewer or interviewer
-is likely to ask. The exact specification of each method is in the [analysis plan](../analysis/PLAN.md). The
+is likely to ask. The exact specification of each method is in the [analysis plan](../business_analysis/PLAN.md). The
 figures quoted here come from the memo.
 
 ## Comparing test stores with control stores (difference-in-differences)
@@ -136,7 +136,7 @@ error). This catches coding mistakes, not design mistakes.
 ## The fixed analysis plan, and what it does and doesn't prove
 
 The metrics, comparison groups and decision rules for each question were written down and committed
-([`analysis/PLAN.md`](../analysis/PLAN.md)) before the first results commit; promotions and out-of-stock cost were
+([`business_analysis/PLAN.md`](../business_analysis/PLAN.md)) before the first results commit; promotions and out-of-stock cost were
 added in a later addendum, after some unit-level aggregates had been seen. This makes it hard to quietly pick the
 method that gives the nicest answer. Every later change is logged as a deviation with a reason. It isn't a formal
 pre-registration with an outside registry. The plan commit and the first results commit were made about half an hour

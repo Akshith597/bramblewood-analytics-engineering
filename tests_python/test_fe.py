@@ -8,8 +8,8 @@ from pathlib import Path
 
 import duckdb
 
-from analysis.fe import chi2_sf, clustered_ci, fe_levels, feols, t_crit, t_sf2
-from analysis.fe_reference import feols_reference
+from business_analysis.fe import chi2_sf, clustered_ci, fe_levels, feols, t_crit, t_sf2
+from business_analysis.fe_reference import feols_reference
 
 
 def simulated_panel(seed=7, units=30, periods=40, beta=(-1.8, 0.6)):

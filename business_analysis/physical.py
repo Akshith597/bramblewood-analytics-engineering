@@ -19,9 +19,9 @@ received and held every week, so this checks whether it did:
 import csv
 import random
 
-from analysis.common import PANELS, connect, round_floats, write_result
-from analysis.fe import quantile
-from analysis.forecast import PANEL_SQL, SEED, metrics
+from business_analysis.common import PANELS, connect, round_floats, write_result
+from business_analysis.fe import quantile
+from business_analysis.forecast import PANEL_SQL, SEED, metrics
 
 FLOW_SQL = """
 with s as (select store_id, sku_id, week_key, sum(units)::double as units,
@@ -111,7 +111,7 @@ def bootstrap(rows, draws=1999):
 
 
 def restored_demand(con):
-    """Chain SKU-week lost units from analysis/stockouts.py (run first), keyed by week_key."""
+    """Chain SKU-week lost units from business_analysis/stockouts.py (run first), keyed by week_key."""
     week = dict(con.execute('select row_number() over (order by week_start), week_key from stg_fiscal_calendar')
                 .fetchall())
     lost = {}

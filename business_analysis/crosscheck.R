@@ -1,15 +1,15 @@
 # Third, fully independent implementation: R fixest on the exported estimation panels.
-# Fails (non-zero exit) if any headline coefficient or CR1 standard error disagrees with analysis/results.
+# Fails (non-zero exit) if any headline coefficient or CR1 standard error disagrees with business_analysis/results.
 suppressPackageStartupMessages({
   library(fixest)
   library(jsonlite)
 })
 
 panels <- "target/analysis_panels"
-results <- "analysis/results"
+results <- "business_analysis/results"
 delist <- fromJSON(file.path(results, "delist.json"))
 pricing <- fromJSON(file.path(results, "pricing.json"))
-cr1 <- ssc(adj = FALSE, cluster.adj = TRUE)  # matches analysis/fe.py: c = G / (G - 1)
+cr1 <- ssc(adj = FALSE, cluster.adj = TRUE)  # matches business_analysis/fe.py: c = G / (G - 1)
 
 checks <- data.frame(check = character(), primary = numeric(), fixest = numeric(), stringsAsFactors = FALSE)
 add <- function(name, primary, value) {

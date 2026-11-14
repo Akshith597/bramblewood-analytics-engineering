@@ -1,9 +1,9 @@
-"""Q1 — FY2025 W27 delisting test. Implements analysis/PLAN.md §Q1 without deviation unless logged."""
+"""Q1 — FY2025 W27 delisting test. Implements business_analysis/PLAN.md §Q1 without deviation unless logged."""
 from itertools import combinations
 import math
 
-from analysis.common import connect, export_panel, round_floats, write_result
-from analysis.fe import quantile, t_crit, t_sf2
+from business_analysis.common import connect, export_panel, round_floats, write_result
+from business_analysis.fe import quantile, t_crit, t_sf2
 
 TREATED = (102, 106, 113, 116)
 EXCLUDED = (112, 124)            # remodel overlapping the switch; opened mid-test

@@ -2,7 +2,7 @@
 import json
 import unittest
 
-from analysis.scorecard import FROZEN, collect, score_rows
+from business_analysis.scorecard import FROZEN, collect, score_rows
 
 
 class ScorecardTest(unittest.TestCase):

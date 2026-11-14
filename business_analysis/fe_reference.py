@@ -1,4 +1,4 @@
-"""Independent pure-Python fixed-effects OLS used to cross-check analysis/fe.py.
+"""Independent pure-Python fixed-effects OLS used to cross-check business_analysis/fe.py.
 
 Shares no code with fe.py: rows are pulled into Python, FEs are swept with dictionaries, and the normal
 equations are solved by Cramer's rule / explicit 2x2 algebra (k <= 2) or a Cholesky factorisation (k > 2, not

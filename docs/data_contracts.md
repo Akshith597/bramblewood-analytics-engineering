@@ -76,4 +76,4 @@ Every one of the 13 mart-layer models has `contract.enforced: true` and explicit
 - True vendor funding entitlement from planned promotions alone.
 - Historical SCD attributes or collection balances at a past date from current extracts.
 
-The dataset's original analyst brief is preserved in `data/SOURCE_README.md` as background. The warehouse's own scope is the tested analytics engineering foundation and the descriptive business checks above. The five analyst questions are answered separately, as an extension in `analysis/` and the [decision memo](decision_memo.md), with their own fixed analysis plan and stated limits; none of the marts claims a causal effect.
+The dataset's original analyst brief is preserved in `data/SOURCE_README.md` as background. The warehouse's own scope is the tested analytics engineering foundation and the descriptive business checks above. The five analyst questions are answered separately, as an extension in `business_analysis/` and the [decision memo](decision_memo.md), with their own fixed analysis plan and stated limits; none of the marts claims a causal effect.
