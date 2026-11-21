@@ -1,5 +1,5 @@
 -r requirements.txt
-sqlfluff==4.3.0
-sqlfluff-templater-dbt==4.3.0
-pre-commit==4.3.0
-ruff==0.14.0
+sqlfluff==4.5.0
+sqlfluff-templater-dbt==4.5.0
+pre-commit==4.7.0
+ruff==0.17.5
