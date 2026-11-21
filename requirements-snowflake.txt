@@ -1,5 +1,5 @@
 # Only for scripts/verify_snowflake_compile.py (the offline Snowflake compile check). Installed on its own in CI:
 # the Snowflake adapter is not needed to build or test the DuckDB warehouse.
-dbt-core==1.12.5
+dbt-core==1.12.7
 dbt-snowflake==1.12.5
-sqlglot==30.21.0
+sqlglot==30.33.0
